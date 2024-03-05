@@ -14,4 +14,3 @@ public class ShuttlecockApplication {
 		System.out.println("서버 생성");
 	}		
 }
-

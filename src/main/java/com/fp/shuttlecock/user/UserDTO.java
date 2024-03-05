@@ -26,4 +26,5 @@ public class UserDTO {
 	private int losecount;		//패배횟수
 	private int writeCount;		//글작성수(기존0)
 	private int badge_badgeId;	//회원등급(기존1)
+	
 }
