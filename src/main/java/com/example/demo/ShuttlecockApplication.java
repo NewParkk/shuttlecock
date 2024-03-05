@@ -14,5 +14,6 @@ public class ShuttlecockApplication {
 		SpringApplication.run(ShuttlecockApplication.class, args);
 		System.out.println("서버 생성");
 	}
-
+	
+	
 }

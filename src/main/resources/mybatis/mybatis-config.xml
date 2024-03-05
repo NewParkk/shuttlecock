@@ -3,9 +3,12 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+
 <typeAliases>
 	<typeAlias type="com.fp.shuttlecock.leagueboard.LeagueboardDTO" alias="LeagueboardDTO"/>
+	<typeAlias type="com.fp.shuttlecock.location.Badmintonlocation" alias="Badmintonlocation"/>
 </typeAliases>
+
 
 <mappers>
 		<mapper resource="mybatis/mapper/leagueboardMapper.xml" />
