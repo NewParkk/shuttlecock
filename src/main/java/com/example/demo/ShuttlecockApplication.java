@@ -9,11 +9,10 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "com.fp.shuttlecock")
 @MapperScan(basePackages = "com.fp.shuttlecock")
 public class ShuttlecockApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(ShuttlecockApplication.class, args);
 		System.out.println("서버 생성");
-	}
-	
-	
+
+	}	
 }
+
