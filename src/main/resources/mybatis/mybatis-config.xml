@@ -10,8 +10,5 @@
 </typeAliases>
 
 
-<mappers>
-		<mapper resource="mybatis/mapper/leagueboardMapper.xml" />
-	</mappers>
  
 </configuration>
