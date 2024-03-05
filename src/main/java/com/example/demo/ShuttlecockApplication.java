@@ -8,6 +8,7 @@ public class ShuttlecockApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ShuttlecockApplication.class, args);
+		System.out.println("서버 생성");
 	}
 
 }
