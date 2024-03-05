@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fp.shuttlecock.leagueboard.LeagueboardMapper">
+
+	<select id="getAllLeaguePost" resultType="LeagueboardDTO">
+		select * from leagueboard
+	</select>
+	
+    <select id="getAllLeaguePostByPage" resultType="LeagueboardDTO">
+        select * from leagueboard
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+	
+	<select id="countLeaguePosts">
+		select count(leagueboardId) from leagueboard
+	</select>
+	
+	<select id="countSearchedLeaguePosts" parameterType="string" resultType="int">
+        select COUNT(leagueboardId) from leagueboard
+        WHERE title LIKE CONCAT('%', #{query}, '%')
+    </select>
+	
+	<select id="getLeaguePostByTitle" resultType="LeagueboardDTO">
+        select * from leagueboard
+        WHERE title LIKE CONCAT('%', #{query}, '%')
+        ORDER BY id DESC LIMIT #{offset}, #{pageSize}
+    </select>
+	
+	<select id="getLeaguePostById" parameterType="_int" resultType="LeagueboardDTO">
+		select * from leagueboard where leagueboardId = #{leagueboardId}
+	</select>
+	
+	<insert id="insertLeaguePost" parameterType="LeagueboardDTO">
+		insert into leagueboard values (#{title}, #{content}, #{winner}, #{loser})
+	</insert>
+	
+	<update id="updateLeaguePost"
+		parameterType="LeagueboardDTO">
+		update leagueboard
+		set title = #{title}, content = #{content}, winner = #{winner}, loser = #{loser}
+		where leagueboardId = #{leagueboardId}
+	</update>
+	
+	<delete id="deleteLeaguePost" parameterType="_int">
+		delete from leagueboard where leagueboardId = #{leagueboardId}
+	</delete>
+	
+</mapper>
