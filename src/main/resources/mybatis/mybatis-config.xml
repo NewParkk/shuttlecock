@@ -3,10 +3,10 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-<!--
+
 <typeAliases>
-	<typeAlias type="" alias=""/>
+	<typeAlias type="com.fp.shuttlecock.location.Badmintonlocation" alias="Badmintonlocation"/>
 </typeAliases>
--->
+
 
 </configuration>

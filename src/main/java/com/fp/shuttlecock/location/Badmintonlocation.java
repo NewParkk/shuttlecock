@@ -13,5 +13,6 @@ public class Badmintonlocation {
 	private String name;
 	private double lat;
 	private double lon;
+	private double distance;
 	
 }
