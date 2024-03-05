@@ -1,5 +1,10 @@
 package com.fp.shuttlecock.location;
 
-public class LocationController {
+import org.springframework.stereotype.Controller;
 
+@Controller
+public class LocationController {
+	
+	
+	
 }
