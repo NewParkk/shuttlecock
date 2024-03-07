@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fp.shuttlecock.user.UserMapper">
-	<select id="getLoginUser" parameterType="map"
+	<select id="getLoginUser" parameterType="string"
 		resultType="com.fp.shuttlecock.user.UserDTO">
 		select * from sports.user
 		where userId =#{userId} and pw=#{pw}
 	</select>
+	
+	<select id="getUserByUserId" parameterType="string"
+ 			resultType="com.fp.shuttlecock.user.UserDTO">
+ 		select * from sports.user
+ 		where userId =#{userId}
+ 	</select>
 	
 	<insert id="getJoinUser"
  			parameterType="com.fp.shuttlecock.user.UserDTO">
@@ -14,4 +20,9 @@
  		VALUES
  			(#{userId}, #{pw}, #{username}, #{gender}, 0, #{userEmail}, #{userPhone})		
  	</insert>
+ 	
+ 	<select id="CheckIdUser" parameterType="string" resultType="java.lang.Integer">
+ 		select count(*) from sports.user
+ 		where userId =#{userId}
+ 	</select>
 </mapper>
