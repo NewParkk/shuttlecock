@@ -1,0 +1,395 @@
+@charset "UTF-8";
+
+
+* {
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+a {
+    text-decoration: none;
+    color: #333;
+}
+li {
+    list-style: none;
+}
+
+/* 전체 wrap */
+#wrap {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* main */
+#main {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    background-color: #f2f2f2;
+    line-height: 1.6;
+    flex: 1;
+}
+
+/* main 안에 slider */
+#slider {
+    width: 100%;
+    max-width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.imageWrap {
+    height: 230px;
+    position: relative;
+}
+
+.image {
+    background-size: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+}
+
+.i1 {
+    background-image: url("/img/badminton-bg.jpg");
+}
+
+.text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    font-size: 50px;
+    padding: 10px 30px;
+}
+
+.text h1 a{
+    color: #fff;
+    cursor: pointer;
+}
+ 
+/* main 안에 section */
+section {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* section 안에 login-box */
+.login-box {
+    margin-top: 20px;
+}
+
+/* login-box 안에 login-title*/
+.login-title {
+  margin-left: 45px;
+}
+.login-title img{
+  width: 155px;
+  height: 45px;
+}
+.login-title img:hover{
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='50' height='58' viewport='0 0 100 100' style='fill:black;font-size:30px;'><text y='50%'>🏸</text></svg>") 16 0, auto;
+}
+
+/* login-box 안에 loginform*/
+.loginform {
+   text-align: left;
+   width: 400px;
+   padding: 40px 20px 40px 20px;
+   margin: 0px 50px 50px 50px;
+   border-radius: 5px;
+   background-color: #f6f6f6;
+   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px; 
+    height: 48px; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="checkbox"] + label {
+    cursor: pointer;
+    padding-left: 26px;
+    background-image: url("checkbox.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+input[type="checkbox"]:checked + label {
+    background-image: url("checkbox-active.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #555;
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.login-button:hover {
+    background-color: #405448;
+}
+
+/* 로그인 상태 유지 */
+.remember-text {
+    color: #999999;
+    margin-left: 2px;
+}
+
+/* 아이디/비번 찾기 */
+.item1 {
+    color: #999999;
+    display: inline-block;
+    margin-left: 30px;
+}
+
+.item1 a {
+    color: #999999;
+    margin: 0 4px;
+    font-size: 13px;
+}
+
+.item1 a:before {
+    content: "/";
+    margin-right: 5px;
+}
+
+.item1 a:first-child:before {
+    content: "";
+}
+
+/* 회원가입(링크) css */
+.you-join {
+    text-align: center;
+    margin-top: 10px;
+    color: #999999;
+}
+
+.you-join a {
+    color: #999999;
+    margin: 0 4px;
+    font-size: 13px;
+}
+
+.item {
+    color: #999999;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+/* 구분선 */
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+/* 카카오톡 로그인 버튼 */
+.kakao-login {
+    width: 100%;
+    height: 40px;
+    background-color: #ffe812;
+    color: #603d00;
+    border: 1px solid #ffe600;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 이부분은 joinUser에서 사용하는 css  */
+/* section 안에 join-box */
+.join-box {
+  margin-top: 20px;
+}
+
+/* join-box안에 join-title */
+.join-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.join-title img{
+  width: 270px;
+  height: 80px;
+}
+.join-title img:hover{
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='50' height='58' viewport='0 0 100 100' style='fill:black;font-size:30px;'><text y='50%'>🏸</text></svg>") 16 0, auto;
+}
+.joinform {
+  text-align: left;
+  width: 600px;
+  padding: 20px;
+  margin: 0 50px 50px 50px;
+  border-radius: 5px;
+  background-color: #f6f6f6;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.joinform .label {
+  display: inline-block;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.joinform input {
+  width: 100%;
+  padding: 10px;
+  height: 48px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* 아이디 중복 체크 버튼 css */
+.check-button {
+  width: 250px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #555;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.check-button:hover {
+  background-color: #405448;
+}
+
+.message{
+	margin-bottom: 30px;
+	text-align: right;
+}
+
+/* 이메일 인증 버튼 css */
+.verify-button {
+  width: 250px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #555;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.verify-button:hover {
+  background-color: #405448;
+}
+
+/* 성별 css */
+.gender-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.gender-label {
+  margin-right: 30px;
+}
+
+.gender-option {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.gender-option input[type="radio"] {
+  margin-right: 5px;
+  transform: scale(1.2);
+}
+
+.gender-option label {
+  font-size: 17px;
+  white-space: nowrap;
+}
+
+/* 가입하기/다시쓰기 버튼 css */
+.join-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #555;
+  color: #fff;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 30px;
+  margin: 10px;
+}
+
+.join-button:hover {
+  background-color: #405448;
+}
+
+.joinform .you-ser {
+  text-align: center;
+  margin-top: 20px;
+  color: #999999;
+}
+
+.joinform .you-ser a {
+  color: #999999;
+  text-decoration: underline;
+}
+/* // joinUser에서 사용하는 css  */
+
+/* footer */
+#footer {
+    background-color: #405448;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+#footer p {
+    color: #fff;
+    font-size: 12px;
+    margin-right: 10px;
+    padding-top: 10px;
+}
+
+.footer1 a {
+    color: #fff;
+    margin-right: 10px;
+}
