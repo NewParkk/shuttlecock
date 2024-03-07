@@ -23,6 +23,20 @@ public interface LeagueboardMapper {
 
 	List<LeagueboardDTO> getLeaguePostByTitle(int offset, int pagesize, String query);
 
-	int countSearchedLeaguePosts(String query);
+	int countSearchedLeaguePostsByTitle(String query);
+
+	List<LeagueboardDTO> getLeaguePostByUserId(int offset, int pagesize, String query);
+	
+	int countSearchedLeaguePostsByUserId(String query);
+	
+	void increaseWinnerPoint(String winner);
+
+	void increaseLoserPoint(String loser);
+
+	List<LeagueboardDTO> getAllLeaguePostByPagenew(PageRequestDTO pageRequest);
+
+	List<LeagueboardDTO> getSearchedLeaguePost(PageRequestDTO pageRequest);
+
+	int countSearchedLeaguePosts(PageRequestDTO pageRequest);
 	
 }
