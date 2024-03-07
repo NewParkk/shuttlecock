@@ -8,14 +8,15 @@
 	
     <select id="getAllLeaguePostByPage" resultType="LeagueboardDTO">
         select * from leagueboard
-        LIMIT #{pageSize} OFFSET #{offset}
+        ORDER BY leagueboardId DESC
+        LIMIT #{pagesize} OFFSET #{offset}
     </select>
 	
 	<select id="countLeaguePosts">
 		select count(leagueboardId) from leagueboard
 	</select>
 	
-	<select id="countSearchedLeaguePosts" parameterType="string" resultType="int">
+	<select id="countSearchedLeaguePostsByTitle" parameterType="string" resultType="int">
         select COUNT(leagueboardId) from leagueboard
         WHERE title LIKE CONCAT('%', #{query}, '%')
     </select>
@@ -23,7 +24,18 @@
 	<select id="getLeaguePostByTitle" resultType="LeagueboardDTO">
         select * from leagueboard
         WHERE title LIKE CONCAT('%', #{query}, '%')
-        ORDER BY id DESC LIMIT #{offset}, #{pageSize}
+        ORDER BY leagueboardId DESC LIMIT #{offset}, #{pagesize}
+    </select>
+    
+    <select id="countSearchedLeaguePostsByUserId" parameterType="string" resultType="int">
+        select COUNT(leagueboardId) from leagueboard
+        WHERE user_userId LIKE CONCAT('%', #{query}, '%')
+    </select>
+	
+	<select id="getLeaguePostByUserId" resultType="LeagueboardDTO">
+        select * from leagueboard
+        WHERE user_userId LIKE CONCAT('%', #{query}, '%')
+        ORDER BY leagueboardId DESC LIMIT #{offset}, #{pagesize}
     </select>
 	
 	<select id="getLeaguePostById" parameterType="_int" resultType="LeagueboardDTO">
@@ -31,13 +43,14 @@
 	</select>
 	
 	<insert id="insertLeaguePost" parameterType="LeagueboardDTO">
-		insert into leagueboard values (#{title}, #{content}, #{winner}, #{loser})
+		insert into leagueboard (title, content, winner, loser, user_userId) 
+		values (#{title}, #{content}, #{winner}, #{loser}, #{user_userId})
 	</insert>
 	
 	<update id="updateLeaguePost"
 		parameterType="LeagueboardDTO">
 		update leagueboard
-		set title = #{title}, content = #{content}, winner = #{winner}, loser = #{loser}
+		set title = #{title}, content = #{content}, winner = #{winner}, loser = #{loser}, regdate = NOW()
 		where leagueboardId = #{leagueboardId}
 	</update>
 	
@@ -45,4 +58,70 @@
 		delete from leagueboard where leagueboardId = #{leagueboardId}
 	</delete>
 	
+	<update id="increaseWinnerPoint" parameterType="string">
+		update user
+		set wincount = wincount + 1
+		where userId = #{winner}
+	</update>
+	
+	<update id="increaseLoserPoint" parameterType="string">
+		update user
+		set losecount = losecount + 1
+		where userId = #{loser}
+	</update>
+	
+	<select id="getAllLeaguePostByPagenew"
+			parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
+			resultType="LeagueboardDTO">
+			<bind name="start" value="(pageNum-1)*amount"/>
+		SELECT *
+		FROM leagueboard
+		<where>
+			<if test="searchKeyword != null and searchKeyword != ''">
+	            title LIKE CONCAT ('%', #{searchKeyword}, '%')
+	        </if>
+		</where>
+        
+	    ORDER BY leagueboardId DESC
+		LIMIT #{start}, #{amount}
+	</select>
+	
+	<select id="getSearchedLeaguePost"
+			parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
+			resultType="LeagueboardDTO">
+			<bind name="start" value="(pageNum-1)*amount"/>
+		SELECT *
+		FROM leagueboard
+		<where>
+		<if test="category == 'title'">
+			<if test="searchKeyword != null and searchKeyword != ''">
+            	title LIKE CONCAT ('%', #{searchKeyword}, '%')
+        	</if>
+		</if>
+		<if test="category == 'user_userId'">
+			<if test="searchKeyword != null and searchKeyword != ''">
+            	user_userId LIKE CONCAT ('%', #{searchKeyword}, '%')
+        	</if>
+		</if>
+        </where>
+	    ORDER BY leagueboardId DESC
+		LIMIT #{start}, #{amount}
+	</select>
+	
+	<select id="countSearchedLeaguePosts" 
+		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO" resultType="int">
+        select COUNT(leagueboardId) from leagueboard
+        <where>
+		<if test="category == 'title'">
+			<if test="searchKeyword != null and searchKeyword != ''">
+            	title LIKE CONCAT ('%', #{searchKeyword}, '%')
+        	</if>
+		</if>
+		<if test="category == 'user_userId'">
+			<if test="searchKeyword != null and searchKeyword != ''">
+            	user_userId LIKE CONCAT ('%', #{searchKeyword}, '%')
+        	</if>
+		</if>
+        </where>
+    </select>
 </mapper>
