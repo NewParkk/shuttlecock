@@ -84,18 +84,18 @@
 
 <!-- 붙여 넣는곳! -->
  <div class="mainTitle">
-        <h1>Free Board</h1>
+        <h1>자유게시판</h1>
     </div>
 	
-                 <form action="<c:url value='/FreeBoard/freeList'/>">
+                 <form action="<c:url value='/Freeboard/freeList'/>">
                         <div class="search-wrap clearfix">
                             <button type="submit" class="btn btn-primary search-btn" style="margin-right: 24%;">검색</button>
                             <input type="text" name="keyword" class="form-control search-input" value="${pc.paging.keyword}"
                             style="width: 200px; ">
                             <select class="form-control" id="search-select" name="condition" style="width: 80px; margin-left: 54%">
-                                <option value="freeboard_title" ${pc.paging.condition == 'freeboard_title' ? 'selected' : ''}>제목</option>
-                                <option value="freeboard_content" ${pc.paging.condition == 'freeboard_content' ? 'selected' : ''}>내용</option>
-                                <option value="freeboard_writer" ${pc.paging.condition == 'freeboard_writer' ? 'selected' : ''}>작성자</option>
+                                <option value="title" ${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
+                                <option value="content" ${pc.paging.condition == 'content' ? 'selected' : ''}>내용</option>
+                                <option value="writer" ${pc.paging.condition == 'user_userId' ? 'selected' : ''}>작성자</option>
                             </select>
                         </div>
                     </form> 
@@ -118,8 +118,8 @@
         <c:forEach var="vo" items="${freeList}">
           <tr>
           	<th scope="row">${vo.freeboardId}</th>
-            <td><a href="<c:url value='/FreeBoard/freeDetail?freeboardId=${vo.freeboardId}&userId=${login.userId}'/>">${vo.title} (${vo.commentCount})</a></td>
-            <td>${vo.writer}</td>
+            <td><a href="<c:url value='/Freeboard/freeDetail?freeboardId=${vo.freeboardId}&userId=${login.userId}'/>">${vo.title} (${vo.commentCount})</a></td>
+            <td>${vo.user_userId}</td>
             <td>${vo.regdate}</td>
             <td>${vo.hit}</td>
             <td>${vo.likeCount}</td>
@@ -137,7 +137,7 @@
               <!-- 페이징 -->
         
 			<div class="paging">
-					<form action="<c:url value='/FreeBoard/freeList' />" name="pageForm">
+					<form action="<c:url value='/Freeboard/freeList' />" name="pageForm">
 	                        <div class="text-center clearfix">
 	                            <ul class="pagination" id="pagination">
 	                            	<c:if test="${pc.prev}">
@@ -169,7 +169,7 @@
 <script>
 	$(function() {
 		$('.whyBtn').click(function() {
-			location.href = '<c:url value="/FreeBoard/freeWrite"/>';
+			location.href = '<c:url value="/Freeboard/freeWrite"/>';
 		})
 		$('#pagination').on('click', 'a', function(e) {
 			e.preventDefault();

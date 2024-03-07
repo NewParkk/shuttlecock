@@ -4,13 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.fp.shuttlecock.util.PageVO;
 
 @Mapper
 public interface FreeboardMapper {
 	// 게시판에 글 추가
-	void insertFreeboard(FreeboardDTO dto);
+	int insertFreeboard(FreeboardDTO dto);
 
 	// 게시판 목록에 뿌려줄 정보를 List로 반환
 	List<FreeboardDTO> getFreeboard(PageVO vo);
@@ -35,6 +38,7 @@ public interface FreeboardMapper {
 	void deleteFree(int freeboradId);
 
 	void updateFree(FreeboardDTO dto);
+
 
 
 }

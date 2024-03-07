@@ -1,18 +1,36 @@
 package com.fp.shuttlecock.freeboard;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.UUID;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fp.shuttlecock.attachmentfile.FileRequest;
+import com.fp.shuttlecock.attachmentfile.FileService;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
+import com.fp.shuttlecock.util.FileUtils;
 import com.fp.shuttlecock.util.LikesVO;
 import com.fp.shuttlecock.user.UserServiceImpl;
 import com.fp.shuttlecock.util.PageCreate;
 import com.fp.shuttlecock.util.PageVO;
+import com.google.gson.JsonObject;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +47,8 @@ public class FreeboardController {
 	private CommentsServiceImpl comService;
 	@Autowired
 	private UserServiceImpl userService;
+	private final FileService fileService = null;
+	private final FileUtils fileUtils = new FileUtils();
 	
 	// 테스트용 메소드
 	@GetMapping("/")
@@ -53,7 +73,7 @@ public class FreeboardController {
 		model.addAttribute("freeList", service.getFreeboard(vo));
 		model.addAttribute("pc",pc);
 		
-		return "FreeBoard/freeList";
+		return "Freeboard/freeList";
 	}
 	
 	// 글쓰기 페이지 이동
@@ -64,10 +84,19 @@ public class FreeboardController {
 	
 	// 글 등록
 	@PostMapping("/insertFreeboard")
-	public String insertFreeboard(FreeboardDTO dto) {
-		service.insertFreeboard(dto);
+	public String insertFreeboard(FreeboardDTO dto, Model model) {
+		// 게시글 insert
+		int freeboardId = service.insertFreeboard(dto);
 		
-		System.out.println("insert 성공");
+        List<FileRequest> files = fileUtils.uploadFiles(dto.getFiles());
+        
+        //업로드된 파일 정보를 DB에 저장
+        fileService.saveFiles(freeboardId, files);
+		
+        System.out.println("insertFreeboard  title : " + dto.getTitle());
+		dto.setUser_userId("1234"); // 임의로 userId 지정
+
+		service.insertFreeboard(dto);
 		return "redirect:/Freeboard/freeList";
 	}
 	
@@ -137,8 +166,50 @@ public class FreeboardController {
 		return "redirect:/Freeboard/freeDetail?freeboardId="+dto.getFreeboardId();
 	}
 	
-	
-	
+//	이미지 업로드
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value = "fileupload.do") public void
+	 * communityImageUpload(HttpServletRequest req, HttpServletResponse resp,
+	 * MultipartHttpServletRequest multiFile) throws Exception{ // JsonObject
+	 * jsonObject = new JsonObject(); PrintWriter printWriter = null; OutputStream
+	 * out = null; MultipartFile file = multiFile.getFile("upload");
+	 * 
+	 * if(file != null) { if(file.getSize() >0 &&
+	 * StringUtils.isNotBlank(file.getName())) {
+	 * if(file.getContentType().toLowerCase().startsWith("image/")) { try{
+	 * 
+	 * String fileName = file.getOriginalFilename(); byte[] bytes = file.getBytes();
+	 * 
+	 * String uploadPath = req.getSession().getServletContext().getRealPath(
+	 * "/resources/images/noticeimg"); //저장경로
+	 * System.out.println("uploadPath:"+uploadPath);
+	 * 
+	 * File uploadFile = new File(uploadPath); if(!uploadFile.exists()) {
+	 * uploadFile.mkdir(); } String fileName2 = UUID.randomUUID().toString();
+	 * uploadPath = uploadPath + "/" + fileName2 +fileName;
+	 * 
+	 * out = new FileOutputStream(new File(uploadPath)); out.write(bytes);
+	 * 
+	 * printWriter = resp.getWriter(); String fileUrl = req.getContextPath() +
+	 * "/resources/images/noticeimg/" +fileName2 +fileName; //url경로
+	 * System.out.println("fileUrl :" + fileUrl); JsonObject json = new
+	 * JsonObject(); json.addProperty("uploaded", 1); json.addProperty("fileName",
+	 * fileName); json.addProperty("url", fileUrl); printWriter.print(json);
+	 * System.out.println(json);
+	 * 
+	 * }catch(IOException e){ e.printStackTrace(); } finally { if (out != null) {
+	 * out.close(); } if (printWriter != null) { printWriter.close(); } } }
+	 * 
+	 * 
+	 * }
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
+
 	
 	
 	
