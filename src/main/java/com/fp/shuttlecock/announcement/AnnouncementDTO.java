@@ -9,14 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Announcement {
+public class AnnouncementDTO {
 	
 	private int announcementNo;
 	private String title;
 	private String content;
-	private Date writeDate;
-	private Date updateDate;
+	private Date regdate;
 	private int hit;
-	private String user_userId;
+	private String userId;
 	
 }

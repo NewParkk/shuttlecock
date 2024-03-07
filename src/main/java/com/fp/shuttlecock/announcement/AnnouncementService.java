@@ -1,5 +1,27 @@
 package com.fp.shuttlecock.announcement;
 
-public interface AnnouncementService {
+import java.util.List;
 
+public interface AnnouncementService {
+	// 모든 게시물 조회
+	List<AnnouncementDTO> getboardList();
+	// 게시물 상세
+	AnnouncementDTO getboardDetailbypostId(int postId);
+	// 글쓰기
+	void insertPost(AnnouncementDTO post);
+	// 글수정
+	void updatePost(AnnouncementDTO post);
+	// 글삭제
+	void deletePostbypostId(Integer postId);
+
+	// 총 게시물 수
+	int countPost();
+	//검색된 게시물 수
+	int searchedPostCount(String query);
+	// 페이지당 게시물 리스트
+	List<AnnouncementDTO> getPostbyPage(int page, int postperPage);
+	//검색된 페이지당 게시물 리스트
+	List<AnnouncementDTO> getSearchedPostbyPage(int page, int postperPage, String query);
+	//검색된 전체 게시물 리스트
+	List<AnnouncementDTO> searchedPostList(String query);
 }

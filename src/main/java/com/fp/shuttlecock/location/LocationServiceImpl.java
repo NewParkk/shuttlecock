@@ -1,27 +1,27 @@
 package com.fp.shuttlecock.location;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 
 
-
+@Primary
 @Service
 public class LocationServiceImpl implements LocationService{
 	
 	@Autowired
 	LocationMapper locationmapper;
 	
-	
+	@Override
 	public ArrayList<Badmintonlocation> getAllLocation() {
 		return locationmapper.getAllLocation();
 	}
 	
+	@Override
 	public List<Badmintonlocation> getClosestLocations(double currentLat, double currentLon) {
 		//조건 내 위치 저장할 리스트
 		ArrayList<Badmintonlocation> nearestLocations = new ArrayList<>();
@@ -30,9 +30,9 @@ public class LocationServiceImpl implements LocationService{
 		
 		//현재 위치와 모든 위치를 비교하여 거리 계산
 		for (Badmintonlocation location : alllocation) {
-			double distance = calculateDistance(currentLat, currentLon, location.getLat(), location.getLon());
-			//반경 5km이내의 위치 저장
-			if (distance <= 5.0) {
+			double distance = calculateDistance(currentLon, currentLat, location.getLat(), location.getLon());
+			//반경 15km이내의 위치 저장
+			if (distance <= 10.0) {
 				location.setDistance(distance);
 				nearestLocations.add(location);
 			}
