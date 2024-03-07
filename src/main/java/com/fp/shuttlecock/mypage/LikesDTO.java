@@ -1,6 +1,4 @@
-package com.fp.shuttlecock.admin;
-
-import java.sql.Date;
+package com.fp.shuttlecock.mypage;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +11,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class VisitorDTO {
-	private int totalVisitor;
-	private Date date;
+public class LikesDTO {
+	private int likesId;
+	private int freeboard_freeboardId;
+	private String user_userId;
+	private int likeNum;
 }

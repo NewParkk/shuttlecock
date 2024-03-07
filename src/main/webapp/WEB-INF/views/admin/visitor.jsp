@@ -8,9 +8,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<c:forEach items="${userList}" var="user">
+	<c:forEach items="${visitorList}" var="visit">
 		<b> 
-			<a href="admin/${user.userId}">${user.userId}</a>
+			${visit.totalVisitor}
+			${visit.date}
 		</b>
 	</c:forEach>
 </body>

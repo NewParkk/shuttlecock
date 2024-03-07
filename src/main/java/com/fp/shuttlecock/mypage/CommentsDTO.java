@@ -13,8 +13,15 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CalendarDTO {
-	private String title;
-	private Date date;
+public class CommentsDTO {
+	private int commentsId;
+	private int bno;
+	private String writerId;
+	private String content;
+	private Date regdate;
+	private int secret;
+	private int tradeboardId;
+	private int freeboardId;
 	private String user_userId;
+	private int recruitboard_recruitboardId;
 }

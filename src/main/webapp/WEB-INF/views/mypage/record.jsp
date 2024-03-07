@@ -8,10 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<c:forEach items="${userList}" var="user">
-		<b> 
-			<a href="admin/${user.userId}">${user.userId}</a>
-		</b>
-	</c:forEach>
+
 </body>
 </html>

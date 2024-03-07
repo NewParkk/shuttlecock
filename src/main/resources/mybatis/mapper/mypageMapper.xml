@@ -1,5 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fp.shuttlecock.mypage.MypageMapper">
+
+	<select id="getMypage"
+		resultType="com.fp.shuttlecock.mypage.UserDTO" parameterType="string">
+		SELECT *
+		FROM user
+		WHERE userId = #{userId}
+	</select>
+
+	<select id="getCalendar"
+		resultType="com.fp.shuttlecock.mypage.CalendarDTO">
+		SELECT *
+		FROM calendar
+		WHERE userId = #{userId}
+	</select>
+
+	<select id="getCalendarByDate"
+		resultType="com.fp.shuttlecock.mypage.CalendarDTO">
+		SELECT *
+		FROM calendar
+		WHERE date = #{date}
+	</select>
+
+	<insert id="insertCalendar"
+		parameterType="com.fp.shuttlecock.mypage.CalendarDTO">
+		INSERT INTO calendar (title, date)
+		VALUES
+		(#{title},#{date})
+	</insert>
 	
+	<update id="updateCalendar"
+			parameterType="com.fp.shuttlecock.mypage.CalendarDTO">
+		UPDATE calendar
+		SET title = #{title}
+		WHERE user_userId = #{user_userId} 
+	</update>
+	
+	<delete id="deleteCalendar" parameterType="String">
+		DELETE FROM calendar
+		WHERE user_userId = #{userId}
+	</delete>
+
+	<update id="updateUser"
+		parameterType="com.fp.shuttlecock.mypage.UserDTO">
+		UPDATE user
+		SET username = #{username},
+		userEmail =	#{userEmail},
+		userPhone = #{userPhone}
+		WHERE userId = #{userId}
+	</update>
+
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM user
+		WHERE
+		userId = #{userId}
+	</delete>
+
+	<select id="getLeagueboard"
+		resultType="com.fp.shuttlecock.mypage.LeagueboardDTO">
+		SELECT *
+		FROM leagueboard
+		WHERE user_userId = #{userId}
+	</select>
+
+	<select id="getFreeboard"
+		resultType="com.fp.shuttlecock.mypage.FreeboardDTO">
+		SELECT *
+		FROM freeboard
+		WHERE user_userId = #{userId}
+	</select>
+
+	<select id="getTradeboard"
+		resultType="com.fp.shuttlecock.mypage.TradeboardDTO">
+		SELECT *
+		FROM tradeboard
+		WHERE user_userId = #{userId}
+	</select>
+
+	<select id="getRecruitboard"
+		resultType="com.fp.shuttlecock.mypage.RecruitboardDTO">
+		SELECT *
+		FROM recrtitboard
+		WHERE user_userId = #{userId}
+	</select>
+
+	<select id="getComment"
+		resultType="com.fp.shuttlecock.mypage.CommentsDTO">
+		SELECT *
+		FROM comments
+		WHERE user_userId = #{userId}
+	</select>
+
+	<select id="getLike"
+		resultType="com.fp.shuttlecock.mypage.LikesDTO">
+		SELECT *
+		FROM likes
+		WHERE user_userId = #{userId}
+	</select>
+
 </mapper>

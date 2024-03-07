@@ -9,4 +9,11 @@ public interface AdminMapper {
 
 	public List<UserDTO> getAllUserList();
 
+	public UserDTO getUserByUserId(String userId);
+
+	public int updateUserAdmin(UserDTO user);
+
+	public List<VisitorDTO> todayVisit();
+
+
 }

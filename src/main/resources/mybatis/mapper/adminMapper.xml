@@ -2,9 +2,26 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fp.shuttlecock.admin.AdminMapper">
 	<select id="getAllUserList"	resultType="com.fp.shuttlecock.admin.UserDTO">
-		SELECT userId, pw, username, gender, admin, userEmail, userImage, userPhone, userLeagueGrade, wincount, losecount, writeCount, badge_badgeId
+		SELECT *
 		FROM user
 	</select>
-
-
+	
+	<select id="getUserByUserId" resultType="com.fp.shuttlecock.admin.UserDTO">
+		SELECT *
+		FROM user
+		WHERE userId = #{userId}
+	</select>
+	
+	<update id="updateUserAdmin" parameterType="com.fp.shuttlecock.admin.UserDTO">
+		UPDATE user
+		SET admin = #{admin}
+		WHERE userId = #{userId}
+	</update>
+	
+	<select id="todayVisit" resultType="com.fp.shuttlecock.admin.VisitorDTO">
+		SELECT *
+		FROM visitor
+		WHERE date = CURRENT_DATE()
+	</select>
+	
 </mapper>

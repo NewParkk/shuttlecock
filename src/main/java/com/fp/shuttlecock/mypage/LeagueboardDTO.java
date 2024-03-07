@@ -8,13 +8,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class CalendarDTO {
+public class LeagueboardDTO {
+	private int leagueboardId;
 	private String title;
-	private Date date;
+	private String content;
+	private Date regdate;
+	private String winner;
+	private String loser;
 	private String user_userId;
+	
 }

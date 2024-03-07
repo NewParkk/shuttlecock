@@ -9,9 +9,4 @@
 	<typeAlias type="com.fp.shuttlecock.location.Badmintonlocation" alias="Badmintonlocation"/>
 </typeAliases>
 
-
-<mappers>
-		<mapper resource="mybatis/mapper/leagueboardMapper.xml" />
-	</mappers>
- 
 </configuration>
