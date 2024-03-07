@@ -1,6 +1,11 @@
 package com.fp.shuttlecock.freeboard;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +19,12 @@ import lombok.ToString;
 public class FreeboardDTO {
 	private int freeboardId;
 	private String title;
-	private String writer; // 작성자 추가
 	private String content;
 	private int like;
 	private int hit;
-	private Date writeDate;
-	private Date updateDate;
+	private Timestamp regdate;
 	private int commentCount;
 	private int likeCount;
+	private String user_userId; // 작성자 추가
+	private List<MultipartFile> files = new ArrayList<>(); //첨부파일 List
 }

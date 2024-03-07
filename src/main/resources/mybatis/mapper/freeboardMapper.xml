@@ -15,16 +15,14 @@
 	</sql>
 	
 	<!-- 글 등록 조회수랑 좋아요수는 0으로 세팅! -->
-     <insert id="insertFreeboard">
+     <insert id="insertFreeboard" parameterType="com.fp.shuttlecock.freeboard.FreeboardDTO">
      	insert into freeboard(
-     	freeboardId,
      	title,
-     	writer,
+     	user_userId,
      	content,
-     	like,
-     	hit
-     	) values ((select * from (select max(freeboardId)+1 from freeboard) next ),
-     	#{title},#{writer},#{content},0,0)
+     	`like`,
+     	`hit`
+     	) values (#{title},#{user_userId},#{content},0,0)
      </insert>
      
      
@@ -76,9 +74,9 @@
 	
 	<!-- 좋아요 -->
 	
-	<insert id="likeUp">
-		insert into likes (likesId ,freeboard_freeboardId , user_userId, likeNum)
-		values((select * from (select max(likesId)+1 from likes) next), #{freeboardId},#{userId},1,#{likeType})
+	<insert id="likeUp" parameterType="map">
+		insert into likes (freeboard_freeboardId , user_userId, likeNum)
+		values(#{freeboardId},#{userId},1,#{likeType})
 	</insert>
 	
 	  <!-- 좋아요 불러오기 -->  

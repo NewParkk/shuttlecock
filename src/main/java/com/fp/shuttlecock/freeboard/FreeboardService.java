@@ -2,12 +2,16 @@ package com.fp.shuttlecock.freeboard;
 
 import java.util.List;
 
+import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.fp.shuttlecock.util.PageVO;
 
 public interface FreeboardService {
 
 	// 글 등록
-	void insertFreeboard(FreeboardDTO dto);
+	int insertFreeboard(FreeboardDTO dto);
 	
 	// 글 목록
 	List<FreeboardDTO> getFreeboard(PageVO vo);
@@ -22,15 +26,15 @@ public interface FreeboardService {
 	void comCNT(int freeboardId);
 	
 	// 좋아요 누른 여부 체크
-	int findLike(int boardId, String userId);
+	int findLike(int freeboardId, String userId);
 	
 	// 좋아요
-	void likeUp(int boardId, String userId, int likeType);
+	void likeUp(int freeboardId, String userId, int likeType);
 	
 	// 좋아요 취소
-	void likeDown(int boardId, String userId, int likeType);
+	void likeDown(int freeboardId, String userId, int likeType);
 	
-	int getLike(int boardId, int likeType);
+	int getLike(int freeboardId, int likeType);
 	
 	void deleteFree(int freeboradId);
 	
