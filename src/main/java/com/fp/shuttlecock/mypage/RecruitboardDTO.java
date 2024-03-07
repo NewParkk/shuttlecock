@@ -13,8 +13,16 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CalendarDTO {
+public class RecruitboardDTO {
+	private int recruitboardId;
 	private String title;
-	private Date date;
+	private String content;
+	private int like;
+	private int hit;
+	private Date updateDate;
+	private int commentCount;
+	private int complete;
+	private int recruitType;
+	private int region;
 	private String user_userId;
 }
