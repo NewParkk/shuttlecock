@@ -53,7 +53,7 @@
         	  OR content LIKE CONCAT('%', #{query}, '%')
 	</select>
 	
-	<select id="searchedPostList" parameterMap="String" resultType="AnnouncementDTO">
+	<select id="searchedPostList" parameterType="String" resultType="AnnouncementDTO">
 		SELECT *
 		FROM announcement
 		WHERE title LIKE CONCAT('%', #{query}, '%') 
