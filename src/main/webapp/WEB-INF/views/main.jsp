@@ -1,23 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html>
-<head>
-<%@ include file="include/header.jsp"%>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<meta charset="utf-8">
-<title>geolocation으로 마커 표시하기</title>
-</head>
-<body>
-<div class=container>
-	<p style="margin-top:12px">
-	    <b>Chrome 브라우저는 https 환경에서만 geolocation을 지원합니다.</b> 참고해주세요.
-	</p>
-	<div id="map" style="width:500px;height:350px;"></div>
-</div>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-=======
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
