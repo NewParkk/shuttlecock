@@ -43,7 +43,7 @@
           <div class="row g-3" style="width: 51%; margin: 0 auto; margin-top: -25px" >
 		  <div class="col">
 		   <label for="exampleFormControlInput1" class="form-label">작성자</label>
-		    <input type="text" class="form-control" id="exampleFormControlInput1" value="${tradeboard.user_userId}" readonly>
+		    <input type="text" class="form-control" id="exampleFormControlInput1" value="${tradeboard.userId}" readonly>
 		  </div>
 		  <div class="col">
             <label for="exampleFormControlInput1" class="form-label">작성시간</label> 

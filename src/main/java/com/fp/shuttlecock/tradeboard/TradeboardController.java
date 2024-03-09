@@ -102,7 +102,7 @@ public class TradeboardController {
 		try {
 			boardResult = boardService.insertBoard(tradeboard);
 			if(boardResult) {
-				boardService.increaseWriteCount(tradeboard.getUser_userId());
+				boardService.increaseWriteCount(tradeboard.getUserId());
 				if(file != null) {
 					//fileService.insertBoardFile(file, tradeboard.getTradeboardId());
 				view = "redirect:/Tradeboard";
@@ -133,7 +133,7 @@ public class TradeboardController {
 		String view = "error";
 		boolean result = false;
 		if (String.valueOf(session.getAttribute("userId")) != null &&
-				tradeboard.getUser_userId().equals(String.valueOf(session.getAttribute("userId")))) {
+				tradeboard.getUserId().equals(String.valueOf(session.getAttribute("userId")))) {
 			result = boardService.updateTradePost(tradeboard);
 			if (result) {
 				return "redirect:/Tradeboard/" + tradeboard.getTradeboardId();
@@ -150,7 +150,7 @@ public class TradeboardController {
 		boolean result = false;
 		TradeboardDTO tradeboard = boardService.getTradePostByTradeboardId(tradeboardId);
 		if (String.valueOf(session.getAttribute("userId")) != null && ((Integer) session.getAttribute("admin") == 1
-				|| tradeboard.getUser_userId().equals(String.valueOf(session.getAttribute("userId"))))) {
+				|| tradeboard.getUserId().equals(String.valueOf(session.getAttribute("userId"))))) {
 			result = boardService.deleteTradePost(tradeboardId);
 			if (result) {
 				return ResponseEntity.ok("글 삭제 성공");
