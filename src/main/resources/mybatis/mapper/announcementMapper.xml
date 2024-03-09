@@ -12,14 +12,14 @@
 				content,
 				regdate,
 				hit,
-				user_userId as userId
+				userId
 		FROM announcement
 		WHERE announcementNo = #{postId}
 	</select>
 	
 	<insert id="insertPost" parameterType="com.fp.shuttlecock.announcement.AnnouncementDTO">
 		INSERT INTO announcement
-		(title, content, user_userId)
+		(title, content, userId)
 		VALUES
 		(#{title}, #{content}, #{userId})
 	</insert>
@@ -28,7 +28,7 @@
 		UPDATE announcement
 		SET title = #{title},
 			content = #{content},
-			user_userId = #{userId}
+			userId = #{userId}
 		WHERE announcementNo = #{announcementNo}
 	</update>
 	
