@@ -95,12 +95,12 @@
                             <select class="form-control" id="search-select" name="condition" style="width: 80px; margin-left: 54%">
                                 <option value="title" ${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
                                 <option value="content" ${pc.paging.condition == 'content' ? 'selected' : ''}>내용</option>
-                                <option value="writer" ${pc.paging.condition == 'user_userId' ? 'selected' : ''}>작성자</option>
+                                <option value="writer" ${pc.paging.condition == 'userId' ? 'selected' : ''}>작성자</option>
                             </select>
                         </div>
                     </form> 
 	
-    <!-- 비건 뉴스 상세보기 -->
+    <!-- 상세보기 -->
     <table class="table" style="width: 70%; margin: 0 auto;">
         <thead>
           <tr>
@@ -118,8 +118,8 @@
         <c:forEach var="vo" items="${freeList}">
           <tr>
           	<th scope="row">${vo.freeboardId}</th>
-            <td><a href="<c:url value='/Freeboard/freeDetail?freeboardId=${vo.freeboardId}&userId=${login.userId}'/>">${vo.title} (${vo.commentCount})</a></td>
-            <td>${vo.user_userId}</td>
+            <td><a href="<c:url value='/Freeboard/freeDetail?freeboardId=${vo.freeboardId}&userId=${vo.userId}'/>">${vo.title} (${vo.commentCount})</a></td>
+            <td>${vo.userId}</td>
             <td>${vo.regdate}</td>
             <td>${vo.hit}</td>
             <td>${vo.likeCount}</td>

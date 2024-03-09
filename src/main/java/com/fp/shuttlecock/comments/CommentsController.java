@@ -16,7 +16,7 @@ public class CommentsController {
 	@PostMapping(value = "/comments/insert")
 	public ResponseEntity<String> insertComment(CommentsDTO comment, HttpSession session) {
 		if(session.getAttribute("userId") != null) {
-			comment.setUser_userId(String.valueOf(session.getAttribute("userId")));
+			comment.setCommentId((String.valueOf(session.getAttribute("userId"))));
 		//try {
 			boolean result = commentService.insertComment(comment);
 			if(result) {
@@ -34,7 +34,7 @@ public class CommentsController {
 	public ResponseEntity<String> deleteComment(int commentsId, HttpSession session) {
 		CommentsDTO comment = commentService.getCommentByCommentsId(commentsId); 
 	    if (session.getAttribute("userId") != null && 
-	    		String.valueOf(session.getAttribute("userId")).equals(comment.getUser_userId()) ||
+	    		String.valueOf(session.getAttribute("userId")).equals(comment.getCommentId()) ||
 	    		(Integer)session.getAttribute("admin") == 1) {
 	        //try {
 	            boolean result = commentService.deleteComment(commentsId);
@@ -55,7 +55,7 @@ public class CommentsController {
 	public ResponseEntity<String> updateComment(int commentsId, HttpSession session) {
 		CommentsDTO comment = commentService.getCommentByCommentsId(commentsId); 
 	    if (session.getAttribute("userId") != null && 
-	    		String.valueOf(session.getAttribute("userId")).equals(comment.getUser_userId())) {
+	    		String.valueOf(session.getAttribute("userId")).equals(comment.getCommentId())) {
 	        //try {
 	            boolean result = commentService.updateComment(comment);
 	            if (result) {
