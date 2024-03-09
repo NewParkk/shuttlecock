@@ -45,7 +45,7 @@ h1 {
 						</div>
 						<div class="mb-3" style="width: 50%; margin: 0 auto;">
 							<label for="exampleFormControlInput1" class="form-label">작성자</label>
-							<input type="text" class="form-control" name="user_userId"
+							<input type="text" class="form-control" name="userId"
 								value="${sessionScope.userId}" id="exampleFormControlInput1" readonly>
 						</div>
 						<div class="mb-3" style="width: 50%; margin: 0 auto;">

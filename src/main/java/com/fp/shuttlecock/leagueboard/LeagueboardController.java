@@ -65,11 +65,11 @@ public class LeagueboardController {
 
 	@PostMapping("/LeagueBoard/insert")
 	public String insertLeaguePost(LeagueboardDTO leagueboardDTO, HttpSession session) {
-		leagueboardDTO.setUser_userId(String.valueOf(session.getAttribute("userId")));
+		leagueboardDTO.setUserId(String.valueOf(session.getAttribute("userId")));
 		leagueservice.insertLeaguePost(leagueboardDTO);
 		leagueservice.increaseWinnerPoint(leagueboardDTO.getWinner());
 		leagueservice.increaseLoserPoint(leagueboardDTO.getLoser());
-		leagueservice.increaseWriteCount(leagueboardDTO.getUser_userId());
+		leagueservice.increaseWriteCount(leagueboardDTO.getUserId());
 		return "redirect:/LeagueBoard";
 	}
 
@@ -84,7 +84,7 @@ public class LeagueboardController {
 	public String updateLeaguePost(LeagueboardDTO leagueboardDTO, HttpSession session) {
 		boolean result = false;
 		if (String.valueOf(session.getAttribute("userId")) != null &&
-				leagueboardDTO.getUser_userId().equals(String.valueOf(session.getAttribute("userId")))) {
+				leagueboardDTO.getUserId().equals(String.valueOf(session.getAttribute("userId")))) {
 			result = leagueservice.updateLeaguePost(leagueboardDTO);
 			if (result) {
 				return "redirect:/LeagueBoard/" + leagueboardDTO.getLeagueboardId();
@@ -100,8 +100,8 @@ public class LeagueboardController {
 			HttpSession session) {
 		boolean result = false;
 		LeagueboardDTO leagueboardDTO = leagueservice.getLeaguePostById(leagueboardId);
-		if (String.valueOf(session.getAttribute("userId")) != null && ((Integer) session.getAttribute("admin") == 1
-				|| leagueboardDTO.getUser_userId().equals(String.valueOf(session.getAttribute("userId"))))) {
+		if (String.valueOf(session.getAttribute("userId")) != null && (boolean)session.getAttribute("isAdmin") == true
+				|| leagueboardDTO.getUserId().equals(String.valueOf(session.getAttribute("userId")))) {
 			result = leagueservice.deleteLeaguePost(leagueboardId);
 			if (result) {
 				return ResponseEntity.ok("글 삭제 성공");

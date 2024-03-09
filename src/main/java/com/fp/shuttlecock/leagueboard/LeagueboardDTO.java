@@ -20,7 +20,7 @@ public class LeagueboardDTO {
 	private Timestamp regdate;
 	private String winner;
 	private String loser;
-	private String user_userId;
+	private String userId;
 	
 	public LeagueboardDTO(String title, String content, String winner, String loser) {
 		this.title = title;

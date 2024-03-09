@@ -66,7 +66,7 @@ h1 {
 									<label for="exampleFormControlInput1" class="form-label">작성자</label>
 									<input type="text" class="form-control"
 										id="exampleFormControlInput1"
-										value="${leagueboard.user_userId}" readonly>
+										value="${leagueboard.userId}" readonly>
 								</div>
 								<div class="col">
 									<label for="exampleFormControlInput1" class="form-label">작성
@@ -97,12 +97,12 @@ h1 {
 
 							<div class="container"
 								style="height: 50px; display: flex; justify-content: right;">
-								<c:if test="${sessionScope.userId eq leagueboard.user_userId}">
+								<c:if test="${sessionScope.userId eq leagueboard.userId}">
 									<input type="submit" value="수정" class="Btn"
 										style="margin-left: 10px;">
 								</c:if>
 								<c:if
-									test="${sessionScope.userId eq leagueboard.user_userId or sessionScope.admin eq 1}">
+									test="${sessionScope.userId eq leagueboard.userId or sessionScope.admin eq 1}">
 									<button type="button" class="delete_btn btn btn-danger"
 										style="margin-left: 10px;">삭제</button>
 								</c:if>

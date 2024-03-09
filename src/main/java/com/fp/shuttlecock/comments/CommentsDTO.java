@@ -15,12 +15,13 @@ import lombok.ToString;
 @AllArgsConstructor
 public class CommentsDTO {
 	
-	private int commentNo;
-	private String commentId;
+	private int commentsId;
 	private String content;
 	private Timestamp regdate;
 	private int secret;
 	private int freeboardId;
 	private int tradeboardId;
 	private int recruitboardId;
+	private String userId;
+	
 }

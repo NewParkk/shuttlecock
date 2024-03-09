@@ -112,8 +112,8 @@
 	</select>
 
 	<insert id="insertBoard" parameterType="TradeboardDTO">
-		insert into tradeboard(title, user_userId, content, region)
-		values(#{title}, #{user_userId}, #{content}, #{region})
+		insert into tradeboard(title, userId, content, region)
+		values(#{title}, #{userId}, #{content}, #{region})
 	</insert>
 
 	<update id="updateTradePost" parameterType="TradeboardDTO">
@@ -129,6 +129,6 @@
 	<update id="increaseWriteCount" parameterType="string">
 		update user
 		set writeCount = writeCount + 1
-		where userId = #{user_userId}
+		where userId = #{userId}
 	</update>
 </mapper>

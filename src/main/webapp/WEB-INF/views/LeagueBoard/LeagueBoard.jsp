@@ -132,7 +132,7 @@ a:active {
 								</td>
 								<td bgcolor="">
 									<p align="center">
-										<span style="font-size: 12pt;"> <b>${leagueboard.user_userId}</b>
+										<span style="font-size: 12pt;"> <b>${leagueboard.userId}</b>
 										</span>
 									</p>
 								</td>

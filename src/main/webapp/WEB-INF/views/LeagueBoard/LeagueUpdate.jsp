@@ -87,8 +87,8 @@ h1 {
 						</div> --%>
 						<input type="hidden" id="leagueboardId" name="leagueboardId"
 								value="${leagueboard.leagueboardId}" /> <input type="hidden"
-								id="user_userId" name="user_userId"
-								value="${leagueboard.user_userId}" />
+								id="user_userId" name="userId"
+								value="${leagueboard.userId}" />
 
 						<div class="mb-3" style="width: 50%; margin: 0 auto;">
 							<label for="exampleFormControlInput1" class="form-label">제목</label>
@@ -100,7 +100,7 @@ h1 {
 							<div class="col">
 								<label for="exampleFormControlInput1" class="form-label">작성자</label>
 								<input type="text" class="form-control"
-									id="exampleFormControlInput1" value="${leagueboard.user_userId}"
+									id="exampleFormControlInput1" value="${leagueboard.userId}"
 									readonly>
 							</div>
 							<div class="col">
