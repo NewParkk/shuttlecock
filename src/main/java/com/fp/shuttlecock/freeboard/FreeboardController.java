@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -73,15 +74,18 @@ public class FreeboardController {
 	// 글쓰기 페이지 이동
 	@GetMapping("/freeWrite")
 	public void freeWrite() {
+		FreeboardDTO dto = new FreeboardDTO();
+		dto.setUserId("1234"); // 임의로 userId 지정
 		System.out.println("글쓰기 페이지로 이동");
 	}
 
 	// 글 등록
 	@PostMapping("/insertFreeboard")
-	public String insertFreeboard(FreeboardDTO dto, Model model) {
-
+	public String insertFreeboard(FreeboardDTO dto, Model model, HttpSession session) {
+		
 		System.out.println("insertFreeboard  title : " + dto.getTitle());
-		dto.setUserId("1234"); // 임의로 userId 지정
+//		dto.setUserId("1234"); // 임의로 userId 지정
+		dto.setUserId(String.valueOf(session.getAttribute("userId")));
 
 		service.insertFreeboard(dto);
 		return "redirect:/Freeboard/freeList";
@@ -91,6 +95,8 @@ public class FreeboardController {
 	@GetMapping("/freeDetail")
 	public void freeDetail(int freeboardId, String userId, Model model) {
 		System.out.println("상세보기 페이지");
+		FreeboardDTO dto = new FreeboardDTO();
+		dto.setUserId("1234"); // 임의로 userId 지정
 		model.addAttribute("Detail", service.freeDetail(freeboardId));
 
 		LikesVO likes = new LikesVO();
@@ -141,8 +147,10 @@ public class FreeboardController {
 
 	// 글 수정
 	@PostMapping("/updateFree")
-	public String updateBoard(FreeboardDTO dto, RedirectAttributes ra) {
+	public String updateBoard(FreeboardDTO dto, RedirectAttributes ra, HttpSession session) {
+		dto.setUserId(String.valueOf(session.getAttribute("userId")));
 		System.out.println("게시물 수정 요청");
+		
 		System.out.println(dto.getFreeboardId());
 		System.out.println(dto.getContent());
 		System.out.println(dto.getTitle());

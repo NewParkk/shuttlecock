@@ -50,7 +50,7 @@ h1 {
 		<div class="col">
 			<label for="exampleFormControlInput1" class="form-label">작성자</label>
 			<input type="text" class="form-control" id="exampleFormControlInput1"
-				value="${Detail.user_userId}" readonly>
+				value="${Detail.userId}" readonly>
 		</div>
 		<div class="col">
 			<label for="exampleFormControlInput1" class="form-label">작성
@@ -75,10 +75,6 @@ h1 {
 	<div class="mb-3" style="width: 50%; margin: 0 auto;">
 		<label for="exampleFormControlTextarea1" class="form-label"></label>
 		<div>${Detail.content}</div>
-		<tr>
-			<th scope="row">첨부파일</th>
-			<td id="files" colspan="3"></td>
-		</tr>
 	</div>
 
 	<button type="button" class="btn btn-primary whyBtn updateBtn">수정</button>
@@ -142,7 +138,8 @@ h1 {
 		var likeval = ${likes};
 		
 		let freeboardId = ${Detail.freeboardId};
-		let userId = '${login.userId}';
+		/* let userId = '${login.userId}'; */
+		let userId = '${Detail.userId}';
 		let likeType = 1;
 		
 		if(likeval > 0){
@@ -201,7 +198,7 @@ h1 {
 		$('#com_btn').click(function() {
 			const writerId = $('.writerId').val();
 			const content = $('.content').val();
-			const bno = ${Detail.freeboardId};
+			const freeboardId = ${Detail.freeboardId};
 			const comment_type = 0; 
 			
 			if(writerId == ''){
@@ -218,7 +215,7 @@ h1 {
 						{
 							"writerId" : writerId,
 							"content" : content,
-							"bno" : bno,
+							"freeboardId" : freeboardId,
 							"comment_type" : comment_type 
 						}		
 					),
@@ -307,36 +304,7 @@ h1 {
 			})// 삭제 아작스 끝
 			
 		})
-		
-		    window.onload = () => {
-        findAllFile();
-
-        findAllComment();
-    }
-
-
-    // 전체 파일 조회
-    function findAllFile() {
-
-        // 1. API 호출
-        const freeboardId = [[ ${freeboard.freeboardId}]];
-        const response = getJson(`/freeboard/${freeboard_freeboardId}/files`);
-
-        // 2. 로직 종료
-        if ( !response.length ) {
-            return false;
-        }
-
-        // 3. 파일 영역 추가
-        let fileHtml = '<div class="file_down"><div class="cont">';
-        response.forEach(row => {
-            fileHtml += `<a href="javascript:alert('준비 중입니다.');"><span class="icons"><i class="fas fa-folder-open"></i></span>${row.fileOriginalName}</a>`;
-        })
-        fileHtml += '</div></div>';
-
-        // 4. 파일 HTML 렌더링
-        document.getElementById('files').innerHTML = fileHtml;
-    }
+	}) // 스크립트 종료문
 	
 
 </script>
