@@ -1,19 +1,20 @@
 package com.fp.shuttlecock.mypage;
 
+import java.io.File;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.fp.shuttlecock.admin.UserDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class MypageServiceImpl {
 
 	@Autowired
 	MypageMapper mapper;
-	
+
 	public UserDTO getMypage(String userId) {
 		return mapper.getMypage(userId);
 	}
@@ -66,12 +67,12 @@ public class MypageServiceImpl {
 	}
 
 	public boolean deleteUser(String userId) {
-		boolean result = false; 
+		boolean result = false;
 		int res = mapper.deleteUser(userId);
-		if(res != 0) {
+		if (res != 0) {
 			result = true;
 		}
-		
+
 		return result;
 	}
 
@@ -87,16 +88,37 @@ public class MypageServiceImpl {
 		return mapper.getTradeboard(userId);
 	}
 
-	public List<RecruitboardDTO> getRecrtitboard(String userId) {
-		return mapper.getRecrtitboard(userId);
+	public List<RecruitboardDTO> getRecruitBoard(String userId) {
+		return mapper.getRecruitBoard(userId);
 	}
 
 	public List<CommentsDTO> getComment(String userId) {
 		return mapper.getComment(userId);
 	}
 
-	public List<LikesDTO> getLike(String userId) {
+	/*
+	 * public List<LikesDTO> getLike(String userId) {
+	 *  return mapper.getLike(userId);
+	 * }
+	 */
+	public List<HashMap<String, Object>> getLike(String userId) {
 		return mapper.getLike(userId);
+	}
+
+	public boolean insertImage(MultipartFile file, String userId) {
+		boolean result = false;
+		
+		String Image = "C:\\multi\\imege";
+		UserDTO user = UserDTO.builder()
+								.userId(userId)
+								.userImage(Image)
+								.build();
+
+		int res = mapper.insertImage(user);
+		if (res != 0) {
+			result = true;
+		}
+		return result;
 	}
 
 

@@ -1,19 +1,18 @@
 package com.fp.shuttlecock.mypage;
 
-import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.fp.shuttlecock.admin.UserDTO;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MypageController {
@@ -23,98 +22,124 @@ public class MypageController {
 
 	// 마이페이지 폼
 	@GetMapping("/mypage")
-	public String getMypage(@PathVariable String userId, Model model) {
+	public String getMypage(HttpSession session, Model model) {
+		String userId =session.getAttribute("userId").toString();
+		System.out.println((String)session.getAttribute("userId"));
+		
 		UserDTO user = service.getMypage(userId);
 		List<CalendarDTO> calendarList = service.getCalendar(userId);
 
 		model.addAttribute("user", user);
-		model.addAttribute("user", calendarList);
+		model.addAttribute("calendarList", calendarList);
 
 		return "mypage/myPage";
 	}
 
-	// 캘린더 추가
-	@PostMapping("/mypage")
-	public String insertCalendar(@PathVariable String userId, @ModelAttribute CalendarDTO newCalendar, Model model) {
-		boolean result = false;
-		newCalendar.setUser_userId(userId);
-		result = service.insertCalendar(newCalendar);
-
-		return "mypage/myPage";
-	}
-
-	// 캘린더 수정
-	@PutMapping("/mypage")
-	public String updateCalendar(@PathVariable String userId, @ModelAttribute CalendarDTO newCalendar, Model model,
-			Date date) {
-		CalendarDTO calendar = service.getCalendarByDate(date);
-		calendar.setTitle(newCalendar.getTitle());
-		boolean result = service.updateCalendar(newCalendar);
-
-		return "mypage/myPage";
-	}
-
-	// 캘린더 삭제
-	@DeleteMapping("/mypage")
-	public String deleteCalendar(@PathVariable String userId) {
-		boolean result = false;
-		result = service.deleteCalendar(userId);
-		
-		return "mypage/myPage";
-	}
-
+//	// 캘린더 추가
+//	@PostMapping("/mypage")
+//	public String insertCalendar(HttpSession session, @ModelAttribute CalendarDTO newCalendar, Model model) {
+//		String userId =session.getAttribute("userId").toString();
+//		boolean result = false;
+//		newCalendar.setUser_userId(userId);
+//		result = service.insertCalendar(newCalendar);
+//
+//		return "mypage/myPage";
+//	}
+//
+//	// 캘린더 수정
+//	@PutMapping("/mypage")
+//	public String updateCalendar(HttpSession session, @ModelAttribute CalendarDTO newCalendar, Model model,
+//			Date date) {
+//		String userId =session.getAttribute("userId").toString();
+//		CalendarDTO calendar = service.getCalendarByDate(date);
+//		calendar.setTitle(newCalendar.getTitle());
+//		boolean result = service.updateCalendar(newCalendar);
+//
+//		return "mypage/myPage";
+//	}
+//
+//	// 캘린더 삭제
+//	@DeleteMapping("/mypage")
+//	public String deleteCalendar(@PathVariable String userId) {
+//		boolean result = false;
+//		result = service.deleteCalendar(userId);
+//
+//		return "mypage/myPage";
+//	}
+//
 	// 회원정보 수정폼
 	@GetMapping("/updateUser")
-	public String getUserId(@PathVariable String userId, Model model) {
-		UserDTO user = service.getMypage(userId);
+	public String getUserId(HttpSession session, Model model) {
+		String userId =session.getAttribute("userId").toString();
+		UserDTO user = null;
+		try {
+			user = service.getMypage(userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("user", user);
-		
+
 		return "mypage/updateUser";
 	}
 
 	// 회원정보 수정
-	@PutMapping("/updateUser")
-	public String updateUser(@PathVariable String userId, @ModelAttribute UserDTO newUser, Model model) {
+	@PostMapping("/updateUser")
+	public String updateUser(HttpSession session, @ModelAttribute UserDTO newUser, MultipartFile file) {
+		String userId =session.getAttribute("userId").toString();
 		UserDTO user = service.getMypage(userId);
+		
 		// username, email, phone
 		user.setUsername(newUser.getUsername());
 		user.setUserEmail(newUser.getUserEmail());
 		user.setUserPhone(newUser.getUserPhone());
 
-		model.addAttribute("user", user);
 		boolean result = service.updateUser(user);
-		
-		return "mypage/mypage";
+		if(file != null) {
+			service.insertImage(file, userId);
+		}
+		return "redirect:mypage";
 	}
 
 	// 회원탈퇴
-	@DeleteMapping("/updateUser")
-	public String deleteUser(@PathVariable String userId) {
+	@RequestMapping("/deleteUser")
+	public String deleteUser(HttpSession session) {
+		String userId = session.getAttribute("userId").toString();
 		boolean result = false;
 		result = service.deleteUser(userId);
-		
-		return "redirect:/main";
+		session.invalidate();
+
+		return "redirect:/login";
 	}
 
 	// 나의 활동내역 폼
-	@GetMapping("/record")
-	public String getRecord(@PathVariable String userId, Model model) {
-		UserDTO user = service.getMypage(userId);
-		model.addAttribute(model);
-		
-		return "mypage/record";
-	}
+//	@GetMapping("/record")
+//	public String getRecord(HttpSession session, Model model) {
+//		String userId = session.getAttribute("userId").toString();
+//		UserDTO user = null;
+//		try {
+//			user = service.getMypage(userId);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		model.addAttribute("user",user);
+//
+//		return "mypage/record";
+//	}
 
 	// 나의 활동내역
-	@GetMapping("/record/{userId}")
-	public String getLeagueboard(@PathVariable String userId, Model model) {
-		UserDTO user = service.getMypage(userId);
+	@GetMapping("/record")
+	public String getLeagueboard(HttpSession session, Model model) {
+		String userId = session.getAttribute("userId").toString();
 
+		UserDTO user = service.getMypage(userId);
+		
+		model.addAttribute("user", user);
+		
 		// 게시물
 		List<LeagueboardDTO> leagueList = service.getLeagueboard(userId);
 		List<FreeboardDTO> freeList = service.getFreeboard(userId);
 		List<TradeboardDTO> tradeList = service.getTradeboard(userId);
-		List<RecruitboardDTO> recruitList = service.getRecrtitboard(userId);
+		List<RecruitboardDTO> recruitList = service.getRecruitBoard(userId);
 
 		model.addAttribute("league", leagueList);
 		model.addAttribute("free", freeList);
@@ -127,11 +152,11 @@ public class MypageController {
 		model.addAttribute("comment", commentList);
 
 		// 좋아요
-		List<LikesDTO> likeList = service.getLike(userId);
-
+		/* List<LikesDTO> likeList = service.getLike(userId); */
+		List<HashMap<String, Object>> likeList = service.getLike(userId);
 		model.addAttribute("like", likeList);
 
-		String view = "redirect:/record";
+		String view = "mypage/record";
 		return view;
 	}
 

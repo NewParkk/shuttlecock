@@ -3,7 +3,8 @@
 <mapper namespace="com.fp.shuttlecock.mypage.MypageMapper">
 
 	<select id="getMypage"
-		resultType="com.fp.shuttlecock.mypage.UserDTO" parameterType="string">
+		parameterType="String"
+		resultType="com.fp.shuttlecock.mypage.UserDTO">
 		SELECT *
 		FROM user
 		WHERE userId = #{userId}
@@ -13,7 +14,7 @@
 		resultType="com.fp.shuttlecock.mypage.CalendarDTO">
 		SELECT *
 		FROM calendar
-		WHERE userId = #{userId}
+		WHERE user_userId = #{userId}
 	</select>
 
 	<select id="getCalendarByDate"
@@ -78,10 +79,10 @@
 		WHERE user_userId = #{userId}
 	</select>
 
-	<select id="getRecruitboard"
+	<select id="getRecruitBoard"
 		resultType="com.fp.shuttlecock.mypage.RecruitboardDTO">
 		SELECT *
-		FROM recrtitboard
+		FROM recruitBoard
 		WHERE user_userId = #{userId}
 	</select>
 
@@ -93,10 +94,23 @@
 	</select>
 
 	<select id="getLike"
-		resultType="com.fp.shuttlecock.mypage.LikesDTO">
-		SELECT *
-		FROM likes
-		WHERE user_userId = #{userId}
+		parameterType="String"
+		resultType="hashmap">
+		SELECT f.title, f.content
+		FROM likes l, freeboard f
+		WHERE l.user_userId = #{userId}
 	</select>
+	
+	<update id="insertImage"
+		parameterType="com.fp.shuttlecock.mypage.UserDTO">
+		UPDATE user
+		SET userImage = #{userImage}
+		WHERE userId = #{userId}
+	</update>
 
+<!-- 	<resultMap id="boardList" type="com.fp.shuttlecock.mypage.TradeboardDTO" >
+		<id property="user_userId" column="userId"/>
+		<result property="title" column="title"/>
+		
+	</resultMap> -->
 </mapper>
