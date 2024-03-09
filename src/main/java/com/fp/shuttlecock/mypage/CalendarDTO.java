@@ -16,5 +16,5 @@ import lombok.ToString;
 public class CalendarDTO {
 	private String title;
 	private Date date;
-	private String user_userId;
+	private String userId;
 }

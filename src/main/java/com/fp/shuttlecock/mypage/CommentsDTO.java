@@ -22,6 +22,6 @@ public class CommentsDTO {
 	private int secret;
 	private int tradeboardId;
 	private int freeboardId;
-	private String user_userId;
-	private int recruitboard_recruitboardId;
+	private String userId;
+	private int recruitboardId;
 }

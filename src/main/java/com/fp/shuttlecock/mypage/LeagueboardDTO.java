@@ -20,6 +20,6 @@ public class LeagueboardDTO {
 	private Date regdate;
 	private String winner;
 	private String loser;
-	private String user_userId;
+	private String userId;
 	
 }
