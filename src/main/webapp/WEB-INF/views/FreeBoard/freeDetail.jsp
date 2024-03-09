@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,91 +9,106 @@
 </head>
 
 <style>
-    .mainTitle{
-        text-align: center;
-    }
-    .whyBtn{
-        margin-left: 46%;
-    }
-    .whyBtn1{
-        margin-left: 69%;
-    }
-    .del-btn{
-        margin-left: 95%
-    }
-    h1{
-        padding-top: 30px;
-        padding-bottom: 30px
-    }
+.mainTitle {
+	text-align: center;
+}
+
+.whyBtn {
+	margin-left: 46%;
+}
+
+.whyBtn1 {
+	margin-left: 69%;
+}
+
+.del-btn {
+	margin-left: 95%
+}
+
+h1 {
+	padding-top: 30px;
+	padding-bottom: 30px
+}
 </style>
 <body>
-<!-- 헤더 -->
-<%@ include file="../include/header.jsp"%>
+	<!-- 헤더 -->
+	<%@ include file="../include/header.jsp"%>
 
 
-<!-- 붙혀 넣는곳 -->
-    <div class="mainTitle">
-        <h1>자유게시판</h1>
-    </div>
-  
-        <div class="mb-3" style="width: 50%; margin: 0 auto;">
-            <label for="exampleFormControlInput1" class="form-label">제목</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" value="${Detail.title}" readonly>
-          </div>
-          <div class="row g-3" style="width: 51%; margin: 0 auto; margin-top: -25px" >
-		  <div class="col">
-		   <label for="exampleFormControlInput1" class="form-label">작성자</label>
-		    <input type="text" class="form-control" id="exampleFormControlInput1" value="${Detail.user_userId}" readonly>
-		  </div>
-		  <div class="col">
-		   <label for="exampleFormControlInput1" class="form-label">작성 시간</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" value="${Detail.regdate}" readonly>
-		  </div>
+	<!-- 붙혀 넣는곳 -->
+	<div class="mainTitle">
+		<h1>자유게시판</h1>
+	</div>
+
+	<div class="mb-3" style="width: 50%; margin: 0 auto;">
+		<label for="exampleFormControlInput1" class="form-label">제목</label> <input
+			type="text" class="form-control" id="exampleFormControlInput1"
+			value="${Detail.title}" readonly>
+	</div>
+	<div class="row g-3"
+		style="width: 51%; margin: 0 auto; margin-top: -25px">
+		<div class="col">
+			<label for="exampleFormControlInput1" class="form-label">작성자</label>
+			<input type="text" class="form-control" id="exampleFormControlInput1"
+				value="${Detail.user_userId}" readonly>
 		</div>
-		<div class="row g-3" style="width: 51%; margin: 0 auto; margin-top: -10px" >
-		 <div class="col">
-		   <label for="exampleFormControlInput1" class="form-label">조회</label>
-		    <input type="text" class="form-control" id="exampleFormControlInput1" value="${Detail.hit}" readonly>
-		  </div>
-		  <div class="col">
-		   <label for="exampleFormControlInput1" class="form-label">추천</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" value="${getLike}" readonly>
-		  </div>
+		<div class="col">
+			<label for="exampleFormControlInput1" class="form-label">작성
+				시간</label> <input type="text" class="form-control"
+				id="exampleFormControlInput1" value="${Detail.regdate}" readonly>
 		</div>
-		
-          <div class="mb-3" style="width: 50%; margin: 0 auto;">
-            <label for="exampleFormControlTextarea1" class="form-label"></label>
-            <div>
-         		${Detail.content}
-            </div>
-          </div>
+	</div>
+	<div class="row g-3"
+		style="width: 51%; margin: 0 auto; margin-top: -10px">
+		<div class="col">
+			<label for="exampleFormControlInput1" class="form-label">조회</label> <input
+				type="text" class="form-control" id="exampleFormControlInput1"
+				value="${Detail.hit}" readonly>
+		</div>
+		<div class="col">
+			<label for="exampleFormControlInput1" class="form-label">추천</label> <input
+				type="text" class="form-control" id="exampleFormControlInput1"
+				value="${getLike}" readonly>
+		</div>
+	</div>
 
-          <button type="button" class="btn btn-primary whyBtn updateBtn">수정</button>
-          <button type="button" class="btn btn-primary CancleBtn listBtn">목록</button>
-		  <button type="button" class="btn btn-primary CancleBtn delbtn">삭제</button>
-		  <button type="button" class="btn btn-primary CancleBtn LikeBtn">추천</button>
-          <!-- 댓글 -->
+	<div class="mb-3" style="width: 50%; margin: 0 auto;">
+		<label for="exampleFormControlTextarea1" class="form-label"></label>
+		<div>${Detail.content}</div>
+		<tr>
+			<th scope="row">첨부파일</th>
+			<td id="files" colspan="3"></td>
+		</tr>
+	</div>
 
-        
-        <div class="mb-3" style="width: 50%; margin: 0 auto;">
-            <label for="exampleFormControlInput1" class="form-label">댓글 작성자</label>
-            <input type="text" class="form-control writerId" id="exampleFormControlInput1" name="writerId" value="${login.userId}">
-          </div>
-          <div class="mb-3" style="width: 50%; margin: 0 auto;">
-            <label for="exampleFormControlTextarea1" class="form-label">댓글 내용</label>
-            <textarea class="form-control content" id="exampleFormControlTextarea1" rows="2" name="content"></textarea>
-          </div>
-       <button type="button" class="btn btn-primary whyBtn1" id="com_btn">댓글 등록</button>
-
-        
-        <!-- 댓글이 들어갈 부분 -->
-        <div class="com_box">
-
-        </div>
+	<button type="button" class="btn btn-primary whyBtn updateBtn">수정</button>
+	<button type="button" class="btn btn-primary CancleBtn listBtn">목록</button>
+	<button type="button" class="btn btn-primary CancleBtn delbtn">삭제</button>
+	<button type="button" class="btn btn-primary CancleBtn LikeBtn">추천</button>
+	<!-- 댓글 -->
 
 
-<!-- 푸터 -->
-<%@include file="../include/footer.jsp"%>
+	<div class="mb-3" style="width: 50%; margin: 0 auto;">
+		<label for="exampleFormControlInput1" class="form-label">댓글
+			작성자</label> <input type="text" class="form-control writerId"
+			id="exampleFormControlInput1" name="writerId" value="${login.userId}">
+	</div>
+	<div class="mb-3" style="width: 50%; margin: 0 auto;">
+		<label for="exampleFormControlTextarea1" class="form-label">댓글
+			내용</label>
+		<textarea class="form-control content"
+			id="exampleFormControlTextarea1" rows="2" name="content"></textarea>
+	</div>
+	<button type="button" class="btn btn-primary whyBtn1" id="com_btn">댓글
+		등록</button>
+
+
+	<!-- 댓글이 들어갈 부분 -->
+	<div class="com_box"></div>
+
+
+	<!-- 푸터 -->
+	<%@include file="../include/footer.jsp"%>
 </body>
 
 <script>
@@ -293,9 +308,36 @@
 			
 		})
 		
-		
-		
-		
-	})// 스크립트 종료문
+		    window.onload = () => {
+        findAllFile();
+
+        findAllComment();
+    }
+
+
+    // 전체 파일 조회
+    function findAllFile() {
+
+        // 1. API 호출
+        const freeboardId = [[ ${freeboard.freeboardId}]];
+        const response = getJson(`/freeboard/${freeboard_freeboardId}/files`);
+
+        // 2. 로직 종료
+        if ( !response.length ) {
+            return false;
+        }
+
+        // 3. 파일 영역 추가
+        let fileHtml = '<div class="file_down"><div class="cont">';
+        response.forEach(row => {
+            fileHtml += `<a href="javascript:alert('준비 중입니다.');"><span class="icons"><i class="fas fa-folder-open"></i></span>${row.fileOriginalName}</a>`;
+        })
+        fileHtml += '</div></div>';
+
+        // 4. 파일 HTML 렌더링
+        document.getElementById('files').innerHTML = fileHtml;
+    }
+	
+
 </script>
 </html>

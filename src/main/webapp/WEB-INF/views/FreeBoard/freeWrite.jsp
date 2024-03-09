@@ -52,7 +52,7 @@ h1 {
 
 		<div class="mb-3" style="width: 50%; margin: 0 auto;">
 			<!-- <label for="formFileMultiple" class="form-label"></label>
-            <input class="form-control" type="file" id="formFileMultiple" name="file"> -->
+            <input class="form-control" type="file" id="formFileMultiple" name="file">
 			<div class="file_input">
 				<input type="text" readonly /> <label> 첨부파일 <input
 					type="file" name="files" onchange="selectFile(this);" />
@@ -65,6 +65,29 @@ h1 {
 			<button type="button" onclick="addFile();" class="btns fn_add_btn">
 				<span>파일 추가</span>
 			</button>
+			-->
+			<tr>
+				<th>첨부파일</th>
+				<td colspan="3">
+					<div class="file_list">
+						<div>
+							<div class="file_input">
+								<input type="text" readonly /> <label> 첨부파일 <input
+									type="file" name="files" onchange="selectFile(this);" />
+								</label>
+							</div>
+							<button type="button" onclick="removeFile(this);"
+								class="btns del_btn">
+								<span>삭제</span>
+							</button>
+							<button type="button" onclick="addFile();"
+								class="btns fn_add_btn">
+								<span>파일 추가</span>
+							</button>
+						</div>
+					</div>
+				</td>
+			</tr>
 		</div>
 
 
@@ -90,8 +113,25 @@ h1 {
 		});
 	});
 	
+    // 파일 삭제 처리용 익명 함수
+    const removeFileId = (function() {
+        const ids = [];
+        return {
+            add(attachmentfileId) {
+                if (ids.includes(attachmentfileId)) {
+                    return false;
+                }
+                ids.push(attachmentfileId);
+            },
+            getAll() {
+                return ids;
+            }
+        }
+    }());
+	
 	// 파일 선택
-    function selectFile(element) {
+        // 파일 선택
+    function selectFile(element, attachmentfileId) {
 
         const file = element.files[0];
         const filename = element.closest('.file_input').firstElementChild;
@@ -113,6 +153,11 @@ h1 {
 
         // 3. 파일명 지정
         filename.value = file.name;
+
+        // 4. 삭제할 파일 id 추가
+        if (attachmentfileId) {
+            removeFileId.add(attachmentfileId);
+        }
     }
 
 
@@ -133,7 +178,14 @@ h1 {
 
 
     // 파일 삭제
-    function removeFile(element) {
+    function removeFile(element, attachmentfileId) {
+        
+        // 1. 삭제할 파일 id 추가 
+        if (attachmentfileId) {
+            removeFileId.add(attachmentfileId);
+        }
+        
+        // 2. 파일 영역 초기화 & 삭제
         const fileAddBtn = element.nextElementSibling;
         if (fileAddBtn) {
             const inputs = element.previousElementSibling.querySelectorAll('input');
@@ -141,6 +193,61 @@ h1 {
             return false;
         }
         element.parentElement.remove();
+    }
+    
+    window.onload = () => {
+        renderPostInfo();
+
+        findAllFile();
+    }
+
+
+    // 전체 파일 조회
+    function findAllFile() {
+
+        // 1. 신규 등록/수정 체크
+        const freeboard = [[ ${freeboard}]];
+        if ( !freeboard ) {
+            return false;
+        }
+
+        // 2. API 호출
+        const response = getJson(`/freeboard/${freeboard.freeboard_freeboardId}/files`);
+
+        // 3. 로직 종료
+        if ( !response.length ) {
+            return false;
+        }
+
+        // 4. 업로드 영역 추가
+        for (let i = 0, len = (response.length - 1); i < len; i++) {
+            addFile();
+        }
+
+        // 5. 파일 선택 & 삭제 이벤트 재선언 & 파일명 세팅
+        const filenameInputs = document.querySelectorAll('.file_list input[type="text"]');
+        filenameInputs.forEach((input, i) => {
+            const fileInput = input.nextElementSibling.firstElementChild;
+            const fileRemoveBtn = input.parentElement.nextElementSibling;
+            fileInput.setAttribute('onchange', `selectFile(this, ${response[i].attachmentfileId})`);
+            fileRemoveBtn.setAttribute('onclick', `removeFile(this, ${response[i].attachmentfileId})`);
+            input.value = response[i].fileOriginalName;
+        })
+    }
+    
+    // 파일 추가
+    function addFile() {
+        const fileDiv = document.createElement('div');
+        fileDiv.innerHTML =`
+            <div class="file_input">
+                <input type="text" readonly />
+                <label> 첨부파일
+                    <input type="file" name="files" onchange="selectFile(this);" />
+                </label>
+            </div>
+            <button type="button" onclick="removeFile(this);" class="btns del_btn"><span>삭제</span></button>
+        `;
+        document.querySelector('.file_list').appendChild(fileDiv);
     }
 </script>
 </html>

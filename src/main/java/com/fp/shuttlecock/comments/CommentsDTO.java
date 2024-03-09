@@ -22,9 +22,11 @@ public class CommentsDTO {
 //			);
 	
 	private int commentNo;
-	private int bno;
 	private String commentId;
 	private String content;
 	private Timestamp regdate;
 	private int secret;
+	private int freeboard_freeboardId;
+	private int tradeboard_tradeboardId;
+	private int recruitboard_recruitboardId;
 }

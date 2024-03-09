@@ -100,7 +100,7 @@
                         </div>
                     </form> 
 	
-    <!-- 비건 뉴스 상세보기 -->
+    <!-- 상세보기 -->
     <table class="table" style="width: 70%; margin: 0 auto;">
         <thead>
           <tr>

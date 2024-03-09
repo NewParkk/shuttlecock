@@ -23,8 +23,9 @@ public class FreeboardDTO {
 	private int like;
 	private int hit;
 	private Timestamp regdate;
-	private int commentCount;
+	private int commentCount;	
 	private int likeCount;
 	private String user_userId; // 작성자 추가
 	private List<MultipartFile> files = new ArrayList<>(); //첨부파일 List
+	private List<Long> removeFileIds = new ArrayList<>(); // 삭제할 첨부파일 id List
 }
