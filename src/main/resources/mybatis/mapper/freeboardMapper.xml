@@ -18,11 +18,11 @@
      <insert id="insertFreeboard" parameterType="com.fp.shuttlecock.freeboard.FreeboardDTO">
      	insert into freeboard(
      	title,
-     	user_userId,
+     	userId,
      	content,
      	`like`,
      	`hit`
-     	) values (#{title},#{user_userId},#{content},0,0)
+     	) values (#{title},#{userId},#{content},0,0)
      </insert>
      
      
@@ -33,8 +33,8 @@
      <select id="getFreeboard" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
 
      	select *,
-     	(select count(*) from comments where bno = f.freeboardId) as commentCount,
-		(select count(*) from likes where freeboard_freeboardId = f.freeboardId) as likeCount
+     	(select count(*) from comments where freeboardId = f.freeboardId) as commentCount,
+		(select count(*) from likes where freeboardId = f.freeboardId) as likeCount
      	 from freeBoard  f
      	<include refid="search" />
      	order by freeboardId desc
@@ -62,30 +62,30 @@
 	</update>
 	
 	<select id="comCNT" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO" >
-		select u.*, (select count(*) from comments where bno = #{freeboardId} ) as commentCount  
+		select u.*, (select count(*) from comments where freeboardId = #{freeboardId} ) as commentCount  
 		from freeboard u where freeboardId = #{freeboardId}; 
 	</select>
 	
 	<!-- 좋아요 눌럿는지 안눌럿는지 -->
 	<select id="findLike" resultType="int">
-		select count(*) from likes where freeboard_freeboardId = #{freeboardId} and user_userId = #{userId} 
+		select count(*) from likes where freeboardId = #{freeboardId} and userId = #{userId} 
 	</select>
 	
 	
 	<!-- 좋아요 -->
 	
 	<insert id="likeUp" parameterType="map">
-		insert into likes (freeboard_freeboardId , user_userId, likeNum)
+		insert into likes (freeboardId , userId, likeNum)
 		values(#{freeboardId},#{userId},1,#{likeType})
 	</insert>
 	
 	  <!-- 좋아요 불러오기 -->  
 	  <select id="getLike" resultType="int">
-	  	select count(*) from likes where freeboard_freeboardId = #{freeboardId} and likeNum =#{likeType}
+	  	select count(*) from likes where freeboardId = #{freeboardId} and likeNum =#{likeType}
 	  </select>
 	  
 	  <delete id="likeDown">
-	  	delete from likes where freeboard_freeboardId = #{freeboardId} and user_userId = #{userId}  and likeNum =#{likeType}
+	  	delete from likes where freeboardId = #{freeboardId} and userId = #{userId}  and likeNum =#{likeType}
 	  </delete>
 	  
 	  <!-- 게시물 삭제 -->

@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,11 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.fp.shuttlecock.attachmentfile.FileRequest;
-import com.fp.shuttlecock.attachmentfile.FreeboardFileServiceImpl;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
-import com.fp.shuttlecock.util.FileUtils;
 import com.fp.shuttlecock.util.LikesVO;
 import com.fp.shuttlecock.user.UserServiceImpl;
 import com.fp.shuttlecock.util.PageCreate;
@@ -43,14 +38,10 @@ public class FreeboardController {
 
 	@Autowired
 	private FreeboardServiceImpl service;
-	@Autowired
-	private CommentsServiceImpl comService;
-	@Autowired
-	private UserServiceImpl userService;
-	@Autowired
-	private FreeboardFileServiceImpl fileService;
-	@Autowired
-	private FileUtils fileUtils;
+//	@Autowired
+//	private CommentsServiceImpl comService;
+//	@Autowired
+//	private UserServiceImpl userService;
 
 	// 테스트용 메소드
 	@GetMapping("/")
@@ -65,7 +56,7 @@ public class FreeboardController {
 		System.out.println("검색어" + vo.getKeyword());
 		System.out.println("검색조건" + vo.getCondition());
 
-		dto.setUser_userId("1234"); // 임의로 userId 지정
+		dto.setUserId("1234"); // 임의로 userId 지정
 
 		PageCreate pc = new PageCreate();
 		pc.setPaging(vo);
@@ -88,16 +79,9 @@ public class FreeboardController {
 	// 글 등록
 	@PostMapping("/insertFreeboard")
 	public String insertFreeboard(FreeboardDTO dto, Model model) {
-		// 게시글 insert
-		int freeboardId = service.insertFreeboard(dto);
-
-		List<FileRequest> files = fileUtils.uploadFiles(dto.getFiles());
-
-		// 업로드된 파일 정보를 DB에 저장
-		fileService.saveFiles(freeboardId, files);
 
 		System.out.println("insertFreeboard  title : " + dto.getTitle());
-		dto.setUser_userId("1234"); // 임의로 userId 지정
+		dto.setUserId("1234"); // 임의로 userId 지정
 
 		service.insertFreeboard(dto);
 		return "redirect:/Freeboard/freeList";
