@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService{
 		return result;
 	}
 
+	//아이디 중복체크
 	public boolean isCheckId(String userId) {
 		boolean result = false;
 		int count = userMapper.CheckIdUser(userId);
@@ -57,6 +58,15 @@ public class UserServiceImpl implements UserService{
 		}
 
 		return result;
+	}
+
+	//아이디 찾기
+	public UserDTO findUserId(UserDTO userDTO) {
+		
+		UserDTO user = null;
+		user = userMapper.findUserId(userDTO);
+		
+		return user;
 	}
 
 

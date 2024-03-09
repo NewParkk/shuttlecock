@@ -1,4 +1,4 @@
-package com.fp.shuttlecock.interceptor;
+package com.fp.global;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 

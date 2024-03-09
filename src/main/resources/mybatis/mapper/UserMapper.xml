@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fp.shuttlecock.user.UserMapper">
+	
+	<!-- 로그인 -->
 	<select id="getLoginUser" parameterType="string"
 		resultType="com.fp.shuttlecock.user.UserDTO">
 		select * from sports.user
 		where userId =#{userId} and pw=#{pw}
 	</select>
 	
+	<!-- 존재하는 아이디 확인 -->
 	<select id="getUserByUserId" parameterType="string"
  			resultType="com.fp.shuttlecock.user.UserDTO">
  		select * from sports.user
  		where userId =#{userId}
  	</select>
 	
+	<!-- 회원가입 -->
 	<insert id="getJoinUser"
  			parameterType="com.fp.shuttlecock.user.UserDTO">
  		INSERT INTO 
  			sports.user(userId, pw, username, gender, admin, userEmail, userPhone) 
  		VALUES
- 			(#{userId}, #{pw}, #{username}, #{gender}, 0, #{userEmail}, #{userPhone})		
+ 			(#{userId}, #{pw}, #{username}, #{gender}, 
+ 			<choose>
+		        <when test="admin">1</when>
+		        <otherwise>0</otherwise>
+		    </choose>, #{userEmail}, #{userPhone})		
  	</insert>
  	
+ 	<!-- 아이디 중복체크 -->
  	<select id="CheckIdUser" parameterType="string" resultType="java.lang.Integer">
  		select count(*) from sports.user
  		where userId =#{userId}
  	</select>
+ 	
+ 	<!-- 아이디 찾기 -->
+ 	<select id="findUserId" resultType="com.fp.shuttlecock.user.UserDTO">
+		select userId from sports.user
+		where username=#{username} and userEmail=#{userEmail}
+	</select>
 </mapper>

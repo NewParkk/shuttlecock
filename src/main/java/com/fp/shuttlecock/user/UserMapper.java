@@ -14,5 +14,7 @@ public interface UserMapper {
 
 	public int CheckIdUser(String userId);
 
+	public UserDTO findUserId(UserDTO userDTO);
+
 
 }

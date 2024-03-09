@@ -16,11 +16,11 @@
         background-color: #ffffff;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 10px 20px 20px 10px;
+        padding: 10px 20px 10px 20px;
         margin: 20px auto;
         max-width: 400px;
     }
-    h2 {
+    h3 {
         text-align: center;
         color: #333333;
     }
@@ -31,14 +31,14 @@
     p {
         text-align: center;
         color: #333333;
-        font-size: 18px;
+        font-size: 15px;
     }
     .container {
         text-align: center;
     }
    .container button {
         width: 100px;
-        padding: 10px;
+        padding: 5px 10px 5px 10px;
         border: none;
         border-radius: 5px;
         background-color: #555;
@@ -49,9 +49,9 @@
         margin-top: 10px;
     }
     .container input{
-    	width: 100%;
+    	width: 50%;
         padding: 10px; 
-        height: 28px; 
+        height: 15px; 
         border: 1px solid #ccc;
         border-radius: 5px;
         margin-top: 10px;
@@ -59,17 +59,28 @@
     }
     .r-check{
     	display: flex;
+    	justify-content: center;
+    	margin-bottom: 5px;
     }
 </style>
 </head>
 <body>
     <div class="container"> 
-       <h2>아이디 중복 체크</h2>
+       <h3>아이디 중복 체크</h3>
        <hr>
-       <p>${message}</p>
+       <p>
+    	<c:choose>
+	        <c:when test="${checkButton eq '사용'}">
+	            ${message}
+	        </c:when>
+	        <c:otherwise>
+	            <span style="color: red;">${message}</span> 
+	        </c:otherwise>
+    	</c:choose>
+       </p>
        <c:choose>
         <c:when test="${checkButton eq '사용'}">
-            <button type="button" onclick="useId()">사용</button>
+            <button type="button" onclick="useId('${userId}')">사용</button>
         </c:when>
         <c:otherwise>
              <form action="/checkId" method="get">
@@ -81,5 +92,22 @@
         </c:otherwise>
     </c:choose>
     </div>
+    <script type="text/javascript">
+    	//체크 표시하기
+	    function addSign() {
+	        var checkResult = opener.document.getElementById('check-result');
+	        checkResult.innerHTML = '&#10004;';
+	    }
+	    
+    	//중복체크한 입력값을 기존 창의 입력란에 넣어주기
+	    function useId(userId) {
+	        opener.document.getElementById('userId').value = userId;
+	        window.close();
+	        
+	        addSign();//체크 표시하기
+	    }
+	    
+	</script>
+
 </body>
 </html>
