@@ -14,34 +14,7 @@ public class LeagueboardServiceImpl implements LeagueboardService{
 	public List<LeagueboardDTO> getAllLeaguePost() {
 		return leaguemapper.getAllLeaguePost();
 	}
-
-	public List<LeagueboardDTO> getAllLeaguePostByPage(int page, int pagesize) {
-		int offset = (page - 1) * pagesize;
-		return leaguemapper.getAllLeaguePostByPage(offset, pagesize);
-	}
-
-	public int countLeaguePosts() {
-		return leaguemapper.countLeaguePosts();
-	}
 	
-	public List<LeagueboardDTO> getLeaguePostByTitle(int page, int pagesize, String query) {
-		int offset = (page - 1) * pagesize;
-		return leaguemapper.getLeaguePostByTitle(offset, pagesize, query);
-	}
-
-	public int countSearchedLeaguePostsByTitle(String query) {
-		return leaguemapper.countSearchedLeaguePostsByTitle(query);
-	}
-
-	public List<LeagueboardDTO> getLeaguePostByUserId(int page, int pagesize, String query) {
-		int offset = (page - 1) * pagesize;
-		return leaguemapper.getLeaguePostByUserId(offset, pagesize, query);
-	}
-	
-	public int countSearchedLeaguePostsByUserId(String query) {
-		return leaguemapper.countSearchedLeaguePostsByUserId(query);
-	}
-
 	public LeagueboardDTO getLeaguePostById(int leagueboardId) {
 		LeagueboardDTO leagueboard = leaguemapper.getLeaguePostById(leagueboardId);
 		return leagueboard;
@@ -53,9 +26,7 @@ public class LeagueboardServiceImpl implements LeagueboardService{
 
 	public boolean updateLeaguePost(LeagueboardDTO leagueboardDTO) {
 		boolean result = false;
-		System.out.println("업데이트 리그포스트 서비스");
 		if(leaguemapper.updateLeaguePost(leagueboardDTO) != 0) {
-			System.out.println("성공?");
 			result = true;
 		}
 		return result;
@@ -88,7 +59,11 @@ public class LeagueboardServiceImpl implements LeagueboardService{
 	}
 
 	public List<LeagueboardDTO> getAllLeaguePostByPage(PageRequestDTO pageRequest) {
-		return leaguemapper.getAllLeaguePostByPagenew(pageRequest);
+		return leaguemapper.getAllLeaguePostByPage(pageRequest);
+	}
+	
+	public int countLeaguePosts() {
+		return leaguemapper.countLeaguePosts();
 	}
 
 	public List<LeagueboardDTO> getSearchedLeaguePost(PageRequestDTO pageRequest) {
@@ -98,6 +73,10 @@ public class LeagueboardServiceImpl implements LeagueboardService{
 	public int countSearchedLeaguePosts(PageRequestDTO pageRequest) {
 		System.out.println("service : " + pageRequest);
 		return leaguemapper.countSearchedLeaguePosts(pageRequest);
+	}
+
+	public void increaseWriteCount(String userId) {
+		leaguemapper.increaseWriteCount(userId);
 	}
 
 }

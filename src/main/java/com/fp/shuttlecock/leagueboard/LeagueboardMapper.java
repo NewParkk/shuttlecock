@@ -9,10 +9,6 @@ public interface LeagueboardMapper {
 
 	List<LeagueboardDTO> getAllLeaguePost();
 
-	List<LeagueboardDTO> getAllLeaguePostByPage(int offset, int pagesize);
-
-	int countLeaguePosts();
-
 	LeagueboardDTO getLeaguePostById(int leagueboardId);
 
 	int insertLeaguePost(LeagueboardDTO leagueboardDTO);
@@ -21,22 +17,18 @@ public interface LeagueboardMapper {
 
 	int deleteLeaguePost(int leagueboardId);
 
-	List<LeagueboardDTO> getLeaguePostByTitle(int offset, int pagesize, String query);
-
-	int countSearchedLeaguePostsByTitle(String query);
-
-	List<LeagueboardDTO> getLeaguePostByUserId(int offset, int pagesize, String query);
-	
-	int countSearchedLeaguePostsByUserId(String query);
-	
 	void increaseWinnerPoint(String winner);
 
 	void increaseLoserPoint(String loser);
 
-	List<LeagueboardDTO> getAllLeaguePostByPagenew(PageRequestDTO pageRequest);
+	List<LeagueboardDTO> getAllLeaguePostByPage(PageRequestDTO pageRequest);
 
+	int countLeaguePosts();
+	
 	List<LeagueboardDTO> getSearchedLeaguePost(PageRequestDTO pageRequest);
 
 	int countSearchedLeaguePosts(PageRequestDTO pageRequest);
+
+	void increaseWriteCount(String userId);
 	
 }

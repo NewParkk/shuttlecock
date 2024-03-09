@@ -11,88 +11,107 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <style>
-.post-preview {
-	border: 1px solid #ddd;
-	padding: 15px;
-	margin-bottom: 10px;
-	cursor: pointer;
-	background-color: #f8f8f8;
-	height: 100px;
-	overflow: hidden;
-}
-
-.post-preview h3, .post-preview p {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.empty-post {
+.mainTitle {
 	text-align: center;
-	color: #999;
 }
 
-#pagination {
-	display: flex;
-	justify-content: center;
-	padding-top: 20px;
+.whyBtn {
+	margin-left: 46%;
 }
 
-#pagination a {
-	color: #007bff;
+.whyBtn1 {
+	margin-left: 69%;
+}
+
+.del-btn {
+	margin-left: 95%
+}
+
+h1 {
+	padding-top: 30px;
+	padding-bottom: 30px
+}
+
+.paging {
+	margin-left: auto;
+	margin-right: auto;
+	display: table;
+}
+
+.whyBtn {
+	margin-left: 80%;
+	margin-top: 30px;
+}
+
+a:link {
 	text-decoration: none;
-	padding: 5px 10px;
-	border: 1px solid #ddd;
-	margin: 0 2px;
+	color: black;
 }
 
-#pagination a:hover {
-	background-color: #f8f8f8;
+a:visited {
+	text-decoration: none;
 }
 
-#pagination span {
-	padding: 5px 10px;
-	border: 1px solid #ddd;
-	margin: 0 2px;
-	background-color: #007bff;
-	color: white;
+a:hover {
+	text-decoration: none;
+}
+
+a:active {
+	text-decoration: none;
+}
+/*---검색버튼--- */
+.search-wrap {
+	overflow: hidden; /*부모요소에 히든 */
+	margin-bottom: 20px;
+}
+
+.search-btn, .search-input, .search-select {
+	float: right; /*우측 플로팅 */
+}
+
+.search-input {
+	width: 140px;
+}
+
+#search-select {
+	width: 80px;
 }
 </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ include file="category.jsp"%>
+	<div class="mainTitle">
+		<h1>리그게시판</h1>
+	</div>
 	<div class="container">
 		<form action="/LeagueBoard/search" method="get">
-			<select id="dropdown" name="dropdown">
-				<option value="user_userId">작성자</option>
-				<option value="title">제목</option>
-			</select>
-			<div class="input-group mb-3">
+			<div class="search-wrap clearfix">
+				<select id="dropdown" name="dropdown"
+					style="width: 80px; margin-left: 54%">
+					<option value="user_userId">작성자</option>
+					<option value="title">제목</option>
+				</select> 
 				<input id="searchKeyword" type="search" name="searchKeyword"
 					placeholder="검색어를 입력해주세요."
-					value="${pageInfo.pageRequest.searchKeyword}"> <input
-					name="pageNum" type="hidden"
-					value="${pageInfo.pageRequest.pageNum}"> <input
-					name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
-				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" type="submit">검색</button>
-				</div>
+					value="${pageInfo.pageRequest.searchKeyword}"> 
+				<input name="pageNum" type="hidden"
+					value="${pageInfo.pageRequest.pageNum}"> 
+				<input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
+				<button class="btn btn-primary search-btn" type="submit" style="margin-right: 16%">검색</button>
 			</div>
 		</form>
 		<!-- board list area -->
 		<div id="board-list">
 			<div class="container">
-				<span style="font-size: 12pt; float: right; margin-bottom: 10px;">
-				</span>
-				<table class="board-table">
+				<table class="table" style="width: 70%; margin: 0 auto;">
 					<thead>
 						<tr>
-							<th scope="col" class="th-num">번호</th>
-							<th scope="col" class="th-title">제목</th>
-							<th scope="col" class="th-user">작성자</th>
-							<th scope="col" class="th-date">날짜</th>
-							<!-- <th scope="col" class="th-count">조회수</th> -->
+							<th scope="col" style="text-align: center;">글번호</th>
+							<th scope="col" style="text-align: center;">제목</th>
+							<th scope="col" style="text-align: center;">작성자</th>
+							<th scope="col" style="text-align: center;">날짜</th>
+							<!-- <th scope="col">조회수</th> -->
 						</tr>
 					</thead>
 					<c:forEach items="${leagueboardList}" var="leagueboard">
@@ -135,20 +154,19 @@
 					</c:forEach>
 					</tbody>
 				</table>
-				<c:if test="${leagueboardList == null}">
-					<div class="empty-post">게시물이 없습니다.</div>
+				<c:if test="${empty leagueboardList}">
+					<div class="empty-post" style="text-align: center;">게시물이 없습니다.</div>
 				</c:if>
 			</div>
 		</div>
-		<%-- <c:choose>
+		<c:choose>
 			<c:when test="${sessionScope.userId == null}">
-				<button onclick="redirectToLoginPage()">글쓰기</button>
+				<button onclick="redirectToLoginPage()" class="btn btn-primary whyBtn">글쓰기</button>
 			</c:when>
 			<c:otherwise>
-				<button onclick="redirectToInsertForm()">글쓰기</button>
+				<button onclick="redirectToInsertForm()" class="btn btn-primary whyBtn">글쓰기</button>
 			</c:otherwise>
-		</c:choose> --%>
-		<button onclick="redirectToInsertForm()">글쓰기</button>
+		</c:choose>
 		<div id="pageBtn" style="margin: 10px;">
 			<div class="row justify-content-center"
 				style="display: flex; justify-content: center;">
@@ -163,25 +181,25 @@
 								</th>
 							</c:if>
 							<c:if test="${pageInfo.pageRequest.category == null}">
-							<c:forEach var="num" begin="${pageInfo.startPage}"
-								end="${pageInfo.endPage}">
-								<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-									<a class="page-link" style="padding: 10px;"
-									href="/LeagueBoard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
+								<c:forEach var="num" begin="${pageInfo.startPage}"
+									end="${pageInfo.endPage}">
+									<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+										<a class="page-link" style="padding: 10px;"
+										href="/LeagueBoard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
  													">${num}</a>
-								</th>
-							</c:forEach>
+									</th>
+								</c:forEach>
 							</c:if>
 							<c:if test="${pageInfo.pageRequest.category != null}">
-							<c:forEach var="num" begin="${pageInfo.startPage}"
-								end="${pageInfo.endPage}">
-								<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-									<a class="page-link" style="padding: 10px;"
-									href="/LeagueBoard/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+								<c:forEach var="num" begin="${pageInfo.startPage}"
+									end="${pageInfo.endPage}">
+									<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+										<a class="page-link" style="padding: 10px;"
+										href="/LeagueBoard/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 									&dropdown=${pageInfo.pageRequest.category}
  													">${num}</a>
-								</th>
-							</c:forEach>
+									</th>
+								</c:forEach>
 							</c:if>
 							<c:if test="${pageInfo.next}">
 								<th class="page-item next"><a class="page-link"
@@ -207,14 +225,15 @@
 		function redirectToLoginPage() {
 			window.location.href = "/login";
 		}
-		function checkKeyword(){
+		function checkKeyword() {
 			let mainForm = document.getElementById('mainForm');
 			// 검색 시 항상 pageNum을 1로 설정
-		    mainForm.pageNum.value = 1;
-			if(mainForm.searchKeyword.value === null || mainForm.searchKeyword.value === ''){
+			mainForm.pageNum.value = 1;
+			if (mainForm.searchKeyword.value === null
+					|| mainForm.searchKeyword.value === '') {
 				mainForm.searchKeyword.remove();
 			}
-		}    
+		}
 	</script>
 </body>
 </html>

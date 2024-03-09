@@ -5,10 +5,6 @@ import java.util.List;
 public interface LeagueboardService {
 	List<LeagueboardDTO> getAllLeaguePost();
 	
-	List<LeagueboardDTO> getAllLeaguePostByPage(int offset, int pagesize);
-	
-	int countLeaguePosts();
-	
 	LeagueboardDTO getLeaguePostById(int leagueboardId);
 	
 	void insertLeaguePost(LeagueboardDTO leagueboardDTO);
@@ -20,4 +16,14 @@ public interface LeagueboardService {
 	void increaseWinnerPoint(String winner);
 	
 	void increaseLoserPoint(String loser);
+	
+	List<LeagueboardDTO> getAllLeaguePostByPage(PageRequestDTO pageRequest);
+	
+	int countLeaguePosts();
+	
+	List<LeagueboardDTO> getSearchedLeaguePost(PageRequestDTO pageRequest);
+	
+	int countSearchedLeaguePosts(PageRequestDTO pageRequest);
+	
+	void increaseWriteCount(String userId);
 }

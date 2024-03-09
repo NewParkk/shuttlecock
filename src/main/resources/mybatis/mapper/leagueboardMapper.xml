@@ -6,37 +6,9 @@
 		select * from leagueboard
 	</select>
 	
-    <select id="getAllLeaguePostByPage" resultType="LeagueboardDTO">
-        select * from leagueboard
-        ORDER BY leagueboardId DESC
-        LIMIT #{pagesize} OFFSET #{offset}
-    </select>
-	
 	<select id="countLeaguePosts">
 		select count(leagueboardId) from leagueboard
 	</select>
-	
-	<select id="countSearchedLeaguePostsByTitle" parameterType="string" resultType="int">
-        select COUNT(leagueboardId) from leagueboard
-        WHERE title LIKE CONCAT('%', #{query}, '%')
-    </select>
-	
-	<select id="getLeaguePostByTitle" resultType="LeagueboardDTO">
-        select * from leagueboard
-        WHERE title LIKE CONCAT('%', #{query}, '%')
-        ORDER BY leagueboardId DESC LIMIT #{offset}, #{pagesize}
-    </select>
-    
-    <select id="countSearchedLeaguePostsByUserId" parameterType="string" resultType="int">
-        select COUNT(leagueboardId) from leagueboard
-        WHERE user_userId LIKE CONCAT('%', #{query}, '%')
-    </select>
-	
-	<select id="getLeaguePostByUserId" resultType="LeagueboardDTO">
-        select * from leagueboard
-        WHERE user_userId LIKE CONCAT('%', #{query}, '%')
-        ORDER BY leagueboardId DESC LIMIT #{offset}, #{pagesize}
-    </select>
 	
 	<select id="getLeaguePostById" parameterType="_int" resultType="LeagueboardDTO">
 		select * from leagueboard where leagueboardId = #{leagueboardId}
@@ -70,7 +42,7 @@
 		where userId = #{loser}
 	</update>
 	
-	<select id="getAllLeaguePostByPagenew"
+	<select id="getAllLeaguePostByPage"
 			parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
 			resultType="LeagueboardDTO">
 			<bind name="start" value="(pageNum-1)*amount"/>
@@ -124,4 +96,10 @@
 		</if>
         </where>
     </select>
+    
+    <update id="increaseWriteCount" parameterType="string">
+    	update user 
+    	set writeCount = writeCount + 1 
+    	where userId = #{userId}
+    </update>
 </mapper>
