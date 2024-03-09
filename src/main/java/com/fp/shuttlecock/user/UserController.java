@@ -37,7 +37,7 @@ public class UserController {
 
 		if(user!=null) {
 			session.setAttribute("userId", user.getUserId());
-			
+			session.setAttribute("isAdmin", user.isAdmin());
 			view = "redirect:/main";
 			return view;
 		}

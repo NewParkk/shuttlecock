@@ -6,7 +6,7 @@ public interface AnnouncementService {
 	// 모든 게시물 조회
 	List<AnnouncementDTO> getboardList();
 	// 게시물 상세
-	AnnouncementDTO getboardDetailbypostId(int postId);
+	AnnouncementDTO getpostDetailbypostId(int postId);
 	// 글쓰기
 	void insertPost(AnnouncementDTO post);
 	// 글수정
@@ -15,7 +15,7 @@ public interface AnnouncementService {
 	void deletePostbypostId(Integer postId);
 
 	// 총 게시물 수
-	int countPost();
+	int countPosts();
 	//검색된 게시물 수
 	int searchedPostCount(String query);
 	// 페이지당 게시물 리스트
@@ -24,4 +24,6 @@ public interface AnnouncementService {
 	List<AnnouncementDTO> getSearchedPostbyPage(int page, int postperPage, String query);
 	//검색된 전체 게시물 리스트
 	List<AnnouncementDTO> searchedPostList(String query);
+	
+	
 }

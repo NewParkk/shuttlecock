@@ -25,14 +25,11 @@ public class LocationController {
 	
 	@PostMapping(value="/location")
 	@ResponseBody
-	public ModelAndView findlocation(@RequestBody Badmintonlocation badmintonlocation) {
-//		System.out.println(locationservice.getAllLocation().size());
-//		System.out.println(locationservice.getClosestLocations(126.9943648, 37.500447).toString());
+	public ModelAndView findlocation(@RequestBody Badmintonlocation badmintonlocation) 
+	{
 		double lat = badmintonlocation.getLat();
 		double lon = badmintonlocation.getLon();
-		System.out.println("current lat : " +lat + " current lon: " + lon);
 		List<Badmintonlocation> closestList = locationservice.getClosestLocations(lat,lon);
-		System.out.println(closestList.toString());
 		ModelAndView mv = new ModelAndView("jsonView");
 		String resultCode = "F000";
 		if (closestList.size() > 0) {

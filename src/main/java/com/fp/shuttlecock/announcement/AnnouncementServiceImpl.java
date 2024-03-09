@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-
+@Primary
 @Service
 public class AnnouncementServiceImpl implements AnnouncementService{
 	
@@ -20,7 +21,8 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 	}
 	
 	@Override
-	public AnnouncementDTO getboardDetailbypostId(int postId) {
+	public AnnouncementDTO getpostDetailbypostId(int postId) {
+		System.out.println("ServiceImpl post : " + announcementMapper.getpostDetailbypostId(postId));
 		return announcementMapper.getpostDetailbypostId(postId);
 	}
 	
@@ -40,7 +42,7 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 	}
 	
 	@Override
-	public int countPost() {
+	public int countPosts() {
 		return announcementMapper.countPosts();
 	}
 
@@ -65,12 +67,12 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 		Map<String, Object> params = new HashMap<>();
 		params.put("offset", offset);
 		params.put("postperPage", postperPage);
-		if (query != null)
-		{
+		if (query == null || query == "")
+		{	
+			return announcementMapper.getPostbyPage(params);
+		} else {
 			params.put("query", query);
 			return announcementMapper.getSearchedPostPage(params);
-		} else {
-			return announcementMapper.getPostbyPage(params);
 		}	
 	}
 
@@ -79,4 +81,6 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 		return announcementMapper.searchedPostList(query);
 	}
 
+
+	
 }

@@ -5,9 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="include/header.jsp"%>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ include file="../include/header.jsp"%>
+<title>PostList</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <style>
@@ -25,6 +24,13 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+#title-p {
+	text-align: center;
+	padding: 5px 10px;
+	border: 1px solid #ddd;
+	margin: 10px 2px;
 }
 
 .empty-post {
@@ -57,15 +63,20 @@
 	background-color: #007bff;
 	color: white;
 }
+
+.button-group {
+	text-align: right;
+}
 </style>
 </head>
 <body>
-	<div class="container">
+	<div class="container" style="margin-top: 50px">
+	<h1 id="title-p">공지사항 게시판</h1>
 		<c:choose>
-			<c:when test="${not empty posts}">
-				<c:forEach items="${posts}" var="post">
+			<c:when test="${not empty postList}">
+				<c:forEach items="${postList}" var="post">
 					<div class="post-preview"
-						onclick="location.href='/posts/${post.id}'">
+						onclick="location.href='/Announcement/postDetail/${post.announcementNo}'">
 						<h3>${post.title}</h3>
 					</div>
 				</c:forEach>
@@ -74,8 +85,14 @@
 				<div class="empty-post">게시글이 없습니다.</div>
 			</c:otherwise>
 		</c:choose>
+		<div class="button-group">
+			<c:if test="${sessionScope.isAdmin}">
+				<button class="btn btn-primary writepost"
+					onclick="location.href='/Announcement/register'">글쓰기</button>
+			</c:if>
+		</div>
 		<nav id="pagination">
-			<c:forEach begin="1" end="${totalPages}" var="pageNum">
+			<c:forEach begin="1" end="${totalPage}" var="pageNum">
 				<c:choose>
 					<c:when test="${pageNum == currentPage}">
 						<span>${pageNum}</span>
@@ -86,7 +103,7 @@
 				</c:choose>
 			</c:forEach>
 		</nav>
-		<form action="/Announcement/posts/search" method="get">
+		<form action="/Announcement/postList/search" method="get">
 			<div class="input-group mb-3">
 				<input type="text" class="form-control" placeholder="검색어 입력"
 					name="query">
@@ -96,7 +113,7 @@
 			</div>
 		</form>
 	</div>
-	<%@ include file="include/footer.jsp"%>
+	<%@ include file="../include/footer.jsp"%>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>

@@ -17,7 +17,7 @@ public class UserDTO {
 	private String pw;			//비밀번호
 	private String username;	//이름
 	private int gender;			//성별(1:남자,2:여자)
-	private int admin;			//관리자판별여부(0:회원,1:관리자)
+	private boolean admin;			//관리자판별여부(0:회원,1:관리자)
 	private String userEmail;	//이메일
 	private String userImage;	//프로필이미지
 	private String userPhone;	//전화번호

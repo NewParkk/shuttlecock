@@ -1,44 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fp.shuttlecock.announcement.AnnouncementMapper">
-	<select id="getboardList" resultType="AnnouncementDTO">
+	<select id="getboardList" resultType="com.fp.shuttlecock.announcement.AnnouncementDTO">
 		SELECT *
 		FROM announcement
 	</select>
 	
-	<select id="getpostDetailbypostId" resultType="AnnouncementDTO">
-		SELECT *
+	<select id="getpostDetailbypostId" resultType="com.fp.shuttlecock.announcement.AnnouncementDTO">
+		SELECT announcementNo,
+				title,
+				content,
+				regdate,
+				hit,
+				user_userId as userId
 		FROM announcement
 		WHERE announcementNo = #{postId}
 	</select>
 	
-	<insert id="insertPost" parameterType="AnnouncementDTO">
+	<insert id="insertPost" parameterType="com.fp.shuttlecock.announcement.AnnouncementDTO">
 		INSERT INTO announcement
 		(title, content, user_userId)
 		VALUES
 		(#{title}, #{content}, #{userId})
 	</insert>
 	
-	<update id="updatePost" parameterType="AnnouncementDTO">
+	<update id="updatePost" parameterType="com.fp.shuttlecock.announcement.AnnouncementDTO">
 		UPDATE announcement
 		SET title = #{title},
 			content = #{content},
 			user_userId = #{userId}
-		WHERE announcementNo = #{postId}
+		WHERE announcementNo = #{announcementNo}
 	</update>
 	
-	<delete id="deletePostbypostId" parameterType="int">
+	<delete id="deletePostbypostId" parameterType="_int">
 		DELETE
 		FROM announcement
 		WHERE announcementNo = #{postId}
 	</delete>
 	
-	<select id="getPostbyPage" parameterType="map" resultType="AnnouncementDTO">
+	<select id="getPostbyPage" parameterType="map" resultType="com.fp.shuttlecock.announcement.AnnouncementDTO">
 		SELECT * FROM announcement 
 		ORDER BY announcementNo DESC LIMIT #{offset}, #{postperPage}
 	</select>
 	
-	<select id="getSearchedPostPage" parameterType="map" resultType="AnnouncementDTO">
+	<select id="getSearchedPostPage" parameterType="map" resultType="com.fp.shuttlecock.announcement.AnnouncementDTO">
 		SELECT * 
 		FROM announcement
         WHERE title LIKE CONCAT('%', #{query}, '%') 
@@ -46,23 +51,22 @@
         ORDER BY announcementNo DESC LIMIT #{offset}, #{postperPage}
 	</select>
 	
-	<select id="searchedPostCount" resultType="int">
-		SELECT count(*)
+	<select id="searchedPostCount" resultType="_int">
+		SELECT COUNT(announcementNo)
 		FROM announcement
 		WHERE title LIKE CONCAT('%', #{query}, '%') 
         	  OR content LIKE CONCAT('%', #{query}, '%')
 	</select>
 	
-	<select id="searchedPostList" parameterType="String" resultType="AnnouncementDTO">
+	<select id="searchedPostList" parameterType="String" resultType="com.fp.shuttlecock.announcement.AnnouncementDTO">
 		SELECT *
 		FROM announcement
 		WHERE title LIKE CONCAT('%', #{query}, '%') 
 			  OR content LIKE CONCAT('%', #{query}, '%')
 	</select>
 	
-	<select id="countPosts" resultType="int">
-		SELECT count(*)
+	<select id="countPosts" resultType="_int">
+		SELECT COUNT(announcementNo)
 		FROM announcement
 	</select>
-	
 </mapper>
