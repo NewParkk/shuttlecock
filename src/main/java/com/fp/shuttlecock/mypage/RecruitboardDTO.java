@@ -24,5 +24,5 @@ public class RecruitboardDTO {
 	private int complete;
 	private int recruitType;
 	private int region;
-	private String user_userId;
+	private String userId;
 }

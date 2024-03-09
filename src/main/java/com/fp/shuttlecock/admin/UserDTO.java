@@ -23,6 +23,6 @@ public class UserDTO {
 	private int wincount;
 	private int losecount;
 	private int writeCount;
-	private int badge_badgeId;
+	private int badgeId;
 
 }

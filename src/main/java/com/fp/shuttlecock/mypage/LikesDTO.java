@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class LikesDTO {
 	private int likesId;
-	private int freeboard_freeboardId;
-	private String user_userId;
+	private int freeboardId;
+	private String userId;
 	private int likeNum;
 }

@@ -24,7 +24,7 @@ public class UserDTO {
 	private int wincount;
 	private int losecount;
 	private int writeCount;
-	private int badge_badgeId;
+	private int badgeId;
 
 	@Builder
 	public UserDTO(String userId, String pw, String username, int gender, int admin, String userEmail, String userImage,
@@ -42,6 +42,6 @@ public class UserDTO {
 		this.wincount = wincount;
 		this.losecount = losecount;
 		this.writeCount = writeCount;
-		this.badge_badgeId = badge_badgeId;
+		this.badgeId = badgeId;
 	}
 }

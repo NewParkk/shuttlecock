@@ -26,5 +26,5 @@ public class FreeboardDTO {
 	private Date regdate;
 	private int commentCount;
 	private int likeCount;
-	private String user_userId;
+	private String userId;
 }
