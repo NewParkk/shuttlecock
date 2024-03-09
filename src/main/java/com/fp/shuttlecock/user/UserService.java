@@ -9,5 +9,7 @@ public interface UserService {
 	boolean getJoinUser(UserDTO userDTO);
 	
 	boolean isCheckId(String userId);
+	
+	UserDTO findUserId(UserDTO userDTO);
 
 }

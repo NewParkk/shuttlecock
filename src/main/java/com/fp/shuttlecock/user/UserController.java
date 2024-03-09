@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -103,7 +104,7 @@ public class UserController {
 	        message = userId + "는 사용가능한 아이디입니다";
 	        checkButton = "사용";
 	    } else {
-	        message = userId + " 이미 사용중인 아이디입니다";
+	        message = userId + "는 이미 사용중인 아이디입니다";
 	        checkButton = "확인";
 	    }
 
@@ -111,6 +112,36 @@ public class UserController {
 	    model.addAttribute("userId", userId);
 	    model.addAttribute("checkButton", checkButton);
 	    return "checkId"; //WEB-INF/views/checkId.jsp
+	}
+	
+	//아이디/비밀번호 찾기(링크)
+	@GetMapping("/findsearch")
+	public String findsearchForm() {
+		return "findsearch"; //WEB-INF/views/findsearch.jsp
+	}
+	
+	//아이디 찾기
+	@PostMapping("/findIdSearch")
+	public String searchId(HttpServletRequest request, UserDTO userDTO, Model model,
+							@RequestParam String username, @RequestParam String userEmail) {
+		 try {
+		        userDTO.setUsername(username);
+		        userDTO.setUserEmail(userEmail);
+		        UserDTO userId = userService.findUserId(userDTO);
+
+		        if (userId != null) {
+		            model.addAttribute("findUserId", userId.getUserId());
+		            //System.out.println(userId.getUserId()); //확인용
+		        } else {
+		            model.addAttribute("message", "해당하는 아이디가 없습니다.");
+		            //System.out.println("해당하는 아이디가 없습니다."); //확인용
+		        }
+		    } catch (Exception e) {
+		        model.addAttribute("message", "오류가 발생되었습니다.");
+		        //System.out.println("오류가 발생되었습니다."); //확인용
+		        e.printStackTrace();
+		    }
+		    return "findsearch";
 	}
 
 }

@@ -1,20 +1,255 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>geolocation으로 마커 표시하기</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shuttle Cock</title>
+    <link rel="stylesheet" href="/css/mainstyle.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
-<p style="margin-top:-12px">
+<!-- <p style="margin-top:-12px">
     <b>Chrome 브라우저는 https 환경에서만 geolocation을 지원합니다.</b> 참고해주세요.
 </p>
-<div id="map" style="width:500px;height:350px;"></div>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<div id="map" style="width:500px;height:350px;"></div> -->
+<!-- wrap -->
+ <div id="wrap">
+ 
+ 	  <!-- header -->
+      <%@ include file="../shuttle-header.jsp" %>
+
+	  <!-- main -->
+      <main id="main">
+        <div id="slider">
+          <div class="imageWrap"></div>
+        </div>
+
+        <section id="contents1">
+          <div class="notice">
+            <div class="page-title">
+              <div class="vline"></div>
+              <div class="container2">
+                <h3>커뮤니티 게시판</h3>
+              </div>
+            </div>
+
+            <div id="board-list">
+              <div class="container2">
+                <table class="board-table">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="th-num">번호</th>
+                      <th scope="col" class="th-title">제목</th>
+                      <th scope="col" class="th-date">등록일</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>5</td>
+                      <th>
+                        <a href="#!"
+                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
+                        >
+                        <p>테스트</p>
+                      </th>
+                      <td>2017.07.13</td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <th>
+                        <a href="#!"
+                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
+                        >
+                        <p>테스트</p>
+                      </th>
+                      <td>2017.07.13</td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <th>
+                        <a href="#!"
+                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
+                        >
+                        <p>테스트</p>
+                      </th>
+                      <td>2017.07.13</td>
+                    </tr>
+
+                    <tr>
+                      <td>2</td>
+                      <th>
+                        <a href="#!"
+                          >공지사항 안내입니다. 이용해주셔서 감사합니다</a
+                        >
+                      </th>
+                      <td>2017.06.15</td>
+                    </tr>
+
+                    <tr>
+                      <td>1</td>
+                      <th>
+                        <a href="#!"
+                          >공지사항 안내입니다. 이용해주셔서 감사합니다</a
+                        >
+                      </th>
+                      <td>2017.06.15</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <div class="league">
+            <div class="page-title">
+              <div class="vline"></div>
+              <div class="container2">
+                <h3>리그 게시판</h3>
+              </div>
+            </div>
+
+            <div id="board-list">
+              <div class="container2">
+                <table class="board-table">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="th-num">번호</th>
+                      <th scope="col" class="th-title">제목</th>
+                      <th scope="col" class="th-date">등록일</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>5</td>
+                      <th>
+                        <a href="#!"
+                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
+                        >
+                        <p>테스트</p>
+                      </th>
+                      <td>2017.07.13</td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <th>
+                        <a href="#!"
+                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
+                        >
+                        <p>테스트</p>
+                      </th>
+                      <td>2017.07.13</td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <th>
+                        <a href="#!"
+                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
+                        >
+                        <p>테스트</p>
+                      </th>
+                      <td>2017.07.13</td>
+                    </tr>
+
+                    <tr>
+                      <td>2</td>
+                      <th>
+                        <a href="#!"
+                          >공지사항 안내입니다. 이용해주셔서 감사합니다</a
+                        >
+                      </th>
+                      <td>2017.06.15</td>
+                    </tr>
+
+                    <tr>
+                      <td>1</td>
+                      <th>
+                        <a href="#!"
+                          >공지사항 안내입니다. 이용해주셔서 감사합니다</a
+                        >
+                      </th>
+                      <td>2017.06.15</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <div class="calendar">
+            <div class="page-title">
+              <div class="vline"></div>
+              <div class="container2">
+                <h3>정규대회 일정</h3>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="contents2">
+          <div class="video">
+              <div class="page-title">
+                <div class="vline"></div>
+                <div class="container2">
+                  <h3>Video</h3>
+                  <a href="#" class="more">더보기+</a>
+                </div>
+              </div>
+
+              <div class="container">
+                  <div class="div2">
+                    <iframe width="420" height="240" src="https://www.youtube.com/embed/iqxuxEubedU?si=RzD9Lcefg0esEvUF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  </div>
+
+                  <div class="div2">
+                    <iframe width="420" height="240" src="https://www.youtube.com/embed/CQlWDl-OTE4?si=6Zc6HbTsrV3Ta9ei" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  </div>
+              </div>
+            </div>
+            
+            
+
+          
+          <div class="place">
+            <div class="page-title">
+                <div class="vline"></div>
+                <div class="container2">
+                  <h3>배드민턴 운동장소 추천</h3>
+                </div>
+              </div>
+
+			<div class="map" id="map"></div>
+      	</div>
+      </section>
+    </main>
+
+
+	<!-- footer -->
+    <%@ include file="../shuttle-footer.jsp" %>
+
+    </div>
+
+
+<!-- script -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c0c41ee7938be09dffb8f43413a742eb"></script>
 <script>
+
+//nav관련 script
+$(function () {
+    $(".nav > ul > li").mouseover(function () {
+      $(".nav > ul > li > ul").stop().slideDown(700);
+      $("#header").addClass("on");
+    });
+
+    $(".nav > ul > li").mouseout(function () {
+      $(".nav > ul > li > ul").stop().slideUp(150);
+      $("#header").removeClass("on");
+    });
+  });
+
 //지도를 표시할 div
 var mapContainer = document.getElementById('map'), 
     mapOption = 
