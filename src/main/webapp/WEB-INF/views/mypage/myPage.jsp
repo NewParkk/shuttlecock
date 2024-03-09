@@ -8,7 +8,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%-- 	<a href="updateUser/${user.userId}">회원수정</a>
- --%>
- </body>
+	${user.userId}
+	<c:forEach items="${calendarList}" var="calendar">
+			${calendar.title}
+	</c:forEach>
+	<a href="/updateUser">회원수정</a>
+</body>
 </html>
