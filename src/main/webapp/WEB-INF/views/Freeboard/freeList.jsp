@@ -1,64 +1,70 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shuttle Cock</title>
+<link rel="stylesheet" href="/css/mainstyle.css">
+<link rel="stylesheet" href="/css/main.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </head>
 <style>
-    .mainTitle{
-        text-align: center;
-    }
+.mainTitle {
+	text-align: center;
+}
 
-    .whyBtn{
-        margin-left: 46%;
-    }
+.whyBtn {
+	margin-left: 46%;
+}
 
-    .whyBtn1{
-        margin-left: 69%;
-    }
+.whyBtn1 {
+	margin-left: 69%;
+}
 
-    .del-btn{
-        margin-left: 95%
-    }
+.del-btn {
+	margin-left: 95%
+}
 
-    h1{
-        padding-top: 30px;
-        padding-bottom: 30px
-    }
+h1 {
+	padding-top: 30px;
+	padding-bottom: 30px
+}
 
-    .paging{
-        margin-left: auto;
-        margin-right: auto;
-        display: table;
-    }
-    
-    .whyBtn{
-        margin-left: 80%;
-        margin-top: 30px;
-    }
+.paging {
+	margin-left: auto;
+	margin-right: auto;
+	display: table;
+}
 
-    a:link {
-    text-decoration: none;
-    color: black;
-    }
+.whyBtn {
+	margin-left: 80%;
+	margin-top: 30px;
+}
 
-    a:visited {
-        text-decoration: none;
-    }
+a:link {
+	text-decoration: none;
+	color: black;
+}
 
-    a:hover {
-        text-decoration: none;
-    }
+a:visited {
+	text-decoration: none;
+}
 
-    a:active {
-        text-decoration: none;
-    }
-	
-	/*---검색버튼--- */
+a:hover {
+	text-decoration: none;
+}
+
+a:active {
+	text-decoration: none;
+}
+
+/*---검색버튼--- */
 .search-wrap {
 	overflow: hidden; /*부모요소에 히든 */
 	margin-bottom: 20px;
@@ -75,95 +81,125 @@
 #search-select {
 	width: 80px;
 }
-	
-
 </style>
 <body>
-<!-- 헤더 -->
-<%@ include file="../include/header.jsp"%>
+	<!-- 헤더 -->
+	<%@ include file="../shuttle-header.jsp"%>
 
-<!-- 붙여 넣는곳! -->
- <div class="mainTitle">
-        <h1>자유게시판</h1>
-    </div>
-	
-                 <form action="<c:url value='/Freeboard/freeList'/>">
-                        <div class="search-wrap clearfix">
-                            <button type="submit" class="btn btn-primary search-btn" style="margin-right: 24%;">검색</button>
-                            <input type="text" name="keyword" class="form-control search-input" value="${pc.paging.keyword}"
-                            style="width: 200px; ">
-                            <select class="form-control" id="search-select" name="condition" style="width: 80px; margin-left: 54%">
-                                <option value="title" ${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
-                                <option value="content" ${pc.paging.condition == 'content' ? 'selected' : ''}>내용</option>
-                                <option value="writer" ${pc.paging.condition == 'userId' ? 'selected' : ''}>작성자</option>
-                            </select>
-                        </div>
-                    </form> 
-	
-    <!-- 상세보기 -->
-    <table class="table" style="width: 70%; margin: 0 auto;">
-        <thead>
-          <tr>
-            <th scope="col">글번호</th>
-            <th scope="col">제목</th>
-            <th scope="col">작성자</th>
-            <th scope="col">작성 시간</th>
-            <th scope="col">조회수</th>
-            <th scope="col">추천</th>
-          </tr>
-        </thead>
-        <tbody>
+	<!-- main -->
+	<main id="main">
+		<div id="slider">
+			<div class="imageWrap"></div>
+		</div>
+
+		<section id="contents">
+			<div class="notice">
+				<div class="page-title">
+					<div class="vline"></div>
+					<div class="container2">
+						<h3>자유 게시판</h3>
+					</div>
+				</div>
+
+				<div id="board-list">
+					<div class="container2">
+
+						<form action="<c:url value='/Freeboard/freeList'/>">
+							<div class="search-wrap clearfix">
+								<button type="submit" class="btn btn-primary search-btn"
+									style="margin-right: 24%;">검색</button>
+								<input type="text" name="keyword"
+									class="form-control search-input" value="${pc.paging.keyword}"
+									style="width: 200px;"> <select class="form-control"
+									id="search-select" name="condition"
+									style="width: 80px; margin-left: 50%">
+									<option value="title"
+										${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
+									<option value="content"
+										${pc.paging.condition == 'content' ? 'selected' : ''}>내용</option>
+									<option value="writer"
+										${pc.paging.condition == 'userId' ? 'selected' : ''}>작성자</option>
+								</select>
+							</div>
+						</form>
 
 
-        <c:forEach var="vo" items="${freeList}">
-          <tr>
-          	<th scope="row">${vo.freeboardId}</th>
-            <td><a href="<c:url value='/Freeboard/freeDetail?freeboardId=${vo.freeboardId}&userId=${vo.userId}'/>">${vo.title} (${vo.commentCount})</a></td>
-            <td>${vo.userId}</td>
-            <td>${vo.regdate}</td>
-            <td>${vo.hit}</td>
-            <td>${vo.likeCount}</td>
-          </tr>
-         </c:forEach>
-        </tbody>
-      </table>
+						<table class="board-table" style="width: 90%; margin: 0 auto;">
+							<thead>
+								<tr>
+									<th scope="col" class="th-num">번호</th>
+									<th scope="col" class="th-title">제목</th>
+									<th scope="col" class="th-writer">작성자</th>
+									<th scope="col" class="th-date">작성시간</th>
+									<th scope="col" class="th-hit">조회수</th>
+									<th scope="col" class="th-like">추천</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="vo" items="${freeList}">
+									<tr>
+										<th scope="row">${vo.freeboardId}</th>
+										<td><a
+											href="<c:url value='/Freeboard/freeDetail?freeboardId=${vo.freeboardId}&userId=${vo.userId}'/>">${vo.title}
+												(${vo.commentCount})</a></td>
+										<td>${vo.userId}</td>
+										<td>${vo.regdate}</td>
+										<td>${vo.hit}</td>
+										<td>${vo.likeCount}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
 
-            <!-- 글작성 -->
+						<!-- 글작성 -->
 
-            <div class="newsWrite">
-                <button type="button" class="btn btn-primary whyBtn">글작성</button>
-              </div>
-        
-              <!-- 페이징 -->
-        
-			<div class="paging">
-					<form action="<c:url value='/Freeboard/freeList' />" name="pageForm">
-	                        <div class="text-center clearfix">
-	                            <ul class="pagination" id="pagination">
-	                            	<c:if test="${pc.prev}">
-	                                	<li class="page-item "><a  class="page-link" href="#" data-pageNum="${pc.beginPage-1}">Prev</a></li>
-	                                </c:if>
-	                                
-	                                <c:forEach var="num" begin="${pc.beginPage}" end="${pc.endPage}">
-	                                	<li class="${pc.paging.pageNum == num ? 'age-item active' : ''}" page-item><a class="page-link" href="#" data-pageNum="${num}">${num}</a></li>
-	                                </c:forEach>
-	                                
-	                                <c:if test="${pc.next}">
-	                               		<li class="page-item"><a class="page-link" href="#" data-pageNum="${pc.endPage+1}">Next</a></li>
-	                                </c:if>
-	                            </ul>
-	                            
-	                            <!-- 페이지 관련 버튼을 클릭 시 같이 숨겨서 보낼 값 -->
-	                            <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">
-	                            <input type="hidden" name="countPerPage" value="${pc.paging.countPerPage}">
-	                            <input type="hidden" name="keyword" value="${pc.paging.keyword}">
-	                            <input type="hidden" name="condition" value="${pc.paging.condition}">
-	                            <input type="hidden" name="pagecnt" value="10">
-	                        </div>
-                        </form>
+						<div class="newsWrite">
+							<button type="button" class="btn btn-primary whyBtn">글작성</button>
+						</div>
+
+						<!-- 페이징 -->
+
+						<div class="paging">
+							<form action="<c:url value='/Freeboard/freeList' />"
+								name="pageForm">
+								<div class="text-center clearfix">
+									<ul class="pagination" id="pagination">
+										<c:if test="${pc.prev}">
+											<li class="page-item "><a class="page-link" href="#"
+												data-pageNum="${pc.beginPage-1}">Prev</a></li>
+										</c:if>
+
+										<c:forEach var="num" begin="${pc.beginPage}"
+											end="${pc.endPage}">
+											<li
+												class="${pc.paging.pageNum == num ? 'age-item active' : ''}"
+												page-item><a class="page-link" href="#"
+												data-pageNum="${num}">${num}</a></li>
+										</c:forEach>
+
+										<c:if test="${pc.next}">
+											<li class="page-item"><a class="page-link" href="#"
+												data-pageNum="${pc.endPage+1}">Next</a></li>
+										</c:if>
+									</ul>
+
+									<!-- 페이지 관련 버튼을 클릭 시 같이 숨겨서 보낼 값 -->
+									<input type="hidden" name="pageNum"
+										value="${pc.paging.pageNum}"> <input type="hidden"
+										name="countPerPage" value="${pc.paging.countPerPage}">
+									<input type="hidden" name="keyword"
+										value="${pc.paging.keyword}"> <input type="hidden"
+										name="condition" value="${pc.paging.condition}"> <input
+										type="hidden" name="pagecnt" value="10">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
-                        
-<%@include file="../include/footer.jsp"%>
+		</section>
+	</main>
+	<%@include file="../shuttle-footer.jsp"%>
 </body>
 
 <script>
@@ -179,7 +215,7 @@
 			document.pageForm.pageNum.value = value;
 			document.pageForm.submit();
 		});
-		
+
 	})
 </script>
 </html>

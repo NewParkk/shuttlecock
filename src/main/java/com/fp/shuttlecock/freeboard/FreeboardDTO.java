@@ -12,6 +12,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/*
+`freeboardId` INT NOT NULL AUTO_INCREMENT,
+`title` VARCHAR(225) NOT NULL,
+`content` VARCHAR(4000) NULL DEFAULT NULL,
+`like` INT NULL DEFAULT NULL,
+`hit` INT NULL DEFAULT NULL,
+`uploadpath` VARCHAR(100) ,
+`fileloca` VARCHAR(100) ,
+`filename` VARCHAR(50) ,
+`ilerealname` VARCHAR(50) ,
+`regdate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+`commentCount` INT NULL DEFAULT NULL,
+`likeCount` INT NULL DEFAULT NULL,
+`delete_yn` VARCHAR(45) NULL,
+`userId` VARCHAR(40) NOT NULL,
+
+*/
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -22,8 +40,13 @@ public class FreeboardDTO {
 	private String content;
 	private int like;
 	private int hit;
+	private String uploadpath;
+	private String fileloca;
+	private String filename;
+	private String ilerealname; // 파일리얼네임
 	private Timestamp regdate;
 	private int commentCount;	
 	private int likeCount;
+	private String delete_yn; // 삭제 여부
 	private String userId; // 작성자 추가
 }
