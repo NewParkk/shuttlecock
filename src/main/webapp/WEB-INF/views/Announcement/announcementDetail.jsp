@@ -72,8 +72,8 @@
 <script>
 function validatePostForm() 
 {
-	var titleField = document.querySelector('#editPostForm input[name="title"]');
-	var contentField = document.querySelector('#editPostForm textarea[name="content"]');
+	var titleField = $('#editPostForm input[name="title"]');
+	var contentField = $('#editPostForm textarea[name="content"]');
 	if (titleField.value.trim() === '' || contentField.value.trim() === '') {
 	    alert('제목과 내용을 입력하세요.');
 	    return false;

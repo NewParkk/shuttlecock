@@ -234,7 +234,6 @@
 
 
 <!-- script -->
->>>>>>> origin/feat/mh
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c0c41ee7938be09dffb8f43413a742eb"></script>
 <script>
 
