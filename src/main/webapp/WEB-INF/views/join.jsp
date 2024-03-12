@@ -180,7 +180,7 @@
         	alert('아이디를 입력해주세요');
         	joinBtn.disabled = true;//가입하기 버튼 비활성화
         } else {
-        	var newWindow = window.open('/checkId?userId=' + userId, 'checkId', 'width=400,height=250, top=150, left=800');
+        	var newWindow = window.open('/checkId?userId=' + userId, 'checkId', 'width=400,height=250, top=150, left=600');
 	        joinBtn.disabled = false;//가입하기 버튼 활성화
 	        
 	        removeSign();//체크 지우기

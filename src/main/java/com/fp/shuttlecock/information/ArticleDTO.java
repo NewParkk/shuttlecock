@@ -20,5 +20,5 @@ public class ArticleDTO {
 	private String writer;	//기사작성자
 	private String image;	//기사이미지
 	private String url;		//기사링크
-	private Date writeDate;	//기사작성일
+	private Date updateDate;//기사작성일
 }

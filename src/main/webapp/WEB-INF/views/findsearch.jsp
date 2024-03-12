@@ -24,9 +24,9 @@
         border: none;
         outline: none;
         cursor: pointer;
-        padding: 10px 2px 10px 2px;
+        padding: 10px 5px 10px 5px;
         transition: 0.3s;
-        border-radius: 5px;
+        border-radius: 5px 5px 0px 0px;
         display: inline-block;
         text-align: center;
     }
@@ -42,10 +42,10 @@
     }
     .form-container {
         max-width: 400px;
-        margin: 42px auto; /* Adjusted margin to create space from top */
+        margin: 42px auto 0px auto;
         padding: 20px 0 20px 0;
         background-color: #fff;
-        border-radius: 5px;
+        border-radius: 0px 5px 5px 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     h3 {
@@ -78,6 +78,7 @@
         border: 1px solid #ccc;
         border-radius: 5px;
         box-sizing: border-box;
+        background: #f8f8f8;
     }
     .button-container {
         text-align: center;
@@ -115,11 +116,11 @@
         <form action="/findIdSearch" method="post">
             <div class="container">
                 <label for="username">이름</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" placeholder="이름을 입력하세요" required>
             </div>
             <div class="container">
                 <label for="userEmail">이메일</label>
-                <input type="email" id="userEmail" name="userEmail" required>
+                <input type="email" id="userEmail" name="userEmail" placeholder="이메일을 입력하세요" required>
             </div>
             <div class="button-container">
                 <button type="submit">아이디 찾기</button>
@@ -142,11 +143,11 @@
         <form action="/findPwSearch" method="post">
             <div class="container">
                 <label for="userId">아이디</label>
-                <input type="text" id="userId" name="userId" required>
+                <input type="text" id="userId" name="userId" placeholder="아이디를 입력하세요" required>
             </div>
             <div class="container">
                 <label for="userEmail">이메일</label>
-                <input type="email" id="userEmail" name="userEmail" required>
+                <input type="email" id="userEmail" name="userEmail" placeholder="이메일을 입력하세요" required>
             </div>
             <div class="button-container">
                 <button type="submit">비밀번호 찾기</button>
@@ -155,12 +156,28 @@
     </div>
 </div>
 <script>
+	//아이디/비밀번호찾기 각 탭메뉴 설정
     function openTab(tabName) {
         var tabcontent = document.getElementsByClassName("form-container");
         for (var i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = "none";
         }
         document.getElementById(tabName).style.display = "block";
+        clearForm(tabName); 
+    }
+    
+	//아이디/비밀번호 찾은 후 메시지 초기화
+    function clearForm(tabName) {
+        var form = document.getElementById(tabName).querySelector('form');
+        
+        if (form) {
+            form.reset();
+            
+            var messageDiv = form.querySelector('.message');
+            if (messageDiv) {
+                messageDiv.innerHTML = '';
+            }
+        }
     }
 </script>
 
