@@ -1,6 +1,6 @@
 package com.fp.shuttlecock.mypage;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,20 +8,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 public class CommentsDTO {
+	
 	private int commentsId;
-	private int bno;
-	private String writerId;
 	private String content;
-	private Date regdate;
+	private Timestamp regdate;
 	private int secret;
-	private int tradeboardId;
 	private int freeboardId;
-	private String userId;
+	private int tradeboardId;
 	private int recruitboardId;
+	private String userId;
+	
 }

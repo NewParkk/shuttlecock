@@ -26,9 +26,9 @@
 
 	<insert id="insertCalendar"
 		parameterType="com.fp.shuttlecock.mypage.CalendarDTO">
-		INSERT INTO calendar (title, date)
+		INSERT INTO calendar (title, date, userId)
 		VALUES
-		(#{title},#{date})
+		(#{title},#{date}, #{userId})
 	</insert>
 	
 	<update id="updateCalendar"
