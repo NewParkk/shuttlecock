@@ -56,7 +56,7 @@ h1 {
 </style>
 <body>
 	<!-- 헤더 -->
-	<%@ include file="../include/shuttle-header.jsp"%>
+	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
 	<main id="main">
@@ -109,7 +109,7 @@ h1 {
 	</main>
 
 	<!-- 푸터 -->
-	<%@include file="../include/shuttle-footer.jsp"%>
+	<%@include file="../include/footer.jsp"%>
 	<script type="text/javascript">
 		$(function() {
 			$('.whyBtn').click(function() {

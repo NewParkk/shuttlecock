@@ -18,7 +18,7 @@
 <div id="wrap">
  
     <!-- header -->
-    <%@ include file="/WEB-INF/views/include/shuttle-header.jsp"%>
+    <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
 	<!-- main -->
 	<main id="main">
@@ -120,7 +120,7 @@
       </main>
 
 	<!-- footer -->
-	<%@ include file="/WEB-INF/views/include/shuttle-footer.jsp"%>
+	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
 </div>
 <script>
 /* 새로고침 버튼 */

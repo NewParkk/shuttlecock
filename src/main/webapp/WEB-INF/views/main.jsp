@@ -17,7 +17,7 @@
  <div id="wrap">
  
  	  <!-- header -->
- 	  <%@ include file="../views/include/shuttle-header.jsp"%>
+ 	  <%@ include file="../views/include/header.jsp"%>
 
 	  <!-- main -->
       <main id="main">
@@ -225,7 +225,7 @@
 
 
 	<!-- footer -->
-	<%@ include file="../views/include/shuttle-footer.jsp"%>
+	<%@ include file="../views/include/footer.jsp"%>
 
     </div>
 

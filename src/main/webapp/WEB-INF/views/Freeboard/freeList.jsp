@@ -9,7 +9,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
-<link rel="stylesheet" href="/css/main.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
@@ -84,7 +83,7 @@ a:active {
 </style>
 <body>
 	<!-- 헤더 -->
-	<%@ include file="../include/shuttle-header.jsp"%>
+	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
 	<main id="main">
@@ -199,7 +198,7 @@ a:active {
 			</div>
 		</section>
 	</main>
-	<%@include file="../include/shuttle-footer.jsp"%>
+	<%@include file="../include/footer.jsp"%>
 </body>
 
 <script>
