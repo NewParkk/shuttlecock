@@ -1,6 +1,8 @@
 package com.fp.shuttlecock.comments;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,10 +11,6 @@ import org.springframework.stereotype.Service;
 public class CommentsServiceImpl implements CommentsService {
 	@Autowired
 	CommentsMapper commentsmapper;
-	
-	public List<CommentsDTO> getCommentList(int boardId) {
-		return commentsmapper.getCommentList(boardId);
-	}
 	
 	public boolean insertComment(CommentsDTO comment) {
 		int result = commentsmapper.insertComment(comment);
@@ -42,20 +40,20 @@ public class CommentsServiceImpl implements CommentsService {
 		return false;
 	}
 
-	public List<CommentsDTO> getCommentListByTradeboardId(int tradeboardId) {
-		return commentsmapper.getCommentListByTradeboardId(tradeboardId);
-	}
-	
-	public List<CommentsDTO> getCommentListByFreeboardId(int freeboardId) {
-		return commentsmapper.getCommentListByFreeboardId(freeboardId);
-	}
-	
-	public List<CommentsDTO> getCommentListByRecruitboardId(int recruitboardId) {
-		return commentsmapper.getCommentListByRecruitboardId(recruitboardId);
-	}
+	public List<CommentsDTO> getCommentList(int boardId, int comment_type) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("bno", boardId);
+		map.put("comment_type", comment_type);
 
+		return commentsmapper.getCommentList(map);
+	}
+	
 	public void increaseCommentCount(CommentsDTO comment) {
 		commentsmapper.increaseCommentCount(comment);
+	}
+
+	public void decreaseCommentCount(CommentsDTO comment) {
+		commentsmapper.decreaseCommentCount(comment);
 	}
 
 }

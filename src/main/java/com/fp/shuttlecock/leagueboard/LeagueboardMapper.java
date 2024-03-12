@@ -30,5 +30,7 @@ public interface LeagueboardMapper {
 	int countSearchedLeaguePosts(PageRequestDTO pageRequest);
 
 	void increaseWriteCount(String userId);
+
+	int updateDeletedLeaguePost(int leagueboardId);
 	
 }

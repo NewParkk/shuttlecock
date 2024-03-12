@@ -19,9 +19,8 @@ public class CommentsDTO {
 	private String content;
 	private Timestamp regdate;
 	private int secret;
-	private int freeboardId;
-	private int tradeboardId;
-	private int recruitboardId;
+	private int bno;
+	private int comment_type;
 	private String userId;
 	
 }

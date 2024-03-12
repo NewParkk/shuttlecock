@@ -21,6 +21,7 @@ public class LeagueboardDTO {
 	private String winner;
 	private String loser;
 	private String userId;
+	private int delete_yn;
 	
 	public LeagueboardDTO(String title, String content, String winner, String loser) {
 		this.title = title;

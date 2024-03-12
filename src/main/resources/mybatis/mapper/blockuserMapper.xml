@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fp.shuttlecock.blockuser.BlockuserMapper">
+	<insert id="insertBlockuser" parameterType="BlockuserDTO">
+		insert into blockuser(userId, blockedUser) values(#{userId}, #{blockedUser})
+	</insert>
+	
+	<select id="getBlockedUserList" parameterType="string" resultType="BlockuserDTO">
+		select * from blockuser where userId = #{userId}
+	</select>
+	
+	<delete id="deleteBlockuser" parameterType="BlockuserDTO">
+		delete from blockuser where userId = #{userId} and blockedUser = #{blockedUser}
+	</delete>
+</mapper>

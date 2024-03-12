@@ -26,4 +26,6 @@ public interface LeagueboardService {
 	int countSearchedLeaguePosts(PageRequestDTO pageRequest);
 	
 	void increaseWriteCount(String userId);
+	
+	boolean updateDeletedLeaguePost(int leagueboardId);
 }

@@ -79,4 +79,12 @@ public class LeagueboardServiceImpl implements LeagueboardService{
 		leaguemapper.increaseWriteCount(userId);
 	}
 
+	public boolean updateDeletedLeaguePost(int leagueboardId) {
+		boolean result = false;
+		if(leaguemapper.updateDeletedLeaguePost(leagueboardId) == 1) {
+			result = true;
+		}
+		return result;
+	}
+
 }

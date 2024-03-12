@@ -2,68 +2,47 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fp.shuttlecock.comments.CommentsMapper">
 
-	<select id="getCommentList" parameterType="_int"
-		resultType="CommentsDTO">
-		select * from comments
-		<where>
-			<choose>
-				<when test="tradeboardId != null">
-					tradeboardId = #{tradeboardId}
-				</when>
-				<when test="recruitboardId != null">
-					recruitboardId = #{recruitboardId}
-				</when>
-				<when test="freeboardId != null">
-					freeboardId = #{freeboardId}
-				</when>
-			</choose>
-		</where>
-	</select>
-	
 	<insert id="insertComment" parameterType="CommentsDTO">
-		INSERT INTO comments(content
-		<choose>
-			<when test="tradeboardId != null">
-				, tradeboardId
-			</when>
-			<when test="freeboardId != null">
-				, freeboardId
-			</when>
-			<when test="recruitboardId != null">
-				, recruitboardId
-			</when>
-		</choose>
-		) VALUES(#{content}
-		<choose>
-			<when test="tradeboardId != null">
-				, #{tradeboardId}
-			</when>
-			<when test="freeboardId != null">
-				, #{freeboardId}
-			</when>
-			<when test="recruitboardId != null">
-				, #{recruitboardId}
-			</when>
-		</choose>
-		)
+		INSERT INTO comments(content, bno, comment_type, userId, secret) 
+		values(#{content}, #{bno}, #{comment_type}, #{userId}, #{secret})
 	</insert>
 	
 	<update id="increaseCommentCount" parameterType="CommentsDTO">
 		<choose>
-			<when test="tradeboardId != null">
-				update tradeboard 
-				set commentCount = commentCount + 1 
-				where tradeboardId = #{tradeboardId}
-			</when>
-			<when test="freeboardId != null">
+			<when test="comment_type == 2">
 				update freeboard 
 				set commentCount = commentCount + 1 
-				where freeboardId = #{freeboardId}
+				where freeboardId = #{bno}
 			</when>
-			<when test="recruitboardId != null">
+			<when test="comment_type == 3">
+				update tradeboard 
+				set commentCount = commentCount + 1 
+				where tradeboardId = #{bno}
+			</when>
+			<when test="comment_type == 4">
 				update recruitboard 
 				set commentCount = commentCount + 1 
-				where recruitboardId = #{recruitboardId}
+				where recruitboardId = #{bno}
+			</when>
+		</choose>
+	</update>
+	
+	<update id="decreaseCommentCount" parameterType="CommentsDTO">
+		<choose>
+			<when test="comment_type == 2">
+				update freeboard 
+				set commentCount = commentCount - 1 
+				where freeboardId = #{bno}
+			</when>
+			<when test="comment_type == 3">
+				update tradeboard 
+				set commentCount = commentCount - 1 
+				where tradeboardId = #{bno}
+			</when>
+			<when test="comment_type == 4">
+				update recruitboard 
+				set commentCount = commentCount - 1 
+				where recruitboardId = #{bno}
 			</when>
 		</choose>
 	</update>
@@ -78,19 +57,13 @@
 	
 	<update id="updateComment" parameterType="CommentsDTO">
 		update comments 
-		set content = #{content}, regdate = NOW() 
+		set content = #{content}, regdate = NOW(), secret = #{secret}
 		where commentsId = #{commentsId} 
 	</update>
 	
-	<select id="getCommentListByTradeboardId" parameterType="_int" resultType="CommentsDTO">
-		select * from comments where tradeboardId = #{tradeboardId}
+	<select id="getCommentList" parameterType="map" resultType="CommentsDTO">
+		select * from comments where bno = #{bno} and comment_type = #{comment_type}
+		order by commentsId DESC
 	</select>
 	
-	<select id="getCommentListByFreeboardId" parameterType="_int" resultType="CommentsDTO">
-		select * from comments where freeboardId = #{freeboardId}
-	</select>
-	
-	<select id="getCommentListByRecruitboardId" parameterType="_int" resultType="CommentsDTO">
-		select * from comments where recruitboardId = #{recruitboardId}
-	</select>
 </mapper>

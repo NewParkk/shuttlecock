@@ -3,14 +3,14 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-
 <typeAliases>
 	<typeAlias type="com.fp.shuttlecock.leagueboard.LeagueboardDTO" alias="LeagueboardDTO"/>
 	<typeAlias type="com.fp.shuttlecock.tradeboard.TradeboardDTO" alias="TradeboardDTO"/>	
 	<typeAlias type="com.fp.shuttlecock.comments.CommentsDTO" alias="CommentsDTO"/>
+	<typeAlias type="com.fp.shuttlecock.likes.LikesDTO" alias="LikesDTO"/>
+	<typeAlias type="com.fp.shuttlecock.blockuser.BlockuserDTO" alias="BlockuserDTO"/>
 	<typeAlias type="com.fp.shuttlecock.location.Badmintonlocation" alias="Badmintonlocation"/>
 	<typeAlias type="com.fp.shuttlecock.announcement.AnnouncementDTO" alias="AnnouncementDTO"/>	
 </typeAliases>
-
 
 </configuration>

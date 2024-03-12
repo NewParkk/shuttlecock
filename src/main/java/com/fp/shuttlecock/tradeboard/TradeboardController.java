@@ -33,107 +33,97 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class TradeboardController {
-	
+
 	@Autowired
 	private TradeboardServiceImpl boardService;
-	
+
 	@Autowired
 	private CommentsServiceImpl commentService;
-	
-	@Autowired
-	private UserServiceImpl userService;
-	
-	@Autowired
-	private FileService fileService;
-	
-		@GetMapping("/Tradeboard/{tradeboardId}")
-		public String getBoardByBoardId(@PathVariable int tradeboardId, Model model, PageRequestDTO pageRequest) {
-			String result = "error";
-			TradeboardDTO tradeboard = null;
-			try {
-				tradeboard = boardService.getTradePostByTradeboardId(tradeboardId);
-				model.addAttribute("pageInfo", pageRequest);
-				if(tradeboard != null) {
-					List<CommentsDTO> commentList = commentService.getCommentListByTradeboardId(tradeboardId);
-					//FileRequest file = fileService.getBoardFileByTradeboardId(tradeboardId);
-					boardService.increaseHit(tradeboardId);
-					
-					//model.addAttribute("file", file);
-					model.addAttribute("tradeboard", tradeboard);
-					model.addAttribute("commentList", commentList);
-					result = "Tradeboard/TradeDetail";
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+
+	@GetMapping("/Tradeboard/{tradeboardId}")
+	public String getBoardByBoardId(@PathVariable int tradeboardId, Model model, PageRequestDTO pageRequest) {
+		String view = "error";
+		TradeboardDTO tradeboard = null;
+		try {
+			tradeboard = boardService.getTradePostByTradeboardId(tradeboardId);
+			model.addAttribute("pageInfo", pageRequest);
+			if (tradeboard != null) {
+				List<CommentsDTO> commentList = commentService.getCommentList(tradeboardId, 3);
+				// FileRequest file = fileService.getBoardFileByTradeboardId(tradeboardId);
+				boardService.increaseHit(tradeboardId);
+
+				// model.addAttribute("file", file);
+				model.addAttribute("tradeboard", tradeboard);
+				model.addAttribute("commentList", commentList);
+				view = "Tradeboard/TradeDetail";
 			}
-			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-	
+		return view;
+	}
+
 	// paging
 	@GetMapping("/Tradeboard")
-	public String getPagenatedSearch(PageRequestDTO pageRequest,
-									Model model) {
+	public String getPagenatedSearch(PageRequestDTO pageRequest, Model model, HttpSession session) {
+		if(session.getAttribute("userId") != null) {
+			pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
+		}
+		pageRequest.setAmount(6);
 		System.out.println(pageRequest);
 		List<TradeboardDTO> tradeboardList = boardService.getPagenatedSearch(pageRequest);
 		int totalCount = boardService.getTotalCount(pageRequest);
-		PageResponseDTO pageResponse = new PageResponseDTO().builder()
-															.total(totalCount)
-															.pageAmount(pageRequest.getAmount())
-															.pageRequest(pageRequest)
-															.build();
+		PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalCount)
+				.pageAmount(pageRequest.getAmount()).pageRequest(pageRequest).build();
 		model.addAttribute("tradeboardList", tradeboardList);
 		model.addAttribute("pageInfo", pageResponse);
 		return "Tradeboard/Tradeboard";
-		
+
 	}
 
 	@GetMapping("/Tradeboard/insert")
 	public String insertLeaguePostForm() {
 		return "/Tradeboard/TradeRegister";
 	}
-	
 
 	@PostMapping("/Tradeboard/insert")
 	public String insertBoard(TradeboardDTO tradeboard, MultipartFile file) {
 		String view = "error";
 		boolean boardResult = false;
-		
+
 		try {
 			boardResult = boardService.insertBoard(tradeboard);
-			if(boardResult) {
+			if (boardResult) {
 				boardService.increaseWriteCount(tradeboard.getUserId());
-				if(file != null) {
-					//fileService.insertBoardFile(file, tradeboard.getTradeboardId());
 				view = "redirect:/Tradeboard";
-				return view;
-				}
+//				if (file != null) {
+//					fileService.insertBoardFile(file, tradeboard.getTradeboardId());
+//					view = "redirect:/Tradeboard";
+//				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return view;
 		}
 		return view;
 	}
 
-
-	// /modify/board/{boardId}
 	@GetMapping("/Tradeboard/update/{tradeboardId}")
-	public String updateBoardForm(@PathVariable int tradeboardId, Model model) {
+	public String updateBoardForm(@PathVariable("tradeboardId") int tradeboardId, Model model) {
+//		int tradeboardInt = Integer.parseInt(tradeboardId);
 		TradeboardDTO tradeboard = boardService.getTradePostByTradeboardId(tradeboardId);
-		//FileRequest file = fileService.getBoardFileByBoardId(tradeboardId);
-		
+		// FileRequest file = fileService.getBoardFileByBoardId(tradeboardId);
+
 		model.addAttribute("tradeboard", tradeboard);
-		//model.addAttribute("file", file);
+		// model.addAttribute("file", file);
 		return "/Tradeboard/TradeUpdate";
 	}
-		
+
 	@PostMapping("/Tradeboard/update")
 	public String updateBoard(TradeboardDTO tradeboard, MultipartFile file, HttpSession session) {
-		String view = "error";
+		System.out.println(tradeboard);
 		boolean result = false;
-		if (String.valueOf(session.getAttribute("userId")) != null &&
-				tradeboard.getUserId().equals(String.valueOf(session.getAttribute("userId")))) {
+		if (String.valueOf(session.getAttribute("userId")) != null
+				&& tradeboard.getUserId().equals(String.valueOf(session.getAttribute("userId")))) {
 			result = boardService.updateTradePost(tradeboard);
 			if (result) {
 				return "redirect:/Tradeboard/" + tradeboard.getTradeboardId();
@@ -143,15 +133,16 @@ public class TradeboardController {
 		}
 		return "redirect:/login";
 	}
-	
+
 	@DeleteMapping(value = "/Tradeboard/{tradeboardId}")
-	public ResponseEntity<String> deleteLeaguePost(@PathVariable int tradeboardId,
-			HttpSession session) {
+	public ResponseEntity<String> deleteTradePost(@PathVariable int tradeboardId, HttpSession session) {
+		System.out.println("삭제 메소드 실행");
 		boolean result = false;
 		TradeboardDTO tradeboard = boardService.getTradePostByTradeboardId(tradeboardId);
-		if (String.valueOf(session.getAttribute("userId")) != null && ((Integer) session.getAttribute("admin") == 1
-				|| tradeboard.getUserId().equals(String.valueOf(session.getAttribute("userId"))))) {
-			result = boardService.deleteTradePost(tradeboardId);
+		if (String.valueOf(session.getAttribute("userId")) != null
+				&& (session.getAttribute("isAdmin") != null && ((boolean) session.getAttribute("isAdmin")
+						|| tradeboard.getUserId().equals(String.valueOf(session.getAttribute("userId")))))) {
+			result = boardService.updateDeletedTradePost(tradeboardId);
 			if (result) {
 				return ResponseEntity.ok("글 삭제 성공");
 
@@ -161,7 +152,7 @@ public class TradeboardController {
 			return ResponseEntity.status(403).body("삭제 권한 없음");
 		}
 	}
-		
+
 //	// 좋아요
 //		@ResponseBody
 //		@PostMapping("/likeUp")

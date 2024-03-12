@@ -22,5 +22,7 @@ public interface TradeboardMapper {
 	int deleteTradePost(int tradeboardId);
 
 	void increaseWriteCount(String user_userId);
+
+	int updateDeletedTradePost(int tradeboardId);
 	
 }

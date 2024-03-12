@@ -20,6 +20,8 @@ public class PageRequestDTO {
 	
 	// 지역번호
 	private int region;
+	
+	private String userId;
 
 	public PageRequestDTO() {
 		this(1, 10);

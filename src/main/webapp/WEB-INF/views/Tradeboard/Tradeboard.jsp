@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리그 게시판</title>
+<title>거래게시판</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <style>
@@ -91,6 +91,7 @@ a:active {
 					style="width: 80px; margin-left: 54%">
 					<option value="user_userId">작성자</option>
 					<option value="title">제목</option>
+					<option value="content">글내용</option>
 				</select> <input id="searchKeyword" type="search" name="searchKeyword"
 					placeholder="검색어를 입력해주세요."
 					value="${pageInfo.pageRequest.searchKeyword}"> <input
@@ -163,7 +164,9 @@ a:active {
 							<th scope="col" style="text-align: center;">제목</th>
 							<th scope="col" style="text-align: center;">작성자</th>
 							<th scope="col" style="text-align: center;">날짜</th>
-							<!-- <th scope="col">조회수</th> -->
+							<th scope="col" style="text-align: center;">조회수</th>
+							<th scope="col" style="text-align: center;">추천</th>
+							<th scope="col" style="text-align: center;">거래여부</th>
 						</tr>
 					</thead>
 					<c:forEach items="${tradeboardList}" var="tradeboard">
@@ -175,13 +178,26 @@ a:active {
 										</span>
 									</p>
 								</td>
-								<td bgcolor="">
+								<c:choose>
+									<c:when test="${tradeboard.commentCount != 0}">
+										<td bgcolor="">
+									<p align="center">
+										<span style="font-size: 12pt;"> <b><a
+												href="/Tradeboard/${tradeboard.tradeboardId}">${tradeboard.title} [${tradeboard.commentCount}]</a></b>
+										</span>
+									</p>
+								</td>
+									</c:when>
+									<c:when test="${tradeboard.commentCount == 0}">
+										<td bgcolor="">
 									<p align="center">
 										<span style="font-size: 12pt;"> <b><a
 												href="/Tradeboard/${tradeboard.tradeboardId}">${tradeboard.title}</a></b>
 										</span>
 									</p>
 								</td>
+									</c:when>
+								</c:choose>
 								<td bgcolor="">
 									<p align="center">
 										<span style="font-size: 12pt;"> <b>${tradeboard.userId}</b>
@@ -195,16 +211,39 @@ a:active {
 										</span>
 									</p>
 								</td>
-								<%-- <td bgcolor="">
-						            <p align="center">
-						            	<span style="font-size:12pt;">
-						             		<b>${leagueboard.hit}</b>
-						             	</span>
-						             </p>
-						        </td> --%>
+								<td bgcolor="">
+									<p align="center">
+										<span style="font-size: 12pt;"> <b>${tradeboard.hit}</b>
+										</span>
+									</p>
+								</td>
+								<td bgcolor="">
+									<p align="center">
+										<span style="font-size: 12pt;"> <b>${tradeboard.like}</b>
+										</span>
+									</p>
+								</td>
+								<c:choose>
+									<c:when test="${tradeboard.complete eq 1}">
+										<td bgcolor="">
+									<p align="center">
+										<span style="font-size: 12pt;"> <b>판매완료</b>
+										</span>
+									</p>
+								</td>
+									</c:when>
+									<c:when test="${tradeboard.complete eq 0}">
+										<td bgcolor="">
+									<p align="center">
+										<span style="font-size: 12pt;"> <b>판매중</b>
+										</span>
+									</p>
+								</td>
+									</c:when>
+								</c:choose>
 							</tr>
+						</tbody>
 					</c:forEach>
-					</tbody>
 				</table>
 				<c:if test="${empty tradeboardList}">
 					<div class="empty-post" style="text-align: center;">게시물이
@@ -228,26 +267,27 @@ a:active {
 				<div class="col-auto">
 					<table class="page navigation">
 						<c:choose>
-							<c:when test="${pageInfo.pageRequest.searchKeyword == null}">
+							<c:when
+								test="${empty pageInfo.pageRequest.searchKeyword || pageInfo.pageRequest.searchKeyword == ''}">
 								<tr class="pagination">
 									<c:if test="${pageInfo.prev}">
 										<th class="page-item"><a class="page-link"
 											aria-label="Previous"
-											href="/Tradeboard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
+											href="/Tradeboard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}&region=${pageInfo.pageRequest.region}">Prev</a>
 										</th>
 									</c:if>
 									<c:forEach var="num" begin="${pageInfo.startPage}"
 										end="${pageInfo.endPage}">
 										<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
 											<a class="page-link" style="padding: 10px;"
-											href="/Tradeboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}
+											href="/Tradeboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&region=${pageInfo.pageRequest.region}">${num}
 										</a>
 										</th>
 									</c:forEach>
 									<c:if test="${pageInfo.next}">
 										<th class="page-item next"><a class="page-link"
 											aria-label="next"
-											href="/Tradeboard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
+											href="/Tradeboard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}&region=${pageInfo.pageRequest.region}">Next</a>
 										</th>
 									</c:if>
 								</tr>
@@ -259,7 +299,7 @@ a:active {
 											aria-label="Previous"
 											href="/Tradeboard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-													&category=${pageInfo.pageRequest.category}">Prev</a>
+													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}">Prev</a>
 										</th>
 									</c:if>
 									<c:forEach var="num" begin="${pageInfo.startPage}"
@@ -268,7 +308,7 @@ a:active {
 											<a class="page-link" style="padding: 10px;"
 											href="/Tradeboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
 										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}">${num}
+										&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}">${num}
 										</a>
 										</th>
 									</c:forEach>
@@ -277,7 +317,7 @@ a:active {
 											aria-label="next"
 											href="/Tradeboard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-													&category=${pageInfo.pageRequest.category}">Next</a>
+													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}">Next</a>
 										</th>
 									</c:if>
 								</tr>

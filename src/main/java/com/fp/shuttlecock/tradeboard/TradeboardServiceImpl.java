@@ -53,4 +53,12 @@ public class TradeboardServiceImpl implements TradeboardService {
 	public void increaseWriteCount(String user_userId) {
 		tradeboardmapper.increaseWriteCount(user_userId);
 	}
+
+	public boolean updateDeletedTradePost(int tradeboardId) {
+		int result = tradeboardmapper.updateDeletedTradePost(tradeboardId);
+		if(result == 1) {
+			return true;
+		}
+		return false;
+	}
 }

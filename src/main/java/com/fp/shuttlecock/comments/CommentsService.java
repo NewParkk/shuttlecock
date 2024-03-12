@@ -3,7 +3,6 @@ package com.fp.shuttlecock.comments;
 import java.util.List;
 
 public interface CommentsService {
-	List<CommentsDTO> getCommentList(int boardId);
 	
 	boolean insertComment(CommentsDTO comment);
 	
@@ -13,11 +12,9 @@ public interface CommentsService {
 	
 	boolean updateComment(CommentsDTO comment);
 	
-	List<CommentsDTO> getCommentListByTradeboardId(int tradeboardId);
-	
-	List<CommentsDTO> getCommentListByFreeboardId(int freeboardId);
-	
-	List<CommentsDTO> getCommentListByRecruitboardId(int recruitboardId);
+	List<CommentsDTO> getCommentList(int boardId, int comment_type);
 	
 	void increaseCommentCount(CommentsDTO comment);
+	
+	void decreaseCommentCount(CommentsDTO comment);
 }

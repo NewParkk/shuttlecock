@@ -1,105 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fp.shuttlecock.leagueboard.LeagueboardMapper">
+<mapper
+	namespace="com.fp.shuttlecock.leagueboard.LeagueboardMapper">
 
 	<select id="getAllLeaguePost" resultType="LeagueboardDTO">
-		select * from leagueboard
+		select * from
+		leagueboard
 	</select>
-	
+
 	<select id="countLeaguePosts">
 		select count(leagueboardId) from leagueboard
 	</select>
-	
-	<select id="getLeaguePostById" parameterType="_int" resultType="LeagueboardDTO">
-		select * from leagueboard where leagueboardId = #{leagueboardId}
+
+	<select id="getLeaguePostById" parameterType="_int"
+		resultType="LeagueboardDTO">
+		select * from leagueboard where leagueboardId =
+		#{leagueboardId}
 	</select>
-	
+
 	<insert id="insertLeaguePost" parameterType="LeagueboardDTO">
-		insert into leagueboard (title, content, winner, loser, userId) 
-		values (#{title}, #{content}, #{winner}, #{loser}, #{userId})
+		insert into
+		leagueboard (title, content, winner, loser, userId)
+		values (#{title},
+		#{content}, #{winner}, #{loser}, #{userId})
 	</insert>
-	
-	<update id="updateLeaguePost"
-		parameterType="LeagueboardDTO">
+
+	<update id="updateLeaguePost" parameterType="LeagueboardDTO">
 		update leagueboard
-		set title = #{title}, content = #{content}, winner = #{winner}, loser = #{loser}, regdate = NOW()
+		set title = #{title}, content = #{content}, winner = #{winner}, loser
+		= #{loser}, regdate = NOW()
 		where leagueboardId = #{leagueboardId}
 	</update>
-	
+
 	<delete id="deleteLeaguePost" parameterType="_int">
-		delete from leagueboard where leagueboardId = #{leagueboardId}
+		delete from
+		leagueboard where leagueboardId = #{leagueboardId}
 	</delete>
-	
+
 	<update id="increaseWinnerPoint" parameterType="string">
 		update user
-		set wincount = wincount + 1
+		set
+		wincount = wincount + 1
 		where userId = #{winner}
 	</update>
-	
+
 	<update id="increaseLoserPoint" parameterType="string">
 		update user
-		set losecount = losecount + 1
+		set
+		losecount = losecount + 1
 		where userId = #{loser}
 	</update>
-	
+
+	<!-- <select id="getAllLeaguePostByPage" parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO" 
+		resultType="LeagueboardDTO"> <bind name="start" value="(pageNum-1)*amount"/> 
+		SELECT * FROM leagueboard <where> (delete_yn IS NULL OR delete_yn != 1) <if 
+		test="searchKeyword != null and searchKeyword != ''"> AND title LIKE CONCAT 
+		('%', #{searchKeyword}, '%') </if> </where> ORDER BY leagueboardId DESC LIMIT 
+		#{start}, #{amount} </select> -->
+
 	<select id="getAllLeaguePostByPage"
-			parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
-			resultType="LeagueboardDTO">
-			<bind name="start" value="(pageNum-1)*amount"/>
+		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
+		resultType="LeagueboardDTO">
+		<bind name="start" value="(pageNum-1)*amount" />
 		SELECT *
 		FROM leagueboard
-		<where>
-			<if test="searchKeyword != null and searchKeyword != ''">
-	            title LIKE CONCAT ('%', #{searchKeyword}, '%')
-	        </if>
-		</where>
-        
-	    ORDER BY leagueboardId DESC
+		WHERE (delete_yn IS NULL OR delete_yn != 1)
+		<if test="userId != null">
+			AND (userId NOT IN (SELECT blockedUser FROM blockuser
+			WHERE userId = #{userId}))
+		</if>
+		<if test="searchKeyword != null and searchKeyword != ''">
+			AND title LIKE CONCAT ('%', #{searchKeyword}, '%')
+		</if>
+		ORDER BY leagueboardId DESC
 		LIMIT #{start}, #{amount}
 	</select>
-	
+
 	<select id="getSearchedLeaguePost"
-			parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
-			resultType="LeagueboardDTO">
-			<bind name="start" value="(pageNum-1)*amount"/>
+		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
+		resultType="LeagueboardDTO">
+		<bind name="start" value="(pageNum-1)*amount" />
 		SELECT *
 		FROM leagueboard
 		<where>
-		<if test="category == 'title'">
-			<if test="searchKeyword != null and searchKeyword != ''">
-            	title LIKE CONCAT ('%', #{searchKeyword}, '%')
-        	</if>
-		</if>
-		<if test="category == 'user_userId'">
-			<if test="searchKeyword != null and searchKeyword != ''">
-            	user_userId LIKE CONCAT ('%', #{searchKeyword}, '%')
-        	</if>
-		</if>
-        </where>
-	    ORDER BY leagueboardId DESC
+			(delete_yn IS NULL OR delete_yn != 1)
+			<if test="userId != null">
+				AND (userId NOT IN (SELECT blockedUser FROM blockuser
+				WHERE userId = #{userId}))
+			</if>
+			<if test="category == 'title'">
+				<if test="searchKeyword != null and searchKeyword != ''">
+					AND title LIKE CONCAT ('%', #{searchKeyword}, '%')
+				</if>
+			</if>
+			<if test="category == 'user_userId'">
+				<if test="searchKeyword != null and searchKeyword != ''">
+					AND userId LIKE CONCAT ('%', #{searchKeyword}, '%')
+				</if>
+			</if>
+		</where>
+		ORDER BY leagueboardId DESC
 		LIMIT #{start}, #{amount}
 	</select>
-	
-	<select id="countSearchedLeaguePosts" 
-		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO" resultType="int">
-        select COUNT(leagueboardId) from leagueboard
-        <where>
-		<if test="category == 'title'">
-			<if test="searchKeyword != null and searchKeyword != ''">
-            	title LIKE CONCAT ('%', #{searchKeyword}, '%')
-        	</if>
-		</if>
-		<if test="category == 'user_userId'">
-			<if test="searchKeyword != null and searchKeyword != ''">
-            	user_userId LIKE CONCAT ('%', #{searchKeyword}, '%')
-        	</if>
-		</if>
-        </where>
-    </select>
-    
-    <update id="increaseWriteCount" parameterType="string">
-    	update user 
-    	set writeCount = writeCount + 1 
-    	where userId = #{userId}
-    </update>
+
+	<select id="countSearchedLeaguePosts"
+		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
+		resultType="int">
+		select COUNT(leagueboardId) from leagueboard
+		<where>
+			(delete_yn IS NULL OR delete_yn != 1)
+			<if test="userId != null">
+				AND (userId NOT IN (SELECT blockedUser FROM blockuser
+				WHERE userId =
+				#{userId}))
+			</if>
+			<if test="category == 'title'">
+				<if test="searchKeyword != null and searchKeyword != ''">
+					AND title LIKE CONCAT ('%', #{searchKeyword}, '%')
+				</if>
+			</if>
+			<if test="category == 'user_userId'">
+				<if test="searchKeyword != null and searchKeyword != ''">
+					AND userId LIKE CONCAT ('%', #{searchKeyword}, '%')
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<update id="increaseWriteCount" parameterType="string">
+		update user
+		set
+		writeCount = writeCount + 1
+		where userId = #{userId}
+	</update>
+
+	<update id="updateDeletedLeaguePost" parameterType="_int">
+		update
+		leagueboard
+		set delete_yn = 1
+		where leagueboardId = #{leagueboardId}
+	</update>
 </mapper>

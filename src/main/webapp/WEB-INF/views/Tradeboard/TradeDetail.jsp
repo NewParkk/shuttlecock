@@ -1,134 +1,286 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>거래게시판</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <style>
-    .mainTitle{
-        text-align: center;
-    }
-    .whyBtn{
-        margin-left: 46%;
-    }
-    .whyBtn1{
-        margin-left: 69%;
-    }
-    .del-btn{
-        margin-left: 95%
-    }
-    h1{
-        padding-top: 30px;
-        padding-bottom: 30px
-    }
+.mainTitle {
+	text-align: center;
+}
+
+.whyBtn {
+	margin-left: 60%;
+}
+
+.whyBtn1 {
+	margin-left: 69%;
+}
+
+.del-btn {
+	margin-left: 95%
+}
+
+h1 {
+	padding-top: 30px;
+	padding-bottom: 30px
+}
 </style>
 <body>
-<!-- 헤더 -->
-<%@ include file="../include/header.jsp"%>
+	<!-- 헤더 -->
+	<%@ include file="../include/header.jsp"%>
 
 
-<!-- 붙혀 넣는곳 -->
-    <div class="mainTitle">
-        <h1>거래게시판</h1>
-    </div>
-  
-        <div class="mb-3" style="width: 50%; margin: 0 auto;">
-            <label for="exampleFormControlInput1" class="form-label">제목</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" value="${tradeboard.title}" readonly>
-          </div>
-          <div class="row g-3" style="width: 51%; margin: 0 auto; margin-top: -25px" >
-		  <div class="col">
-		   <label for="exampleFormControlInput1" class="form-label">작성자</label>
-		    <input type="text" class="form-control" id="exampleFormControlInput1" value="${tradeboard.userId}" readonly>
-		  </div>
-		  <div class="col">
-            <label for="exampleFormControlInput1" class="form-label">작성시간</label> 
-			<input type="text" class="form-control"id="exampleFormControlInput2" value="${tradeboard.regdate}" readonly>
-		  </div>
+	<!-- 붙혀 넣는곳 -->
+	<div class="mainTitle">
+		<h1>거래게시판</h1>
+	</div>
+	<form action="/Tradeboard/update/${tradeboardId}" method="GET"
+		name="detailForm" id="detailForm">
+		<div class="mb-3" style="width: 50%; margin: 0 auto;">
+			<label for="exampleFormControlInput1" class="form-label">제목</label> <input
+				type="text" class="form-control" id="exampleFormControlInput1"
+				value="${tradeboard.title}" readonly>
 		</div>
-		<div class="row g-3" style="width: 51%; margin: 0 auto; margin-top: -10px" >
-		 <div class="col">
-		   <label for="exampleFormControlInput1" class="form-label">조회수</label>
-		    <input type="text" class="form-control" id="exampleFormControlInput1" value="${tradeboard.hit}" readonly>
-		  </div>
-		  <div class="col">
-		   <label for="exampleFormControlInput1" class="form-label">거래여부</label>
-		   <c:choose>
-		   	<c:when test="${tradeboard.complete eq 1}">
-		   		<input type="text" class="form-control" id="exampleFormControlInput1" value="거래완료" readonly>
-		   	</c:when>
-		   	<c:when test="${tradeboard.complete eq 0}">
-		   		<input type="text" class="form-control" id="exampleFormControlInput1" value="판매중" readonly>
-		   	</c:when>
-		   </c:choose>
-		  </div>
-		  <%-- <div class="col">
+		<div class="row g-3"
+			style="width: 51%; margin: 0 auto; margin-top: -25px">
+			<div class="col">
+				<label for="exampleFormControlInput1" class="form-label">작성자</label>
+				<input type="text" class="form-control"
+					id="exampleFormControlInput1" value="${tradeboard.userId}" readonly>
+			</div>
+			<div class="col">
+				<label for="exampleFormControlInput1" class="form-label">작성시간</label>
+				<input type="text" class="form-control"
+					id="exampleFormControlInput2" value="${tradeboard.regdate}"
+					readonly>
+			</div>
+		</div>
+		<div class="row g-3"
+			style="width: 51%; margin: 0 auto; margin-top: -10px">
+			<div class="col">
+				<label for="exampleFormControlInput1" class="form-label">조회수</label>
+				<input type="text" class="form-control"
+					id="exampleFormControlInput1" value="${tradeboard.hit}" readonly>
+			</div>
+			<div class="col">
+				<label for="exampleFormControlInput1" class="form-label">거래여부</label>
+				<c:choose>
+					<c:when test="${tradeboard.complete eq 1}">
+						<input type="text" class="form-control"
+							id="exampleFormControlInput1" value="거래완료" readonly>
+					</c:when>
+					<c:when test="${tradeboard.complete eq 0}">
+						<input type="text" class="form-control"
+							id="exampleFormControlInput1" value="판매중" readonly>
+					</c:when>
+				</c:choose>
+			</div>
+			<%-- <div class="col">
 		   <label for="exampleFormControlInput1" class="form-label">추천</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" value="${getLike}" readonly>
 		  </div> --%>
 		</div>
-		
-          <div class="mb-3" style="width: 50%; margin: 0 auto;">
-            <label for="exampleFormControlTextarea1" class="form-label"></label>
-            <div>
-         		${tradeboard.content}
-            </div>
-          </div>
 
-          <button type="button" class="btn btn-primary whyBtn updateBtn">수정</button>
-          <button type="button" class="btn btn-primary CancleBtn listBtn">목록</button>
-		  <button type="button" class="btn btn-primary CancleBtn delbtn">삭제</button>
-		  <button type="button" class="btn btn-primary CancleBtn LikeBtn">추천</button>
-          <!-- 댓글 -->
+		<div class="mb-3" style="width: 50%; margin: 0 auto;">
+			<label for="exampleFormControlTextarea1" class="form-label"></label>
+			<div>${tradeboard.content}</div>
+		</div>
 
-        
-        <div class="mb-3" style="width: 50%; margin: 0 auto;">
-            <label for="exampleFormControlInput1" class="form-label">댓글 작성자</label>
-            <input type="text" class="form-control writerId" id="exampleFormControlInput1" name="writerId" value="${login.userId}">
-          </div>
-          <div class="mb-3" style="width: 50%; margin: 0 auto;">
-            <label for="exampleFormControlTextarea1" class="form-label">댓글 내용</label>
-            <textarea class="form-control content" id="exampleFormControlTextarea1" rows="2" name="content"></textarea>
-          </div>
-       <button type="button" class="btn btn-primary whyBtn1" id="com_btn">댓글 등록</button>
+		<button type="button" class="btn btn-primary whyBtn listBtn"
+			id="goList">목록</button>
+		<c:if test="${sessionScope.userId eq tradeboard.userId}">
+			<button type="submit" class="btn btn-primary CancleBtn updateBtn">수정</button>
+		</c:if>
+		<c:if
+			test="${sessionScope.userId eq tradeboard.userId or sessionScope.isAdmin eq true}">
+			<button type="button" class="btn btn-primary CancleBtn delbtn">삭제</button>
+		</c:if>
+		<button type="button" class="btn btn-primary CancleBtn LikeBtn"
+			id="LikeBtn">추천 ${tradeboard.like}</button>
+		<c:if
+			test="${sessionScope.userId != leagueboard.userId and not empty sessionScope.userId}">
+			<button type="button" id="userblock" style="margin-top: 30px;">게시자차단</button>
+		</c:if>
+	</form>
+	<!-- 댓글 -->
 
-        
-        <!-- 댓글이 들어갈 부분 -->
-        <div class="com_box">
+	<c:if test="${not empty sessionScope.userId}">
+		<div class="mb-3" style="width: 50%; margin: 0 auto;">
+			<label for="exampleFormControlInput1" class="form-label">댓글
+				작성자</label> <input type="text" class="form-control writerId"
+				id="exampleFormControlInput1" name="writerId"
+				value="${sessionScope.userId}" readonly>
+		</div>
+		<div class="mb-3" style="width: 50%; margin: 0 auto;">
+			<label for="exampleFormControlTextarea1" class="form-label">댓글
+				내용</label>
+			<textarea class="form-control content"
+				id="exampleFormControlTextarea1" rows="2" name="content"></textarea>
+		</div>
+		<div class="mb-3" style="width: 50%; margin: 0 auto;">
+			<input type="checkbox" id="secret" name="secret" value="1">비밀댓글
+		</div>
+		<button type="button" class="btn btn-primary whyBtn1" id="com_btn">댓글
+			등록</button>
+	</c:if>
 
-        </div>
+	<!-- 댓글이 들어갈 부분 -->
+	<div class="com_box">
+		<c:if test="${not empty commentList}">
+			<c:forEach items="${commentList}" var="comment">
+				<div class="row g-3"
+					style="width: 51%; margin: 0 auto; margin-top: -25px">
+					<div class="col">
+						<label for="exampleFormControlInput1" class="form-label">작성자</label>
+						<input type="text" class="form-control"
+							id="exampleFormControlInput1" value="${comment.userId}" readonly>
+					</div>
+					<div class="col">
+						<label for="exampleFormControlInput1" class="form-label">작성시간</label>
+						<input type="text" class="form-control com-date"
+							id="exampleFormControlInput2" value="${comment.regdate}" readonly>
+					</div>
+				</div>
+				<div class="mb-3" style="width: 50%; margin: 0 auto;">
+					<label for="exampleFormControlTextarea1" class="form-label">댓글
+						내용</label>
+					<c:choose>
+						<c:when
+							test="${comment.secret eq 0 or sessionScope.userId eq tradeboard.userId or 
+						comment.userId eq sessionScope.userId or sessionScope.isAdmin eq true}">
+							<textarea class="form-control content"
+								id="exampleFormControlTextarea1" rows="2" name="content"
+								readonly>${comment.content}</textarea>
+						</c:when>
+						<c:when test="${comment.secret eq 1}">
+							<textarea class="form-control content"
+								id="exampleFormControlTextarea1" rows="2" name="content"
+								readonly>비밀댓글입니다.</textarea>
+						</c:when>
+					</c:choose>
+				</div>
+				<c:if
+					test="${sessionScope.userId eq comment.userId or sessionScope.isAdmin eq true}">
+					<button type="button"
+						class="btn btn-primary whyBtn1 com_delete_btn" id="com_delete_btn"
+						value="${comment.commentsId}">댓글삭제</button>
+				</c:if>
+				<c:if test="${sessionScope.userId eq comment.userId}">
+					<button type="button"
+						class="btn btn-primary whyBtn1 com_update_btn" id="com_update_btn"
+						data-toggle="modal"
+						data-target="#editPostModal_${comment.commentsId}">댓글수정</button>
+				</c:if>
 
+				<!-- 댓글 수정 모달 -->
+				<div class="modal fade" id="editPostModal_${comment.commentsId}"
+					tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="editPostModalLabel">댓글 수정</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form action="/comments/update" id="editPostForm" method="post"
+									enctype="multipart/form-data"
+									onsubmit="return validatePostForm()">
+									<input type="hidden" class="form-control mb-2" name="userId"
+										value="${comment.userId}"> <input type="hidden"
+										class="form-control mb-2" name="commentsId"
+										value="${comment.commentsId}"> <input type="hidden"
+										class="form-control mb-2" name="bno" value="${comment.bno}">
+									<input type="hidden" class="form-control mb-2"
+										name="comment_type" value="${comment.comment_type}">
+									<textarea class="form-control" style="height: 100px"
+										name="content">${comment.content}</textarea>
+									<div style="display: flex; align-items: center;">
+										<div style="margin-right: auto;">
+											<input type="radio" id="secret" name="secret" value="1"
+												style="margin-left: 10px;">비밀댓글
+										</div>
+										<button type="submit" class="btn btn-primary mt-2"
+											style="margin-left: auto;">저장</button>
+									</div>
+								</form>
+							</div>
 
-<!-- 푸터 -->
-<%@include file="../include/footer.jsp"%>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</c:if>
+	</div>
+
+	<!-- 푸터 -->
+	<%@include file="../include/footer.jsp"%>
 </body>
-
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
-	
-//leagueboard.regdate 값을 포맷팅하여 input 태그에 적용
+//모달 열기
+function validatePostForm() 
+{
+	//var titleField = document.querySelector('#editPostForm input[name="title"]');
+	var contentField = document.querySelector('.modal textarea[name="content"]');
+	if (contentField.value.trim() === '') {
+	    alert('내용을 입력하세요.');
+	    return false;
+	}
+return true;
+ }
+$(document).ready(function() {
+	$('.com_update_btn').click(function() {
+	    const modalId = $(this).data('target'); // data-target 속성이 각 버튼에 설정되어 있다고 가정
+	    console.log(modalId);
+	    $(`${modalId}`).modal('show');
+	});
+});
+
+// regdate 값을 포맷팅하여 input 태그에 적용
 var regdate = "${tradeboard.regdate}";
 var formattedDate = new Date(regdate).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'}); // 날짜 포맷팅
 document.getElementById("exampleFormControlInput2").value = formattedDate;
-	
-	//RedirectAttributes 로 던져서 메시지 출력
-	const msg = '${msg}';
-	if(msg !== '') {
-		alert("게시물 수정 완료되었습니다.");
-	}
-	
-	
-	$(function() { // 스크립트 시작문
 		
-		
-		
-		// 글수정
-		$('.updateBtn').click(function() {
-			location.href = "/Tradeboard/update?tradeboardId=${tradeboard.tradeboardId}";
+		//목록
+		$('#goList').click(function(){
+			location.href = "/Tradeboard";
 		})
+		
+		// 추천
+		$('#LikeBtn').click(function(){
+			if(${empty sessionScope.userId}){
+				if(confirm("로그인이 필요한 작업입니다. 로그인 페이지로 이동하시겠습니까?")){
+					location.href = "/login";
+				}
+			} else{
+				$.ajax({
+					type : "POST",
+					url : "/likes",
+					data : {
+						"userId" : "${sessionScope.userId}",
+						"bno" : ${tradeboard.tradeboardId},
+						"likes_type" : 3
+					},
+					success : function(data){
+						location.reload();
+					}
+				}) // ajax
+			} // 세션 있을떄
+		}) // 추천 버튼 클릭
+		
 		// 삭제
 		/* $('.delbtn').click(function() {
 			if(!confirm("해당 게시물을 삭제 하시겠습니까?")){
@@ -138,87 +290,58 @@ document.getElementById("exampleFormControlInput2").value = formattedDate;
 			}
 		}) */
 		
-		$('.delbtn').click(function() {
+		/* $('.delbtn').click(function() {
 			if(!confirm("해당 게시물을 삭제 하시겠습니까?")){
 				return;
 			}else{
 				$.ajax({
 					type : "DELETE",
-					url : "/Tradeboard?tradeboardId=${tradeboard.tradeboardId}",
+					url : "/Tradeboard?tradeboardId=" + tradeboardId,
+					data : {
+						"tradeboardId" : tradeboardId
+					},
 					success : function(){
-						alert : "sdf";
+						alert("게시글이 삭제되었습니다.");
+		                window.location.href = "/Tradeboard";
 					} //success
 				}) // ajax
-			}
-		})
+			//}
+		}); */
 		
-		
-		// 좋아요 
-		var likeval = ${likes};
-		
-		let freeboardId = ${Detail.freeboardId};
-		let userId = '${login.userId}';
-		let likeType = 1;
-		
-		if(likeval > 0){
-			console.log(likeval + "추천 누름");
-			$('.LikeBtn').html("추천 취소");
-			$('.LikeBtn').click(function() {
-				$.ajax({
-					type :'post',
-					url : '<c:url value ="/Freeboard/likeDown"/>',
-					contentType: 'application/json',
-					data : JSON.stringify(
-							{
-								"freeboardId" : freeboardId,
-								"userId" : userId,
-								"likeType" : likeType
-							}		
-						),
-					success : function(data) {
-						alert('취소 성공');
-					}
-				})// 아작스 끝
-			})
+		document.addEventListener("DOMContentLoaded", function () {
+		    // 삭제 버튼 클릭 이벤트를 처리합니다.
+		    document.querySelector(".delbtn").addEventListener("click", function (e) {
+		    	e.preventDefault();
+		    	
+		    	// 알림을 통해 사용자에게 삭제 여부를 확인할 수 있습니다.
+		        var isConfirmed = confirm("게시글을 삭제하시겠습니까?");
 
-		}else{
-			console.log(likeval + "추천 안누름")
-			console.log(userId);
-			$('.LikeBtn').click(function() {
-				$.ajax({
-					type :'post',
-					url : '<c:url value ="/Freeboard/likeUp"/>',
-					contentType: 'application/json',
-					data : JSON.stringify(
-							{
-								"freeboardId" : freeboardId,
-								"userId" : userId,
-								"likeType" : likeType
-							}		
-						),
-					success : function(data) {
-						alert('성공');
-					}
-				})// 아작스 끝
-			})
-		
-			
-		}
-			
-		
-		
-		$('.listBtn').click(function() {
-			location.href = '<c:url value="/Freeboard/freeList"/>';
-		})
-		
+		        if (isConfirmed) {
+		            // 액시오스를 사용하여 서버로 DELETE 요청을 보냅니다.
+		            axios.delete('/Tradeboard/${tradeboard.tradeboardId}')
+		            .then(function (response) {
+		            	//ResponseEntity.ok 보내주면
+		                console.log(response.data);
+		                alert("게시글이 삭제되었습니다.");
+		                window.location.href = "/Tradeboard";
+		            })
+		            .catch(function (error) {
+		                // 아닐시
+		                console.error('Error during board deletion:', error);
+		                alert("게시글 삭제 실패");
+		            });
+		        }
+		    });
+		});
 		
 		// 댓글
 		$('#com_btn').click(function() {
 			const writerId = $('.writerId').val();
 			const content = $('.content').val();
-			const bno = ${Detail.freeboardId};
-			const comment_type = 0; 
-			
+			const tradeboardId = ${tradeboard.tradeboardId};
+			const comment_type = 3; 
+			const secret = $('#secret').is(':checked') ? 1 : 0;
+			console.log(secret);
 			if(writerId == ''){
 				alert('아이디를 입력해주세요');
 				return;
@@ -228,22 +351,17 @@ document.getElementById("exampleFormControlInput2").value = formattedDate;
 			}else{
 				$.ajax({
 					type : 'post',
-					url: '<c:url value="/com/insertCom"/>',
-					data : JSON.stringify(
-						{
-							"writerId" : writerId,
+					url: '<c:url value="/comments/insert"/>',
+					data : {
+							"userId" : writerId,
 							"content" : content,
-							"bno" : bno,
-							"comment_type" : comment_type 
-						}		
-					),
-					contentType: 'application/json',
+							"bno" : tradeboardId,
+							"comment_type" : comment_type,
+							"secret" : secret
+						},
 					success: function(data) {
-						console.log('통신성공' + data);
-						if(data == 'ok'){
-							alert("댓글 등록 성공");
-							getList();
-						}
+						alert("댓글 등록 성공");
+						location.reload();
 					},	error : function(status, error) {
 						console.log('에러발생!!');
 						console.log(status, error);
@@ -251,81 +369,59 @@ document.getElementById("exampleFormControlInput2").value = formattedDate;
 				});//아작스 끝
 			} //  else 문 끝
 		})// 댓글 등록 끝
-		getList(); 
+		
+		// 댓글 수정
+		
+		
+		// 댓글 삭제
+		document.addEventListener("DOMContentLoaded", function () {
+		    // 삭제 버튼 클릭 이벤트를 처리합니다.
+		    const deleteButtons = document.querySelectorAll(".com_delete_btn");
+		    deleteButtons.forEach(function(button) {
+		        button.addEventListener("click", function (e) {
+		            e.preventDefault();
+		            
+		            // 알림을 통해 사용자에게 삭제 여부를 확인할 수 있습니다.
+		            var isConfirmed = confirm("댓글을 삭제하시겠습니까?");
+		            const commentsId = $(this).val();
+		            const data = {
+		            	    "commentsId" : commentsId
+		            	};
+
+		            if (isConfirmed) {
+		                // 액시오스를 사용하여 서버로 DELETE 요청을 보냅니다.
+		                console.log(commentsId);
+		                axios.delete('/comments/' + commentsId)
+		                .then(function (response) {
+		                    //ResponseEntity.ok 보내주면
+		                    console.log(response.data);
+		                    alert("댓글이 삭제되었습니다.");
+		                    location.reload();
+		                })
+		                .catch(function (error) {
+		                    // 아닐시
+		                    console.error('Error during board deletion:', error);
+		                    alert("댓글 삭제 실패");
+		                });
+		            }
+		        });
+		    });
+		});
+		
+		$('#userblock').click(function(){
+	    	$.ajax({
+	    		type :"POST",
+	    		url : "/blockuser",
+	    		data : {
+	    			"userId" : "${sessionScope.userId}",
+	    			"blockedUser" : "${leagueboard.userId}"
+	    		},
+	    		success : function(data){
+	    			alert(data);
+	    			location.reload();
+	    		} // success
+	    	}) // ajax
+	    }) //버튼 클릭
 	
-	
-		
-		// 목록
-		function getList() {
-			const bno = ${Detail.freeboardId};
-			const comment_type = 0; 
-			const writerId = $('.writerId').val();
-			const content = $('.content').val();
-			
-			$.getJSON(
-				"<c:url value = '/com/getList/'/>" + bno + "/"+ comment_type,
-				function(data) {
-					console.log(data.total);
-					if(data.total > 0){
-						var list = data.getList;
-						let str = "";
-						for(i = 0; i<list.length; i++){
-							let writerId = list[i].writerId;
-							let content = list[i].content;
-							let commentsId = list[i].commentsId;
-							console.log(commentsId);
-							console.log(content);
-							str += "<div>";
-							str += "<div class='' style='width: 50%; margin: 0 auto;'>"
-							str += "<label for 'exampleFormControlInput1' class='form-label'>Comment Writer :"+writerId+"</label>"
-							str += "&nbsp;&nbsp;&nbsp;<span id='asdfg' style='cursor:pointer' data-id = '"+commentsId+"'>삭제</span>&nbsp;&nbsp;</span>"
-							str += "<textarea class='form-control' id='exampleFormControlTextarea1' rows='3' readonly>"+content+"</textarea>"
-							str += " </div>"
-						}
-						
-						$('.com_box').html(str);
-						
-					}else{
-						str = "<div>";
-						str = "<div class='' style='width: 50%; margin: 0 auto;'>"
-						str = "&nbsp;&nbsp;&nbsp;<a href='#' >삭제</a></span>"
-						str = "<textarea class='form-control' id='exampleFormControlTextarea1' rows='3' readonly>등록된 댓글이 없습니다</textarea>"
-						str = " </div>"
-						$('.com_box').html(str);
-					}
-				}
-			)
-			
-		}
-		
-		
-		$(document).on('click','#asdfg', function() {
-			const commentsId = $(this).data('id');
-			console.log(commentsId)
-			
-			$.ajax({
-				url : '<c:url value = "/com/comDelete" />',
-				type : 'post',
-				data:JSON.stringify(
-		                  {
-		                	  /* "com_bno":com_bno, */
-		                     "commentsId":commentsId
-		                  }),
-		                  headers : {
-		  					'Content-type' : 'application/json'
-		  				},
-				success : function(data) {
-					alert('삭제완료')
-					getList();
-				}
-				
-			})// 삭제 아작스 끝
-			
-		})
-		
-		
-		
-		
-	})// 스크립트 종료문
 </script>
 </html>

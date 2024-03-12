@@ -10,12 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestParam;import com.fp.shuttlecock.blockuser.BlockuserDTO;
+import com.fp.shuttlecock.blockuser.BlockuserServiceImpl;
 
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class LeagueboardController {
@@ -23,8 +23,11 @@ public class LeagueboardController {
 	LeagueboardServiceImpl leagueservice;
 
 	@GetMapping("/LeagueBoard")
-	public String getAllLeaguePost(Model model, PageRequestDTO pageRequest) {
+	public String getAllLeaguePost(Model model, PageRequestDTO pageRequest, HttpSession session) {
 		System.out.println(pageRequest);
+		if(session.getAttribute("userId") != null) {
+			pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
+		}
 		List<LeagueboardDTO> leagueboardList = leagueservice.getAllLeaguePostByPage(pageRequest);
 		int totalPosts = leagueservice.countLeaguePosts();
 		PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalPosts)
@@ -37,10 +40,13 @@ public class LeagueboardController {
 
 	@GetMapping("/LeagueBoard/search")
 	public String getLeaguePostByTitleOrUserId(@RequestParam String searchKeyword, String dropdown, Model model,
-			PageRequestDTO pageRequest) {
+			PageRequestDTO pageRequest, HttpSession session) {
 		List<LeagueboardDTO> leagueboardList = new ArrayList<LeagueboardDTO>();
 		pageRequest.setSearchKeyword(searchKeyword);
 		pageRequest.setCategory(dropdown);
+		if(session.getAttribute("userId") != null) {
+			pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
+		}
 		leagueboardList = leagueservice.getSearchedLeaguePost(pageRequest);
 		int totalPosts = leagueservice.countSearchedLeaguePosts(pageRequest);
 		PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalPosts)
@@ -102,7 +108,7 @@ public class LeagueboardController {
 		LeagueboardDTO leagueboardDTO = leagueservice.getLeaguePostById(leagueboardId);
 		if (String.valueOf(session.getAttribute("userId")) != null && (boolean)session.getAttribute("isAdmin") == true
 				|| leagueboardDTO.getUserId().equals(String.valueOf(session.getAttribute("userId")))) {
-			result = leagueservice.deleteLeaguePost(leagueboardId);
+			result = leagueservice.updateDeletedLeaguePost(leagueboardId);
 			if (result) {
 				return ResponseEntity.ok("글 삭제 성공");
 

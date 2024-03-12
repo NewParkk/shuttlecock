@@ -10,18 +10,10 @@
 
 	<update id="increaseHit" parameterType="_int">
 		update tradeboard
-		set hit = hit + 1
+		set hit
+		= hit + 1
 		where tradeboardId = #{tradeboardId}
 	</update>
-
-	<!-- <select id="getPagenatedSearch" parameterType="com.fp.shuttlecock.tradeboard.PageRequestDTO" 
-		resultType="TradeboardDTO"> <bind name="start" value="(pageNum-1)*amount"/> 
-		select * from tradeboard <where> <if test="category == 'title'"> <if test="searchKeyword 
-		!= null and searchKeyword != ''"> title LIKE CONCAT ('%', #{searchKeyword}, 
-		'%') </if> </if> <if test="category == 'user_userId'"> <if test="searchKeyword 
-		!= null and searchKeyword != ''"> user_userId LIKE CONCAT ('%', #{searchKeyword}, 
-		'%') </if> </if> </where> ORDER BY tradeboardId DESC LIMIT #{start}, #{amount} 
-		</select> -->
 
 	<select id="getPagenatedSearch"
 		parameterType="com.fp.shuttlecock.tradeboard.PageRequestDTO"
@@ -29,106 +21,128 @@
 		<bind name="start" value="(pageNum - 1) * amount" />
 		SELECT * FROM tradeboard
 		<where>
+			(delete_yn IS NULL OR delete_yn != 1)
+			<if test="userId != null">
+				AND (userId NOT IN (SELECT blockedUser FROM blockuser
+				WHERE userId = #{userId}))
+			</if>
 			<choose>
-			<when test="searchKeyword != null and searchKeyword != '' and region == null or region == 0">
-				<choose>
-					<when test="category == 'title'">
-						AND title LIKE CONCAT('%', #{searchKeyword}, '%')
-					</when>
-					<when test="category == 'user_userId'">
-						AND user_userId LIKE CONCAT('%', #{searchKeyword}, '%')
-					</when>
-				</choose>
-			</when>
-			<when test="searchKeyword != null and searchKeyword != '' and region != null and region != 0">
-				<choose>
-					<when test="category == 'title'">
-						AND title LIKE CONCAT('%', #{searchKeyword}, '%') AND region = #{region}
-					</when>
-					<when test="category == 'user_userId'">
-						AND user_userId LIKE CONCAT('%', #{searchKeyword}, '%') AND region = #{region}
-					</when>
-				</choose>
-			</when>
-			<when test="searchKeyword == null or searchKeyword == '' and region != null and region != 0">
-				AND region = #{region}
-			</when>
+				<when
+					test="searchKeyword != null and searchKeyword != '' and region == null or region == 0">
+					<choose>
+						<when test="category == 'title'">
+							AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+						<when test="category == 'user_userId'">
+							AND userId LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+						<when test="category == 'content'">
+							AND content LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+					</choose>
+				</when>
+				<when
+					test="searchKeyword != null and searchKeyword != '' and region != null and region != 0">
+					<choose>
+						<when test="category == 'title'">
+							AND title LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
+							#{region}
+						</when>
+						<when test="category == 'user_userId'">
+							AND userId LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
+							#{region}
+						</when>
+						<when test="category == 'content'">
+							AND content LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
+							#{region}
+						</when>
+					</choose>
+				</when>
+				<when
+					test="searchKeyword == null or searchKeyword == '' and region != null and region != 0">
+					AND region = #{region}
+				</when>
 			</choose>
 		</where>
 		ORDER BY tradeboardId DESC
 		LIMIT #{start}, #{amount}
 	</select>
 
-
-	<!-- <select id="getTotalCount"
-		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
-		resultType="int">
-		select COUNT(tradeboardId) from tradeboard
-		<where>
-			<if test="category == 'title'">
-				<if test="searchKeyword != null and searchKeyword != ''">
-					title LIKE CONCAT ('%', #{searchKeyword}, '%')
-				</if>
-			</if>
-			<if test="category == 'user_userId'">
-				<if test="searchKeyword != null and searchKeyword != ''">
-					user_userId LIKE CONCAT ('%', #{searchKeyword}, '%')
-				</if>
-			</if>
-		</where>
-	</select> -->
-	
 	<select id="getTotalCount"
-		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
+		parameterType="com.fp.shuttlecock.tradeboard.PageRequestDTO"
 		resultType="int">
 		select COUNT(tradeboardId) from tradeboard
 		<where>
+			(delete_yn IS NULL OR delete_yn != 1)
 			<choose>
-			<when test="searchKeyword != null and searchKeyword != '' and region == null or region == 0">
-				<choose>
-					<when test="category == 'title'">
-						AND title LIKE CONCAT('%', #{searchKeyword}, '%')
-					</when>
-					<when test="category == 'user_userId'">
-						AND user_userId LIKE CONCAT('%', #{searchKeyword}, '%')
-					</when>
-				</choose>
-			</when>
-			<when test="searchKeyword != null and searchKeyword != '' and region != null and region != 0">
-				<choose>
-					<when test="category == 'title'">
-						AND title LIKE CONCAT('%', #{searchKeyword}, '%') AND region = #{region}
-					</when>
-					<when test="category == 'user_userId'">
-						AND user_userId LIKE CONCAT('%', #{searchKeyword}, '%') AND region = #{region}
-					</when>
-				</choose>
-			</when>
-			<when test="searchKeyword == null or searchKeyword == '' and region != null and region != 0">
-				AND region = #{region}
-			</when>
+				<when
+					test="searchKeyword != null and searchKeyword != '' and region == null or region == 0">
+					<choose>
+						<when test="category == 'title'">
+							AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+						<when test="category == 'user_userId'">
+							AND userId LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+						<when test="category == 'content'">
+							AND content LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+					</choose>
+				</when>
+				<when
+					test="searchKeyword != null and searchKeyword != '' and region != null and region != 0">
+					<choose>
+						<when test="category == 'title'">
+							AND title LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
+							#{region}
+						</when>
+						<when test="category == 'user_userId'">
+							AND userId LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
+							#{region}
+						</when>
+						<when test="category == 'content'">
+							AND content LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
+							#{region}
+						</when>
+					</choose>
+				</when>
+				<when
+					test="searchKeyword == null or searchKeyword == '' and region != null and region != 0">
+					AND region = #{region}
+				</when>
 			</choose>
 		</where>
 	</select>
 
 	<insert id="insertBoard" parameterType="TradeboardDTO">
-		insert into tradeboard(title, userId, content, region)
-		values(#{title}, #{userId}, #{content}, #{region})
+		insert into
+		tradeboard(title, userId, content, region)
+		values(#{title}, #{userId},
+		#{content}, #{region})
 	</insert>
 
 	<update id="updateTradePost" parameterType="TradeboardDTO">
-		update tradeboard set title = #{title}, content = #{content},
-		region = #{region}, regdate = NOW()
+		update tradeboard set
+		title = #{title}, content = #{content},
+		region = #{region}, regdate =
+		NOW(), complete = #{complete}
 		where tradeboardId = #{tradeboardId}
 	</update>
 
 	<delete id="deleteTradePost" parameterType="_int">
-		delete from tradeboard where tradeboardId = #{tradeboardId}
+		delete from
+		tradeboard where tradeboardId = #{tradeboardId}
 	</delete>
 
 	<update id="increaseWriteCount" parameterType="string">
 		update user
-		set writeCount = writeCount + 1
+		set
+		writeCount = writeCount + 1
 		where userId = #{userId}
+	</update>
+
+	<update id="updateDeletedTradePost" parameterType="_int">
+		update
+		tradeboard set delete_yn = 1 where tradeboardId = #{tradeboardId}
 	</update>
 </mapper>

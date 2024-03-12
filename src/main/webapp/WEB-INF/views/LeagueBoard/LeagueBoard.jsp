@@ -151,8 +151,8 @@ a:active {
 						             </p>
 						        </td> --%>
 							</tr>
-					</c:forEach>
 					</tbody>
+					</c:forEach>
 				</table>
 				<c:if test="${empty leagueboardList}">
 					<div class="empty-post" style="text-align: center;">게시물이 없습니다.</div>

@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Muti 게시판</title>
+<title>리그게시판</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="/resources/css/layout1.css" rel="stylesheet" type="text/css" />
@@ -63,10 +63,15 @@ h1 {
 							<div class="row g-3"
 								style="width: 51%; margin: 0 auto; margin-top: -25px">
 								<div class="col">
-									<label for="exampleFormControlInput1" class="form-label">작성자</label>
+									<%-- <label for="exampleFormControlInput1" class="form-label">작성자</label>
 									<input type="text" class="form-control"
 										id="exampleFormControlInput1"
+										value="${leagueboard.userId}" readonly> --%>
+									<label for="exampleFormControlInput1" class="form-label">작성자</label>
+									<input type="text" class="form-control block"
+										id="exampleFormControlInput1"
 										value="${leagueboard.userId}" readonly>
+
 								</div>
 								<div class="col">
 									<label for="exampleFormControlInput1" class="form-label">작성
@@ -95,26 +100,33 @@ h1 {
 								<div>${leagueboard.content}</div>
 							</div>
 
+
 							<div class="container"
-								style="height: 50px; display: flex; justify-content: right;">
+								style="height: 30px; display: flex; justify-content: flex-end; align-items: center;">
+								<button type="button" class="btn btn-primary whyBtn listBtn"
+									id="goList" style="margin-top: 30px;">목록</button>
 								<c:if test="${sessionScope.userId eq leagueboard.userId}">
-									<input type="submit" value="수정" class="Btn"
-										style="margin-left: 10px;">
+									<button type="submit"
+										class="btn btn-primary CancleBtn updateBtn"
+										style="margin-left: 10px;">수정</button>
 								</c:if>
 								<c:if
-									test="${sessionScope.userId eq leagueboard.userId or sessionScope.admin eq 1}">
+									test="${sessionScope.userId eq leagueboard.userId or sessionScope.isAdmin eq true}">
 									<button type="button" class="delete_btn btn btn-danger"
 										style="margin-left: 10px;">삭제</button>
+								</c:if>
+								<c:if test="${sessionScope.userId != leagueboard.userId and not empty sessionScope.userId}">
+									<button type="button" id="userblock" style="margin-top: 30px;">게시자차단</button>
 								</c:if>
 							</div>
 						</div>
 					</div>
 				</form>
-				<div class="container" style="height: 50px;">
+				<!-- <div class="container" style="height: 50px;">
 					<span style="font-size: 12pt; float: left; margin-right: 7px;"><input
-						type="button" value="글 목록" class="Btn"
+						type="button" value="글 목록" class="Btn btn-primary whyBtn"
 						onclick="location.href='/LeagueBoard'"></span>
-				</div>
+				</div> -->
 
 			</section>
 		</main>
@@ -123,7 +135,7 @@ h1 {
 
 	</div>
 	<script type="text/javascript">
-		
+	
 		document.addEventListener("DOMContentLoaded", function () {
 		    // 삭제 버튼 클릭 이벤트를 처리합니다.
 		    document.querySelector(".delete_btn").addEventListener("click", function (e) {
@@ -150,11 +162,30 @@ h1 {
 		    });
 		});
 		
+		//목록
+		$('#goList').click(function(){
+			location.href = "/LeagueBoard";
+		})
 		
 	    // leagueboard.regdate 값을 포맷팅하여 input 태그에 적용
 	    var regdate = "${leagueboard.regdate}";
 	    var formattedDate = new Date(regdate).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'}); // 날짜 포맷팅
 	    document.getElementById("exampleFormControlInput2").value = formattedDate;
+	    
+	    $('#userblock').click(function(){
+	    	$.ajax({
+	    		type :"POST",
+	    		url : "/blockuser",
+	    		data : {
+	    			"userId" : "${sessionScope.userId}",
+	    			"blockedUser" : "${leagueboard.userId}"
+	    		},
+	    		success : function(data){
+	    			alert(data);
+	    			location.reload();
+	    		} // success
+	    	}) // ajax
+	    }) //버튼 클릭
 	</script>
 </body>
 </html>

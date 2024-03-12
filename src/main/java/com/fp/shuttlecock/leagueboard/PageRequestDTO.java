@@ -17,6 +17,8 @@ public class PageRequestDTO {
 	
 	//검색 방식 title or user_userId
 	private String category;
+	
+	private String userId;
 
 	public PageRequestDTO() {
 		this(1, 10);

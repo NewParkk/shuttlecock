@@ -15,6 +15,7 @@ public class TradeboardDTO {
 	private int commentCount;
 	private int region;
 	private int complete;
+	private int delete_yn;
 	private String userId;
 	
 }

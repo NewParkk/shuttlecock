@@ -1,13 +1,14 @@
 package com.fp.shuttlecock.comments;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface CommentsMapper {
 
-	List<CommentsDTO> getCommentList(int boardId);
+	List<CommentsDTO> getCommentList(Map<String, Integer> map);
 	
 	int insertComment(CommentsDTO comment);
 
@@ -19,10 +20,6 @@ public interface CommentsMapper {
 
 	void increaseCommentCount(CommentsDTO comment);
 
-	List<CommentsDTO> getCommentListByTradeboardId(int tradeboardId);
-
-	List<CommentsDTO> getCommentListByFreeboardId(int freeboardId);
-
-	List<CommentsDTO> getCommentListByRecruitboardId(int recruitboardId);
+	void decreaseCommentCount(CommentsDTO comment);
 
 }
