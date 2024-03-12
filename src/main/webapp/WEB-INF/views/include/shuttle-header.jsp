@@ -31,7 +31,7 @@
           <h3><a href="#">About 배드민턴</a></h3>
           <ul class="submenu">
             <li><a href="#">배드민턴이란?</a></li>
-            <li><a href="#">배드민턴 News</a></li>
+            <li><a href="/getNews">배드민턴 News</a></li>
             <li><a href="#">배드민턴 Video</a></li>
           </ul>
         </li>
@@ -63,3 +63,20 @@
     </nav>
   </div>
 </header>
+
+
+<script>
+
+//nav관련 script
+$(function () {
+    $(".nav > ul > li").mouseover(function () {
+      $(".nav > ul > li > ul").stop().slideDown(400);
+      $("#header").addClass("on");
+    });
+
+    $(".nav > ul > li").mouseout(function () {
+      $(".nav > ul > li > ul").stop().slideUp(100);
+      $("#header").removeClass("on");
+    });
+  });
+</script>

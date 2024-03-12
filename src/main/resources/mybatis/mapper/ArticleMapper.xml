@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fp.shuttlecock.information.ArticleMapper">
+	
+	<!-- 중복 뉴스체크 -->
+    <select id="isNewsCheck" resultType="boolean" parameterType="string">
+        SELECT COUNT(*) > 0 FROM sports.article WHERE title = #{title}
+    </select>
+	
+	<!-- 크롤링 기사 insert -->
+	<insert id="insertNews" parameterType="com.fp.shuttlecock.information.ArticleDTO">
+        INSERT INTO sports.article (articleId, title, content, writer, image, url, updateDate)
+        VALUES (0, #{title}, #{content}, #{writer}, #{image}, #{url}, #{updateDate})
+    </insert>
+    
+    <!-- 최신 기사순 select -->
+    <select id="getNewsByDate" resultType="com.fp.shuttlecock.information.ArticleDTO">
+	    SELECT * FROM sports.article ORDER BY updateDate DESC,articleId DESC LIMIT 8
+	</select>
+</mapper>

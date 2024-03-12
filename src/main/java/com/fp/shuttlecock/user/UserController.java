@@ -30,8 +30,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public String loginUser(String userId, String pw, HttpSession session) {
-		String view = "error";
+	public String loginUser(String userId, String pw, HttpSession session, Model model) {
 		UserDTO user = null;
 		
 		user = userService.getLoginUser(userId, pw);
@@ -39,10 +38,11 @@ public class UserController {
 		if(user!=null) {
 			session.setAttribute("userId", user.getUserId());
 			session.setAttribute("isAdmin", user.isAdmin());
-			view = "redirect:/main";
-			return view;
-		}
-		return view;
+			return "redirect:/main";
+		}else {
+	        model.addAttribute("errorMsg", "아이디 또는 비밀번호가 일치하지 않습니다.");
+	        return "login";
+	    }
 	}
 	
 	//로그아웃

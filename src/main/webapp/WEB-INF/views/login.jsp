@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="/css/loginstyle.css">
 </head>
 <body>
+	<% if (request.getAttribute("errorMsg") != null) { %>
+        <script>
+            alert("<%= request.getAttribute("errorMsg") %>");
+        </script>
+    <% } %>
+    
 	<!-- wrap -->
     <div id="wrap">
     
@@ -74,8 +80,8 @@
     
     <script type="text/javascript">
     function openPopup(url) {
-        var width = 500; 
-        var height = 340; 
+        var width = 480; 
+        var height = 350; 
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
         var title = '아이디/비밀번호 찾기'; 

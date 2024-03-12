@@ -12,15 +12,12 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
-<!-- <p style="margin-top:-12px">
-    <b>Chrome 브라우저는 https 환경에서만 geolocation을 지원합니다.</b> 참고해주세요.
-</p>
-<div id="map" style="width:500px;height:350px;"></div> -->
+
 <!-- wrap -->
  <div id="wrap">
  
  	  <!-- header -->
-      <%@ include file="../shuttle-header.jsp" %>
+ 	  <%@ include file="../views/include/shuttle-header.jsp"%>
 
 	  <!-- main -->
       <main id="main">
@@ -38,7 +35,7 @@
             </div>
 
             <div id="board-list">
-              <div class="container2">
+              <div class="container3">
                 <table class="board-table">
                   <thead>
                     <tr>
@@ -113,7 +110,7 @@
             </div>
 
             <div id="board-list">
-              <div class="container2">
+              <div class="container3">
                 <table class="board-table">
                   <thead>
                     <tr>
@@ -195,17 +192,17 @@
                 <div class="vline"></div>
                 <div class="container2">
                   <h3>Video</h3>
-                  <a href="#" class="more">더보기+</a>
+                  <a href="/getNews" class="more">더보기+</a>
                 </div>
               </div>
 
               <div class="container">
                   <div class="div2">
-                    <iframe width="420" height="240" src="https://www.youtube.com/embed/iqxuxEubedU?si=RzD9Lcefg0esEvUF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe width="423" height="240" src="https://www.youtube.com/embed/iqxuxEubedU?si=RzD9Lcefg0esEvUF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                   </div>
 
                   <div class="div2">
-                    <iframe width="420" height="240" src="https://www.youtube.com/embed/CQlWDl-OTE4?si=6Zc6HbTsrV3Ta9ei" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe width="423" height="240" src="https://www.youtube.com/embed/CQlWDl-OTE4?si=6Zc6HbTsrV3Ta9ei" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                   </div>
               </div>
             </div>
@@ -228,28 +225,15 @@
 
 
 	<!-- footer -->
-    <%@ include file="../shuttle-footer.jsp" %>
+	<%@ include file="../views/include/shuttle-footer.jsp"%>
 
     </div>
 
 
 <!-- script -->
->>>>>>> origin/feat/mh
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c0c41ee7938be09dffb8f43413a742eb"></script>
 <script>
-
-//nav관련 script
-$(function () {
-    $(".nav > ul > li").mouseover(function () {
-      $(".nav > ul > li > ul").stop().slideDown(700);
-      $("#header").addClass("on");
-    });
-
-    $(".nav > ul > li").mouseout(function () {
-      $(".nav > ul > li > ul").stop().slideUp(150);
-      $("#header").removeClass("on");
-    });
-  });
 
 //지도를 표시할 div
 var mapContainer = document.getElementById('map'), 
