@@ -6,6 +6,10 @@
   margin: 0;
   padding: 0;
 }
+.whyBtn{
+    margin-top: 31px;
+    margin-bottom: 30px;
+}
 a {
   text-decoration: none;
   color: #333;
@@ -242,7 +246,22 @@ table {
 }
 
 .board-table .th-num {
-  width: 40px;
+  width: 70px;
+  text-align: center;
+}
+
+.board-table .th-writer {
+  width: 100px;
+  text-align: center;
+}
+
+.board-table .th-hit {
+  width: 70px;
+  text-align: center;
+}
+
+.board-table .th-like {
+  width: 70px;
   text-align: center;
 }
 
