@@ -31,9 +31,9 @@
         <li>
           <h3><a href="#">About 배드민턴</a></h3>
           <ul class="submenu">
-            <li><a href="/Announcement/main">공지사항</a></li>
-            <li><a href="/getNews">배드민턴 News</a></li>
-            <li><a href="#">배드민턴 Video</a></li>
+            <li><a href="#">공지사항</a></li>
+            <li><a href="/getNews">정보게시판</a></li>
+            <li><a href="#">정규대회 일정</a></li>
           </ul>
         </li>
         <li>

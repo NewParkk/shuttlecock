@@ -1,6 +1,7 @@
 package com.fp.shuttlecock.information;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,7 +12,9 @@ public interface ArticleMapper {
 
 	public void insertNews(ArticleDTO articleDTO);
 
-	public List<ArticleDTO> getNewsByDate(ArticleDTO articleDTO);
+	public List<ArticleDTO> getNewsByDate(Map<String, Object> articleList);
+
+	public int countArticle();
 
 
 }

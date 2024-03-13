@@ -3,7 +3,9 @@ package com.fp.shuttlecock.information;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -66,8 +68,18 @@ public class ArticleServiceImpl implements ArticleService{
 		}
 		
 		//최신기사부터 출력하기
-		public List<ArticleDTO> getNewsByDate(ArticleDTO articleDTO) {
-			return articleMapper.getNewsByDate(articleDTO);
+		public List<ArticleDTO> getNewsByDate(int page, int pageSize) {
+			
+	        int offset = (page - 1) * pageSize;
+	        Map<String, Object> articleList = new HashMap<>();
+	        articleList.put("offset", offset);
+	        articleList.put("pageSize", pageSize);
+
+			return articleMapper.getNewsByDate(articleList);
+		}
+
+		public int countArticle() {
+			return articleMapper.countArticle();
 		}
 
 
