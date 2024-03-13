@@ -22,7 +22,7 @@
 .aside .menubar > ul > li {
   margin-bottom: 7px;
 }
-.aside .menubar > ul > li > a {
+.aside .menubar > ul > li > a.list {
   padding: 10px;
   display: inline-block;
   background-color: #405448;
@@ -35,20 +35,20 @@
   letter-spacing: 2px;
   transition: 0.35s;
 }
-.menubar > ul > li > a:hover, a:active {
+.menubar > ul > li > a.list:hover, a.list:active {
   /* letter-spacing: 5px; */
   transition: 0.35s;
   background: #fff;
   color: #405448;
 }
-.menubar > ul > li > a::before {
+.menubar > ul > li > a.list::before {
   top: -10px;
 }
-.menubar > ul > li > a::after {
+.menubar > ul > li > a.list::after {
   bottom: -10px;
 }
-.menubar > ul > li > a::before,
-.menubar > ul > li > a::after {
+.menubar > ul > li > a.list::before,
+.menubar > ul > li > a.list::after {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border: 1px solid rgba(255, 255, 255, 0);
@@ -59,14 +59,14 @@
   transition: all 280ms ease-in-out;
   width: 0;
 }
-.menubar > ul > li > a:hover::before,
-.menubar > ul > li > a:hover::after {
+.menubar > ul > li > a.list:hover::before,
+.menubar > ul > li > a.list:hover::after {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border-color: #405448;
   transition: width 350ms ease-in-out;
   width: 100%;
 }
-.menubar > ul > li > a:hover::before {
+.menubar > ul > li > a.list:hover::before {
   width: 100%;
 }

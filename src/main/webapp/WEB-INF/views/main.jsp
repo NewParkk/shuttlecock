@@ -191,7 +191,7 @@
               <div class="page-title">
                 <div class="vline"></div>
                 <div class="container2">
-                  <h3>Video</h3>
+                  <h3>배드민턴 정보 게시판</h3>
                   <a href="/getNews" class="more">더보기+</a>
                 </div>
               </div>

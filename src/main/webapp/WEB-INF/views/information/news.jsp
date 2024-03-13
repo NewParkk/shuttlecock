@@ -28,30 +28,40 @@
           <div class="aside">
             <div class="menubar">
               <ul>
-                <li><a href="#">HOME</a></li>
-                <li><a href="#">배드민턴이란?</a></li>
-                <li><a href="/getNews">배드민턴 정보</a></li>
-                <li><a href="#">정규대회 일정</a></li>
+                <li><a class="list" href="#">HOME</a></li>
+                <li><a class="list" href="#">공지사항</a></li>
+                <li><a class="list" href="/getNews">배드민턴 정보</a></li>
+                <li><a class="list" href="#">정규대회 일정</a></li>
               </ul>
             </div>
           </div>
 
 		  <!-- contents -->
           <div class="contents">
-            <div class="title">
+            <div class="title" style="margin">
               <div class="vline"></div>
               <h2>정보게시판</h2>
             </div>
             
-            <!-- 새로고침 -->
-            <img id="restartBtn" src="/img/restart.jpg" alt="새로 고침" width="25" height="25" style="float:right; margin-right:27px; margin-bottom: 10px; cursor: pointer;">
-            
 			<!-- 기사 -->
+			<!-- 이전(prev1)/다음(next1) -->
+			<div class="artpage">
+				
+			    <c:if test="${currentPage > 1}">
+			        <a href="/getNews?page=${currentPage - 1}&totalPage=${totalPage}" class="prev1">&#10094</a>
+			    </c:if>
+			    
+			    <c:if test="${currentPage < totalPage}">
+			        <a href="/getNews?page=${currentPage + 1}&totalPage=${totalPage}" class="next1">&#10095</a>
+			    </c:if>
+			</div>
+			
+			<!-- 기사 list -->
             <div class="article">
             	<c:if test="${not empty newsList}">
 			        <c:forEach items="${newsList}" var="news">
 			            <div class="newslist">
-			                <a href="${news.url}"><img src="${news.image}" alt="뉴스 이미지" width="175" height="126"></a>
+			                <a href="${news.url}"><img src="${news.image}" alt="뉴스 이미지" width="175" height="115"></a>
 			                <div class="con">
 			                	<p style="text-align:right;"><fmt:formatDate value="${news.updateDate}" pattern="yyyy-MM-dd"/></p>
 				                <h4><a href="${news.url}">${news.title}</a></h4>
@@ -64,76 +74,66 @@
             
             <!-- 영상 -->
             <div class="info">
-              <iframe
-                width="350"
-                height="228"
-                src="https://www.youtube.com/embed/Bu5I-NiglAw?si=h3TKilOaytJLILgS"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-              ></iframe>
-              <iframe
-                width="350"
-                height="228"
-                src="https://www.youtube.com/embed/S-2RNGv8m2Q?si=PjCkK_1pFUqUFrVd"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-              ></iframe>
-              <iframe
-                width="350"
-                height="228"
-                src="https://www.youtube.com/embed/23Ekg9Cp26U?si=1XUt_kJPbNzb55En"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-              ></iframe>
-
-              <iframe width="350" height="230" src="https://www.youtube.com/embed/MuDHVnDUnxk?si=PPN6l-qd_Ghv6cBX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-              <iframe
-                width="350"
-                height="228"
-                src="https://www.youtube.com/embed/7SxFQ59_VlU?si=RGW89CrEnKPd_-Um"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-              ></iframe>
-              <iframe
-                width="350"
-                height="228"
-                src="https://www.youtube.com/embed/RXrr4slfaxE?si=nGXdfZNp-tLtygVx"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-              ></iframe>
-              <!-- <a class= "prev">&#10094</a>
-              <a class= "prev">&#10095</a> -->
+	          <div class="infotitle" style="display: flex; margin: 30px 25px 15px 25px; margin-left: 50px;">
+	             <div class="vline" style="height: 25px;"></div>
+	             <h4 style="font-weight: 400; text-align: left; margin-left: 10px;">배트민턴 관련 영상</h4>
+	          </div>
+              <span class= "prev">&#10094</span>
+              <div class="inslide">
+                <ul class="information">
+                  <li><iframe width="350" height="228" src="https://www.youtube.com/embed/23Ekg9Cp26U?si=1XUt_kJPbNzb55En" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></li>
+                  <li><iframe width="350" height="228" src="https://www.youtube.com/embed/S-2RNGv8m2Q?si=PjCkK_1pFUqUFrVd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></li>
+                  <li><iframe width="350" height="228" src="https://www.youtube.com/embed/Bu5I-NiglAw?si=h3TKilOaytJLILgS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></li>
+                  <li><iframe width="350" height="228" src="https://www.youtube.com/embed/1lP7DfAS9Ws?si=sBDjqN6zRhD8QM22" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></li>
+				  <li><iframe width="350" height="228" src="https://www.youtube.com/embed/MuDHVnDUnxk?si=PPN6l-qd_Ghv6cBX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></li>
+                  <li><iframe width="350" height="228" src="https://www.youtube.com/embed/RXrr4slfaxE?si=nGXdfZNp-tLtygVx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></li>
+                </ul>
+              </div>
+              <span class= "next">&#10095</span>
             </div>
-            
+                 
           </div>
+          <!-- //contents -->
         </section>
       </main>
+      <!-- //main -->
 
 	<!-- footer -->
 	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
 </div>
+
 <script>
-/* 새로고침 버튼 */
-document.getElementById("restartBtn").addEventListener("click", function() {
-    fetch("/insertNews", {
-        method: "GET" 
-    }).then(function(response) {
-        return fetch("/getNews"); 
-    }).then(function(response) {
-    }).catch(function(error) {
-        console.error('Error:', error);
-    });
-});
+	var inf = document.querySelector('.information'),
+	inslide = document.querySelectorAll('.information li'),
+	currentIdx = 0, 
+	slideCount = inslide.length,
+	prevBtn = document.querySelector('.prev'),
+	infWidth = 350,
+	infMargin = 35,
+	nextBtn = document.querySelector('.next');
+	
+	inf.style.width = (infWidth + infMargin)*slideCount - infMargin + 'px';
+	function moveSlide(num){
+	  inf.style.left = - num * 385 + 'px';
+	  currentIdx = num;
+	}
+	nextBtn.addEventListener('click', function(){
+	  if(currentIdx < slideCount - 3){
+	    moveSlide(currentIdx + 1);
+	    console.log(currentIdx);
+	  }else{
+	    moveSlide(0);
+	  }
+	});
+	
+	prevBtn.addEventListener('click', function(){
+	  if(currentIdx > 0){
+	    moveSlide(currentIdx - 1);
+	    console.log(currentIdx);
+	  }else{
+	    moveSlide(slideCount - 3);
+	  }
+	});
 </script>
 </body>
 </html>

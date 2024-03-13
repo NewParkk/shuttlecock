@@ -13,8 +13,13 @@
         VALUES (0, #{title}, #{content}, #{writer}, #{image}, #{url}, #{updateDate})
     </insert>
     
-    <!-- 최신 기사순 select -->
-    <select id="getNewsByDate" resultType="com.fp.shuttlecock.information.ArticleDTO">
-	    SELECT * FROM sports.article ORDER BY updateDate DESC,articleId DESC LIMIT 8
+    <!-- 최신 기사순 select -->	
+	<select id="getNewsByDate" parameterType="map" resultType="com.fp.shuttlecock.information.ArticleDTO">
+	    SELECT * FROM sports.article ORDER BY updateDate DESC, articleId DESC
+	    LIMIT #{offset}, #{pageSize}
+	</select>
+	
+	<select id="countArticle" resultType="_int">
+	    SELECT COUNT(articleId) FROM sports.article
 	</select>
 </mapper>

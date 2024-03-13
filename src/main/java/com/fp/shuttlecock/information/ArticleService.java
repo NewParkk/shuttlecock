@@ -9,5 +9,7 @@ public interface ArticleService {
 	
 	ArticleDTO insertNews(ArticleDTO articleDTO);
 	
-	List<ArticleDTO> getNewsByDate(ArticleDTO articleDTO);
+	List<ArticleDTO> getNewsByDate(int page, int pageSize);
+	
+	int countArticle();
 }

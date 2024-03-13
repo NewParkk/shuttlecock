@@ -19,13 +19,15 @@ li {
 }
 
 #wrap {
-  width: 100%;
+  min-width: 1510px;
   display: flex;
   flex-direction: column;
 }
 
-/* Header 스타일 */
+/* Header */
 #header {
+  width: 1510px;
+  margin: 0 auto;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -159,6 +161,8 @@ hr {
 }
 /* Main 스타일 */
 #main {
+  width: 1510px;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
@@ -196,9 +200,8 @@ section {
 
 /* 커뮤니티 게시판 css */
  #contents1 .notice {
-  flex: 1;
+  width: 490px;
   padding: 10px 15px 5px 15px;
-  overflow: hidden;
 }
 table {
   border-collapse: collapse;
@@ -221,7 +224,7 @@ table {
   margin-left: 10px;
 }
 .container3 {
-  width: 470px;
+  width: 460px;
 }
 .board-table {
   font-size: 13px;
@@ -246,7 +249,7 @@ table {
 }
 
 .board-table .th-num {
-  width: 70px;
+  width: 50px;
   text-align: center;
 }
 
@@ -284,9 +287,9 @@ table {
   padding-right: 14px;
   border-top: 1px solid #e7e7e7;
   text-align: left;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .board-table tbody th p {
@@ -302,15 +305,13 @@ table {
 
 /* 리그 게시판 */
 #contents1 .league {
-  flex: 1;
+  width: 490px;
   padding: 10px 15px 5px 15px;
-  overflow: hidden;
 }
 
 #contents1 .calendar {
-  flex: 1;
+  width: 490px;
   padding: 10px 15px 5px 15px;
-  overflow: hidden;
 }
 
 #contents2 {
@@ -320,11 +321,12 @@ table {
 }
 /* 영상 css */
 #contents2 .video {
-  flex: 2;
+  width: 970px;
   padding: 20px 15px 5px 15px;
   box-sizing: border-box;
   position: relative;
-  overflow: hidden;
+  border: 1px solid #ddd;
+    border-radius: 8px;
 }
 
 .video .container {
@@ -333,7 +335,7 @@ table {
 }
 
 .div2 {
-  margin-right: 15px;
+  margin-right: 30px;
   margin-left: 12px;
 }
 .div2:last-child {
@@ -343,18 +345,17 @@ table {
 .more {
   position: absolute;
   margin: -20px;
-  right: 55px;
+  right: 75px;
 }
 
 /* 운동장소검색 css */
 #contents2 .place {
-  flex: 1;
+  width: 500px;
   padding: 20px 15px 5px 15px;
-  overflow: hidden;
 }
 
 .map{
-	width:500px;
+	width:460px;
 	height:250px;
 	margin: 20px auto;
 }
@@ -377,34 +378,75 @@ table {
   margin-left: 10px;
 }
 
-/* .info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
-.info {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0 10px;
-  justify-content: center;
+/* 영상css */
+.info{
+  width: 1220px;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 80px;
+}
+.inslide{
+position: relative;
+  width: 1140px;
+  height: 230px;
+  /* margin: 0 auto; */
+  margin: 0 auto 0 50px;
+  overflow: hidden;
+}
+.information{
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* width: 2250px; */
+  transition: left 0.5s ease-out;
+}
+.information li:not(:last-child){
+  float: left;
+  margin-right: 35px;
 }
 .info iframe {
-  padding: 20px 0px 10px 0px;
+  padding: 20px 0px 11px 0px;
   margin: 0 auto;
   box-sizing: border-box;
 }
-.info iframe:nth-child(3) {
-  padding-right: 10px;
+.prev{
+  font-size: 30px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
 }
-.info iframe:nth-child(1),.info iframe:nth-child(2),.info iframe:nth-child(3) {
-  margin-top: 50px;
-}
+.next{
+  font-size: 30px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+} 
 
 /* 기사css */
+.artpage {
+    height: 30px;
+    padding: 0 20px;
+    text-align: right;
+}
+
+/* 이전(next1)/다음(prev1) */
+.artpage .next1,
+.artpage .prev1 {
+    font-size: 20px;
+    border: 1px solid #ccc; 
+    padding: 5px 10px; 
+    margin: 0 5px; 
+    border-radius: 5px; 
+    background-color: #f2f2f2; 
+    color: #333; 
+    text-decoration: none;
+}
 .article{
   border: 1px solid #eaeaea;
   width: 1220px;
-  height: 650px;
   display: flex;
   margin: 15px;
   flex-wrap: wrap;
