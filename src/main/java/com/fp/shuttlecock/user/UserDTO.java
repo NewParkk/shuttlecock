@@ -21,7 +21,6 @@ public class UserDTO {
 	private boolean admin;		//관리자판별여부(0:회원,1:관리자)
 	private String userEmail;	//이메일
 	private String userImage;	//프로필이미지
-	private String userPhone;	//전화번호
 	private int userLeagueGrade;//리그뱃지번호
 	private int wincount;		//승리횟수
 	private int losecount;		//패배횟수
@@ -31,7 +30,7 @@ public class UserDTO {
 	
 	@Builder
 	public UserDTO(String userId, String pw, String username, int gender, boolean admin, String userEmail,
-			String userImage, String userPhone, int userLeagueGrade, int wincount, int losecount, int writeCount,
+			String userImage, int userLeagueGrade, int wincount, int losecount, int writeCount,
 			int badge_badgeId, boolean kakaoYN) {
 		super();
 		this.userId = userId;
@@ -41,7 +40,6 @@ public class UserDTO {
 		this.admin = admin;
 		this.userEmail = userEmail;
 		this.userImage = userImage;
-		this.userPhone = userPhone;
 		this.userLeagueGrade = userLeagueGrade;
 		this.wincount = wincount;
 		this.losecount = losecount;
