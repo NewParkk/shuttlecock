@@ -8,8 +8,11 @@
 <head>
 <meta charset="UTF-8">
 <title>거래게시판</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="/css/mainstyle.css">
+<!-- <link rel="stylesheet" href="/css/aside.css"> -->
+<!-- <link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
 <style>
 .mainTitle {
 	text-align: center;
@@ -81,6 +84,19 @@ a:active {
 <body>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ include file="category.jsp"%>
+	<!-- aside -->
+         <!--  <div class="aside">
+            <div class="menubar">
+              <ul>
+                <li><a href="/Tradeboard?itemClass=0">전체</a></li>
+                <li><a href="/Tradeboard?itemClass=1">의류</a></li>
+                <li><a href="/Tradeboard?itemClass=2">라켓</a></li>
+                <li><a href="/Tradeboard?itemClass=3">보호대</a></li>
+                <li><a href="/Tradeboard?itemClass=4">신발</a></li>
+                 <li><a href="/Tradeboard?itemClass=5">기타</a></li>
+              </ul>
+            </div>
+          </div> -->
 	<div class="mainTitle">
 		<h1>거래게시판</h1>
 	</div>
@@ -89,17 +105,19 @@ a:active {
 			<div class="search-wrap clearfix">
 				<select id="category" name="category"
 					style="width: 80px; margin-left: 54%">
-					<option value="user_userId">작성자</option>
-					<option value="title">제목</option>
-					<option value="content">글내용</option>
-				</select> <input id="searchKeyword" type="search" name="searchKeyword"
-					placeholder="검색어를 입력해주세요."
-					value="${pageInfo.pageRequest.searchKeyword}"> <input
-					name="pageNum" type="hidden"
-					value="${pageInfo.pageRequest.pageNum}"> <input
-					name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
-				<input name="region" type="hidden"
-					value="${pageInfo.pageRequest.region}">
+					<option value="user_userId" ${pageInfo.pageRequest.category == 'user_userId' ? 'selected' : ''}>
+					작성자</option>
+					<option value="title" ${pageInfo.pageRequest.category == 'title' ? 'selected' : ''}>
+					제목</option>
+					<option value="content" ${pageInfo.pageRequest.category == 'content' ? 'selected' : ''}>
+					글내용</option>
+				</select> 
+				<input id="searchKeyword" type="search" name="searchKeyword" placeholder="검색어를 입력해주세요."
+					value="${pageInfo.pageRequest.searchKeyword}"> 
+				<input name="pageNum" type="hidden" value="${pageInfo.pageRequest.pageNum}"> 
+				<input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
+				<input name="region" type="hidden" value="${pageInfo.pageRequest.region}">
+				<input name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
 				<button class="btn btn-primary search-btn" type="submit"
 					style="margin-right: 16%">검색</button>
 			</div>
@@ -112,43 +130,64 @@ a:active {
 						style="font-size: 12pt;"> <b><a
 								href="/Tradeboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
 										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}&region=0">전체</a></b>
+										&category=${pageInfo.pageRequest.category}
+										&sort=${pageInfo.pageRequest.sort}
+										&itemClass=${pageInfo.pageRequest.itemClass}
+										&region=0">전체</a></b>
 					</span></th>
 					<th scope="col" style="text-align: center;"><span
 						style="font-size: 12pt;"> <b><a
 								href="/Tradeboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
 										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}&region=1">서울</a></b>
+										&category=${pageInfo.pageRequest.category}
+										&sort=${pageInfo.pageRequest.sort}
+										&itemClass=${pageInfo.pageRequest.itemClass}
+										&region=1">서울</a></b>
 					</span></th>
 					<th scope="col" style="text-align: center;"><span
 						style="font-size: 12pt;"> <b><a
 								href="/Tradeboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
 										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}&region=2">경기</a></b>
+										&category=${pageInfo.pageRequest.category}
+										&sort=${pageInfo.pageRequest.sort}
+										&itemClass=${pageInfo.pageRequest.itemClass}
+										&region=2">경기</a></b>
 					</span></th>
 					<th scope="col" style="text-align: center;"><span
 						style="font-size: 12pt;"> <b><a
 								href="/Tradeboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
 										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}&region=3">충청</a></b>
+										&category=${pageInfo.pageRequest.category}
+										&sort=${pageInfo.pageRequest.sort}
+										&itemClass=${pageInfo.pageRequest.itemClass}
+										&region=3">충청</a></b>
 					</span></th>
 					<th scope="col" style="text-align: center;"><span
 						style="font-size: 12pt;"> <b><a
 								href="/Tradeboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
 										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}&region=4">경상</a></b>
+										&category=${pageInfo.pageRequest.category}
+										&sort=${pageInfo.pageRequest.sort}
+										&itemClass=${pageInfo.pageRequest.itemClass}
+										&region=4">경상</a></b>
 					</span></th>
 					<th scope="col" style="text-align: center;"><span
 						style="font-size: 12pt;"> <b><a
 								href="/Tradeboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
 										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}&region=5">전라</a></b>
+										&category=${pageInfo.pageRequest.category}
+										&sort=${pageInfo.pageRequest.sort}
+										&itemClass=${pageInfo.pageRequest.itemClass}
+										&region=5">전라</a></b>
 					</span></th>
 					<th scope="col" style="text-align: center;"><span
 						style="font-size: 12pt;"> <b><a
 								href="/Tradeboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
 										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}&region=6">강원</a></b>
+										&category=${pageInfo.pageRequest.category}
+										&sort=${pageInfo.pageRequest.sort}
+										&itemClass=${pageInfo.pageRequest.itemClass}
+										&region=6">강원</a></b>
 					</span></th>
 				</tr>
 			</thead>
@@ -160,12 +199,20 @@ a:active {
 				<table class="table" style="width: 70%; margin: 0 auto;">
 					<thead>
 						<tr>
-							<th scope="col" style="text-align: center;">글번호</th>
+							<th scope="col" style="text-align: center;">
+								<a href="/Tradeboard?sort=0">글번호</a>
+							</th>
 							<th scope="col" style="text-align: center;">제목</th>
 							<th scope="col" style="text-align: center;">작성자</th>
-							<th scope="col" style="text-align: center;">날짜</th>
-							<th scope="col" style="text-align: center;">조회수</th>
-							<th scope="col" style="text-align: center;">추천</th>
+							<th scope="col" style="text-align: center;">
+								<a href="/Tradeboard?sort=1">날짜</a>
+							</th>
+							<th scope="col" style="text-align: center;">
+								<a href="/Tradeboard?sort=2">조회수</a>
+							</th>
+							<th scope="col" style="text-align: center;">
+								<a href="/Tradeboard?sort=3">추천</a>
+							</th>
 							<th scope="col" style="text-align: center;">거래여부</th>
 						</tr>
 					</thead>
@@ -273,21 +320,27 @@ a:active {
 									<c:if test="${pageInfo.prev}">
 										<th class="page-item"><a class="page-link"
 											aria-label="Previous"
-											href="/Tradeboard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}&region=${pageInfo.pageRequest.region}">Prev</a>
+											href="/Tradeboard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
+											&region=${pageInfo.pageRequest.region}&sort=${pageInfo.pageRequest.sort}
+											&itemClass=${pageInfo.pageRequest.itemClass}">Prev</a>
 										</th>
 									</c:if>
 									<c:forEach var="num" begin="${pageInfo.startPage}"
 										end="${pageInfo.endPage}">
 										<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
 											<a class="page-link" style="padding: 10px;"
-											href="/Tradeboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&region=${pageInfo.pageRequest.region}">${num}
+											href="/Tradeboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
+											&region=${pageInfo.pageRequest.region}&sort=${pageInfo.pageRequest.sort}
+											&itemClass=${pageInfo.pageRequest.itemClass}">${num}
 										</a>
 										</th>
 									</c:forEach>
 									<c:if test="${pageInfo.next}">
 										<th class="page-item next"><a class="page-link"
 											aria-label="next"
-											href="/Tradeboard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}&region=${pageInfo.pageRequest.region}">Next</a>
+											href="/Tradeboard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
+											&region=${pageInfo.pageRequest.region}&sort=${pageInfo.pageRequest.sort}
+											&itemClass=${pageInfo.pageRequest.itemClass}">Next</a>
 										</th>
 									</c:if>
 								</tr>
@@ -299,7 +352,8 @@ a:active {
 											aria-label="Previous"
 											href="/Tradeboard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}">Prev</a>
+													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
+													&sort=${pageInfo.pageRequest.sort}&itemClass=${pageInfo.pageRequest.itemClass}">Prev</a>
 										</th>
 									</c:if>
 									<c:forEach var="num" begin="${pageInfo.startPage}"
@@ -308,7 +362,8 @@ a:active {
 											<a class="page-link" style="padding: 10px;"
 											href="/Tradeboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
 										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}">${num}
+										&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
+										&sort=${pageInfo.pageRequest.sort}&itemClass=${pageInfo.pageRequest.itemClass}">${num}
 										</a>
 										</th>
 									</c:forEach>
@@ -317,7 +372,8 @@ a:active {
 											aria-label="next"
 											href="/Tradeboard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}">Next</a>
+													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
+													&sort=${pageInfo.pageRequest.sort}&itemClass=${pageInfo.pageRequest.itemClass}">Next</a>
 										</th>
 									</c:if>
 								</tr>

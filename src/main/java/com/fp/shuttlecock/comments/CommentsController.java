@@ -66,11 +66,11 @@ public class CommentsController {
 	        //try {
 	            boolean result = commentService.updateComment(comment);
 	            if (result) {
-	            	if(comment.getComment_type() == 2) {
+	            	if(comment.getCommentType() == 2) {
 	            		return "redirect:/Freeboard/freeDetail" + commentBno;
-	            	} else if(comment.getComment_type() == 3) {
+	            	} else if(comment.getCommentType() == 3) {
 	            		return "redirect:/Tradeboard/" + commentBno;
-	            	} else if(comment.getComment_type() == 4) {
+	            	} else if(comment.getCommentType() == 4) {
 	            		return "redirect:/Recruitboard/" + commentBno;
 	            	} else {
 	            		return "error";

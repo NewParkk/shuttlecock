@@ -20,7 +20,7 @@ public class CommentsDTO {
 	private Timestamp regdate;
 	private int secret;
 	private int bno;
-	private int comment_type;
+	private int commentType;
 	private String userId;
 	
 }

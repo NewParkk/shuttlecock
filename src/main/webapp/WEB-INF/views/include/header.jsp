@@ -22,9 +22,9 @@
   </div>
 
   <div class="inner2">
-    <h1 class="logo">
+    <div class="logo">
       <img src="/img/shuttle-logo.jpg" alt="Logo" onclick="location.href='/main'" />
-    </h1>
+    </div>
     <nav class="nav">
       <ul>
         <li>
@@ -39,7 +39,7 @@
           <h3><a href="#">Community</a></h3>
           <ul class="submenu">
             <li><a href="/Freeboard/freeList">자유게시판</a></li>
-            <li><a href="#">물품거래소</a></li>
+            <li><a href="/Tradeboard">물품거래소</a></li>
             <li><a href="#">운동장소찾기</a></li>
           </ul>
         </li>
@@ -55,7 +55,7 @@
           <h3><a href="#">League</a></h3>
           <!-- 수정: h2를 h3로 변경 -->
           <ul class="submenu">
-            <li><a href="#">리그게시판</a></li>
+            <li><a href="/LeagueBoard">리그게시판</a></li>
             <li><a href="#">리그 순위</a></li>
           </ul>
         </li>

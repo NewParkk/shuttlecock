@@ -8,8 +8,10 @@
 <head>
 <meta charset="UTF-8">
 <title>리그 게시판</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="/css/mainstyle.css">
+<!-- <link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
 <style>
 .mainTitle {
 	text-align: center;
@@ -89,14 +91,18 @@ a:active {
 			<div class="search-wrap clearfix">
 				<select id="dropdown" name="dropdown"
 					style="width: 80px; margin-left: 54%">
-					<option value="user_userId">작성자</option>
-					<option value="title">제목</option>
+					<option value="user_userId" ${pageInfo.pageRequest.category == 'user_userId' ? 'selected' : ''}>
+					작성자</option>
+					<option value="title" ${pageInfo.pageRequest.category == 'title' ? 'selected' : ''}>
+					제목</option>
 				</select> 
 				<input id="searchKeyword" type="search" name="searchKeyword"
 					placeholder="검색어를 입력해주세요."
 					value="${pageInfo.pageRequest.searchKeyword}"> 
 				<input name="pageNum" type="hidden"
-					value="${pageInfo.pageRequest.pageNum}"> 
+					value="${pageInfo.pageRequest.pageNum}">
+				<input name="sort" type="hidden"
+					value="${pageInfo.pageRequest.sort}">
 				<input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
 				<button class="btn btn-primary search-btn" type="submit" style="margin-right: 16%">검색</button>
 			</div>
@@ -107,10 +113,14 @@ a:active {
 				<table class="table" style="width: 70%; margin: 0 auto;">
 					<thead>
 						<tr>
-							<th scope="col" style="text-align: center;">글번호</th>
+							<th scope="col" style="text-align: center;">
+								<a href="/LeagueBoard?sort=0">글번호</a>
+							</th>
 							<th scope="col" style="text-align: center;">제목</th>
 							<th scope="col" style="text-align: center;">작성자</th>
-							<th scope="col" style="text-align: center;">날짜</th>
+							<th scope="col" style="text-align: center;">
+								<a href="/LeagueBoard?sort=1">날짜</a>
+							</th>
 							<!-- <th scope="col">조회수</th> -->
 						</tr>
 					</thead>
@@ -185,7 +195,7 @@ a:active {
 									end="${pageInfo.endPage}">
 									<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
 										<a class="page-link" style="padding: 10px;"
-										href="/LeagueBoard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
+										href="/LeagueBoard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&sort=${pageInfo.pageRequest.sort}
  													">${num}</a>
 									</th>
 								</c:forEach>
@@ -196,7 +206,7 @@ a:active {
 									<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
 										<a class="page-link" style="padding: 10px;"
 										href="/LeagueBoard/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-									&dropdown=${pageInfo.pageRequest.category}
+									&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}
  													">${num}</a>
 									</th>
 								</c:forEach>
