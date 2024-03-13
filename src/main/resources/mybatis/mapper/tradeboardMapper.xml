@@ -21,10 +21,13 @@
 		<bind name="start" value="(pageNum - 1) * amount" />
 		SELECT * FROM tradeboard
 		<where>
-			(delete_yn IS NULL OR delete_yn != 1)
+			(deleteYN IS NULL OR deleteYN != 1)
 			<if test="userId != null">
 				AND (userId NOT IN (SELECT blockedUser FROM blockuser
 				WHERE userId = #{userId}))
+			</if>
+			<if test="itemClass != 0">
+				AND itemClass = #{itemClass}
 			</if>
 			<choose>
 				<when
@@ -64,7 +67,20 @@
 				</when>
 			</choose>
 		</where>
-		ORDER BY tradeboardId DESC
+		<choose>
+			<when test="sort == 0">
+				ORDER BY tradeboardId DESC
+			</when>
+			<when test="sort == 1">
+				ORDER BY regdate DESC
+			</when>
+			<when test="sort == 2">
+				ORDER BY hit DESC
+			</when>
+			<when test="sort == 3">
+				ORDER BY `like` DESC
+			</when>
+		</choose>
 		LIMIT #{start}, #{amount}
 	</select>
 
@@ -73,7 +89,7 @@
 		resultType="int">
 		select COUNT(tradeboardId) from tradeboard
 		<where>
-			(delete_yn IS NULL OR delete_yn != 1)
+			(deleteYN IS NULL OR deleteYN != 1)
 			<choose>
 				<when
 					test="searchKeyword != null and searchKeyword != '' and region == null or region == 0">
@@ -116,16 +132,14 @@
 
 	<insert id="insertBoard" parameterType="TradeboardDTO">
 		insert into
-		tradeboard(title, userId, content, region)
-		values(#{title}, #{userId},
-		#{content}, #{region})
+		tradeboard(title, userId, content, region, itemClass)
+		values(#{title}, #{userId}, #{content}, #{region}, #{itemClass})
 	</insert>
 
 	<update id="updateTradePost" parameterType="TradeboardDTO">
-		update tradeboard set
-		title = #{title}, content = #{content},
-		region = #{region}, regdate =
-		NOW(), complete = #{complete}
+		update tradeboard 
+		set title = #{title}, content = #{content}, 
+			region = #{region}, regdate = NOW(), complete = #{complete}, itemClass = #{itemClass}
 		where tradeboardId = #{tradeboardId}
 	</update>
 
@@ -143,6 +157,6 @@
 
 	<update id="updateDeletedTradePost" parameterType="_int">
 		update
-		tradeboard set delete_yn = 1 where tradeboardId = #{tradeboardId}
+		tradeboard set deleteYN = 1 where tradeboardId = #{tradeboardId}
 	</update>
 </mapper>

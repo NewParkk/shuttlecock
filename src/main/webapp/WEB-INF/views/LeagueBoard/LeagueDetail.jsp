@@ -8,8 +8,10 @@
 <title>리그게시판</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/mainstyle.css">
 <link href="/resources/css/layout1.css" rel="stylesheet" type="text/css" />
 <link href="/resources/css/layout2.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <style>
@@ -33,6 +35,10 @@ h1 {
 	padding-top: 30px;
 	padding-bottom: 30px
 }
+#main{
+	 width: 70%; /* 메인 섹션의 너비를 조정 */
+     margin: 0 auto; /* 좌우 여백을 자동으로 설정하여 중앙에 정렬 */
+}
 </style>
 <body>
 	<div id="wrap">
@@ -54,14 +60,13 @@ h1 {
 					name="detailForm" id="detailForm">
 					<div id="board-list">
 						<div class="container">
-							<div class="mb-3" style="width: 50%; margin: 0 auto;">
+							<div class="mb-3" style="width: 70%; margin: 0 auto;">
 								<label for="exampleFormControlInput1" class="form-label">제목</label>
 								<input type="text" class="form-control"
 									id="exampleFormControlInput1" value="${leagueboard.title}"
 									readonly>
 							</div>
-							<div class="row g-3"
-								style="width: 51%; margin: 0 auto; margin-top: -25px">
+							<div class="row g-3" style="width: 70%; margin: 0 auto;">
 								<div class="col">
 									<%-- <label for="exampleFormControlInput1" class="form-label">작성자</label>
 									<input type="text" class="form-control"
@@ -79,8 +84,7 @@ h1 {
 										id="exampleFormControlInput2" readonly>
 								</div>
 							</div>
-							<div class="row g-3"
-								style="width: 51%; margin: 0 auto; margin-top: -10px">
+							<div class="row g-3" style="width: 70%; margin: 0 auto;">
 								<div class="col">
 									<label for="exampleFormControlInput1" class="form-label">승자</label>
 									<input type="text" class="form-control"
@@ -95,7 +99,7 @@ h1 {
 								</div>
 							</div>
 
-							<div class="mb-3" style="width: 50%; margin: 0 auto;">
+							<div class="mb-3" style="width: 70%; margin: 0 auto;">
 								<label for="exampleFormControlTextarea1" class="form-label"></label>
 								<div>${leagueboard.content}</div>
 							</div>
@@ -122,12 +126,6 @@ h1 {
 						</div>
 					</div>
 				</form>
-				<!-- <div class="container" style="height: 50px;">
-					<span style="font-size: 12pt; float: left; margin-right: 7px;"><input
-						type="button" value="글 목록" class="Btn btn-primary whyBtn"
-						onclick="location.href='/LeagueBoard'"></span>
-				</div> -->
-
 			</section>
 		</main>
 
@@ -164,6 +162,7 @@ h1 {
 		
 		//목록
 		$('#goList').click(function(){
+			console.log("33");
 			location.href = "/LeagueBoard";
 		})
 		
@@ -173,6 +172,7 @@ h1 {
 	    document.getElementById("exampleFormControlInput2").value = formattedDate;
 	    
 	    $('#userblock').click(function(){
+	    	alert("${sessionScope.userId}");
 	    	$.ajax({
 	    		type :"POST",
 	    		url : "/blockuser",

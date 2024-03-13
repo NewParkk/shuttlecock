@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>거래게시판</title>
+<link rel="stylesheet" href="/css/mainstyle.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
@@ -37,20 +38,19 @@ h1 {
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
 
-
 	<!-- 붙혀 넣는곳 -->
 	<div class="mainTitle">
 		<h1>거래게시판</h1>
 	</div>
 	<form action="/Tradeboard/update/${tradeboardId}" method="GET"
 		name="detailForm" id="detailForm">
-		<div class="mb-3" style="width: 50%; margin: 0 auto;">
+		<div class="mb-3" style="width: 70%; margin: 0 auto;">
 			<label for="exampleFormControlInput1" class="form-label">제목</label> <input
 				type="text" class="form-control" id="exampleFormControlInput1"
 				value="${tradeboard.title}" readonly>
 		</div>
 		<div class="row g-3"
-			style="width: 51%; margin: 0 auto; margin-top: -25px">
+			style="width: 70%; margin: 0 auto;">
 			<div class="col">
 				<label for="exampleFormControlInput1" class="form-label">작성자</label>
 				<input type="text" class="form-control"
@@ -64,7 +64,7 @@ h1 {
 			</div>
 		</div>
 		<div class="row g-3"
-			style="width: 51%; margin: 0 auto; margin-top: -10px">
+			style="width: 70%; margin: 0 auto;">
 			<div class="col">
 				<label for="exampleFormControlInput1" class="form-label">조회수</label>
 				<input type="text" class="form-control"
@@ -89,7 +89,7 @@ h1 {
 		  </div> --%>
 		</div>
 
-		<div class="mb-3" style="width: 50%; margin: 0 auto;">
+		<div class="mb-3" style="width: 70%; margin: 0 auto;">
 			<label for="exampleFormControlTextarea1" class="form-label"></label>
 			<div>${tradeboard.content}</div>
 		</div>
@@ -106,26 +106,26 @@ h1 {
 		<button type="button" class="btn btn-primary CancleBtn LikeBtn"
 			id="LikeBtn">추천 ${tradeboard.like}</button>
 		<c:if
-			test="${sessionScope.userId != leagueboard.userId and not empty sessionScope.userId}">
+			test="${sessionScope.userId != tradeboard.userId and not empty sessionScope.userId}">
 			<button type="button" id="userblock" style="margin-top: 30px;">게시자차단</button>
 		</c:if>
 	</form>
 	<!-- 댓글 -->
 
 	<c:if test="${not empty sessionScope.userId}">
-		<div class="mb-3" style="width: 50%; margin: 0 auto;">
+		<div class="mb-3" style="width: 70%; margin: 0 auto;">
 			<label for="exampleFormControlInput1" class="form-label">댓글
 				작성자</label> <input type="text" class="form-control writerId"
 				id="exampleFormControlInput1" name="writerId"
 				value="${sessionScope.userId}" readonly>
 		</div>
-		<div class="mb-3" style="width: 50%; margin: 0 auto;">
+		<div class="mb-3" style="width: 70%; margin: 0 auto;">
 			<label for="exampleFormControlTextarea1" class="form-label">댓글
 				내용</label>
 			<textarea class="form-control content"
 				id="exampleFormControlTextarea1" rows="2" name="content"></textarea>
 		</div>
-		<div class="mb-3" style="width: 50%; margin: 0 auto;">
+		<div class="mb-3" style="width: 70%; margin: 0 auto;">
 			<input type="checkbox" id="secret" name="secret" value="1">비밀댓글
 		</div>
 		<button type="button" class="btn btn-primary whyBtn1" id="com_btn">댓글
@@ -137,7 +137,7 @@ h1 {
 		<c:if test="${not empty commentList}">
 			<c:forEach items="${commentList}" var="comment">
 				<div class="row g-3"
-					style="width: 51%; margin: 0 auto; margin-top: -25px">
+					style="width: 70%; margin: 0 auto;">
 					<div class="col">
 						<label for="exampleFormControlInput1" class="form-label">작성자</label>
 						<input type="text" class="form-control"
@@ -149,7 +149,7 @@ h1 {
 							id="exampleFormControlInput2" value="${comment.regdate}" readonly>
 					</div>
 				</div>
-				<div class="mb-3" style="width: 50%; margin: 0 auto;">
+				<div class="mb-3" style="width: 70%; margin: 0 auto;">
 					<label for="exampleFormControlTextarea1" class="form-label">댓글
 						내용</label>
 					<c:choose>
@@ -183,7 +183,7 @@ h1 {
 				<!-- 댓글 수정 모달 -->
 				<div class="modal fade" id="editPostModal_${comment.commentsId}"
 					tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel"
-					aria-hidden="true">
+					aria-hidden="true" style="display:none;">
 					<div class="modal-dialog modal-lg" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -203,7 +203,7 @@ h1 {
 										value="${comment.commentsId}"> <input type="hidden"
 										class="form-control mb-2" name="bno" value="${comment.bno}">
 									<input type="hidden" class="form-control mb-2"
-										name="comment_type" value="${comment.comment_type}">
+										name="comment_type" value="${comment.commentType}">
 									<textarea class="form-control" style="height: 100px"
 										name="content">${comment.content}</textarea>
 									<div style="display: flex; align-items: center;">
@@ -414,7 +414,7 @@ document.getElementById("exampleFormControlInput2").value = formattedDate;
 	    		url : "/blockuser",
 	    		data : {
 	    			"userId" : "${sessionScope.userId}",
-	    			"blockedUser" : "${leagueboard.userId}"
+	    			"blockedUser" : "${tradeboard.userId}"
 	    		},
 	    		success : function(data){
 	    			alert(data);

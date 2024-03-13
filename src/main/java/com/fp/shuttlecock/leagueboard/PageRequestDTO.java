@@ -19,6 +19,8 @@ public class PageRequestDTO {
 	private String category;
 	
 	private String userId;
+	
+	private int sort = 0;
 
 	public PageRequestDTO() {
 		this(1, 10);

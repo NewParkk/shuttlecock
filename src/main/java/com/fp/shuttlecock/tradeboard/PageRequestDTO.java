@@ -22,6 +22,10 @@ public class PageRequestDTO {
 	private int region;
 	
 	private String userId;
+	
+	private int sort = 0;
+	
+	private int itemClass = 0;
 
 	public PageRequestDTO() {
 		this(1, 10);

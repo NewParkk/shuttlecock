@@ -64,7 +64,7 @@
 		<bind name="start" value="(pageNum-1)*amount" />
 		SELECT *
 		FROM leagueboard
-		WHERE (delete_yn IS NULL OR delete_yn != 1)
+		WHERE (deleteYN IS NULL OR deleteYN != 1)
 		<if test="userId != null">
 			AND (userId NOT IN (SELECT blockedUser FROM blockuser
 			WHERE userId = #{userId}))
@@ -72,7 +72,12 @@
 		<if test="searchKeyword != null and searchKeyword != ''">
 			AND title LIKE CONCAT ('%', #{searchKeyword}, '%')
 		</if>
-		ORDER BY leagueboardId DESC
+		<if test="sort == 0">
+			ORDER BY leagueboardId DESC
+		</if>
+		<if test="sort == 1">
+			ORDER BY regdate DESC
+		</if>
 		LIMIT #{start}, #{amount}
 	</select>
 
@@ -83,7 +88,7 @@
 		SELECT *
 		FROM leagueboard
 		<where>
-			(delete_yn IS NULL OR delete_yn != 1)
+			(deleteYN IS NULL OR deleteYN != 1)
 			<if test="userId != null">
 				AND (userId NOT IN (SELECT blockedUser FROM blockuser
 				WHERE userId = #{userId}))
@@ -99,7 +104,12 @@
 				</if>
 			</if>
 		</where>
-		ORDER BY leagueboardId DESC
+		<if test="sort == 0">
+			ORDER BY leagueboardId DESC
+		</if>
+		<if test="sort == 1">
+			ORDER BY regdate DESC
+		</if>
 		LIMIT #{start}, #{amount}
 	</select>
 
@@ -108,7 +118,7 @@
 		resultType="int">
 		select COUNT(leagueboardId) from leagueboard
 		<where>
-			(delete_yn IS NULL OR delete_yn != 1)
+			(deleteYN IS NULL OR deleteYN != 1)
 			<if test="userId != null">
 				AND (userId NOT IN (SELECT blockedUser FROM blockuser
 				WHERE userId =
@@ -137,7 +147,7 @@
 	<update id="updateDeletedLeaguePost" parameterType="_int">
 		update
 		leagueboard
-		set delete_yn = 1
+		set deleteYN = 1
 		where leagueboardId = #{leagueboardId}
 	</update>
 </mapper>
