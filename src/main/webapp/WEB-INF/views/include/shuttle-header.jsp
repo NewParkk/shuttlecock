@@ -13,7 +13,8 @@
       <input type="button" class="Btn" value="Join" onclick="location.href='/join'" />
     </c:if>
     <c:if test="${not empty sessionScope.userId}">
-       	<strong class="Btn">${userId} 님</strong>
+        <strong class="Btn" ><a href="/admin">관리자페이지</a></strong>
+       	<strong class="Btn" ><a href="/mypage">${userId} 님</a></strong>
        	<div class="v-line"></div>
         <button type="button" class="Btn" onClick="location.href='/logout'">Logout</button>
     </c:if>   

@@ -38,9 +38,9 @@
 		WHERE userId = #{user_userId} 
 	</update>
 	
-	<delete id="deleteCalendar" parameterType="String">
+	<delete id="deleteCalendar" parameterType="int">
 		DELETE FROM calendar
-		WHERE userId = #{userId}
+		WHERE calendarId = #{calendarId}
 	</delete>
 
 	<update id="updateUser"
@@ -104,7 +104,8 @@
 	<update id="insertImage"
 		parameterType="com.fp.shuttlecock.mypage.UserDTO">
 		UPDATE user
-		SET userImage = #{userImage}
+		SET userImageName = #{userImageName},
+		userImagePath = #{userImagePath}
 		WHERE userId = #{userId}
 	</update>
 
