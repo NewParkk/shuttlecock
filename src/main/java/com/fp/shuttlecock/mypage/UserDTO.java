@@ -18,7 +18,8 @@ public class UserDTO {
 	private int gender;
 	private int admin;
 	private String userEmail;
-	private String userImage;
+	private String userImageName;
+	private String userImagePath;
 	private String userPhone;
 	private int userLeagueGrade;
 	private int wincount;
@@ -27,8 +28,8 @@ public class UserDTO {
 	private int badgeId;
 
 	@Builder
-	public UserDTO(String userId, String pw, String username, int gender, int admin, String userEmail, String userImage,
-			String userPhone, int userLeagueGrade, int wincount, int losecount, int writeCount, int badge_badgeId) {
+	public UserDTO(String userId, String pw, String username, int gender, int admin, String userEmail, String userImageName,String userImagePath,
+			String userPhone, int userLeagueGrade, int wincount, int losecount, int writeCount, int badgeId) {
 		super();
 		this.userId = userId;
 		this.pw = pw;
@@ -36,7 +37,8 @@ public class UserDTO {
 		this.gender = gender;
 		this.admin = admin;
 		this.userEmail = userEmail;
-		this.userImage = userImage;
+		this.userImageName = userImageName;
+		this.userImagePath = userImagePath;
 		this.userPhone = userPhone;
 		this.userLeagueGrade = userLeagueGrade;
 		this.wincount = wincount;

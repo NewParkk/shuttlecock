@@ -14,6 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CalendarDTO {
+	private int calendarId;
 	private String title;
 	private Date date;
 	private String userId;

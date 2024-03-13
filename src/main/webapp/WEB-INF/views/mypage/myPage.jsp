@@ -8,8 +8,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" href="/css/mainstyle.css">
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <!-- fullcalendar -->
 <link rel="stylesheet"
@@ -21,7 +23,6 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 
@@ -31,13 +32,9 @@
 
 </head>
 <body>
-	<%-- 	${user.userId} ${calendarList}
-	<c:forEach items="${calendarList}" var="calendar">
-			${calendar.title}
-	</c:forEach>
 	<a href="/updateUser">회원수정</a>
 
-	<a href="/record">나의활동내역</a> --%>
+	<a href="/record">나의활동내역</a>
 	<div id="calendarBox">
 		<div id="calendar"></div>
 	</div>
@@ -48,23 +45,23 @@
 			<h2>일정 추가</h2>
 			<form action="/mypage" method="POST" enctype="multipart/form-data">
 				<input type="text" id="title" name="title" placeholder="일정 제목">
-				<input type="date" id="date" name="date" placeholder="이"> <input
-					type="submit" value="추가">
+				<input type="date" id="date" name="date" placeholder="이"> 
+				<input type="submit" value="추가">
 			</form>
 		</div>
 	</div>
 	<!-- modal 추가 -->
-	<div id="calendarModalDelete" class="modal">
-		<div class="modal-content">
-			<span class="close">&times;</span>
-			<h2>일정 추가</h2>
-			<form action="/mypage" method="POST" enctype="multipart/form-data">
-				<input type="text" id="title" name="title" placeholder="일정 제목">
-				<input type="date" id="date" name="date" placeholder="이"> <input
-					type="submit" value="추가">
-			</form>
-		</div>
-	</div>
+<div id="calendarModalDelete" class="modal">
+  <div class="modal-content">
+	    <span class="close">&times;</span>
+	    <form action="/delete.do" enctype="multipart/form-data">
+	    <input type="hidden" id="myInput" name="calendarId" value="myInput" placeholder="일정 제목">
+	    <p>정말로 삭제하시겠습니까?</p>
+	    <input type="submit" value="삭제">
+	    <button id="cancelButton">취소</button>
+	</form>  
+  </div>
+</div>
 </body>
 
 <script type="text/javascript">
@@ -97,21 +94,23 @@ document.addEventListener('DOMContentLoaded', function() {
             <%if (calendarList != null) {%>
             <%for (CalendarDTO vo : calendarList) {%>
             {
+            	id : '<%=vo.getCalendarId()%>',
             	title : '<%=vo.getTitle()%>',
-                date : '<%=vo.getDate()%>',
+                start : '<%=vo.getDate()%>',
                 color : '#' + Math.round(Math.random() * 0xffffff).toString(16)
              },
 			<%}
 			}%>
 			],
 			eventClick: function(info) {
-			      // 클릭한 이벤트 ID 가져오기
-			      var eventdate = info.event.date;
-				  
+			   	  // modal 나타내기
+			      document.getElementById("calendarModalDelete").style.display = "block"
 			      // 여기에서는 예제로 간단히 이벤트를 배열에서 찾아 제거합니다.
-			      // 실제로는 데이터베이스나 다른 저장소에서 이벤트를 삭제해야 합니다.
-			      calendar.getEventById(eventId).remove();
-
+			      // 클릭한 이벤트 ID 가져오기
+			      var eventid = info.event.id
+			      console.log(eventid);
+			   	  
+			      document.getElementById("myInput").value = eventid;
 			      // FullCalendar에서 일정을 삭제한 후 UI를 다시 렌더링합니다.
 			      calendar.render();
 			    }	

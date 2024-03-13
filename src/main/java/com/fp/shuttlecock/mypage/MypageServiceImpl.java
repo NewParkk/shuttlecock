@@ -33,29 +33,16 @@ public class MypageServiceImpl {
 		return result;
 	}
 
-	public CalendarDTO getCalendarByDate(Date date) {
-		return mapper.getCalendarByDate(date);
-	}
-
-	public boolean updateCalendar(CalendarDTO newCalendar) {
+	public boolean deleteCalendar(CalendarDTO calendarId) {
 		boolean result = false;
-		int res = mapper.updateCalendar(newCalendar);
-		if (res != 0) {
-			result = true;
-		}
-		return result;
-	}
-
-	public boolean deleteCalendar(String userId) {
-		boolean result = false;
-		int res = mapper.deleteCalendar(userId);
+		int res = mapper.deleteCalendar(calendarId);
 		if (res != 0) {
 			result = true;
 		}
 
 		return result;
 	}
-
+	
 	public boolean updateUser(UserDTO user) {
 		boolean result = false;
 		int res = mapper.updateUser(user);
@@ -96,11 +83,6 @@ public class MypageServiceImpl {
 		return mapper.getComment(userId);
 	}
 
-	/*
-	 * public List<LikesDTO> getLike(String userId) {
-	 *  return mapper.getLike(userId);
-	 * }
-	 */
 	public List<HashMap<String, Object>> getLike(String userId) {
 		return mapper.getLike(userId);
 	}
@@ -108,18 +90,21 @@ public class MypageServiceImpl {
 	public boolean insertImage(MultipartFile file, String userId) {
 		boolean result = false;
 		
-		String Image = "C:\\multi\\imege";
+		String name = file.getOriginalFilename();
+		String currentDir = System.getProperty("user.dir");
+		String path = currentDir;
 		UserDTO user = UserDTO.builder()
 								.userId(userId)
-								.userImage(Image)
+								.userImageName(name)
+								.userImagePath(path)
 								.build();
-
+		System.out.println(currentDir);
 		int res = mapper.insertImage(user);
 		if (res != 0) {
 			result = true;
 		}
 		return result;
 	}
-
+	public class CurrentDirectory {    public static void main(String[] args) {                String currentDir = System.getProperty("user.dir");         System.out.println(currentDir);    }}
 
 }

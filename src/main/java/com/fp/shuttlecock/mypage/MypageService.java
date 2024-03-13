@@ -1,6 +1,5 @@
 package com.fp.shuttlecock.mypage;
 
-import java.sql.Date;
 import java.util.List;
 
 import com.fp.shuttlecock.admin.UserDTO;
@@ -17,10 +16,6 @@ public interface MypageService {
 
 	int updateUser(UserDTO user);
 
-	CalendarDTO getCalendarByDate(Date date);
-
-	int updateCalendar(CalendarDTO newCalendar);
-
 	int deleteUser(String userId);
 
 	List<LeagueboardDTO> getLeagueboard(String userId);
@@ -34,4 +29,6 @@ public interface MypageService {
 	List<CommentsDTO> getComment(String userId);
 
 	List<LikesDTO> getLike(String userId);
+	
+	int insertImage(UserDTO user);
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpSession;
@@ -20,13 +19,16 @@ public class MypageController {
 
 	@Autowired
 	MypageServiceImpl service;
+	
+	@Autowired
+	FileUploadAPI fileupload;
 
 	// 마이페이지 폼
 	@GetMapping("/mypage")
 	public String getMypage(HttpSession session, Model model) {
 		String userId = session.getAttribute("userId").toString();
 		System.out.println((String) session.getAttribute("userId"));
-		
+
 		UserDTO user = service.getMypage(userId);
 		List<CalendarDTO> calendarList = service.getCalendar(userId);
 		model.addAttribute("user", user);
@@ -46,40 +48,24 @@ public class MypageController {
 		return "redirect:mypage";
 	}
 
-	// 캘린더 수정
-
-	/*
-	 * @PostMapping("/mypage") public String updateCalendar(HttpSession
-	 * session, @ModelAttribute CalendarDTO newCalendar, Model model, Date date) {
-	 * String userId = session.getAttribute("userId").toString(); CalendarDTO
-	 * calendar = service.getCalendarByDate(date);
-	 * calendar.setTitle(newCalendar.getTitle()); boolean result =
-	 * service.updateCalendar(newCalendar);
-	 * 
-	 * return "mypage/myPage";
-	 * 
-	 * }
-	 */
-
 	// 캘린더 삭제
-	/*
-	 * @DeleteMapping("/mypage") public String deleteCalendar(@PathVariable String
-	 * userId) { boolean result = false; result = service.deleteCalendar(userId);
-	 * 
-	 * return "mypage/myPage"; }
-	 */
+	@GetMapping("/delete.do")
+	public String deleteCalendar(CalendarDTO calendarId) {
+		System.out.println(calendarId);
+		boolean result = false;
+		result = service.deleteCalendar(calendarId);
+
+		return "redirect:mypage";
+	}
+
 	// 회원정보 수정폼
 	@GetMapping("/updateUser")
 	public String getUserId(HttpSession session, Model model) {
 		String userId = session.getAttribute("userId").toString();
+//		fileupload.ncpFileupload(session);
 		UserDTO user = null;
-		try {
-			user = service.getMypage(userId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		user = service.getMypage(userId);
 		model.addAttribute("user", user);
-
 		return "mypage/updateUser";
 	}
 
@@ -95,6 +81,9 @@ public class MypageController {
 		user.setUserPhone(newUser.getUserPhone());
 
 		boolean result = service.updateUser(user);
+		
+		fileupload.ncpFileupload(session);
+		
 		if (file != null) {
 			service.insertImage(file, userId);
 		}
@@ -112,24 +101,9 @@ public class MypageController {
 		return "redirect:/login";
 	}
 
-	// 나의 활동내역 폼
-//	@GetMapping("/record")
-//	public String getRecord(HttpSession session, Model model) {
-//		String userId = session.getAttribute("userId").toString();
-//		UserDTO user = null;
-//		try {
-//			user = service.getMypage(userId);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		model.addAttribute("user",user);
-//
-//		return "mypage/record";
-//	}
-
 	// 나의 활동내역
 	@GetMapping("/record")
-	public String getLeagueboard(HttpSession session, Model model) {
+	public String getRecord(HttpSession session, Model model) {
 		String userId = session.getAttribute("userId").toString();
 
 		UserDTO user = service.getMypage(userId);
@@ -153,12 +127,10 @@ public class MypageController {
 		model.addAttribute("comment", commentList);
 
 		// 좋아요
-		/* List<LikesDTO> likeList = service.getLike(userId); */
 		List<HashMap<String, Object>> likeList = service.getLike(userId);
 		model.addAttribute("like", likeList);
 
-		String view = "mypage/record";
-		return view;
+		return "mypage/record";
 	}
 
 }
