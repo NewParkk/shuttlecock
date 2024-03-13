@@ -33,7 +33,7 @@ public class KakaoAPIController {
 		//HttpBody 생성
 		MultiValueMap<String, String>params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
-		params.add("client_id", "ec9d318361ecd986f0d840a73495c081");
+		params.add("client_id", "a94cb68f7a3356e950b067a4ffdc6d95");
 		params.add("redirect_uri", "http://localhost:8099/kakaoLogin");
 		params.add("code", code);
 		
@@ -61,7 +61,7 @@ public class KakaoAPIController {
 
 		//HttpHeader 생성
 		HttpHeaders headers2 = new HttpHeaders();
-		headers2.add("Authorization", "Bearer "+oauthToken.getAccess_token());
+		headers2.add("Authorization", "Bearer "+ oauthToken.getAccess_token());
 		headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		
 		//HttpHeader 담기
@@ -82,9 +82,9 @@ public class KakaoAPIController {
 		
 		
 		System.out.println("id : " + kakaoProfile.getId());
-		System.out.println("Account : " + kakaoProfile.getKakaoAccount());
-		System.out.println("Email : " + kakaoProfile.getKakaoAccount().getEmail());
-		System.out.println("getProperties : " + kakaoProfile.getProperties());
+		System.out.println("Nickname : " + kakaoProfile.getProperties().getNickname());
+		System.out.println("Account : " + kakaoProfile.getKakao_account());
+		System.out.println("Email : " + kakaoProfile.getKakao_account().getEmail());
 		
 		return response2.getBody();
 	}
