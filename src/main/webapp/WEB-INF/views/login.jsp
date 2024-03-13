@@ -77,7 +77,7 @@
             <p>© 2024 Made by oneTeam</p>
         </footer>
     </div>
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
     function openPopup(url) {
         var width = 480; 
@@ -89,6 +89,18 @@
 
         popupWindow.location.href = url;
     }
+    
+    
+    $(document).ready(function() 
+    {
+    	$('.kakao-login').click(function() 
+    	{
+			window.location.href = 'https://kauth.kakao.com/oauth/authorize' +
+	    							'?response_type=code' +
+	    							'&client_id=a94cb68f7a3356e950b067a4ffdc6d95' +
+	    							'&redirect_uri=http://localhost:8099/kakaoLogin';
+    	});
+    });
     </script>
 </body>
 </html>

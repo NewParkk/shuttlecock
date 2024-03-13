@@ -1,12 +1,13 @@
 package com.fp.shuttlecock.user;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -26,5 +27,29 @@ public class UserDTO {
 	private int losecount;		//패배횟수
 	private int writeCount;		//글작성수(기존0)
 	private int badge_badgeId;	//회원등급(기존1)
+	private boolean kakaoYN;	//카카오 회원여부
+	
+	@Builder
+	public UserDTO(String userId, String pw, String username, int gender, boolean admin, String userEmail,
+			String userImage, String userPhone, int userLeagueGrade, int wincount, int losecount, int writeCount,
+			int badge_badgeId, boolean kakaoYN) {
+		super();
+		this.userId = userId;
+		this.pw = pw;
+		this.username = username;
+		this.gender = gender;
+		this.admin = admin;
+		this.userEmail = userEmail;
+		this.userImage = userImage;
+		this.userPhone = userPhone;
+		this.userLeagueGrade = userLeagueGrade;
+		this.wincount = wincount;
+		this.losecount = losecount;
+		this.writeCount = writeCount;
+		this.badge_badgeId = badge_badgeId;
+		this.kakaoYN = kakaoYN;
+	}
+	
+	
 	
 }

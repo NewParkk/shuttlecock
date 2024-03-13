@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -47,11 +49,19 @@ public class UserController {
 	
 	//로그아웃
 	@GetMapping("/logout")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 
 		if(session != null) {
 			session.invalidate();
 		}
+		
+		Cookie[] cookies = request.getCookies();
+	    if (cookies != null) {
+	        for (Cookie cookie : cookies) {
+	            cookie.setMaxAge(0);
+	            response.addCookie(cookie);
+	        }
+	    }
 		return "redirect:/main";
 	}
 	

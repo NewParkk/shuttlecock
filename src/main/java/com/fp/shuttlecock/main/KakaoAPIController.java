@@ -1,5 +1,8 @@
 package com.fp.shuttlecock.main;
 
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -10,19 +13,27 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fp.shuttlecock.user.UserDTO;
+import com.fp.shuttlecock.user.UserServiceImpl;
+
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
 public class KakaoAPIController {
 	
+	@Autowired
+	UserServiceImpl userService;
+	
 	@GetMapping("/kakaoLogin")
 	@ResponseBody
-	public String kakaoLogin(String code) throws JsonMappingException, JsonProcessingException {
-		//OkHttp
+	public ModelAndView kakaoLogin(String code, HttpSession session) throws JsonMappingException, JsonProcessingException {
+		//받아온 code로 사용자 정보 불러오기
 		//RestTemplate
 		RestTemplate rt = new RestTemplate();
 
@@ -49,14 +60,13 @@ public class KakaoAPIController {
 			String.class
 		);
 		
+		//응답받은 response Token에 담기
 		ObjectMapper objectMapper = new ObjectMapper();
 		OAuthToken oauthToken = null;
 		oauthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
-	
-		
-		System.out.println("엑세스 토큰 : " + oauthToken.getAccess_token());
 		
 		
+		// 
 		RestTemplate rt2 = new RestTemplate();
 
 		//HttpHeader 생성
@@ -76,22 +86,49 @@ public class KakaoAPIController {
 			String.class
 		);
 		
-		
 		ObjectMapper objectMapper2 = new ObjectMapper();
 		KakaoProfile kakaoProfile = objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
 		
+		String id = kakaoProfile.getId().toString();
+		String username = kakaoProfile.getProperties().getNickname();
+		String email = kakaoProfile.getKakao_account().getEmail();
+		String strgender = kakaoProfile.getKakao_account().getGender();
+		int gender = 0;
+		if (strgender.equals("male")) {
+			gender = 1;
+		}else {
+			gender = 2;
+		}
+		UUID uuid = UUID.randomUUID();
+		String garbagePassword= uuid.toString().replace("-", "").substring(0, 12);
+		UserDTO kakaoUser = UserDTO.builder()
+							  .userId(id)
+							  .username(username)
+							  .userEmail(email)
+							  .pw(id)
+							  .gender(gender)
+							  .kakaoYN(true)
+							  .build();
+		UserDTO originUser = userService.getUserByUserId(id);
 		
-		System.out.println("id : " + kakaoProfile.getId());
-		System.out.println("Nickname : " + kakaoProfile.getProperties().getNickname());
-		System.out.println("Account : " + kakaoProfile.getKakao_account());
-		System.out.println("Email : " + kakaoProfile.getKakao_account().getEmail());
+		ModelAndView mv = new ModelAndView();
 		
-		return response2.getBody();
+		// 가입한 아이디가 있으면
+		if (originUser == null) 
+		{
+			userService.getJoinUser(kakaoUser);
+		// 없으면 회원가입 진행
+		} else 
+		{
+			UserDTO loginUser = userService.getLoginUser(id, id);
+			session.setAttribute("userId", loginUser.getUserId());
+			session.setAttribute("isAdmin", loginUser.isAdmin());
+		}
+		// 리다이렉트할 뷰 이름 설정
+		mv.setViewName("redirect:/main"); 
+		
+		return mv;
 	}
 	
-	@GetMapping("/kakaoLoginForm")
-	public String kakaoLoginForm() {
-		return "kakao";
-	}
 	
 }
