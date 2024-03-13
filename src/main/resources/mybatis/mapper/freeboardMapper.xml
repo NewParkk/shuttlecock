@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fp.shuttlecock.freeboard.FreeboardMapper">
-	
+
 	<sql id="search">
 		<if test="condition == 'title'">
 			WHERE title LIKE CONCAT('%',#{keyword},'%')
@@ -10,92 +10,81 @@
 			WHERE content LIKE CONCAT('%',#{keyword},'%')
 		</if>
 		<if test="condition == 'writer'">
-			WHERE writer LIKE CONCAT('%',#{keyword},'%')
+			WHERE userId LIKE CONCAT('%',#{keyword},'%')
 		</if>
 	</sql>
-	
+
+	<!-- <select id="getFreeboardByFreeboardId" parameterType="_int" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO"> 
+		select * from freeboard where freeboardId = #{freeboardId} </select> -->
+
 	<!-- 글 등록 조회수랑 좋아요수는 0으로 세팅! -->
-     <insert id="insertFreeboard" parameterType="com.fp.shuttlecock.freeboard.FreeboardDTO">
-     	insert into freeboard(
-     	title,
-     	userId,
-     	content,
-     	`like`,
-     	`hit`
-     	) values (#{title},#{userId},#{content},0,0)
-     </insert>
-     
-     
-     <!-- 글목록 : 페이징/검색-->
-     
-     <!-- 메인용 리스트 -->
-     
-     <select id="getFreeboard" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
+	<insert id="insertFreeboard"
+		parameterType="com.fp.shuttlecock.freeboard.FreeboardDTO">
+		insert into freeboard(
+		title,
+		userId,
+		content,
+		`like`,
+		`hit`
+		) values (#{title},#{userId},#{content},0,0)
+	</insert>
 
-     	select *,
-     	(select count(*) from comments where freeboardId = f.freeboardId) as commentCount,
-		(select count(*) from likes where freeboardId = f.freeboardId) as likeCount
-     	 from freeBoard  f
-     	<include refid="search" />
-     	order by freeboardId desc
-     	limit #{pagecnt} ,  #{countPerPage}
 
-     	
-     </select>
-     
-     <select id="freeDetail" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
-     	select * from freeBoard where freeboardId = #{freeboardId} 
-     </select>
-     
-     <!-- 토탈 -->
-     <select id="getTotal" resultType="int">
+	<!-- 글목록 : 페이징/검색 -->
+
+	<!-- 메인용 리스트 -->
+
+	<select id="getFreeboard"
+		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
+
+		select *,
+		(select count(*) from comments where bno = f.freeboardId) as commentCount,
+		(select count(*) from likes where bno = f.freeboardId) as likeCount
+		from freeBoard f
+		<include refid="search" />
+		order by freeboardId desc
+		limit #{pagecnt} , #{countPerPage}
+
+
+	</select>
+
+	<select id="freeDetail"
+		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
+		select * from freeBoard where freeboardId = #{freeboardId}
+	</select>
+
+	<!-- 토탈 -->
+	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)
 		FROM freeBoard
 		<include refid="search" />
 	</select>
-	
+
 	<!-- 조회수 -->
 	<update id="hit">
-	 update freeBoard 
-      set hit = hit + 1
-      where freeboardId = #{freeboardId}
+		update freeBoard
+		set hit = hit + 1
+		where freeboardId = #{freeboardId}
 	</update>
-	
-	<select id="comCNT" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO" >
-		select u.*, (select count(*) from comments where freeboardId = #{freeboardId} ) as commentCount  
-		from freeboard u where freeboardId = #{freeboardId}; 
+
+	<select id="comCNT"
+		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
+		select u.*,
+		(select count(*) from comments where bno = #{bno} ) as commentCount
+		from freeboard u where freeboardId = #{freeboardId};
 	</select>
-	
-	<!-- 좋아요 눌럿는지 안눌럿는지 -->
-	<select id="findLike" resultType="int">
-		select count(*) from likes where freeboardId = #{freeboardId} and userId = #{userId} 
-	</select>
-	
-	
-	<!-- 좋아요 -->
-	
-	<insert id="likeUp" parameterType="map">
-		insert into likes (freeboardId , userId, likeNum)
-		values(#{freeboardId},#{userId},1,#{likeType})
-	</insert>
-	
-	  <!-- 좋아요 불러오기 -->  
-	  <select id="getLike" resultType="int">
-	  	select count(*) from likes where freeboardId = #{freeboardId} and likeNum =#{likeType}
-	  </select>
-	  
-	  <delete id="likeDown">
-	  	delete from likes where freeboardId = #{freeboardId} and userId = #{userId}  and likeNum =#{likeType}
-	  </delete>
-	  
-	  <!-- 게시물 삭제 -->
-	  <delete id="deleteFree">
-	  	delete from freeboard where freeboardId = #{freeboardId}
-	  </delete>
-	  <!-- 게시물 수정 -->
-	  <update id="updateFree">
-	  	update freeboard set title = #{title} , content = #{content}
-	  	where freeboardId = #{freeboardId}
-	  </update>
-	  
-  </mapper>
+
+	<!-- 게시물 삭제 -->
+	<update id="deleteFree" parameterType="_int">
+		update
+		freeboard set delete_yn = 1 where freeboardId = #{freeboardId}
+	</update>
+
+
+	<!-- 게시물 수정 -->
+	<update id="updateFree">
+		update freeboard set title = #{title} , content = #{content}
+		where freeboardId = #{freeboardId}
+	</update>
+
+</mapper>

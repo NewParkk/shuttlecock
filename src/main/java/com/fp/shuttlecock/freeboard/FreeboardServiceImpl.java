@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.fp.shuttlecock.tradeboard.TradeboardDTO;
 import com.fp.shuttlecock.util.PageVO;
 
 @Service
@@ -57,39 +58,39 @@ public class FreeboardServiceImpl implements FreeboardService{
 		mapper.comCNT(freeboardId);		
 	}
 
-	@Override
-	public int findLike(int freeboardId, String userId) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("freeboardId", freeboardId);
-		map.put("userId", userId);
-		return mapper.findLike(map);
-	}
-
-	@Override
-	public void likeUp(int freeboardId, String userId, int likeType) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("freeboardId", freeboardId);
-		map.put("userId", userId);
-		map.put("likeType", likeType);
-		mapper.likeUp(map);
-	}
-
-	@Override
-	public void likeDown(int freeboardId, String userId, int likeType) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("freeboardId", freeboardId);
-		map.put("userId", userId);
-		map.put("likeType", likeType);
-		mapper.likeDown(map);
-	}
-
-	@Override
-	public int getLike(int freeboardId, int likeType) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("freeboardId", freeboardId);
-		map.put("likeType", likeType);
-		return mapper.getLike(map);
-	}
+//	@Override
+//	public int findLike(int freeboardId, String userId) {
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("freeboardId", freeboardId);
+//		map.put("userId", userId);
+//		return mapper.findLike(map);
+//	}
+//
+//	@Override
+//	public void likeUp(int freeboardId, String userId, int likeType) {
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("freeboardId", freeboardId);
+//		map.put("userId", userId);
+//		map.put("likeType", likeType);
+//		mapper.likeUp(map);
+//	}
+//
+//	@Override
+//	public void likeDown(int freeboardId, String userId, int likeType) {
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("freeboardId", freeboardId);
+//		map.put("userId", userId);
+//		map.put("likeType", likeType);
+//		mapper.likeDown(map);
+//	}
+//
+//	@Override
+//	public int getLike(int freeboardId, int likeType) {
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("freeboardId", freeboardId);
+//		map.put("likeType", likeType);
+//		return mapper.getLike(map);
+//	}
 
 	@Override
 	public void deleteFree(int freeboradId) {
@@ -99,6 +100,19 @@ public class FreeboardServiceImpl implements FreeboardService{
 	@Override
 	public void updateFree(FreeboardDTO dto) {
 		mapper.updateFree(dto);		
+	}
+	
+//	public boolean updateFreePost(FreeboardDTO freeboard) {
+//		int result = mapper.updateFreePost(freeboard);
+//		if(result == 1) {
+//			return true;
+//		}
+//		return false;
+//	}
+
+	@Override
+	public FreeboardDTO getFreeboardByFreeboardId(int freeboardId) {
+		return mapper.getFreeboardByFreeboardId(freeboardId);
 	}
 
 	

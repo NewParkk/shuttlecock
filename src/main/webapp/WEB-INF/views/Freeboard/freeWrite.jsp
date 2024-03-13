@@ -9,9 +9,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
+<link rel="stylesheet" href="/css/aside.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- <script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 <script
@@ -21,6 +22,10 @@
 #container {
 	width: 1000px;
 	margin: 20px auto;
+}
+
+.noticeboard {
+	width: 100%;
 }
 
 .ck-editor__editable {
@@ -48,26 +53,31 @@
 .whyBtn {
 	margin-left: 46%;
 }
-
-h1 {
+/* h1 {
 	padding-top: 30px;
 	padding-bottom: 30px
-}
+} */
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <body>
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
-
 	<!-- main -->
-	<main id="main">
-		<div id="slider">
-			<div class="imageWrap"></div>
-		</div>
+	<main id="boardmain">
 
 		<section id="contents">
-			<div class="notice">
+			<!-- aside -->
+			<div class="aside">
+				<div class="menubar">
+					<ul>
+						<li><a href="/Freeboard/freeList">자유게시판</a></li>
+						<li><a href="#">물품거래소</a></li>
+						<li><a href="#">운동장소찾기</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="noticeboard">
 				<div class="page-title">
 					<div class="vline"></div>
 					<div class="container2">
@@ -76,7 +86,7 @@ h1 {
 				</div>
 
 				<form action="<c:url value ='/Freeboard/insertFreeboard'/>"
-					method="post">
+					method="post" enctype="multipart/form-data">
 					<div class="mb-3" style="width: 70%; margin: 0 auto;">
 						<label for="exampleFormControlInput1" class="form-label">제목</label>
 						<input type="text" class="form-control" name="title"
@@ -97,7 +107,7 @@ h1 {
 					<div class="mb-3" style="width: 70%; margin: 0 auto;">
 						<label for="formFileMultiple" class="form-label"></label> <input
 							class="form-control" type="file" id="formFileMultiple"
-							name="file">
+							name="upload">
 					</div>
 
 					<button type="button" class="btn btn-primary whyBtn">글 작성</button>

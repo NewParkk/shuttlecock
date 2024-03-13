@@ -9,11 +9,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
+<link rel="stylesheet" href="/css/aside.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 </head>
 <style>
+.noticeboard {
+	width: 100%;
+}
+
 .mainTitle {
 	text-align: center;
 }
@@ -28,11 +34,6 @@
 
 .del-btn {
 	margin-left: 95%
-}
-
-h1 {
-	padding-top: 30px;
-	padding-bottom: 30px
 }
 
 .paging {
@@ -86,13 +87,23 @@ a:active {
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-	<main id="main">
-		<div id="slider">
-			<div class="imageWrap"></div>
-		</div>
+	<main id="boardmain">
+		
 
 		<section id="contents">
-			<div class="notice">
+
+			<!-- aside -->
+			<div class="aside">
+				<div class="menubar">
+					<ul>
+						<li><a href="/Freeboard/freeList">자유게시판</a></li>
+						<li><a href="#">물품거래소</a></li>
+						<li><a href="#">운동장소찾기</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="noticeboard">
 				<div class="page-title">
 					<div class="vline"></div>
 					<div class="container2">
@@ -111,7 +122,7 @@ a:active {
 									class="form-control search-input" value="${pc.paging.keyword}"
 									style="width: 200px;"> <select class="form-control"
 									id="search-select" name="condition"
-									style="width: 80px; margin-left: 50%">
+									style="width: 80px; margin-left: 45%">
 									<option value="title"
 										${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
 									<option value="content"
@@ -144,7 +155,7 @@ a:active {
 										<td>${vo.userId}</td>
 										<td>${vo.regdate}</td>
 										<td>${vo.hit}</td>
-										<td>${vo.likeCount}</td>
+										<td>${vo.like}</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -172,12 +183,12 @@ a:active {
 											end="${pc.endPage}">
 											<li
 												class="${pc.paging.pageNum == num ? 'age-item active' : ''}"
-												page-item><a class="page-link" href="#"
+												page-item style="display: inline-block;"><a class="page-link" href="#"
 												data-pageNum="${num}">${num}</a></li>
 										</c:forEach>
 
 										<c:if test="${pc.next}">
-											<li class="page-item"><a class="page-link" href="#"
+											<li class="page-item" ><a class="page-link" href="#"
 												data-pageNum="${pc.endPage+1}">Next</a></li>
 										</c:if>
 									</ul>

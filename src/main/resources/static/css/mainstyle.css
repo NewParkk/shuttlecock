@@ -6,6 +6,12 @@
   margin: 0;
   padding: 0;
 }
+
+#boardmain{
+  /*옆50, 높이25*/
+  padding: 200px 0px 100px 0px;
+}
+
 .whyBtn{
     margin-top: 31px;
     margin-bottom: 30px;

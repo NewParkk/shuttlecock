@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,10 +19,10 @@ import lombok.ToString;
 `content` VARCHAR(4000) NULL DEFAULT NULL,
 `like` INT NULL DEFAULT NULL,
 `hit` INT NULL DEFAULT NULL,
-`uploadpath` VARCHAR(100) ,
-`fileloca` VARCHAR(100) ,
-`filename` VARCHAR(50) ,
-`ilerealname` VARCHAR(50) ,
+`uploadPath` VARCHAR(100) ,
+`fileLoca` VARCHAR(100) ,
+`fileName` VARCHAR(50) ,
+`realFilename` VARCHAR(50) ,
 `regdate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
 `commentCount` INT NULL DEFAULT NULL,
 `likeCount` INT NULL DEFAULT NULL,
@@ -40,13 +41,17 @@ public class FreeboardDTO {
 	private String content;
 	private int like;
 	private int hit;
-	private String uploadpath;
-	private String fileloca;
-	private String filename;
-	private String ilerealname; // 파일리얼네임
+	private String uploadPath;
+	private String fileLoca;
+	private String fileName;
+	private String realFilename; // 파일리얼네임
 	private Timestamp regdate;
 	private int commentCount;	
 	private int likeCount;
 	private String delete_yn; // 삭제 여부
 	private String userId; // 작성자 추가
+	
+	// 이부분 추가
+    private List<String> imageUrls;
+    
 }

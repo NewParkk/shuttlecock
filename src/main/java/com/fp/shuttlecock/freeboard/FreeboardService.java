@@ -26,19 +26,23 @@ public interface FreeboardService {
 	void comCNT(int freeboardId);
 	
 	// 좋아요 누른 여부 체크
-	int findLike(int freeboardId, String userId);
-	
-	// 좋아요
-	void likeUp(int freeboardId, String userId, int likeType);
-	
-	// 좋아요 취소
-	void likeDown(int freeboardId, String userId, int likeType);
-	
-	int getLike(int freeboardId, int likeType);
+//	int findLike(int freeboardId, String userId);
+//	
+//	// 좋아요
+//	void likeUp(int freeboardId, String userId, int likeType);
+//	
+//	// 좋아요 취소
+//	void likeDown(int freeboardId, String userId, int likeType);
+//	
+//	int getLike(int freeboardId, int likeType);
 	
 	void deleteFree(int freeboradId);
 	
 	void updateFree(FreeboardDTO dto);
+	
+//	boolean updateFreePost(FreeboardDTO freeboard);
+	
+	FreeboardDTO getFreeboardByFreeboardId(int freeboardId);
 
 	
 	

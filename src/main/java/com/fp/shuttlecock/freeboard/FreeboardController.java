@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,8 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fp.shuttlecock.comments.CommentsDTO;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
+import com.fp.shuttlecock.likes.LikesDTO;
+import com.fp.shuttlecock.tradeboard.TradeboardDTO;
 import com.fp.shuttlecock.util.LikesVO;
 import com.fp.shuttlecock.user.UserServiceImpl;
 import com.fp.shuttlecock.util.PageCreate;
@@ -39,10 +46,8 @@ public class FreeboardController {
 
 	@Autowired
 	private FreeboardServiceImpl service;
-//	@Autowired
-//	private CommentsServiceImpl comService;
-//	@Autowired
-//	private UserServiceImpl userService;
+	@Autowired
+	private CommentsServiceImpl commentService;
 
 	// 테스트용 메소드
 	@GetMapping("/")
@@ -81,13 +86,21 @@ public class FreeboardController {
 
 	// 글 등록
 	@PostMapping("/insertFreeboard")
-	public String insertFreeboard(FreeboardDTO dto, Model model, HttpSession session) {
-		
+	public String insertFreeboard(FreeboardDTO dto, Model model, HttpSession session,
+	        @RequestParam("upload") MultipartFile file) {
+
 		System.out.println("insertFreeboard  title : " + dto.getTitle());
 //		dto.setUserId("1234"); // 임의로 userId 지정
 		dto.setUserId(String.valueOf(session.getAttribute("userId")));
-
-		service.insertFreeboard(dto);
+		try {
+	        String imageUrl = uploadImage(file, session);
+	        dto.setUploadPath(imageUrl);
+	        dto.setUserId((String) session.getAttribute("userId"));
+	        service.insertFreeboard(dto);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        // 업로드 실패 시 처리
+	    }
 		return "redirect:/Freeboard/freeList";
 	}
 
@@ -95,39 +108,18 @@ public class FreeboardController {
 	@GetMapping("/freeDetail")
 	public void freeDetail(int freeboardId, String userId, Model model) {
 		System.out.println("상세보기 페이지");
-		FreeboardDTO dto = new FreeboardDTO();
-		dto.setUserId("1234"); // 임의로 userId 지정
-		model.addAttribute("Detail", service.freeDetail(freeboardId));
+		FreeboardDTO dto = service.freeDetail(freeboardId);
+		if (dto != null) {
+			List<CommentsDTO> commentList = commentService.getCommentList(freeboardId, 2);
+			// FileRequest file = fileService.getBoardFileByTradeboardId(freeboardId);
+			service.hit(freeboardId);
 
-		LikesVO likes = new LikesVO();
-
-		likes.setFreeboardId(freeboardId);
-		likes.setUserId(userId);
-		likes.setLikeType(1);
-		model.addAttribute("like", service.findLike(freeboardId, userId));
-		model.addAttribute("getLike", service.getLike(freeboardId, 1));
+			// model.addAttribute("file", file);
+			model.addAttribute("Freeboard", dto);
+			model.addAttribute("commentList", commentList);
+		}
+		model.addAttribute("Detail", dto);
 		service.hit(freeboardId);
-	}
-
-	// 좋아요
-	@ResponseBody
-	@PostMapping("/likeUp")
-	public void likeUp(@RequestBody LikesVO vo) {
-		System.out.println("controller 연결 성공");
-		System.out.println(vo.getFreeboardId());
-		System.out.println(vo.getUserId());
-		System.out.println(vo.getLikeType());
-		service.likeUp(vo.getFreeboardId(), vo.getUserId(), vo.getLikeType());
-	}
-
-	@ResponseBody
-	@PostMapping("/likeDown")
-	public void likeDown(@RequestBody LikesVO vo) {
-		System.out.println("controller 연결 성공");
-		System.out.println(vo.getFreeboardId());
-		System.out.println(vo.getUserId());
-		System.out.println(vo.getLikeType());
-		service.likeUp(vo.getFreeboardId(), vo.getUserId(), vo.getLikeType());
 	}
 
 	// 글 삭제
@@ -137,7 +129,7 @@ public class FreeboardController {
 		service.deleteFree(freeboardId);
 		return "redirect:/Freeboard/freeList";
 	}
-
+	
 	// 글 수정 페이지 이동
 	@GetMapping("/freeUpdate")
 	public void updateFree(int freeboardId, Model model) {
@@ -150,7 +142,7 @@ public class FreeboardController {
 	public String updateBoard(FreeboardDTO dto, RedirectAttributes ra, HttpSession session) {
 		dto.setUserId(String.valueOf(session.getAttribute("userId")));
 		System.out.println("게시물 수정 요청");
-		
+
 		System.out.println(dto.getFreeboardId());
 		System.out.println(dto.getContent());
 		System.out.println(dto.getTitle());
@@ -160,11 +152,10 @@ public class FreeboardController {
 
 		return "redirect:/Freeboard/freeDetail?freeboardId=" + dto.getFreeboardId();
 	}
-
+		
 //	이미지 업로드
 
 	@ResponseBody
-
 	@RequestMapping(value = "fileupload.do")
 	public void communityImageUpload(HttpServletRequest req, HttpServletResponse resp,
 			MultipartHttpServletRequest multiFile) throws Exception { // JsonObject
@@ -182,7 +173,7 @@ public class FreeboardController {
 						byte[] bytes = file.getBytes();
 
 						String uploadPath = req.getSession().getServletContext()
-								.getRealPath("/resources/images/noticeimg"); // 저장경로
+								.getRealPath("/resources/images/free"); // 저장경로
 						System.out.println("uploadPath:" + uploadPath);
 
 						File uploadFile = new File(uploadPath);
@@ -195,7 +186,7 @@ public class FreeboardController {
 						out = new FileOutputStream(new File(uploadPath));
 						out.write(bytes);
 						printWriter = resp.getWriter();
-						String fileUrl = req.getContextPath() + "/resources/images/noticeimg/" + fileName2 + fileName; // url경로
+						String fileUrl = req.getContextPath() + "/resources/images/free/" + fileName2 + fileName; // url경로
 						System.out.println("fileUrl :" + fileUrl);
 						JsonObject json = new JsonObject();
 						json.addProperty("uploaded", 1);
@@ -220,5 +211,17 @@ public class FreeboardController {
 
 		}
 
+	}
+	
+	private String uploadImage(MultipartFile file, HttpSession session) throws IOException {
+	    if (file != null && !file.isEmpty() && file.getContentType().startsWith("image/")) {
+	        String uploadPath = session.getServletContext().getRealPath("/resources/images/free");
+	        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+	        String filePath = uploadPath + File.separator + fileName;
+	        File dest = new File(filePath);
+	        file.transferTo(dest);
+	        return "/resources/images/free/" + fileName;
+	    }
+	    return null;
 	}
 }

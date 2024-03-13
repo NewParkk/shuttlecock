@@ -9,6 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
+<link rel="stylesheet" href="/css/aside.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -21,6 +22,10 @@
 #container {
 	width: 1000px;
 	margin: 20px auto;
+}
+
+.noticeboard {
+	width: 100%;
 }
 
 .ck-editor__editable {
@@ -49,23 +54,31 @@
 	margin-left: 46%;
 }
 
-h1 {
+/* h1 {
 	padding-top: 30px;
 	padding-bottom: 30px
-}
+} */
 </style>
 <body>
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-	<main id="main">
-		<div id="slider">
-			<div class="imageWrap"></div>
-		</div>
+	<main id="boardmain">
+
 
 		<section id="contents">
-			<div class="notice">
+			<!-- aside -->
+			<div class="aside">
+				<div class="menubar">
+					<ul>
+						<li><a href="/Freeboard/freeList">자유게시판</a></li>
+						<li><a href="#">물품거래소</a></li>
+						<li><a href="#">운동장소찾기</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="noticeboard">
 				<div class="page-title">
 					<div class="vline"></div>
 					<div class="container2">
@@ -76,11 +89,10 @@ h1 {
 				<form action="<c:url value='/Freeboard/updateFree'/>" method="post">
 					<div class="mb-3" style="width: 70%; margin: 0 auto;">
 						<label for="exampleFormControlInput1" class="form-label">제목</label>
-						<input type="text" class="form-control" name="freeboard_title"
+						<input type="text" class="form-control" name="title"
 							id="exampleFormControlInput1" value="${Detail.title}">
 					</div>
-					<div class="row g-3"
-						style="width: 70%; margin: 0 auto;">
+					<div class="row g-3" style="width: 70%; margin: 0 auto;">
 						<div class="col">
 							<label for="exampleFormControlInput1" class="form-label">작성자</label>
 							<input type="text" class="form-control"
@@ -94,12 +106,19 @@ h1 {
 					</div>
 					<div class="mb-3" style="width: 70%; margin: 0 auto;">
 						<label for="exampleFormControlTextarea1" class="form-label">내용</label>
-						<textarea class="form-control " name="freeboard_content"
-							id="ckeditor" rows="6">${Detail.content}</textarea>
+						<textarea class="form-control " name="content" id="ckeditor"
+							rows="6">${Detail.content}</textarea>
+					</div>
+					<!-- MultipartFile -->
+
+					<div class="mb-3" style="width: 70%; margin: 0 auto;">
+						<label for="formFileMultiple" class="form-label"></label> <input
+							class="form-control" type="file" id="formFileMultiple"
+							name="upload">
 					</div>
 
 					<input type="hidden" value="${Detail.freeboardId}"
-						name="freeboard_no">
+						name="freeboardId">
 					<button type="button" class="btn btn-primary whyBtn">글 수정</button>
 					<button type="button" class="btn btn-primary CancleBtn">취
 						&nbsp; 소</button>

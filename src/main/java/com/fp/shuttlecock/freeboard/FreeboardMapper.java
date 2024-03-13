@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.fp.shuttlecock.tradeboard.TradeboardDTO;
 import com.fp.shuttlecock.util.PageVO;
 
 @Mapper
@@ -27,17 +28,20 @@ public interface FreeboardMapper {
 
 	void comCNT(int freeboardId);
 
-	int findLike(Map<String, Object> map);
+//	int findLike(Map<String, Object> map);
 
-	void likeUp(Map<String, Object> map);
+//	void likeUp(Map<String, Object> map);
+//
+//	void likeDown(Map<String, Object> map);
 
-	void likeDown(Map<String, Object> map);
-
-	int getLike(Map<String, Object> map);
+//	int getLike(Map<String, Object> map);
 
 	void deleteFree(int freeboradId);
 
 	void updateFree(FreeboardDTO dto);
+//	int updateFreePost(FreeboardDTO freeboard);
+
+	FreeboardDTO getFreeboardByFreeboardId(int freeboardId);
 
 
 
