@@ -1,8 +1,13 @@
 package com.fp.shuttlecock.leagueboard;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
-public class LeagueboardRankingMapper {
+import com.fp.shuttlecock.user.UserDTO;
 
+@Mapper
+public interface LeagueboardRankingMapper {
+
+	public List<UserDTO> getLeagueRanking();
 }
