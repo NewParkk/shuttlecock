@@ -2,14 +2,20 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="../include/header.jsp"%>
+
 <title>PostList</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/mainstyle.css">
+
 <style>
+
+a {
+	font-size: 1.17rem; !important;
+}
+
 .post-preview {
 	border: 1px solid #ddd;
 	padding: 15px;
@@ -20,7 +26,7 @@
 	overflow: hidden;
 }
 
-.post-preview h3, .post-preview p {
+.post-preview h4, .post-preview p {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -68,8 +74,10 @@
 	text-align: right;
 }
 </style>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
+<%@ include file="../include/header.jsp"%>
 	<div class="container" style="margin-top: 50px">
 	<h1 id="title-p">공지사항 게시판</h1>
 		<c:choose>
@@ -77,7 +85,7 @@
 				<c:forEach items="${postList}" var="post">
 					<div class="post-preview"
 						onclick="location.href='/Announcement/postDetail/${post.announcementNo}'">
-						<h3>${post.title}</h3>
+						<h4>${post.title}</h4>
 					</div>
 				</c:forEach>
 			</c:when>

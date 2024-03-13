@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<link rel="stylesheet" href="/css/mainstyle.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <!-- header -->
 <header id="header">
   <div class="inner1">
@@ -22,15 +23,15 @@
   </div>
 
   <div class="inner2">
-    <h1 class="logo">
+    <div class="logo">
       <img src="/img/shuttle-logo.jpg" alt="Logo" onclick="location.href='/main'" />
-    </h1>
+    </div>
     <nav class="nav">
       <ul>
         <li>
           <h3><a href="#">About 배드민턴</a></h3>
           <ul class="submenu">
-            <li><a href="#">공지사항</a></li>
+            <li><a href="/Announcement/main">공지사항</a></li>
             <li><a href="/getNews">배드민턴 News</a></li>
             <li><a href="#">배드민턴 Video</a></li>
           </ul>
