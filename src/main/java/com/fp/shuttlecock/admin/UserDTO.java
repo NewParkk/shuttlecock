@@ -18,7 +18,6 @@ public class UserDTO {
 	private int admin;
 	private String userEmail;
 	private String userImage;
-	private String userPhone;
 	private int userLeagueGrade;
 	private int wincount;
 	private int losecount;

@@ -19,9 +19,6 @@
 			name : <input type="text" name="username" value="${user.username}">
 		</h2>
 		<h2>
-			phone : <input type="text" name="userPhone" value="${user.userPhone}">
-		</h2>
-		<h2>
 			email : <input type="text" name="userEmail" value="${user.userEmail}">
 		</h2>
 		<h2>

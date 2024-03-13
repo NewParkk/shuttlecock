@@ -20,13 +20,13 @@
 	<insert id="getJoinUser"
  			parameterType="com.fp.shuttlecock.user.UserDTO">
  		INSERT INTO 
- 			sports.user(userId, pw, username, gender, admin, userEmail, userPhone) 
+ 			sports.user(userId, pw, username, gender, admin, userEmail) 
  		VALUES
  			(#{userId}, #{pw}, #{username}, #{gender}, 
  			<choose>
 		        <when test="admin">1</when>
 		        <otherwise>0</otherwise>
-		    </choose>, #{userEmail}, #{userPhone})		
+		    </choose>, #{userEmail})		
  	</insert>
  	
  	<!-- 아이디 중복체크 -->

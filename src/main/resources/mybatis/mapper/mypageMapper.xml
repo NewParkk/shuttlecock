@@ -48,7 +48,6 @@
 		UPDATE user
 		SET username = #{username},
 		userEmail =	#{userEmail},
-		userPhone = #{userPhone}
 		WHERE userId = #{userId}
 	</update>
 

@@ -20,7 +20,6 @@ public class UserDTO {
 	private String userEmail;
 	private String userImageName;
 	private String userImagePath;
-	private String userPhone;
 	private int userLeagueGrade;
 	private int wincount;
 	private int losecount;
@@ -29,7 +28,7 @@ public class UserDTO {
 
 	@Builder
 	public UserDTO(String userId, String pw, String username, int gender, int admin, String userEmail, String userImageName,String userImagePath,
-			String userPhone, int userLeagueGrade, int wincount, int losecount, int writeCount, int badgeId) {
+			int userLeagueGrade, int wincount, int losecount, int writeCount, int badgeId) {
 		super();
 		this.userId = userId;
 		this.pw = pw;
@@ -39,7 +38,6 @@ public class UserDTO {
 		this.userEmail = userEmail;
 		this.userImageName = userImageName;
 		this.userImagePath = userImagePath;
-		this.userPhone = userPhone;
 		this.userLeagueGrade = userLeagueGrade;
 		this.wincount = wincount;
 		this.losecount = losecount;
