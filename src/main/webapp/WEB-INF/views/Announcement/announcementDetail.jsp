@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +28,7 @@
 			<p>${post.content}</p>
 			<small>작성자: ${post.userId}</small><br/>
 			<small>작성일: ${post.regdate}</small>
+			<small>조회수: ${post.hit}</small>
 		</div>
 		<div style="text-align: right">
 				<a href="/Announcement/main"

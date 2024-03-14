@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fp.shuttlecock.main.MainMapper">
+	<select id="get5LeaguePosts" resultType="LeagueboardDTO">
+		SELECT *
+		FROM leagueboard
+		ORDER BY regdate DESC
+		LIMIT 5
+	</select>
+	
+	<select id="get5FreePosts" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
+		SELECT *
+		FROM freeboard
+		ORDER BY regdate DESC
+		LIMIT 5
+	</select>
+</mapper>

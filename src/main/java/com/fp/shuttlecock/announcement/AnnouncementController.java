@@ -34,9 +34,9 @@ public class AnnouncementController
 		int totalPage = (int) Math.ceil((double) totalPost / postperPage);
 		List<AnnouncementDTO> postList = announcementService.getPostbyPage(page, postperPage);
 		
-		System.out.println("totalPost : "+totalPost);
-		System.out.println("totalPage : "+totalPage);
-		System.out.println("postList : "+postList.toString());
+//		System.out.println("totalPost : "+totalPost);
+//		System.out.println("totalPage : "+totalPage);
+//		System.out.println("postList : "+postList.toString());
 		
 		
 		model.addAttribute("postList", postList);
@@ -72,8 +72,9 @@ public class AnnouncementController
 	public String getpostDetailbyboardId(@PathVariable Integer postId, Model model) 
 	{
 		AnnouncementDTO post = announcementService.getpostDetailbypostId(postId);
+		announcementService.hit(postId);
 		model.addAttribute("post", post);
-		System.out.println("postDetail : " + post);
+//		System.out.println("postDetail : " + post);
 		return "/Announcement/announcementDetail";
 	}
 	

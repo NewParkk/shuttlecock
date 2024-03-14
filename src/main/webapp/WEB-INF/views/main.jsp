@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,18 +42,25 @@
                       <th scope="col" class="th-date">등록일</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>5</td>
-                      <th>
-                        <a href="#!"
-                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
-                        >
-                        <p>테스트</p>
-                      </th>
-                      <td>2017.07.13</td>
-                    </tr>
-                    <tr>
+                  <c:choose>
+					<c:when test="${not empty freePosts}">
+						<c:forEach items="${freePosts}" var="post" varStatus="s">
+		                  <tbody>
+		                    <tr>
+		                      <td>${fn:length(freePosts) - s.count + 1}</td>
+		                      <th>
+		                        <a href="#!"
+		                          >${post.title}</a
+		                        >
+		                        <p>테스트</p>
+		                      </th>
+		                      <td><fmt:formatDate value="${post.regdate}" pattern="yyyy.MM.dd"/></td>
+		                    </tr>
+		                   </tbody>
+		                 </c:forEach>
+                      </c:when>
+                    </c:choose>
+                    <!-- <tr>
                       <td>4</td>
                       <th>
                         <a href="#!"
@@ -95,7 +100,7 @@
                       </th>
                       <td>2017.06.15</td>
                     </tr>
-                  </tbody>
+                  </tbody> -->
                 </table>
               </div>
             </div>
@@ -119,18 +124,25 @@
                       <th scope="col" class="th-date">등록일</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>5</td>
-                      <th>
-                        <a href="#!"
-                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
-                        >
-                        <p>테스트</p>
-                      </th>
-                      <td>2017.07.13</td>
-                    </tr>
-                    <tr>
+                  <c:choose>
+					<c:when test="${not empty leaguePosts}">
+						<c:forEach items="${leaguePosts}" var="post" varStatus="s">
+		                  <tbody>
+		                    <tr>
+		                      <td>${fn:length(leaguePosts) - s.count + 1}</td>
+		                      <th>
+		                        <a href="/LeagueBoard/${post.leagueboardId}"
+		                          >${post.title}</a
+		                        >
+		                        <p>테스트</p>
+		                      </th>
+		                      <td><fmt:formatDate value="${post.regdate}" pattern="yyyy.MM.dd"/></td>
+		                    </tr>
+		                   </tbody>
+		                 </c:forEach>
+                      </c:when>
+                    </c:choose>
+                    <!-- <tr>
                       <td>4</td>
                       <th>
                         <a href="#!"
@@ -169,7 +181,7 @@
                         >
                       </th>
                       <td>2017.06.15</td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
               </div>

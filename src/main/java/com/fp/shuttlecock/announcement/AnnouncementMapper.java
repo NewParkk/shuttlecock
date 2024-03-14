@@ -28,4 +28,6 @@ public interface AnnouncementMapper {
 
 	List<AnnouncementDTO> searchedPostList(String query);
 
+	void hit(Integer postId);
+
 }

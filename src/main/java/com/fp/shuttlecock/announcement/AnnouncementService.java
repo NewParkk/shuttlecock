@@ -24,6 +24,8 @@ public interface AnnouncementService {
 	List<AnnouncementDTO> getSearchedPostbyPage(int page, int postperPage, String query);
 	//검색된 전체 게시물 리스트
 	List<AnnouncementDTO> searchedPostList(String query);
+	//조회수 증가
+	void hit(Integer postId);
 	
 	
 }

@@ -78,7 +78,6 @@ public class MypageController {
 		// username, email, phone
 		user.setUsername(newUser.getUsername());
 		user.setUserEmail(newUser.getUserEmail());
-		user.setUserPhone(newUser.getUserPhone());
 
 		boolean result = service.updateUser(user);
 		

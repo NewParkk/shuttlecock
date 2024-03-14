@@ -81,6 +81,11 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 		return announcementMapper.searchedPostList(query);
 	}
 
+	@Override
+	public void hit(Integer postId) {
+		announcementMapper.hit(postId);
+	}
+
 
 	
 }
