@@ -12,7 +12,7 @@ public interface CommentsService {
 	
 	boolean updateComment(CommentsDTO comment);
 	
-	List<CommentsDTO> getCommentList(int boardId, int comment_type);
+	List<CommentsDTO> getCommentList(int boardId, int commentType);
 	
 	void increaseCommentCount(CommentsDTO comment);
 	

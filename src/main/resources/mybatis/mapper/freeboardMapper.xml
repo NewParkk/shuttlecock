@@ -77,7 +77,7 @@
 	<!-- 게시물 삭제 -->
 	<update id="deleteFree" parameterType="_int">
 		update
-		freeboard set delete_yn = 1 where freeboardId = #{freeboardId}
+		freeboard set deleteYN = 1 where freeboardId = #{freeboardId}
 	</update>
 
 

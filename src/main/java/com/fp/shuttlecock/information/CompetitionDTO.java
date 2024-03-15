@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class competition {
+public class CompetitionDTO {
 	private int competitionId; 		//대회번호
 	private String region;			//대회카테고리(지역,전국)
 	private String title;			//대회이름

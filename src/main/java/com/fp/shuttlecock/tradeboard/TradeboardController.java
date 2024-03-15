@@ -32,7 +32,6 @@ import com.fp.shuttlecock.comments.CommentsServiceImpl;
 import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
 import com.fp.shuttlecock.user.UserService;
 import com.fp.shuttlecock.user.UserServiceImpl;
-import com.fp.shuttlecock.util.LikesVO;
 
 import jakarta.servlet.http.HttpSession;
 

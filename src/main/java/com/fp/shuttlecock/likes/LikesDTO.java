@@ -1,6 +1,7 @@
 package com.fp.shuttlecock.likes;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Data
 public class LikesDTO {

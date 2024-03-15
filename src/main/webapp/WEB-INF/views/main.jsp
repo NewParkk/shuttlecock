@@ -16,7 +16,7 @@
  
  	  <!-- header -->
  	  <%@ include file="../views/include/header.jsp"%>
-
+	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 	  <!-- main -->
       <main id="main">
         <div id="slider">
