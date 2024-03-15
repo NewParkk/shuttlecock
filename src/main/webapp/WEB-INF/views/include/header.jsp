@@ -15,7 +15,6 @@
       <input type="button" class="Btn" value="Join" onclick="location.href='/join'" />
     </c:if>
     <c:if test="${not empty sessionScope.userId}">
-<<<<<<< HEAD
     	<c:if test="${kakaoYN eq true}">
     		<strong class="Btn"><a href="/mypage">${username} 님</a></strong>
     	</c:if>

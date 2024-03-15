@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -33,11 +34,9 @@ public class AnnouncementController
 		int totalPost = announcementService.countPosts();
 		int totalPage = (int) Math.ceil((double) totalPost / postperPage);
 		List<AnnouncementDTO> postList = announcementService.getPostbyPage(page, postperPage);
-		
 //		System.out.println("totalPost : "+totalPost);
 //		System.out.println("totalPage : "+totalPage);
 //		System.out.println("postList : "+postList.toString());
-		
 		
 		model.addAttribute("postList", postList);
 		model.addAttribute("currentPage", page);

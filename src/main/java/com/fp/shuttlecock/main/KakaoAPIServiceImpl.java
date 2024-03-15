@@ -139,6 +139,8 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 			UserDTO loginUser = userService.getLoginUser(id, id);
 			session.setAttribute("userId", loginUser.getUserId());
 			session.setAttribute("isAdmin", loginUser.isAdmin());
+			session.setAttribute("username", loginUser.getUsername());
+            session.setAttribute("kakaoYN", loginUser.isKakaoYN());
 		}
 		
 		sendKakaoMessage(oauthToken.getAccess_token(),session);
