@@ -11,5 +11,5 @@ public interface UserService {
 	boolean isCheckId(String userId);
 	
 	UserDTO findUserId(UserDTO userDTO);
-
+	
 }

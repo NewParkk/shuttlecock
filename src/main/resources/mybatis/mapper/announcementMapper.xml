@@ -40,12 +40,6 @@
 		WHERE announcementNo = #{postId}
 	</delete>
 	
-	<select id="getPostbyPage" parameterType="map" resultType="com.fp.shuttlecock.announcement.AnnouncementDTO">
-		SELECT * FROM announcement
-		WHERE deleteYN != 1
-		ORDER BY announcementNo DESC LIMIT #{offset}, #{postperPage}
-	</select>
-	
 	<select id="getSearchedPostPage" parameterType="map" resultType="com.fp.shuttlecock.announcement.AnnouncementDTO">
 		SELECT * 
 		FROM announcement
@@ -69,6 +63,13 @@
 		WHERE title LIKE CONCAT('%', #{query}, '%') 
 			  OR content LIKE CONCAT('%', #{query}, '%')
 			  AND (deleteYN != 1)
+	</select>
+	
+	<select id="getPostbyPage" parameterType="map" resultType="com.fp.shuttlecock.announcement.AnnouncementDTO">
+		SELECT * 
+		FROM announcement
+		WHERE deleteYN != 1
+		ORDER BY announcementNo DESC LIMIT #{offset}, #{postperPage}
 	</select>
 	
 	<select id="countPosts" resultType="_int">

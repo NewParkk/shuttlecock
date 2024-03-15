@@ -26,7 +26,7 @@ public class AnnouncementController
 	@Autowired
 	AnnouncementService announcementService;
 	
-	@GetMapping("/main")
+	@GetMapping("/")
 	public String pagination(@RequestParam(value = "page", defaultValue = "1") int page, Model model)
 	{	
 		int postperPage = 10;
@@ -85,7 +85,7 @@ public class AnnouncementController
 		String userId = (String) session.getAttribute("userId");
 		post.setUserId(userId);
 		announcementService.insertPost(post);
-		return "redirect:/Announcement/main";
+		return "redirect:/Announcement/";
 	}
 	
 	
@@ -105,7 +105,7 @@ public class AnnouncementController
 	public String deletepost(@PathVariable Integer postId, HttpSession session) 
 	{
 		announcementService.deletePostbypostId(postId);
-		return "redirect:/Announcement/main";
+		return "redirect:/Announcement/";
 	}
 	
 	

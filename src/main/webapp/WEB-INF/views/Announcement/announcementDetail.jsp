@@ -31,7 +31,7 @@
 			<small>조회수: ${post.hit}</small>
 		</div>
 		<div style="text-align: right">
-				<a href="/Announcement/main"
+				<a href="/Announcement/"
 					class="btn btn-primary btn-sm">목록</a>
 			<c:if test="${sessionScope.isAdmin}">
 				<button class="btn btn-primary btn-sm" data-toggle="modal"

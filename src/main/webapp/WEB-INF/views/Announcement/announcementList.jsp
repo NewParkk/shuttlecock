@@ -6,7 +6,7 @@
 
 <title>PostList</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
-
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
 <style>
 
 a {
@@ -95,6 +95,10 @@ a {
 				<button class="btn btn-primary writepost"
 					onclick="location.href='/Announcement/register'">글쓰기</button>
 			</c:if>
+			<div style="text-align: right">
+				<a href="/Announcement/"
+					class="btn btn-primary btn-sm">목록</a>
+			</div>
 		</div>
 		<nav id="pagination">
 			<c:forEach begin="1" end="${totalPage}" var="pageNum">

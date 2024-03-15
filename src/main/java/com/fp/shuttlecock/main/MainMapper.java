@@ -13,5 +13,7 @@ public interface MainMapper {
 	List<LeagueboardDTO> get5LeaguePosts();
 
 	List<FreeboardDTO> get5FreePosts();
+
+	void updateCommunityBadge();
 	
 }

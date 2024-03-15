@@ -25,11 +25,12 @@
 
         <section id="contents1">
           <div class="notice">
-            <div class="page-title">
-              <div class="vline"></div>
-              <div class="container2">
-                <h3>커뮤니티 게시판</h3>
-              </div>
+            <div class="container2">
+	            <div class="page-title">
+	              	<div class="vline"></div>
+	                <h3>커뮤니티 게시판</h3>
+	              	<a href="/Freeboard/freeList" class="more1">더보기+</a>
+              	</div>
             </div>
 
             <div id="board-list">
@@ -111,6 +112,7 @@
               <div class="vline"></div>
               <div class="container2">
                 <h3>리그 게시판</h3>
+                <a href="/LeagueBoard" class="more2">더보기+</a>
               </div>
             </div>
 
@@ -243,7 +245,7 @@
 
 
 <!-- script -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c0c41ee7938be09dffb8f43413a742eb"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}"></script>
 <script>
 
 //지도를 표시할 div
@@ -302,13 +304,13 @@ if (navigator.geolocation)
 					}
 					
 			        //마커 image url
-			        var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+			        var imageSrc = "img/map-icon.jpg"; 
 			        
 			        // 각 위치에 마커 생성
 			        for (var i = 0; i < positions.length; i ++) 
 			        {
 			            // 마커 이미지의 이미지 크기 입니다
-			            var imageSize = new kakao.maps.Size(24, 35); 
+			            var imageSize = new kakao.maps.Size(35, 35); 
 			            
 			            // 마커 이미지를 생성합니다    
 			            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 

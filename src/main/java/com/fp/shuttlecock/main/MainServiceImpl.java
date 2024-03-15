@@ -25,6 +25,11 @@ public class MainServiceImpl implements MainService{
 	public List<FreeboardDTO> get5FreePosts() {
 		return  mainMapper.get5FreePosts();
 	}
+
+//	@Override
+//	public void updateCommunityBadge() {
+//		mainMapper.updateCommunityBadge();
+//	}
 	
 	
 	

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -40,6 +41,9 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 	@Autowired
 	MypageServiceImpl mypageService;
 	
+	@Value("${KAKAO.KEY.REST}")
+	private String apiKey;
+	
 	@Override
 	public String kakaoLogin(String code, HttpSession session, RedirectAttributes redirectAttributes) throws JsonMappingException, JsonProcessingException 
 	{
@@ -55,7 +59,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 		//HttpBody 생성
 		MultiValueMap<String, String>params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
-		params.add("client_id", "a94cb68f7a3356e950b067a4ffdc6d95");
+		params.add("client_id", apiKey);
 		params.add("redirect_uri", "http://localhost:8099/kakaoLogin");
 		params.add("code", code);
 		

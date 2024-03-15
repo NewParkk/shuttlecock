@@ -14,4 +14,8 @@
 		ORDER BY regdate DESC
 		LIMIT 5
 	</select>
+	
+	<!-- <update id="updateCommunityBadge">
+		
+	</update> -->
 </mapper>
