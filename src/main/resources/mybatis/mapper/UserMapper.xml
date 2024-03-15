@@ -6,7 +6,7 @@
 	<select id="getLoginUser" parameterType="string"
 		resultType="com.fp.shuttlecock.user.UserDTO">
 		select * from sports.user
-		where userId =#{userId} and pw=#{pw}
+		where userId =#{userId}
 	</select>
 	
 	<!-- 존재하는 아이디 확인 -->
@@ -20,13 +20,18 @@
 	<insert id="getJoinUser"
  			parameterType="com.fp.shuttlecock.user.UserDTO">
  		INSERT INTO 
- 			sports.user(userId, pw, username, gender, admin, userEmail) 
+ 			sports.user(userId, pw, username, gender, admin, userEmail, kakaoYN) 
  		VALUES
  			(#{userId}, #{pw}, #{username}, #{gender}, 
  			<choose>
-		        <when test="admin">1</when>
+		        <when test="admin == true">1</when>
 		        <otherwise>0</otherwise>
-		    </choose>, #{userEmail})		
+		    </choose>, 
+		    #{userEmail},
+		    <choose>
+    			<when test="kakaoYN == true">1</when>
+    			<otherwise>0</otherwise>
+			</choose>)		
  	</insert>
  	
  	<!-- 아이디 중복체크 -->
@@ -40,4 +45,15 @@
 		select userId from sports.user
 		where username=#{username} and userEmail=#{userEmail}
 	</select>
+	
+	<!-- 이메일 중복체크 -->
+	<select id="isCheckEmail" parameterType="string" resultType="java.lang.Integer">
+ 		select count(*) from sports.user
+ 		where userEmail=#{userEmail}
+ 	</select>
+ 	
+ 	<select id="isExistUser" resultType="boolean" parameterType="string">
+        select count(*) > 0 from sports.user
+        where userId =#{userId} and userEmail=#{userEmail}
+    </select>
 </mapper>

@@ -15,7 +15,12 @@
       <input type="button" class="Btn" value="Join" onclick="location.href='/join'" />
     </c:if>
     <c:if test="${not empty sessionScope.userId}">
-       	<strong class="Btn">${userId} 님</strong>
+    	<c:if test="${kakaoYN eq true}">
+    		<strong class="Btn">${username} 님</strong>
+    	</c:if>
+    	<c:if test="${kakaoYN eq false}">
+       		<strong class="Btn">${userId} 님</strong>    		
+    	</c:if>
        	<div class="v-line"></div>
         <button type="button" class="Btn" onClick="location.href='/logout'">Logout</button>
     </c:if>   

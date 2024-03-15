@@ -11,5 +11,8 @@ public interface UserService {
 	boolean isCheckId(String userId);
 	
 	UserDTO findUserId(UserDTO userDTO);
+
+	boolean isCheckEmail(String userEmail);
 	
+	boolean isExistUser(String userId, String userEmail);
 }

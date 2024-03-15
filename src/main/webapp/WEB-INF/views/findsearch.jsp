@@ -15,6 +15,7 @@
         overflow: hidden;
         background-color: #f1f1f1;
         width: 400px;
+        height: 400px;
         border-radius: 5px;
         margin: 0 auto;
     }
@@ -42,6 +43,7 @@
     }
     .form-container {
         max-width: 400px;
+        height: 300px;
         margin: 42px auto 0px auto;
         padding: 20px 0 20px 0;
         background-color: #fff;
@@ -82,8 +84,11 @@
     }
     .button-container {
         text-align: center;
+        display: flex; 
+    	justify-content: center;
+    	margin-top: 15px;
     }
-    button[type="submit"] {
+    button[type="submit"]:not(.check) {
         width: 50%;
         padding: 10px;
         border: none;
@@ -93,13 +98,48 @@
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
-        margin-top: 15px;
     }
+    .button-con {
+	    width: calc(30% - 15px); 
+	    margin-left: 10px;
+	}
+	.check{
+		width: 70%;
+		padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #555;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+	}
+    .message-con{
+            text-align: center;
+            margin-top: 50px;
+            font-weight: bold;
+            height: 40px;
+            overflow: hidden;
+        }
+     .message-con1{
+            text-align: center;
+            margin-top: 30px;
+            font-weight: bold;
+            height: 14px;
+            overflow: hidden;
+        }
     .message {
         text-align: center;
-        margin-top: 20px;
+        line-height: 30px;
         font-weight: bold;
     }
+    .line {
+	    width: 100%;
+	    height: 1px;
+	    background-color: #ccc;
+	    margin-top: 25px;
+	    margin-bottom: 10px;
+	}
 </style>
 </head>
 <body>
@@ -122,10 +162,7 @@
                 <label for="userEmail">이메일</label>
                 <input type="email" id="userEmail" name="userEmail" placeholder="이메일을 입력하세요" required>
             </div>
-            <div class="button-container">
-                <button type="submit">아이디 찾기</button>
-            </div>
-            <div class="message" id="message">
+            <div class="message-con" id="message">
 			    <c:choose>
 			        <c:when test="${not empty findUserId}">
 			            회원님의 아이디는 [ ${findUserId} ]입니다.
@@ -135,6 +172,10 @@
 			        </c:otherwise>
 			    </c:choose>
 			</div>
+            <div class="line"></div>
+            <div class="button-container">
+                <button type="submit">아이디 찾기</button>
+            </div>
         </form>
     </div>
 
@@ -150,9 +191,17 @@
                 <input type="email" id="userEmail" name="userEmail" placeholder="이메일을 입력하세요" required>
             </div>
             <div class="button-container">
-                <button type="submit">비밀번호 찾기</button>
+                <button type="submit">이메일전송</button>
             </div>
         </form>
+            <div class="line"></div>
+            <div class="container" style="margin-top: 30px;">
+            	<label for="userEmail">인증번호</label>
+                <input type="text" id="confirmPw" name="confirmPw" placeholder="인증번호6자리입력" required>
+	            <div class="button-con">
+	                <button type="submit" class="check">확인</button>
+	            </div>
+            </div>
     </div>
 </div>
 <script>

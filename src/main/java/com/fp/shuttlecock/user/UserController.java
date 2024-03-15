@@ -1,9 +1,11 @@
 package com.fp.shuttlecock.user;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +26,7 @@ public class UserController {
 	
 	@Autowired
 	UserServiceImpl userService;
-
+	
 	//로그인
 	@GetMapping("/login")
 	public String loginForm() {
@@ -40,6 +42,9 @@ public class UserController {
 		if(user!=null) {
 			session.setAttribute("userId", user.getUserId());
 			session.setAttribute("isAdmin", user.isAdmin());
+			session.setAttribute("username", user.getUsername());
+			session.setAttribute("kakaoYN", user.isKakaoYN());
+			
 			return "redirect:/main";
 		}else {
 	        model.addAttribute("errorMsg", "아이디 또는 비밀번호가 일치하지 않습니다.");
@@ -152,6 +157,46 @@ public class UserController {
 		        e.printStackTrace();
 		    }
 		    return "findsearch";
+	}
+	
+	 //비밀번호 찾기	
+	@PostMapping("/findPwSearch")
+    public String sendEmail(@RequestParam String userId, @RequestParam String userEmail) {
+        try {
+
+            boolean isExistUser = userService.isExistUser(userId, userEmail);
+            if (isExistUser) {
+                userService.sendEmail(userEmail);
+                return "이메일이 성공적으로 전송되었습니다.";
+            } else {
+                return "입력한 아이디와 이메일이 일치하지 않습니다.";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "이메일 전송 중 오류가 발생했습니다.";
+        }
+    }
+
+		 
+	
+	//이메일 중복 체크
+	@GetMapping("/checkEmail")
+	@ResponseBody
+	public Map<String, Object> checkEmailForm(@RequestParam("userEmail") String userEmail) {
+	    boolean result = userService.isCheckEmail(userEmail);
+	    String emessage;
+
+	    if (result) {
+	        emessage = "사용가능한 email입니다";
+	    } else {
+	        emessage = "이미 사용중인 email입니다";
+	    }
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("emessage", emessage);
+	    response.put("userEmail", userEmail);
+
+	    return response;
 	}
 
 }

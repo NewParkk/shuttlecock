@@ -23,5 +23,5 @@ public class KakaoAPIController {
     	System.out.println("kakaoLogin 확인용");
         return kakaoAPIService.kakaoLogin(code, session, redirectAttributes);
     }
-
+		
 }
