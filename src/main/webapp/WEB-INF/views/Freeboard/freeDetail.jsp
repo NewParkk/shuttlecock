@@ -131,15 +131,16 @@
 				<c:if test="${not empty sessionScope.userId}">
 					<div class="mb-3" style="width: 50%; margin: 0 auto;">
 						<label for="exampleFormControlInput1" class="form-label">댓글
-							작성자</label> <input type="text" class="form-control writerId"
-							id="exampleFormControlInput1" name="writerId"
+							작성자</label> <input type="text" class="form-control userId"
+							id="exampleFormControlInput1" name="userId"
 							value="${sessionScope.userId}" readonly>
 					</div>
 					<div class="mb-3" style="width: 50%; margin: 0 auto;">
 						<label for="exampleFormControlTextarea1" class="form-label">댓글
 							내용</label>
 						<textarea class="form-control content"
-							id="exampleFormControlTextarea1" rows="2" name="content"></textarea>
+							id="exampleFormControlTextarea1" rows="2" name="content"
+							></textarea>
 					</div>
 					<div class="mb-3" style="width: 50%; margin: 0 auto;">
 						<input type="checkbox" id="secret" name="secret" value="1">비밀댓글
@@ -151,34 +152,35 @@
 				<!-- 댓글이 들어갈 부분 -->
 				<div class="com_box">
 					<c:if test="${not empty commentList}">
-						<c:forEach items="${commentList}" var="comment">
+						<c:forEach items="${commentList}" var="comments">
 							<div class="row g-3"
 								style="width: 51%; margin: 0 auto; margin-top: -25px">
 								<div class="col">
 									<label for="exampleFormControlInput1" class="form-label">작성자</label>
 									<input type="text" class="form-control"
-										id="exampleFormControlInput1" value="${comment.userId}"
+										id="exampleFormControlInput1" value="${comments.userId}"
 										readonly>
 								</div>
 								<div class="col">
 									<label for="exampleFormControlInput1" class="form-label">작성시간</label>
 									<input type="text" class="form-control com-date"
-										id="exampleFormControlInput2" value="${comment.regdate}"
+										id="exampleFormControlInput2" value="${comments.regdate}"
 										readonly>
 								</div>
 							</div>
 							<div class="mb-3" style="width: 50%; margin: 0 auto;">
-								<label for="exampleFormControlTextarea1" class="form-label">댓글
+								<label for="exampleFormControlTextarea1" class="form-label"
+								>댓글
 									내용</label>
 								<c:choose>
 									<c:when
-										test="${comment.secret eq 0 or sessionScope.userId eq Detail.userId or 
-						comment.userId eq sessionScope.userId or sessionScope.isAdmin eq true}">
+										test="${comments.secret eq 0 or sessionScope.userId eq Detail.userId or 
+						comments.userId eq sessionScope.userId or sessionScope.isAdmin eq true}">
 										<textarea class="form-control content"
 											id="exampleFormControlTextarea1" rows="2" name="content"
-											readonly>${comment.content}</textarea>
+											readonly>${comments.content}</textarea>
 									</c:when>
-									<c:when test="${comment.secret eq 1}">
+									<c:when test="${comments.secret eq 1}">
 										<textarea class="form-control content"
 											id="exampleFormControlTextarea1" rows="2" name="content"
 											readonly>비밀댓글입니다.</textarea>
@@ -186,20 +188,20 @@
 								</c:choose>
 							</div>
 							<c:if
-								test="${sessionScope.userId eq comment.userId or sessionScope.isAdmin eq true}">
+								test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
 								<button type="button"
 									class="btn btn-primary whyBtn1 com_delete_btn"
-									id="com_delete_btn" value="${comment.commentsId}">댓글삭제</button>
+									id="com_delete_btn" value="${comments.commentsId}">댓글삭제</button>
 							</c:if>
-							<c:if test="${sessionScope.userId eq comment.userId}">
+							<c:if test="${sessionScope.userId eq comments.userId}">
 								<button type="button"
 									class="btn btn-primary whyBtn1 com_update_btn"
 									id="com_update_btn" data-toggle="modal"
-									data-target="#editPostModal_${comment.commentsId}">댓글수정</button>
+									data-target="#editPostModal_${comments.commentsId}">댓글수정</button>
 							</c:if>
 
 							<!-- 댓글 수정 모달 -->
-							<div class="modal fade" id="editPostModal_${comment.commentsId}"
+							<div class="modal fade" id="editPostModal_${comments.commentsId}"
 								tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel"
 								aria-hidden="true" style="display: none;">
 								<div class="modal-dialog modal-lg" role="document">
@@ -216,14 +218,14 @@
 												method="post" enctype="multipart/form-data"
 												onsubmit="return validatePostForm()">
 												<input type="hidden" class="form-control mb-2" name="userId"
-													value="${comment.userId}"> <input type="hidden"
+													value="${comments.userId}"> <input type="hidden"
 													class="form-control mb-2" name="commentsId"
-													value="${comment.commentsId}"> <input type="hidden"
-													class="form-control mb-2" name="bno" value="${comment.bno}">
+													value="${comments.commentsId}"> <input type="hidden"
+													class="form-control mb-2" name="bno" value="${comments.bno}">
 												<input type="hidden" class="form-control mb-2"
-													name="comment_type" value="${comment.comment_type}">
+													name="commentType" value="${comments.commentType}">
 												<textarea class="form-control" style="height: 100px"
-													name="content">${comment.content}</textarea>
+													name="content" value="${comments.content}">${comments.content}</textarea>
 												<div style="display: flex; align-items: center;">
 													<div style="margin-right: auto;">
 														<input type="radio" id="secret" name="secret" value="1"
@@ -279,7 +281,6 @@
 		    $(`${modalId}`).modal('show');
 		});
 	});
-
 	// regdate 값을 포맷팅하여 input 태그에 적용
 	var regdate = "${Detail.regdate}";
 	/* var formattedDate = new Date(regdate).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'}); // 날짜 포맷팅
@@ -287,7 +288,7 @@
 
 	$(function() { // 스크립트 시작문
 
-		// 글수정
+		/* // 글수정
 		$('.updateBtn')
 				.click(
 						function() {
@@ -302,7 +303,7 @@
 							} else {
 								location.href = "<c:url value='/Freeboard/deleteFree?freeboardId=${Detail.freeboardId}'/>";
 							}
-						})
+						}) */
 
 		// 좋아요 
 		$('.LikeBtn').click(function(){
@@ -317,7 +318,7 @@
 					data : {
 						"userId" : "${sessionScope.userId}",
 						"bno" : ${Detail.freeboardId},
-						"likes_type" : 2
+						"likesType" : 2
 					},
 					success : function(data){
 						location.reload();
@@ -359,13 +360,13 @@
 		
 		// 댓글
 		$('#com_btn').click(function() {
-			const writerId = $('.writerId').val();
+			const userId = $('.userId').val();
 			const content = $('.content').val();
 			const freeboardId = ${Detail.freeboardId};
-			const comment_type = 2; 
+			const commentType = 2; 
 			const secret = $('#secret').is(':checked') ? 1 : 0;
 			console.log(secret);
-			if(writerId == ''){
+			if(userId == ''){
 				alert('아이디를 입력해주세요');
 				return;
 			}else if(content == ''){
@@ -376,10 +377,10 @@
 					type : 'post',
 					url: '<c:url value="/comments/insert"/>',
 					data : {
-							"userId" : writerId,
+							"userId" : userId,
 							"content" : content,
 							"bno" : freeboardId,
-							"comment_type" : comment_type,
+							"commentType" : commentType,
 							"secret" : secret
 						},
 					success: function(data) {
@@ -414,7 +415,7 @@
 		            if (isConfirmed) {
 		                // 액시오스를 사용하여 서버로 DELETE 요청을 보냅니다.
 		                console.log(commentsId);
-		                axios.delete('/comments/' + commentsId)
+		                axios.delete('/comments/'+commentsId)
 		                .then(function (response) {
 		                    //ResponseEntity.ok 보내주면
 		                    console.log(response.data);

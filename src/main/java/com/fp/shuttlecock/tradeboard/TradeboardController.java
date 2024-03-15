@@ -1,10 +1,14 @@
 package com.fp.shuttlecock.tradeboard;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fp.shuttlecock.attachmentfile.FileRequest;
 import com.fp.shuttlecock.attachmentfile.FileService;
+import com.fp.shuttlecock.attachmentfile.NaverObjectStorage;
 import com.fp.shuttlecock.comments.CommentsDTO;
 import com.fp.shuttlecock.comments.CommentsService;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
@@ -40,6 +45,9 @@ public class TradeboardController {
 	@Autowired
 	private CommentsServiceImpl commentService;
 
+	@Autowired
+	private NaverObjectStorage naverfile;
+
 	@GetMapping("/Tradeboard/{tradeboardId}")
 	public String getBoardByBoardId(@PathVariable int tradeboardId, Model model, PageRequestDTO pageRequest) {
 		String view = "error";
@@ -55,6 +63,7 @@ public class TradeboardController {
 				// model.addAttribute("file", file);
 				model.addAttribute("tradeboard", tradeboard);
 				model.addAttribute("commentList", commentList);
+				System.out.println(commentList);
 				view = "Tradeboard/TradeDetail";
 			}
 		} catch (Exception e) {
@@ -66,7 +75,7 @@ public class TradeboardController {
 	// paging
 	@GetMapping("/Tradeboard")
 	public String getPagenatedSearch(PageRequestDTO pageRequest, Model model, HttpSession session) {
-		if(session.getAttribute("userId") != null) {
+		if (session.getAttribute("userId") != null) {
 			pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
 		}
 		pageRequest.setAmount(6);
@@ -90,16 +99,19 @@ public class TradeboardController {
 	public String insertBoard(TradeboardDTO tradeboard, MultipartFile file) {
 		String view = "error";
 		boolean boardResult = false;
-
 		try {
+			if (!file.getOriginalFilename().equals("")) {
+				String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+				tradeboard.setImageName(fileName);
+				naverfile.ncpFileupload(file, fileName, 3);
+			} else {
+				System.out.println("파일 삽입 당시 이미지 안넣음");
+				tradeboard.setImageName("noImage");
+			}
 			boardResult = boardService.insertBoard(tradeboard);
 			if (boardResult) {
 				boardService.increaseWriteCount(tradeboard.getUserId());
 				view = "redirect:/Tradeboard";
-//				if (file != null) {
-//					fileService.insertBoardFile(file, tradeboard.getTradeboardId());
-//					view = "redirect:/Tradeboard";
-//				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,11 +132,19 @@ public class TradeboardController {
 
 	@PostMapping("/Tradeboard/update")
 	public String updateBoard(TradeboardDTO tradeboard, MultipartFile file, HttpSession session) {
-		System.out.println(tradeboard);
+		System.out.println(file);
 		boolean result = false;
 		if (String.valueOf(session.getAttribute("userId")) != null
 				&& tradeboard.getUserId().equals(String.valueOf(session.getAttribute("userId")))) {
-			result = boardService.updateTradePost(tradeboard);
+			if (!file.getOriginalFilename().equals("")) {
+				String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+				tradeboard.setImageName(fileName);
+				result = boardService.updateTradePost(tradeboard);
+				naverfile.ncpFileupload(file, fileName, 3);
+			} else {
+				tradeboard.setImageName("noImage");
+				result = boardService.updateTradePost(tradeboard);
+			}
 			if (result) {
 				return "redirect:/Tradeboard/" + tradeboard.getTradeboardId();
 			} else {
@@ -153,24 +173,4 @@ public class TradeboardController {
 		}
 	}
 
-//	// 좋아요
-//		@ResponseBody
-//		@PostMapping("/likeUp")
-//		public void likeUp(@RequestBody LikesVO vo) {
-//			System.out.println("controller 연결 성공");
-//			System.out.println(vo.getFreeboardId());
-//			System.out.println(vo.getUserId());
-//			System.out.println(vo.getLikeType());
-//			service.likeUp(vo.getFreeboardId(), vo.getUserId(), vo.getLikeType());
-//		}
-//		
-//		@ResponseBody
-//		@PostMapping("/likeDown")
-//		public void likeDown(@RequestBody LikesVO vo) {
-//			System.out.println("controller 연결 성공");
-//			System.out.println(vo.getFreeboardId());
-//			System.out.println(vo.getUserId());
-//			System.out.println(vo.getLikeType());
-//			service.likeUp(vo.getFreeboardId(), vo.getUserId(), vo.getLikeType());
-//		}
 }

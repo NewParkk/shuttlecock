@@ -1,5 +1,6 @@
 package com.fp.shuttlecock.tradeboard;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -21,8 +22,12 @@ public interface TradeboardMapper {
 
 	int deleteTradePost(int tradeboardId);
 
-	void increaseWriteCount(String user_userId);
+	void increaseWriteCount(String userId);
 
 	int updateDeletedTradePost(int tradeboardId);
+
+	int deleteCompletedPost();
+
+	List<Integer> getCompletedPost();
 	
 }

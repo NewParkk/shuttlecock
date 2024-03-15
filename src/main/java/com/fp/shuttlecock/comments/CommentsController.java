@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
+
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -16,15 +18,18 @@ public class CommentsController {
 	@Autowired
 	CommentsServiceImpl commentService;
 	
+	@Autowired
+	private TradeboardServiceImpl boardService;
+	
 	@PostMapping(value = "/comments/insert")
 	public ResponseEntity<String> insertComment(CommentsDTO comment, HttpSession session) {
-		System.out.println(comment);
 		if(session.getAttribute("userId") != null) {
 			comment.setUserId(String.valueOf(session.getAttribute("userId")));
 		//try {
 			boolean result = commentService.insertComment(comment);
 			if(result) {
 				commentService.increaseCommentCount(comment);
+				boardService.increaseWriteCount(String.valueOf(session.getAttribute("userId")));
 				return ResponseEntity.ok("삽입성공"); 
 			}
 		}
@@ -37,7 +42,6 @@ public class CommentsController {
 	@DeleteMapping(value = "/comments/{commentsId}")
 	public ResponseEntity<String> deleteComment(@PathVariable int commentsId, HttpSession session) {
 		CommentsDTO comment = commentService.getCommentByCommentsId(commentsId); 
-		System.out.println("코멘트 아이디 : " + commentsId);
 	    if (session.getAttribute("userId") != null && 
 	    		String.valueOf(session.getAttribute("userId")).equals(comment.getUserId()) ||
 	    		(boolean)session.getAttribute("isAdmin") == true) {
@@ -66,6 +70,7 @@ public class CommentsController {
 	        //try {
 	            boolean result = commentService.updateComment(comment);
 	            if (result) {
+	            	System.out.println("수정됨 : " + comment.getCommentType());
 	            	if(comment.getCommentType() == 2) {
 	            		return "redirect:/Freeboard/freeDetail" + commentBno;
 	            	} else if(comment.getCommentType() == 3) {

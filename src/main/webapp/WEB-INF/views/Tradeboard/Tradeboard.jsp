@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -14,6 +15,43 @@
 <!-- <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
 <style>
+.info p {
+	white-space: pre-wrap; /* Or normal */
+}
+
+.container1 {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 80%;
+	margin: 0 auto;
+}
+
+.image-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 10px;
+}
+
+.image {
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+
+.info {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	margin-top: 5px;
+}
+
+.info p {
+	margin: 0;
+	padding: 0 5px;
+}
+
 .mainTitle {
 	text-align: center;
 }
@@ -82,10 +120,13 @@ a:active {
 </style>
 </head>
 <body>
+	<spring:eval
+		expression="@environment.getProperty('NCP.STORAGE.APIURL')"
+		var="imgUrl" />
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ include file="category.jsp"%>
 	<!-- aside -->
-         <!--  <div class="aside">
+	<!--  <div class="aside">
             <div class="menubar">
               <ul>
                 <li><a href="/Tradeboard?itemClass=0">전체</a></li>
@@ -105,19 +146,26 @@ a:active {
 			<div class="search-wrap clearfix">
 				<select id="category" name="category"
 					style="width: 80px; margin-left: 54%">
-					<option value="user_userId" ${pageInfo.pageRequest.category == 'user_userId' ? 'selected' : ''}>
-					작성자</option>
-					<option value="title" ${pageInfo.pageRequest.category == 'title' ? 'selected' : ''}>
-					제목</option>
-					<option value="content" ${pageInfo.pageRequest.category == 'content' ? 'selected' : ''}>
-					글내용</option>
-				</select> 
-				<input id="searchKeyword" type="search" name="searchKeyword" placeholder="검색어를 입력해주세요."
-					value="${pageInfo.pageRequest.searchKeyword}"> 
-				<input name="pageNum" type="hidden" value="${pageInfo.pageRequest.pageNum}"> 
-				<input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
-				<input name="region" type="hidden" value="${pageInfo.pageRequest.region}">
-				<input name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
+					<option value="user_userId"
+						${pageInfo.pageRequest.category == 'user_userId' ? 'selected' : ''}>
+						작성자</option>
+					<option value="title"
+						${pageInfo.pageRequest.category == 'title' ? 'selected' : ''}>
+						제목</option>
+					<option value="content"
+						${pageInfo.pageRequest.category == 'content' ? 'selected' : ''}>
+						글내용</option>
+				</select> <input id="searchKeyword" type="search" name="searchKeyword"
+					placeholder="검색어를 입력해주세요."
+					value="${pageInfo.pageRequest.searchKeyword}"> <input
+					name="pageNum" type="hidden"
+					value="${pageInfo.pageRequest.pageNum}"> <input
+					name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
+				<input name="region" type="hidden"
+					value="${pageInfo.pageRequest.region}"> <input name="sort"
+					type="hidden" value="${pageInfo.pageRequest.sort}">
+					<input name="itemClass"
+					type="hidden" value="${pageInfo.pageRequest.itemClass}">
 				<button class="btn btn-primary search-btn" type="submit"
 					style="margin-right: 16%">검색</button>
 			</div>
@@ -196,23 +244,19 @@ a:active {
 		<!-- board list area -->
 		<div id="board-list">
 			<div class="container">
-				<table class="table" style="width: 70%; margin: 0 auto;">
+				<!-- <table class="table" style="width: 70%; margin: 0 auto;">
 					<thead>
 						<tr>
-							<th scope="col" style="text-align: center;">
-								<a href="/Tradeboard?sort=0">글번호</a>
-							</th>
+							<th scope="col" style="text-align: center;"><a
+								href="/Tradeboard?sort=0">글번호</a></th>
 							<th scope="col" style="text-align: center;">제목</th>
 							<th scope="col" style="text-align: center;">작성자</th>
-							<th scope="col" style="text-align: center;">
-								<a href="/Tradeboard?sort=1">날짜</a>
-							</th>
-							<th scope="col" style="text-align: center;">
-								<a href="/Tradeboard?sort=2">조회수</a>
-							</th>
-							<th scope="col" style="text-align: center;">
-								<a href="/Tradeboard?sort=3">추천</a>
-							</th>
+							<th scope="col" style="text-align: center;"><a
+								href="/Tradeboard?sort=1">날짜</a></th>
+							<th scope="col" style="text-align: center;"><a
+								href="/Tradeboard?sort=2">조회수</a></th>
+							<th scope="col" style="text-align: center;"><a
+								href="/Tradeboard?sort=3">추천</a></th>
 							<th scope="col" style="text-align: center;">거래여부</th>
 						</tr>
 					</thead>
@@ -228,21 +272,22 @@ a:active {
 								<c:choose>
 									<c:when test="${tradeboard.commentCount != 0}">
 										<td bgcolor="">
-									<p align="center">
-										<span style="font-size: 12pt;"> <b><a
-												href="/Tradeboard/${tradeboard.tradeboardId}">${tradeboard.title} [${tradeboard.commentCount}]</a></b>
-										</span>
-									</p>
-								</td>
+											<p align="center">
+												<span style="font-size: 12pt;"> <b><a
+														href="/Tradeboard/${tradeboard.tradeboardId}">${tradeboard.title}
+															[${tradeboard.commentCount}]</a></b>
+												</span>
+											</p>
+										</td>
 									</c:when>
 									<c:when test="${tradeboard.commentCount == 0}">
 										<td bgcolor="">
-									<p align="center">
-										<span style="font-size: 12pt;"> <b><a
-												href="/Tradeboard/${tradeboard.tradeboardId}">${tradeboard.title}</a></b>
-										</span>
-									</p>
-								</td>
+											<p align="center">
+												<span style="font-size: 12pt;"> <b><a
+														href="/Tradeboard/${tradeboard.tradeboardId}">${tradeboard.title}</a></b>
+												</span>
+											</p>
+										</td>
 									</c:when>
 								</c:choose>
 								<td bgcolor="">
@@ -273,25 +318,98 @@ a:active {
 								<c:choose>
 									<c:when test="${tradeboard.complete eq 1}">
 										<td bgcolor="">
-									<p align="center">
-										<span style="font-size: 12pt;"> <b>판매완료</b>
-										</span>
-									</p>
-								</td>
+											<p align="center">
+												<span style="font-size: 12pt;"> <b>판매완료</b>
+												</span>
+											</p>
+										</td>
 									</c:when>
 									<c:when test="${tradeboard.complete eq 0}">
 										<td bgcolor="">
-									<p align="center">
-										<span style="font-size: 12pt;"> <b>판매중</b>
-										</span>
-									</p>
-								</td>
+											<p align="center">
+												<span style="font-size: 12pt;"> <b>판매중</b>
+												</span>
+											</p>
+										</td>
 									</c:when>
 								</c:choose>
 							</tr>
 						</tbody>
 					</c:forEach>
+				</table> -->
+				<table class="table" style="width: 70%; margin: 0 auto;">
+					<thead>
+						<tr>
+							<th scope="col" style="text-align: center;"><a
+								href="/Tradeboard?sort=0&region=${pageInfo.pageRequest.region}&itemClass=${pageInfo.pageRequest.itemClass}">글번호순</a></th>
+							<th scope="col" style="text-align: center;"><a
+								href="/Tradeboard?sort=1&region=${pageInfo.pageRequest.region}&itemClass=${pageInfo.pageRequest.itemClass}">최신순</a></th>
+							<th scope="col" style="text-align: center;"><a
+								href="/Tradeboard?sort=2&region=${pageInfo.pageRequest.region}&itemClass=${pageInfo.pageRequest.itemClass}">조회수순</a></th>
+							<th scope="col" style="text-align: center;"><a
+								href="/Tradeboard?sort=3&region=${pageInfo.pageRequest.region}&itemClass=${pageInfo.pageRequest.itemClass}">추천순</a></th>
+						</tr>
+					</thead>
 				</table>
+				<c:forEach items="${tradeboardList}" var="tradeboard">
+					<div class="container1">
+						<div class="image-container">
+							<a href="/Tradeboard/${tradeboard.tradeboardId}"><img
+								src="${imgUrl}/boardFile/3_${tradeboard.imageName}.png"></a><br>
+							<div class="info">
+								<c:choose>
+									<c:when test="${tradeboard.commentCount != 0}">
+										<p align="center">
+											<span style="font-size: 12pt;"> <b><a
+													href="/Tradeboard/${tradeboard.tradeboardId}">${tradeboard.title}
+														[${tradeboard.commentCount}]</a></b>
+											</span><br>
+										</p>
+									</c:when>
+									<c:when test="${tradeboard.commentCount == 0}">
+										<p align="center">
+											<span style="font-size: 12pt;"> <b><a
+													href="/Tradeboard/${tradeboard.tradeboardId}">${tradeboard.title}</a></b>
+											</span><br>
+										</p>
+									</c:when>
+								</c:choose>
+								<br>
+								<p align="center">
+									<span style="font-size: 12pt;"> <b>${tradeboard.hit}</b>
+									</span>
+								</p>
+								<p align="center">
+									<span style="font-size: 12pt;"> <b>${tradeboard.like}</b>
+									</span><br>
+								</p>
+								<p align="center">
+									<span style="font-size: 12pt;"> <b><fmt:formatDate
+												value="${tradeboard.regdate}" pattern="yyyy-MM-dd HH:mm" /></b>
+									</span><br>
+								</p>
+								<p align="center">
+									<span style="font-size: 12pt;"> <b>${tradeboard.userId}</b>
+									</span><br>
+								</p>
+								<c:choose>
+									<c:when test="${tradeboard.complete eq 1}">
+										<p align="center">
+											<span style="font-size: 12pt;"> <b>판매완료</b>
+											</span>
+										</p>
+									</c:when>
+									<c:when test="${tradeboard.complete eq 0}">
+										<p align="center">
+											<span style="font-size: 12pt;"> <b>판매중</b>
+											</span>
+										</p>
+									</c:when>
+								</c:choose>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
 				<c:if test="${empty tradeboardList}">
 					<div class="empty-post" style="text-align: center;">게시물이
 						없습니다.</div>
