@@ -25,7 +25,7 @@
             <a href="/LeagueBoard" style="text-decoration: none; color: #333; font-weight: bold; font-size: 16px; display: block; padding: 8px 16px; border-radius: 5px; transition: background-color 0.3s;">리그게시판</a>
         </li>
         <li style="margin-bottom: 10px;">
-            <a href="" style="text-decoration: none; color: #333; font-weight: bold; font-size: 16px; display: block; padding: 8px 16px; border-radius: 5px; transition: background-color 0.3s;">리그순위</a>
+            <a href="/LeagueBoardRanking" style="text-decoration: none; color: #333; font-weight: bold; font-size: 16px; display: block; padding: 8px 16px; border-radius: 5px; transition: background-color 0.3s;">리그순위</a>
         </li>
     </ul>
 </aside>
