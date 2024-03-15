@@ -26,6 +26,8 @@ public class PageRequestDTO {
 	private int sort = 0;
 	
 	private int itemClass = 0;
+	
+	private int recruitType = 0;
 
 	public PageRequestDTO() {
 		this(1, 10);

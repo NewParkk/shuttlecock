@@ -40,14 +40,14 @@ h1 {
 		<%@ include file="category.jsp"%>
 
 		<div class="mainTitle">
-			<h1>거래게시판</h1>
+			<h1>모집게시판</h1>
 		</div>
 		<!-- main  -->
 		<main id="main">
 			<section class="notice">
 
 				<c:if test="${not empty sessionScope.userId}">
-					<form action="/Tradeboard/insert" method="POST"
+					<form action="/Recruitboard/insert" method="POST"
 						enctype="multipart/form-data">
 						<div class="mb-3" style="width: 70%;">
 							<label for="exampleFormControlInput1" class="form-label">제목</label>
@@ -80,20 +80,20 @@ h1 {
 							<input type="radio" id="region" name="region" value="5">전라
 							<input type="radio" id="region" name="region" value="6">강원
 						</div>
-						<label for="exampleFormControlInput1" class="form-label">품목분류</label>
+						<label for="exampleFormControlInput1" class="form-label">모집분류</label>
 						<div class="mb-3" style="width: 70%;">
-							<input type="radio" id="itemClass" name="itemClass" value="0">전체
-							<input type="radio" id="itemClass" name="itemClass" value="1">의류
-							<input type="radio" id="itemClass" name="itemClass" value="2">라켓
-							<input type="radio" id="itemClass" name="itemClass" value="3">보호대
-							<input type="radio" id="itemClass" name="itemClass" value="4">신발
-							<input type="radio" id="itemClass" name="itemClass" value="5">기타
+							<input type="radio" id="recruitType" name="recruitType" value="0">전체
+							<input type="radio" id="recruitType" name="recruitType" value="1">리그 단식
+							<input type="radio" id="recruitType" name="recruitType" value="2">리그 복식
+							<input type="radio" id="recruitType" name="recruitType" value="3">단식
+							<input type="radio" id="recruitType" name="recruitType" value="4">복식
+							<input type="radio" id="recruitType" name="recruitType" value="5">심판
 						</div>
 						<br>
 						<div class="container"
 							style="height: 50px; display: flex; justify-content: flex-end;">
 							<button type="button" class="btn btn-primary CancleBtn"
-								onclick="location.href='/Tradeboard'" style="margin-left: 10px;">취&nbsp;소</button>
+								onclick="location.href='/Recruitboard'" style="margin-left: 10px;">취&nbsp;소</button>
 							<button type="submit" class="btn btn-primary whyBtn"
 								style="margin-left: 10px; margin-top: 0px; height: 100%;">글작성</button>
 						</div>

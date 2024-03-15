@@ -43,30 +43,30 @@ h1 {
 		<%@ include file="category.jsp"%>
 
 		<div class="mainTitle">
-			<h1>거래게시판</h1>
+			<h1>모집게시판</h1>
 		</div>
 
 		<!-- main  -->
 		<main id="main">
 			<section class="notice">
 				<c:if test="${not empty sessionScope.userId}">
-					<form action="/Tradeboard/update" method="POST"
+					<form action="/Recruitboard/update" method="POST"
 						enctype="multipart/form-data">
-						<input type="hidden" id="tradeboardId" name="tradeboardId"
-							value="${tradeboard.tradeboardId}" /> <input type="hidden"
-							id="userId" name="userId" value="${tradeboard.userId}" />
+						<input type="hidden" id="recruitboardId" name="recruitboardId"
+							value="${recruitboard.recruitboardId}" /> <input type="hidden"
+							id="userId" name="userId" value="${recruitboard.userId}" />
 
 						<div class="mb-3" style="width: 70%;">
 							<label for="exampleFormControlInput1" class="form-label">제목</label>
 							<input type="text" class="form-control" name="title"
-								id="exampleFormControlInput1" value="${tradeboard.title}">
+								id="exampleFormControlInput1" value="${recruitboard.title}">
 						</div>
 						<div class="row g-3"
 							style="width: 70%;">
 							<div class="col">
 								<label for="exampleFormControlInput1" class="form-label">작성자</label>
 								<input type="text" class="form-control"
-									id="exampleFormControlInput1" value="${tradeboard.userId}"
+									id="exampleFormControlInput1" value="${recruitboard.userId}"
 									readonly>
 							</div>
 							<div class="col">
@@ -78,7 +78,7 @@ h1 {
 						<div class="mb-3" style="width: 70%;">
 							<label for="exampleFormControlTextarea1" class="form-label">내용</label>
 							<textarea class="form-control " name="content" id="ckeditor"
-								rows="6">${tradeboard.content}</textarea>
+								rows="6">${recruitboard.content}</textarea>
 						</div>
 						<div class="mb-3" style="width: 70%; margin: 0 auto;">
 							<label for="formFileMultiple" class="form-label"></label> <input
@@ -95,21 +95,21 @@ h1 {
 							<input type="radio" id="region" name="region" value="5">전라
 							<input type="radio" id="region" name="region" value="6">강원
 						</div>
-						<label for="exampleFormControlInput1" class="form-label">품목분류</label>
+						<label for="exampleFormControlInput1" class="form-label">모집분류</label>
 						<div class="mb-3" style="width: 70%;">
-							<input type="radio" id="itemClass" name="itemClass" value="0">전체
-							<input type="radio" id="itemClass" name="itemClass" value="1">의류
-							<input type="radio" id="itemClass" name="itemClass" value="2">라켓
-							<input type="radio" id="itemClass" name="itemClass" value="3">보호대
-							<input type="radio" id="itemClass" name="itemClass" value="4">신발
-							<input type="radio" id="itemClass" name="itemClass" value="5">기타
+							<input type="radio" id="recruitType" name="recruitType" value="0">전체
+							<input type="radio" id="recruitType" name="recruitType" value="1">리그 단식
+							<input type="radio" id="recruitType" name="recruitType" value="2">리그 복식
+							<input type="radio" id="recruitType" name="recruitType" value="3">단식
+							<input type="radio" id="recruitType" name="recruitType" value="4">복식
+							<input type="radio" id="recruitType" name="recruitType" value="5">심판
 						</div>
 						<div class="mb-3" style="width: 70%;">
-							<input type="radio" id="complete" name="complete" value="1">판매완료
+							<input type="radio" id="complete" name="complete" value="1">모집완료
 						</div>
 						<button type="submit" class="btn btn-primary whyBtn">글 수정</button>
 						<button type="button" class="btn btn-primary CancleBtn"
-							onclick="location.href='/Tradeboard'">취&nbsp; 소</button>
+							onclick="location.href='/Recruitboard'">취&nbsp; 소</button>
 					</form>
 
 				</c:if>
@@ -131,7 +131,7 @@ h1 {
 </body>
 <script type="text/javascript">
 	//leagueboard.regdate 값을 포맷팅하여 input 태그에 적용
-	var regdate = "${tradeboard.regdate}"; // 예시로 날짜를 가져옴
+	var regdate = "${recruitboard.regdate}"; // 예시로 날짜를 가져옴
 	var formattedDate = new Date(regdate).toLocaleString('ko-KR', {
 		year : 'numeric',
 		month : '2-digit',

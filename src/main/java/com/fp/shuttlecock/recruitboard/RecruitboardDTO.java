@@ -1,22 +1,22 @@
-package com.fp.shuttlecock.tradeboard;
+package com.fp.shuttlecock.recruitboard;
 
 import java.sql.Timestamp;
 
 import lombok.Data;
 
 @Data
-public class TradeboardDTO {
-	private int tradeboardId;
+public class RecruitboardDTO {
+	private int recruitboardId;
 	private String title;
 	private String content;
-	private int hit;
-	private Timestamp regdate;
 	private int like;
+	private Timestamp regdate;
+	private int hit;
 	private int commentCount;
 	private int region;
 	private int complete;
 	private int deleteYN;
 	private String userId;
-	private int itemClass;
+	private int recruitType;
 	private String imageName;
 }

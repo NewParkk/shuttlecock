@@ -44,25 +44,25 @@ h1 {
 
 	<!-- 붙혀 넣는곳 -->
 	<div class="mainTitle">
-		<h1>거래게시판</h1>
+		<h1>모집게시판</h1>
 	</div>
-	<form action="/Tradeboard/update/${tradeboardId}" method="GET"
+	<form action="/Recruitboard/update/${recruitboardId}" method="GET"
 		name="detailForm" id="detailForm">
 		<div class="mb-3" style="width: 70%; margin: 0 auto;">
 			<label for="exampleFormControlInput1" class="form-label">제목</label> <input
 				type="text" class="form-control" id="exampleFormControlInput1"
-				value="${tradeboard.title}" readonly>
+				value="${recruitboard.title}" readonly>
 		</div>
 		<div class="row g-3" style="width: 70%; margin: 0 auto;">
 			<div class="col">
 				<label for="exampleFormControlInput1" class="form-label">작성자</label>
 				<input type="text" class="form-control"
-					id="exampleFormControlInput1" value="${tradeboard.userId}" readonly>
+					id="exampleFormControlInput1" value="${recruitboard.userId}" readonly>
 			</div>
 			<div class="col">
 				<label for="exampleFormControlInput1" class="form-label">작성시간</label>
 				<input type="text" class="form-control"
-					id="exampleFormControlInput2" value="${tradeboard.regdate}"
+					id="exampleFormControlInput2" value="${recruitboard.regdate}"
 					readonly>
 			</div>
 		</div>
@@ -70,16 +70,16 @@ h1 {
 			<div class="col">
 				<label for="exampleFormControlInput1" class="form-label">조회수</label>
 				<input type="text" class="form-control"
-					id="exampleFormControlInput1" value="${tradeboard.hit}" readonly>
+					id="exampleFormControlInput1" value="${recruitboard.hit}" readonly>
 			</div>
 			<div class="col">
 				<label for="exampleFormControlInput1" class="form-label">거래여부</label>
 				<c:choose>
-					<c:when test="${tradeboard.complete eq 1}">
+					<c:when test="${recruitboard.complete eq 1}">
 						<input type="text" class="form-control"
 							id="exampleFormControlInput1" value="거래완료" readonly>
 					</c:when>
-					<c:when test="${tradeboard.complete eq 0}">
+					<c:when test="${recruitboard.complete eq 0}">
 						<input type="text" class="form-control"
 							id="exampleFormControlInput1" value="판매중" readonly>
 					</c:when>
@@ -93,28 +93,28 @@ h1 {
 
 		<div class="mb-3" style="width: 70%; margin: 0 auto;">
 			<label for="exampleFormControlTextarea1" class="form-label"></label>
-			<div>${tradeboard.content}</div>
+			<div>${recruitboard.content}</div>
 		</div>
-		<c:if test="${tradeboard.imageName != 'noImage'}">
+		<c:if test="${recruitboard.imageName != 'noImage'}">
 			<div class="image-container"
 				style="width: 200px; height: 200px; object-fit: cover;">
-				<img src="${imgUrl}/boardFile/3_${tradeboard.imageName}.png"><br>
+				<img src="${imgUrl}/boardFile/4_${recruitboard.imageName}.png"><br>
 			</div>
 		</c:if>
 
 		<button type="button" class="btn btn-primary whyBtn listBtn"
 			id="goList">목록</button>
-		<c:if test="${sessionScope.userId eq tradeboard.userId}">
+		<c:if test="${sessionScope.userId eq recruitboard.userId}">
 			<button type="submit" class="btn btn-primary CancleBtn updateBtn">수정</button>
 		</c:if>
 		<c:if
-			test="${sessionScope.userId eq tradeboard.userId or sessionScope.isAdmin eq true}">
+			test="${sessionScope.userId eq recruitboard.userId or sessionScope.isAdmin eq true}">
 			<button type="button" class="btn btn-primary CancleBtn delbtn">삭제</button>
 		</c:if>
 		<button type="button" class="btn btn-primary CancleBtn LikeBtn"
-			id="LikeBtn">추천 ${tradeboard.like}</button>
+			id="LikeBtn">추천 ${recruitboard.like}</button>
 		<c:if
-			test="${sessionScope.userId != tradeboard.userId and not empty sessionScope.userId}">
+			test="${sessionScope.userId != recruitboard.userId and not empty sessionScope.userId}">
 			<button type="button" id="userblock" style="margin-top: 30px;">게시자차단</button>
 		</c:if>
 	</form>
@@ -161,7 +161,7 @@ h1 {
 						내용</label>
 					<c:choose>
 						<c:when
-							test="${comment.secret eq 0 or sessionScope.userId eq tradeboard.userId or 
+							test="${comment.secret eq 0 or sessionScope.userId eq recruitboard.userId or 
 						comment.userId eq sessionScope.userId or sessionScope.isAdmin eq true}">
 							<textarea class="form-control content"
 								id="exampleFormControlTextarea1" rows="2" name="content"
@@ -257,13 +257,13 @@ $(document).ready(function() {
 });
 
 // regdate 값을 포맷팅하여 input 태그에 적용
-var regdate = "${tradeboard.regdate}";
+var regdate = "${recruitboard.regdate}";
 var formattedDate = new Date(regdate).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'}); // 날짜 포맷팅
 document.getElementById("exampleFormControlInput2").value = formattedDate;
 		
 		//목록
 		$('#goList').click(function(){
-			location.href = "/Tradeboard";
+			location.href = "/Recruitboard";
 		})
 		
 		// 추천
@@ -278,8 +278,8 @@ document.getElementById("exampleFormControlInput2").value = formattedDate;
 					url : "/likes",
 					data : {
 						"userId" : "${sessionScope.userId}",
-						"bno" : ${tradeboard.tradeboardId},
-						"likesType" : 3
+						"bno" : ${recruitboard.recruitboardId},
+						"likesType" : 4
 					},
 					success : function(data){
 						location.reload();
@@ -325,12 +325,12 @@ document.getElementById("exampleFormControlInput2").value = formattedDate;
 
 		        if (isConfirmed) {
 		            // 액시오스를 사용하여 서버로 DELETE 요청을 보냅니다.
-		            axios.delete('/Tradeboard/${tradeboard.tradeboardId}')
+		            axios.delete('/Recruitboard/${recruitboard.recruitboardId}')
 		            .then(function (response) {
 		            	//ResponseEntity.ok 보내주면
 		                console.log(response.data);
 		                alert("게시글이 삭제되었습니다.");
-		                window.location.href = "/Tradeboard";
+		                window.location.href = "/Recruitboard";
 		            })
 		            .catch(function (error) {
 		                // 아닐시
@@ -345,8 +345,8 @@ document.getElementById("exampleFormControlInput2").value = formattedDate;
 		$('#com_btn').click(function() {
 			const writerId = $('.writerId').val();
 			const content = $('.content').val();
-			const tradeboardId = ${tradeboard.tradeboardId};
-			const commentType = 3; 
+			const recruitboardId = ${recruitboard.recruitboardId};
+			const commentType = 4; 
 			const secret = $('#secret').is(':checked') ? 1 : 0;
 			console.log(content);
 			if(writerId == ''){
@@ -362,7 +362,7 @@ document.getElementById("exampleFormControlInput2").value = formattedDate;
 					data : {
 							"userId" : writerId,
 							"content" : content,
-							"bno" : tradeboardId,
+							"bno" : recruitboardId,
 							"commentType" : commentType,
 							"secret" : secret
 						},
@@ -421,7 +421,7 @@ document.getElementById("exampleFormControlInput2").value = formattedDate;
 	    		url : "/blockuser",
 	    		data : {
 	    			"userId" : "${sessionScope.userId}",
-	    			"blockedUser" : "${tradeboard.userId}"
+	    			"blockedUser" : "${recruitboard.userId}"
 	    		},
 	    		success : function(data){
 	    			alert(data);

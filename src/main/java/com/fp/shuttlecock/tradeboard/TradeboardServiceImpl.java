@@ -1,8 +1,12 @@
 package com.fp.shuttlecock.tradeboard;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,7 +32,7 @@ public class TradeboardServiceImpl implements TradeboardService {
 
 	public boolean insertBoard(TradeboardDTO tradeboard) {
 		int result = tradeboardmapper.insertBoard(tradeboard);
-		if(result == 1) {
+		if (result == 1) {
 			return true;
 		}
 		return false;
@@ -36,7 +40,7 @@ public class TradeboardServiceImpl implements TradeboardService {
 
 	public boolean updateTradePost(TradeboardDTO tradeboard) {
 		int result = tradeboardmapper.updateTradePost(tradeboard);
-		if(result == 1) {
+		if (result == 1) {
 			return true;
 		}
 		return false;
@@ -44,21 +48,37 @@ public class TradeboardServiceImpl implements TradeboardService {
 
 	public boolean deleteTradePost(int tradeboardId) {
 		int result = tradeboardmapper.deleteTradePost(tradeboardId);
-		if(result == 1) {
+		if (result == 1) {
 			return true;
 		}
 		return false;
 	}
 
-	public void increaseWriteCount(String user_userId) {
-		tradeboardmapper.increaseWriteCount(user_userId);
+	public void increaseWriteCount(String userId) {
+		tradeboardmapper.increaseWriteCount(userId);
 	}
 
 	public boolean updateDeletedTradePost(int tradeboardId) {
 		int result = tradeboardmapper.updateDeletedTradePost(tradeboardId);
-		if(result == 1) {
+		if (result == 1) {
 			return true;
 		}
 		return false;
 	}
+
+	/*
+	 * @Scheduled(fixedRate = 20000) public int findCompletedBoards() {
+	 * System.out.println("삭제작업 실행중"); return
+	 * tradeboardmapper.deleteCompletedPost(); }
+	 */
+
+	@Scheduled(cron="0 0 0 1/1 * ?")
+	public void getCompletedPost() {
+		System.out.println("완료된 게시글 가져오기 실행중");
+		List<Integer> completedPost = tradeboardmapper.getCompletedPost();
+		for(Integer tradeboardId : completedPost) {
+			tradeboardmapper.updateDeletedTradePost(tradeboardId);
+		}
+	}
+
 }
