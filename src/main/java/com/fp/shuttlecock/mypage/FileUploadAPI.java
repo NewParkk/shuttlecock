@@ -40,7 +40,6 @@ public class FileUploadAPI {
 
 		UserDTO user = null;
 		user = service.getMypage(userId); 
-		System.out.println(user);
 		
 		String endPoint = "https://kr.object.ncloudstorage.com";
 		String regionName = "kr-standard";
@@ -53,7 +52,7 @@ public class FileUploadAPI {
 				.withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
 				.build();
 
-		String bucketName = "backend19"; //버킷 이름 : backend19
+		String bucketName = "team1bucket"; //버킷 이름 : backend19
 
 		// create folder
 		String folderName = "profile/"; //upload 폴더,경로 지정 : profile/
@@ -78,8 +77,8 @@ public class FileUploadAPI {
 		// upload local file
 		String objectName = folderName + user.getUserImageName(); //upload폴더/생성할파일이름.확장자
 		String filePath = user.getUserImagePath() + "\\" + user.getUserImageName(); //실제 local에서 올릴 파일 경로 및 파일이름
-		System.out.println(objectName);
-		System.out.println(filePath);
+		System.out.println("objectName :" + objectName);
+		System.out.println("filePath : " + filePath);
 		
 		try {
 			//s3.putObject(bucketName, objectName, new File(filePath)); //기본 비공개로 생성

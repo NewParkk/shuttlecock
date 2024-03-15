@@ -1,6 +1,6 @@
 package com.fp.shuttlecock.mypage;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class TradeboardDTO {
 	private String title;
 	private String content;
 	private int hit;
-	private Date regdate;
+	private Timestamp regdate;
 	private int like;
 	private int commentCount;
 	private int region;

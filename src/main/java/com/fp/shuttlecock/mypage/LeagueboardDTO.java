@@ -1,6 +1,6 @@
 package com.fp.shuttlecock.mypage;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +17,7 @@ public class LeagueboardDTO {
 	private int leagueboardId;
 	private String title;
 	private String content;
-	private Date regdate;
+	private Timestamp regdate;
 	private String winner;
 	private String loser;
 	private String userId;

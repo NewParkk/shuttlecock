@@ -1,6 +1,7 @@
 package com.fp.shuttlecock.mypage;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class FreeboardDTO {
 	private String fileloca;
 	private String filename;
 	private String ilerealname;
-	private Date regdate;
+	private Timestamp regdate;
 	private int commentCount;
 	private int likeCount;
 	private String userId;
