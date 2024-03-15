@@ -9,77 +9,41 @@
 <head>
 <meta charset="UTF-8">
 <title>리그 순위</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<style>
-.mainTitle {
-	text-align: center;
-}
 
-.whyBtn {
-	margin-left: 46%;
-}
 
-.whyBtn1 {
-	margin-left: 69%;
-}
-
-.del-btn {
-	margin-left: 95%
-}
-
-h1 {
-	padding-top: 30px;
-	padding-bottom: 30px
-}
-
-.paging {
-	margin-left: auto;
-	margin-right: auto;
-	display: table;
-}
-
-.whyBtn {
-	margin-left: 80%;
-	margin-top: 30px;
-}
-
-a:link {
-	text-decoration: none;
-	color: black;
-}
-
-a:visited {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-a:active {
-	text-decoration: none;
-}
-/*---검색버튼--- */
-.search-wrap {
-	overflow: hidden; /*부모요소에 히든 */
-	margin-bottom: 20px;
-}
-
-.search-btn, .search-input, .search-select {
-	float: right; /*우측 플로팅 */
-}
-
-.search-input {
-	width: 140px;
-}
-
-#search-select {
-	width: 80px;
-}
-</style>
 </head>
 <body>
+	<%@ include file="/WEB-INF/views/include/header.jsp"%>
+	<%@ include file="category.jsp"%>
+	<div class="mainTitle">
+    <h1>리그 순위</h1>
+	</div>
+
+      <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Win Count</th>
+                <th>Lose Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 사용자의 리그 랭킹 정보를 표시합니다. -->
+            <c:forEach items="${leagueRanking}" var="user">
+                <tr>
+                    <td>${user.userId}</td>
+                    <td>${user.username}</td>
+                    <td>${user.wincount}</td>
+                    <td>${user.losecount}</td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+
+
+
+
 
 </body>
 </html>

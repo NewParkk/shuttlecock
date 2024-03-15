@@ -7,13 +7,13 @@
 	
 	<update id="likesIncrease" parameterType="LikesDTO">
 		<choose>
-			<when test="likes_type == 2">
+			<when test="likesType == 2">
 				update freeboard set `like` = `like` + 1 where freeboardId = #{bno}
 			</when>
-			<when test="likes_type == 3">
+			<when test="likesType == 3">
 				update tradeboard set `like` = `like` + 1 where tradeboardId = #{bno}
 			</when>
-			<when test="likes_type == 4">
+			<when test="likesType == 4">
 				update recruitboard set `like` = `like` + 1 where recruitboardId = #{bno}
 			</when>
 		</choose>
@@ -33,13 +33,13 @@
 	
 	<update id="likesDecrease" parameterType="LikesDTO">
 		<choose>
-			<when test="likes_type == 2">
+			<when test="likesType == 2">
 				update freeboard set `like` = `like` - 1 where freeboardId = #{bno}
 			</when>
-			<when test="likes_type == 3">
+			<when test="likesType == 3">
 				update tradeboard set `like` = `like` - 1 where tradeboardId = #{bno}
 			</when>
-			<when test="likes_type == 4">
+			<when test="likesType == 4">
 				update recruitboard set `like` = `like` - 1 where recruitboardId = #{bno}
 			</when>
 		</choose>
