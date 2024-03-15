@@ -123,6 +123,8 @@ public class KakaoAPIController {
 			UserDTO loginUser = userService.getLoginUser(id, id);
 			session.setAttribute("userId", loginUser.getUserId());
 			session.setAttribute("isAdmin", loginUser.isAdmin());
+			session.setAttribute("username", loginUser.getUsername());
+			session.setAttribute("kakaoYN", loginUser.isKakaoYN());
 		}
 		// 리다이렉트할 뷰 이름 설정
 		mv.setViewName("redirect:/main"); 

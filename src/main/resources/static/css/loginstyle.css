@@ -221,6 +221,10 @@ input[type="checkbox"]:checked + label {
     margin: 0 5px;
 }
 
+.message1{
+	font-size:17px;
+	margin-bottom:30px;
+}
 /* 구분선 */
 .line {
     width: 100%;
@@ -305,7 +309,10 @@ input[type="checkbox"]:checked + label {
   cursor: pointer;
   margin-left: 10px;
 }
-
+.check-button:disabled {
+    background-color: #d2d2d2; 
+    color: white; 
+}
 .check-button:hover {
   background-color: #405448;
 }

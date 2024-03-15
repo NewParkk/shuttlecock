@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 public interface UserMapper {
 
 	//로그인
-	public UserDTO getLoginUser(@Param("userId") String userId,@Param("pw") String pw);
+	public UserDTO getLoginUser(@Param("userId") String userId);
 
 	//회원가입전 아이디 체크
 	public UserDTO getUserByUserId(String userId);
@@ -18,6 +18,12 @@ public interface UserMapper {
 
 	//아이디찾기
 	public UserDTO findUserId(UserDTO userDTO);
+
+	//이메일 중복체크
+	public int isCheckEmail(String userEmail);
+
+	//비밀번호 찾기 - 해당 회원의 정보가 있는지 확인
+	public boolean isExistUser(@Param("userId") String userId, @Param("userEmail") String userEmail);
 
 
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,14 +56,12 @@
                     type="password"
                     id="pw"
                     name="pw"
-                    placeholder="비밀번호를 입력하세요"
+                    placeholder="영문자, 숫자 또는 특수문자(!@#$%^&*?)를 포함하여 6~20자로 입력해주세요"
                     required
                   />
                 </div>
                 <div class="form-group">
-                  <label class="label" for="confirm_password"
-                    >비밀번호 확인</label
-                  >
+                  <label class="label" for="confirm_password">비밀번호 확인</label>
                 </div>
                 <div class="form-group">
                   <input
@@ -73,7 +72,7 @@
                     required
                   />
                 </div>
-                <div class="message" id="message"></div>
+                <div class="message" id="message" style="font-size:17px;"></div>
                 <div class="form-group">
                   <label class="label" for="email">Email</label>
                 </div>
@@ -88,12 +87,15 @@
                   <button
                     type="button"
                     class="verify-button"
-                    onclick="sendEmail()"
+                    onclick="checkEmail()"
                     id="verify-button"
                   >
                     email 중복확인
                   </button>
                 </div>
+                <div id="message1" class="message1">
+    				${emessage}
+				 </div>
                 <div class="form-group">
                   <label class="label" for="username">이름</label>
                 </div>
@@ -130,18 +132,6 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="label" for="phone">전화번호</label>
-                </div>
-                <div class="form-group">
-                  <input
-                    type="tel"
-                    id="userPhone"
-                    name="userPhone"
-                    placeholder="010-xxxx-xxxx"
-                    required
-                  />
-                </div>
-                <div class="form-group">
                     <button type="reset" class="join-button" style="width: calc(50% - 50px);">다시쓰기</button>
                     <button type="submit" class="join-button" id="join-button">가입하기</button>
                 </div>
@@ -162,6 +152,7 @@
     </div>
     
     <!-- script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
     //체크 표시 지우기
     function removeSign() {
@@ -195,36 +186,115 @@
         removeSign();//체크 지우기
     });
 
-    //비밀번호 일치/불일치
-    const confirmPw = document.getElementById('confirm_password');
-    const pwMessage = document.getElementById('message');
-    const joinBtn = document.getElementById('join-button');
-    
-    confirmPw.addEventListener('input', function () {
-        const firstPw = document.getElementById('pw');  
-        const pw = firstPw.value;
-        const confirmPwd = confirmPw.value;
+    //비밀번호 일치/불일치password
+    const firstPw = document.getElementById('pw'); 				  //비밀번호
+	const confirmPw = document.getElementById('confirm_password');//비밀번호 확인
+	const pwMessage = document.getElementById('message');         //출력메시지
+	const joinBtn = document.getElementById('join-button');       //가입하기 버튼
+	 
+	//비밀번호란에 입력할 때마다 실행
+	firstPw.addEventListener('input', function () {
+	    const pw = firstPw.value;									//비밀번호값
+	    const passwordCheck = /^(?=.*[a-z])(?=.*[0-9!@#$%^&*?]).{6,20}$/; //6~12자, 영문자/숫자 또는 특수문자
+	    const confirmPwd = confirmPw.value; //비밀번호 확인값
 
-        if (confirmPwd === '') {
+	    //해당 조건이 true일 경우
+        if (passwordCheck.test(pw)) {
             pwMessage.innerText = ''; 
             pwMessage.style.color = ''; 
-        } else if (pw !== confirmPwd) {
-            pwMessage.innerText = '비밀번호가 일치하지 않습니다';
+            joinBtn.disabled = false; 	//가입하기 버튼 활성화
+            confirmPw.disabled = false; //비밀번호 확인란 활성화
+        } else { //해당 조건이 false일 경우
+            let message = '';
+            if (pw.length < 6 || pw.length > 20) {
+                message += '<li>6~20자</li>';
+            }
+            if (!/[a-zA-Z]/.test(pw)) {
+                message += '<li>영문자 (A-Z 또는 a-z)</li>';
+            }
+            if (!/\d|\W/.test(pw)) {
+                message += '<li>숫자 또는 특수문자 (!@#$%^&*?)</li>';
+            }
+
+            pwMessage.innerHTML = '<span style="font-size: 13px; color: red;">비밀번호는 다음을 준수해야 합니다</span><br>' +
+                '<ul style="font-size: 13px; color: red;">' + message + '</ul>';
+            pwMessage.style.fontSize = '13px';
             pwMessage.style.color = 'red';
-            joinBtn.disabled = true;//가입하기 버튼 비활성화
-        } else {
-            pwMessage.innerText = '비밀번호가 일치합니다';
-            pwMessage.style.color = '';
-            joinBtn.disabled = false;//가입하기 버튼 활성화
+            joinBtn.disabled = true; 	//가입하기 버튼 비활성화
+            confirmPw.disabled = true;  //비밀번호 확인란 비활성화 -> 유효성을 충족하지 못하는 경우 비활성화시킴
         }
     });
+
+	//비밀번호확인란에 입력할 때마다 실행
+	confirmPw.addEventListener('input', function () {
+	    const pw = firstPw.value;
+	    const confirmPwd = confirmPw.value;
+
+	    if (confirmPwd === '') {
+	        pwMessage.innerText = ''; 
+	        pwMessage.style.color = ''; 
+	    } else if (pw !== confirmPwd) {
+	        pwMessage.innerText = '비밀번호가 일치하지 않습니다';
+	        pwMessage.style.fontSize = '17px';
+	        pwMessage.style.color = 'red';
+	        joinBtn.disabled = true; //가입하기 버튼 비활성화
+	    } else {
+	        pwMessage.innerText = '비밀번호가 일치합니다';
+	        pwMessage.style.fontSize = '17px';
+	        pwMessage.style.color = 'green';
+	        joinBtn.disabled = false; //가입하기 버튼 활성화
+	    }
+	});
 
     
     //다시쓰기 버튼을 눌렀을 때 
     document.querySelector('.join-button[type="reset"]').addEventListener('click', function() {
     	removeSign();//체크표시 지우기
+    	document.getElementById('message').innerText = '';
+    	document.getElementById('message1').innerText = '';
     });
     
+    //이메일 중복체크
+	 function checkEmail() {
+        var userEmail = document.getElementById("userEmail").value;
+        var message1 = document.getElementById("message1");
+        var joinBtn = document.getElementById('join-button'); //가입하기 버튼
+        
+        // 이메일 유효성 검사
+        var emailval = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+        if (!emailval.test(userEmail)) {
+            message1.innerHTML = '유효하지 않은 이메일 주소입니다.';
+            message1.style.color = 'red';
+            joinBtn.disabled = true; //가입하기 버튼 비활성화
+            return; // 유효하지 않은 경우 -> 실행x
+        }
+        
+        $.ajax({
+            type: "GET",
+            url: "/checkEmail",
+            data: { userEmail: userEmail },
+            success: function(response) {
+            	
+            	// userEmail 입력란이 빈칸일 경우(공백제거)
+            	if (userEmail.trim() === '') {
+            		alert('이메일을 입력해주세요');
+                	joinBtn.disabled = true; //가입하기 버튼 비활성화
+            	}else{
+            		message1.innerHTML = response.emessage;
+            		message1.style.color = response.emessage.includes("사용가능한") ? "green" : "red";
+	            	response.emessage.includes("사용가능한") ? joinBtn.disabled = false : joinBtn.disabled = true; //가입하기 버튼 활성화/비활성화            		
+            	}
+            }
+        });
+    }
+    
+	//이메일 중복체크 후 다시 userEmail를 변경할 경우
+	 document.getElementById("userEmail").addEventListener('input', function() {
+        var joinBtn = document.getElementById('join-button');
+        joinBtn.disabled = true; //가입하기 버튼 비활성화
+        
+        document.getElementById('message1').innerText = '';
+    });
 
     </script>
   </body>

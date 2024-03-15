@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fp.shuttlecock.information.CompetitionMapper">
+
+
+	<insert id="insertGame" parameterType="com.fp.shuttlecock.information.CompetitionDTO">
+        INSERT INTO sports.competition (competitionId, region, title, startDate, endDate, image, url, applicationStartDate, applicationEndDate)
+        VALUES (0, #{region}, #{title}, #{startDate}, #{endDate}, #{image}, #{url}, #{applicationStartDate}, ${applicationEndDate})
+    </insert>
+    
+	<select id="getEventByDate" parameterType="string" resultType="com.fp.shuttlecock.information.CompetitionDTO">
+	    SELECT * FROM sports.competition WHERE region = #{region} ORDER BY startDate ASC
+	</select>
+
+</mapper>

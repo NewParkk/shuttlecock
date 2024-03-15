@@ -12,4 +12,7 @@ public interface UserService {
 	
 	UserDTO findUserId(UserDTO userDTO);
 
+	boolean isCheckEmail(String userEmail);
+	
+	boolean isExistUser(String userId, String userEmail);
 }

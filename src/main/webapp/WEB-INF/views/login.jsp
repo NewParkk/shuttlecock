@@ -47,8 +47,8 @@
                                 <span class="remember-text">로그인 상태 유지</span>
                             </label>
                             <div class="item1">
-                                <span onclick="openPopup('/findsearch')">아이디 찾기</span>
-                            	<span onclick="openPopup('/findsearch')">비밀번호 찾기</span>
+                                <span onclick="openPopup('/findsearch?tab=findIdSearch')">아이디 찾기</span>
+                            	<span onclick="openPopup('/findsearch?tab=findPwSearch')">비밀번호 찾기</span>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="login-button">로그인</button>
@@ -80,8 +80,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
     function openPopup(url) {
-        var width = 480; 
-        var height = 350; 
+        var width = 500; 
+        var height = 420; 
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
         var title = '아이디/비밀번호 찾기'; 
