@@ -1,5 +1,7 @@
 package com.fp.shuttlecock.mypage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -19,7 +22,7 @@ public class MypageController {
 
 	@Autowired
 	MypageServiceImpl service;
-	
+
 	@Autowired
 	FileUploadAPI fileupload;
 
@@ -80,11 +83,25 @@ public class MypageController {
 		user.setUserEmail(newUser.getUserEmail());
 
 		boolean result = service.updateUser(user);
-		
-		fileupload.ncpFileupload(session);
-		
+
+
 		if (file != null) {
-			service.insertImage(file, userId);
+
+			String name = file.getOriginalFilename();
+			String path = "C:\\multi\\image";
+			UserDTO userFile = UserDTO.builder().userId(userId).userImageName(name).userImagePath(path).build();
+
+			try {
+				if (!new File(path).exists()) { // 존재여부 확인
+					new File(path).mkdir();	    // 파일 만들기
+				}
+				file.transferTo(new File(path + "\\" + name));
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			service.insertImage(userFile);
+
+			fileupload.ncpFileupload(session);
 		}
 		return "redirect:mypage";
 	}

@@ -1,6 +1,6 @@
 package com.fp.shuttlecock.mypage;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,10 +19,11 @@ public class RecruitboardDTO {
 	private String content;
 	private int like;
 	private int hit;
-	private Date updateDate;
+	private Timestamp regdate;
 	private int commentCount;
 	private int complete;
 	private int recruitType;
 	private int region;
 	private String userId;
+	private boolean delete_yn;
 }

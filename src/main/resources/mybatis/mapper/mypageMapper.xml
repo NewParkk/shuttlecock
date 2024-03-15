@@ -47,7 +47,7 @@
 		parameterType="com.fp.shuttlecock.mypage.UserDTO">
 		UPDATE user
 		SET username = #{username},
-		userEmail =	#{userEmail},
+		userEmail =	#{userEmail}
 		WHERE userId = #{userId}
 	</update>
 
@@ -95,9 +95,9 @@
 	<select id="getLike"
 		parameterType="String"
 		resultType="hashmap">
-		SELECT f.title, f.content
+		SELECT f.title , f.regdate, l.bno, l.likes_type
 		FROM likes l, freeboard f
-		WHERE l.userId = #{userId}
+		WHERE l.userId = #{userId} AND l.likes_type = 2 AND l.bno = f.freeboardId;
 	</select>
 	
 	<update id="insertImage"

@@ -1,13 +1,13 @@
 package com.fp.shuttlecock.mypage;
 
-import java.io.File;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class MypageServiceImpl {
@@ -87,24 +87,14 @@ public class MypageServiceImpl {
 		return mapper.getLike(userId);
 	}
 
-	public boolean insertImage(MultipartFile file, String userId) {
+	public boolean insertImage(UserDTO user) {
 		boolean result = false;
-		
-		String name = file.getOriginalFilename();
-		String currentDir = System.getProperty("user.dir");
-		String path = currentDir;
-		UserDTO user = UserDTO.builder()
-								.userId(userId)
-								.userImageName(name)
-								.userImagePath(path)
-								.build();
-		System.out.println(currentDir);
+
 		int res = mapper.insertImage(user);
 		if (res != 0) {
 			result = true;
 		}
 		return result;
 	}
-	public class CurrentDirectory {    public static void main(String[] args) {                String currentDir = System.getProperty("user.dir");         System.out.println(currentDir);    }}
 
 }

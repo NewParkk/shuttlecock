@@ -11,7 +11,6 @@
 		enctype="multipart/form-data">
 		<div>ID:${user.userId}</div>
 		<div>NAME:${user.username}</div>
-		<div>PHONE:${user.userPhone}</div>
 		<div>EMAIL:${user.userEmail}</div>
 
 
