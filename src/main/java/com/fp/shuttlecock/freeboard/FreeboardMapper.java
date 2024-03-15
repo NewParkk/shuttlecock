@@ -28,14 +28,6 @@ public interface FreeboardMapper {
 
 	void comCNT(int freeboardId);
 
-//	int findLike(Map<String, Object> map);
-
-//	void likeUp(Map<String, Object> map);
-//
-//	void likeDown(Map<String, Object> map);
-
-//	int getLike(Map<String, Object> map);
-
 	void deleteFree(int freeboradId);
 
 	void updateFree(FreeboardDTO dto);

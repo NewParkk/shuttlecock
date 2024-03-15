@@ -10,6 +10,7 @@
 <title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<link rel="stylesheet" href="/css/free.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <!-- <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
@@ -24,39 +25,6 @@
 	margin: 20px auto;
 }
 
-.noticeboard {
-	width: 100%;
-}
-
-.ck-editor__editable {
-	height: 400px;
-}
-
-.ck-content {
-	font-size: 12px;
-}
-
-.ck-editor__editable p {
-	margin: 0
-}
-
-.ck-content .image {
-	/* Block images */
-	max-width: 80%;
-	margin: 20px auto;
-}
-
-.mainTitle {
-	text-align: center;
-}
-
-.whyBtn {
-	margin-left: 46%;
-}
-/* h1 {
-	padding-top: 30px;
-	padding-bottom: 30px
-} */
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>

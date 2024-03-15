@@ -61,29 +61,21 @@ public class CommentsController {
 	public String updateComment(CommentsDTO comment, HttpSession session) {
 		System.out.println(comment);
 		int commentBno = comment.getBno();
-	    if (session.getAttribute("userId") != null && 
-	    		String.valueOf(session.getAttribute("userId")).equals(comment.getUserId())) {
-	        //try {
-	            boolean result = commentService.updateComment(comment);
-	            if (result) {
-	            	if(comment.getCommentType() == 2) {
-	            		return "redirect:/Freeboard/freeDetail" + commentBno;
-	            	} else if(comment.getCommentType() == 3) {
-	            		return "redirect:/Tradeboard/" + commentBno;
-	            	} else if(comment.getCommentType() == 4) {
-	            		return "redirect:/Recruitboard/" + commentBno;
-	            	} else {
-	            		return "error";
-	            	}
-	            	
-	            } else {
-	                return "error";
-	            }
-//	        } catch (SQLException e) {
-//	            e.printStackTrace();
-//	            return ResponseEntity.status(500).body("댓글 삭제 실패");
-//	        }
-	    }
-	    return "error";
+		
+		boolean result = commentService.updateComment(comment);
+        if (result) {
+        	if(comment.getCommentType() == 2) {
+        		return "redirect:/Freeboard/freeDetail" + commentBno;
+        	} else if(comment.getCommentType() == 3) {
+        		return "redirect:/Tradeboard/" + commentBno;
+        	} else if(comment.getCommentType() == 4) {
+        		return "redirect:/Recruitboard/" + commentBno;
+        	} else {
+        		return "error";
+        	}
+        	
+        } else {
+            return "error";
+        }
 	}
 }

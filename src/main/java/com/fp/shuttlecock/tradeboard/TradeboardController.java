@@ -27,7 +27,6 @@ import com.fp.shuttlecock.comments.CommentsServiceImpl;
 import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
 import com.fp.shuttlecock.user.UserService;
 import com.fp.shuttlecock.user.UserServiceImpl;
-import com.fp.shuttlecock.util.LikesVO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -153,24 +152,4 @@ public class TradeboardController {
 		}
 	}
 
-//	// 좋아요
-//		@ResponseBody
-//		@PostMapping("/likeUp")
-//		public void likeUp(@RequestBody LikesVO vo) {
-//			System.out.println("controller 연결 성공");
-//			System.out.println(vo.getFreeboardId());
-//			System.out.println(vo.getUserId());
-//			System.out.println(vo.getLikeType());
-//			service.likeUp(vo.getFreeboardId(), vo.getUserId(), vo.getLikeType());
-//		}
-//		
-//		@ResponseBody
-//		@PostMapping("/likeDown")
-//		public void likeDown(@RequestBody LikesVO vo) {
-//			System.out.println("controller 연결 성공");
-//			System.out.println(vo.getFreeboardId());
-//			System.out.println(vo.getUserId());
-//			System.out.println(vo.getLikeType());
-//			service.likeUp(vo.getFreeboardId(), vo.getUserId(), vo.getLikeType());
-//		}
 }

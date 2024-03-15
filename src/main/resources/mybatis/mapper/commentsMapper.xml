@@ -3,23 +3,23 @@
 <mapper namespace="com.fp.shuttlecock.comments.CommentsMapper">
 
 	<insert id="insertComment" parameterType="CommentsDTO">
-		INSERT INTO comments(content, bno, comment_type, userId, secret) 
-		values(#{content}, #{bno}, #{comment_type}, #{userId}, #{secret})
+		INSERT INTO comments(commentsId, content, bno, commentType, userId, secret) 
+		values(#{commentsId}, #{content},#{bno}, #{commentType}, #{userId}, #{secret})
 	</insert>
 	
 	<update id="increaseCommentCount" parameterType="CommentsDTO">
 		<choose>
-			<when test="comment_type == 2">
+			<when test="commentType == 2">
 				update freeboard 
 				set commentCount = commentCount + 1 
 				where freeboardId = #{bno}
 			</when>
-			<when test="comment_type == 3">
+			<when test="commentType == 3">
 				update tradeboard 
 				set commentCount = commentCount + 1 
 				where tradeboardId = #{bno}
 			</when>
-			<when test="comment_type == 4">
+			<when test="commentType == 4">
 				update recruitboard 
 				set commentCount = commentCount + 1 
 				where recruitboardId = #{bno}
@@ -29,17 +29,17 @@
 	
 	<update id="decreaseCommentCount" parameterType="CommentsDTO">
 		<choose>
-			<when test="comment_type == 2">
+			<when test="commentType == 2">
 				update freeboard 
 				set commentCount = commentCount - 1 
 				where freeboardId = #{bno}
 			</when>
-			<when test="comment_type == 3">
+			<when test="commentType == 3">
 				update tradeboard 
 				set commentCount = commentCount - 1 
 				where tradeboardId = #{bno}
 			</when>
-			<when test="comment_type == 4">
+			<when test="commentType == 4">
 				update recruitboard 
 				set commentCount = commentCount - 1 
 				where recruitboardId = #{bno}
@@ -62,7 +62,7 @@
 	</update>
 	
 	<select id="getCommentList" parameterType="map" resultType="CommentsDTO">
-		select * from comments where bno = #{bno} and comment_type = #{comment_type}
+		select * from comments where bno = #{bno} and commentType = #{commentType}
 		order by commentsId DESC
 	</select>
 	

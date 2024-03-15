@@ -40,10 +40,10 @@ public class CommentsServiceImpl implements CommentsService {
 		return false;
 	}
 
-	public List<CommentsDTO> getCommentList(int boardId, int comment_type) {
+	public List<CommentsDTO> getCommentList(int boardId, int commentType) {
 		Map<String, Integer> map = new HashMap<>();
 		map.put("bno", boardId);
-		map.put("comment_type", comment_type);
+		map.put("commentType", commentType);
 
 		return commentsmapper.getCommentList(map);
 	}

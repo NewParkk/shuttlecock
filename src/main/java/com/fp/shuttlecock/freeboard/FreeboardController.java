@@ -21,7 +21,6 @@ import com.fp.shuttlecock.comments.CommentsDTO;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
 import com.fp.shuttlecock.likes.LikesDTO;
 import com.fp.shuttlecock.tradeboard.TradeboardDTO;
-import com.fp.shuttlecock.util.LikesVO;
 import com.fp.shuttlecock.user.UserServiceImpl;
 import com.fp.shuttlecock.util.PageCreate;
 import com.fp.shuttlecock.util.PageVO;

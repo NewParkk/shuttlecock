@@ -10,42 +10,13 @@
 <title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<link rel="stylesheet" href="/css/free.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 </head>
 <style>
-.noticeboard {
-	width: 100%;
-}
-
-.mainTitle {
-	text-align: center;
-}
-
-.whyBtn {
-	margin-left: 46%;
-}
-
-.whyBtn1 {
-	margin-left: 69%;
-}
-
-.del-btn {
-	margin-left: 95%
-}
-
-.paging {
-	margin-left: auto;
-	margin-right: auto;
-	display: table;
-}
-
-.whyBtn {
-	margin-left: 80%;
-	margin-top: 30px;
-}
 
 a:link {
 	text-decoration: none;
@@ -62,24 +33,6 @@ a:hover {
 
 a:active {
 	text-decoration: none;
-}
-
-/*---검색버튼--- */
-.search-wrap {
-	overflow: hidden; /*부모요소에 히든 */
-	margin-bottom: 20px;
-}
-
-.search-btn, .search-input, .search-select {
-	float: right; /*우측 플로팅 */
-}
-
-.search-input {
-	width: 140px;
-}
-
-#search-select {
-	width: 80px;
 }
 </style>
 <body>
