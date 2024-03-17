@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,21 +24,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fp.shuttlecock.mypage.CalendarDTO;
-import com.fp.shuttlecock.mypage.MypageServiceImpl;
+import com.fp.shuttlecock.mypage.MypageService;
 import com.fp.shuttlecock.user.UserDTO;
-import com.fp.shuttlecock.user.UserServiceImpl;
+import com.fp.shuttlecock.user.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
-@Primary
+
 @Service
 public class KakaoAPIServiceImpl implements KakaoAPIService{
 	
 	@Autowired
-	UserServiceImpl userService;
+	private UserService userService;
 	
 	@Autowired
-	MypageServiceImpl mypageService;
+	private MypageService mypageService;
 	
 	@Value("${KAKAO.KEY.REST}")
 	private String apiKey;

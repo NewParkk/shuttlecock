@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.fp.shuttlecock.freeboard.FreeboardDTO;
 import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
+import com.fp.shuttlecock.user.UserDTO;
 
 @Mapper
 public interface MainMapper {
@@ -14,6 +15,10 @@ public interface MainMapper {
 
 	List<FreeboardDTO> get5FreePosts();
 
-	void updateCommunityBadge();
+	int updateCommunityBadge(UserDTO user);
+
+	List<BadgeDTO> getBadgeList(int badgeType);
+
+	void updateUserLeagueGrade();
 	
 }

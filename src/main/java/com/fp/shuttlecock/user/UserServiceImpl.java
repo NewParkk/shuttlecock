@@ -1,6 +1,7 @@
 package com.fp.shuttlecock.user;
 
 
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
-	UserMapper userMapper;
+	private UserMapper userMapper;
 
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
@@ -115,6 +116,13 @@ public class UserServiceImpl implements UserService{
 		
 		return null;
 	}
-	
 
+	@Override
+	public List<UserDTO> getAllUsers() {
+		return userMapper.getAllUsers();
+	}
+
+	
+	
+	
 }

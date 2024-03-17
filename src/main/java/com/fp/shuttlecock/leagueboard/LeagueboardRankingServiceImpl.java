@@ -16,5 +16,10 @@ public class LeagueboardRankingServiceImpl implements LeagueboardRankingService 
 	public List<UserDTO> getLeagueRanking() {
 		return LRM.getLeagueRanking();
 	}
+
+	@Override
+	public List<UserDTO> getRankedList(boolean top3) {
+		return LRM.getRankedList();
+	}
 	
 }

@@ -7,4 +7,16 @@
 	from user
 </select>
 
+<select id="getRankedList" resultType="com.fp.shuttlecock.user.UserDTO">
+	SELECT userId,
+		   userLeagueGrade,
+       	   (wincount - losecount) AS winScore,
+       	   RANK() OVER (ORDER BY (wincount - losecount) DESC) AS Ranking
+	FROM user
+	<if test="top3">
+        LIMIT 3
+    </if>
+	ORDER BY Ranking;
+</select>
+
 </mapper>

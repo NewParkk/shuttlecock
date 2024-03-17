@@ -14,6 +14,9 @@ import com.fp.shuttlecock.freeboard.FreeboardServiceImpl;
 import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
 import com.fp.shuttlecock.leagueboard.LeagueboardServiceImpl;
 import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
+import com.fp.shuttlecock.user.UserDTO;
+import com.fp.shuttlecock.user.UserService;
+import com.fp.shuttlecock.user.UserServiceImpl;
 
 @Controller
 public class MainContoller {
@@ -37,6 +40,7 @@ public class MainContoller {
 		
         return "main"; // "main"은 실제로 /WEB-INF/views/main.jsp에 매핑됩니다.
     }
+	
 	
 	
 }
