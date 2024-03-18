@@ -29,4 +29,8 @@ public interface UserMapper {
 
 	public List<UserDTO> getAllUsers();
 	
+	//새 비밀번호로 변경
+	public boolean changePassword(UserDTO userDTO);
+
+
 }

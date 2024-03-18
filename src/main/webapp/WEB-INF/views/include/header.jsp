@@ -47,7 +47,6 @@
           <ul class="submenu">
             <li><a href="/Freeboard/freeList">자유게시판</a></li>
             <li><a href="/Tradeboard">물품거래소</a></li>
-            <li><a href="#">운동장소찾기</a></li>
           </ul>
         </li>
         <li>

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -136,48 +137,76 @@ public class UserController {
 	}
 	
 	//아이디 찾기
-	@PostMapping("/findIdSearch")
-	public String searchId(HttpServletRequest request, UserDTO userDTO, Model model,
-							@RequestParam String username, @RequestParam String userEmail) {
-		 try {
-		        userDTO.setUsername(username);
-		        userDTO.setUserEmail(userEmail);
-		        UserDTO userId = userService.findUserId(userDTO);
+	 @PostMapping("/findIdSearch")
+	    public ResponseEntity<?> findIdSearch(@RequestParam String username, @RequestParam String userEmail) {
+	        try {
+	            UserDTO userDTO = new UserDTO();
+	            userDTO.setUsername(username);
+	            userDTO.setUserEmail(userEmail);
+	            
+	            UserDTO userId = userService.findUserId(userDTO);
 
-		        if (userId != null) {
-		            model.addAttribute("findUserId", userId.getUserId());
-		            //System.out.println(userId.getUserId()); //확인용
-		        } else {
-		            model.addAttribute("message", "해당하는 아이디가 없습니다.");
-		            //System.out.println("해당하는 아이디가 없습니다."); //확인용
-		        }
-		    } catch (Exception e) {
-		        model.addAttribute("message", "오류가 발생되었습니다.");
-		        //System.out.println("오류가 발생되었습니다."); //확인용
-		        e.printStackTrace();
-		    }
-		    return "findsearch";
-	}
+	            if (userId != null) {
+	                return ResponseEntity.ok(userId.getUserId());
+	            } else {
+	                return ResponseEntity.ok(null);
+	            }
+	        } catch (Exception e) {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
+	        }
+	    }
 	
-	 //비밀번호 찾기	
-	@PostMapping("/findPwSearch")
-    public String sendEmail(@RequestParam String userId, @RequestParam String userEmail) {
-        try {
+	 //비밀번호 찾기	 
+	 @PostMapping("/findPwSearch")
+	 public ResponseEntity<String> sendEmail(@RequestParam String userId, @RequestParam String userEmail, HttpServletRequest request) {
+	     try {
+	         //해당 아이디와 이메일을 가지고 있는 회원이 존재하는지 확인
+	         boolean isExistUser = userService.isExistUser(userId, userEmail);
+	         if (isExistUser) {
+	             String sendEmailNum = userService.sendEmail(userEmail);
+	             request.getSession().setAttribute("sendEmailNum", sendEmailNum);
+	             return ResponseEntity.ok("success");
+	         } else {
+	             return ResponseEntity.ok("fail");
+	         }
+	     } catch (Exception e) {
+	         e.printStackTrace();
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이메일 전송 중 오류가 발생했습니다.");
+	     }
+	 }
+	
+	 //이메일로 보내진 인증번호 확인
+	 @PostMapping("/checkNum")
+	 public ResponseEntity<String> confirmCheckPw(@RequestParam String sendNum, HttpServletRequest request) {
+	     String sendEmailNum = (String) request.getSession().getAttribute("sendEmailNum");
 
-            boolean isExistUser = userService.isExistUser(userId, userEmail);
-            if (isExistUser) {
-                userService.sendEmail(userEmail);
-                return "이메일이 성공적으로 전송되었습니다.";
-            } else {
-                return "입력한 아이디와 이메일이 일치하지 않습니다.";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "이메일 전송 중 오류가 발생했습니다.";
-        }
-    }
+	     if (sendEmailNum != null && sendNum.equals(sendEmailNum)) {
+	         //System.out.println("성공"); //확인용
+	         return ResponseEntity.ok("success");
+	     } else {
+	         //System.out.println("실패");
+	         return ResponseEntity.ok("fail");
+	     }
+	 }
+	
 
-		 
+	 //새 비밀번호로 변경
+	 @PostMapping("/changePw")
+	 public ResponseEntity<String> changePassword(@RequestParam("userId") String userId, @RequestParam("pw") String pw) {
+		
+		//확인용
+		//System.out.println(userId);
+		//System.out.println(pw);
+		
+		boolean success = userService.changePassword(userId, pw);
+        
+		if (success) {
+	        return ResponseEntity.ok("success"); 
+	    } else {
+	        return ResponseEntity.ok("fail"); 
+	    }
+	}
+
 	
 	//이메일 중복 체크
 	@GetMapping("/checkEmail")

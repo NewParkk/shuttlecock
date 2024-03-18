@@ -20,4 +20,7 @@ public interface UserService {
 
 	List<UserDTO> getAllUsers();
 	
+	String sendEmail(String userEmail);
+
+	boolean changePassword(String userId, String newPw);
 }

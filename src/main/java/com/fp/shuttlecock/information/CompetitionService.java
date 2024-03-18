@@ -4,7 +4,9 @@ import java.util.List;
 
 public interface CompetitionService {
 
-	CompetitionDTO insertGame(CompetitionDTO competition);
+	CompetitionDTO insertGame(CompetitionDTO competitionDTO);
 	
 	List<CompetitionDTO> getEventByDate(String region);
+	
+	boolean isCompCheck(CompetitionDTO competition);
 }
