@@ -8,7 +8,7 @@ public interface LeagueboardRankingService {
 
 	List<UserDTO> getLeagueRanking();
 
-	List<UserDTO> getRankedList(boolean top3);
+	List<UserDTO> getRankedList();
 	
 	
 }

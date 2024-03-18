@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.fp.shuttlecock.leagueboard.LeagueboardRankingServiceImpl;
 import com.fp.shuttlecock.user.UserDTO;
 import com.fp.shuttlecock.user.UserServiceImpl;
 
@@ -16,18 +15,15 @@ import com.fp.shuttlecock.user.UserServiceImpl;
 public class BadgeScheduler {
 	
 	@Autowired
-	private MainService mainService;
+	private MainServiceImpl mainService;
 	
 	@Autowired
 	private UserServiceImpl userService;
 	
-	@Autowired
-	private LeagueboardRankingServiceImpl leagueboardRankingService;
-	
 	@Scheduled(cron  = "0 */1 * * * *")
-	public void badgeupdate() 
+	public void badgeupdate() throws Exception
 	{
-		// 뱃지 update
+		// badge update
 		final int badgeType  = 0; 
 		List<BadgeDTO> badgeList = mainService.getBadgeList(badgeType);
 		List<UserDTO> userList = userService.getAllUsers();
@@ -59,27 +55,14 @@ public class BadgeScheduler {
 		}
 		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
 		System.out.println(currentTime + " badgeId 갱신");
+		
+		
 	}
 	
+	
+	
 	@Scheduled(cron  = "0 */1 * * * *")
-	public void LeagueBadgeUpdate() {
-		final int badgeType  = 1;
-		List<BadgeDTO> badgeList = mainService.getBadgeList(badgeType);
-		
-		// badge테이블의 badgeId값 1위 : 6, 2위 : 7, 3위 : 8
-		int LeaguebadgeId = 6;
-		boolean top3 = false;
-		// 리그 뱃지 update
-		List<UserDTO> rankingList = leagueboardRankingService.getRankedList(top3);
-		
-		
-		
-		for (int i = 0; i < rankingList.size(); i++) {
-			top3 = true;
-			List<UserDTO> BadgeUpdateUsers = leagueboardRankingService.getRankedList(top3);
-			System.out.println((BadgeUpdateUsers.get(i).getUserLeagueGrade()) +"등 유저Id : " + BadgeUpdateUsers.get(i).getUserId());
-			
-		}
+	public void LeagueBadgeUpdate() throws Exception{
 		
 		//모든 유저 rank 최신화
 		mainService.updateUserLeagueGrade();
