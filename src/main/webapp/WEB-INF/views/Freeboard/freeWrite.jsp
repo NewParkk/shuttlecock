@@ -24,7 +24,6 @@
 	width: 1000px;
 	margin: 20px auto;
 }
-
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -39,50 +38,59 @@
 			<div class="aside">
 				<div class="menubar">
 					<ul>
-						<li><a href="/Freeboard/freeList">자유게시판</a></li>
-						<li><a href="#">물품거래소</a></li>
-						<li><a href="#">운동장소찾기</a></li>
+						<li><a class="list" href="/Freeboard/freeList">자유게시판</a></li>
+						<li><a class="list" href="/Tradeboard">물품거래소</a></li>
+						<li><a class="list" href="#">운동장소찾기</a></li>
 					</ul>
 				</div>
 			</div>
-			<div class="noticeboard">
-				<div class="page-title">
-					<div class="vline"></div>
-					<div class="container2">
-						<h3>자유 게시판</h3>
+			<c:if test="${not empty sessionScope.userId}">
+				<div class="noticeboard">
+					<div class="title" style="">
+						<div class="vline"></div>
+						<div class="container2">
+							<h3>자유 게시판</h3>
+						</div>
 					</div>
+
+					<form action="<c:url value ='/Freeboard/insertFreeboard'/>"
+						method="post" enctype="multipart/form-data">
+						<div class="mb-3" style="width: 70%; margin: 0 auto;">
+							<label for="exampleFormControlInput1" class="form-label">제목</label>
+							<input type="text" class="form-control" name="title"
+								id="exampleFormControlInput1">
+						</div>
+						<div class="mb-3" style="width: 70%; margin: 0 auto;">
+							<label for="exampleFormControlInput1" class="form-label">작성자</label>
+							<input type="text" class="form-control" name="userId"
+								value="${sessionScope.userId}" id="exampleFormControlInput1">
+						</div>
+						<div class="mb-3" style="width: 70%; margin: 0 auto;">
+							<label for="exampleFormControlTextarea1" class="form-label">내용</label>
+							<textarea class="form-control " name="content" id="ckeditor"
+								rows="6"></textarea>
+						</div>
+						<!-- MultipartFile -->
+
+						<div class="mb-3" style="width: 70%; margin: 0 auto;">
+							<label for="formFileMultiple" class="form-label"></label> <input
+								class="form-control" type="file" id="formFileMultiple"
+								name="file">
+						</div>
+
+						<button type="button" class="btn btn-primary whyBtn">글 작성</button>
+						<button type="button" class="btn btn-primary CancleBtn">취
+							&nbsp; 소</button>
+					</form>
 				</div>
-
-				<form action="<c:url value ='/Freeboard/insertFreeboard'/>"
-					method="post" enctype="multipart/form-data">
-					<div class="mb-3" style="width: 70%; margin: 0 auto;">
-						<label for="exampleFormControlInput1" class="form-label">제목</label>
-						<input type="text" class="form-control" name="title"
-							id="exampleFormControlInput1">
-					</div>
-					<div class="mb-3" style="width: 70%; margin: 0 auto;">
-						<label for="exampleFormControlInput1" class="form-label">작성자</label>
-						<input type="text" class="form-control" name="userId"
-							value="${sessionScope.userId}" id="exampleFormControlInput1">
-					</div>
-					<div class="mb-3" style="width: 70%; margin: 0 auto;">
-						<label for="exampleFormControlTextarea1" class="form-label">내용</label>
-						<textarea class="form-control " name="content" id="ckeditor"
-							rows="6"></textarea>
-					</div>
-					<!-- MultipartFile -->
-
-					<div class="mb-3" style="width: 70%; margin: 0 auto;">
-						<label for="formFileMultiple" class="form-label"></label> <input
-							class="form-control" type="file" id="formFileMultiple"
-							name="upload">
-					</div>
-
-					<button type="button" class="btn btn-primary whyBtn">글 작성</button>
-					<button type="button" class="btn btn-primary CancleBtn">취
-						&nbsp; 소</button>
-				</form>
-			</div>
+			</c:if>
+			<c:if test="${empty sessionScope.userId}">
+				<script>
+						function redirectToLoginPage() {
+							window.location.href = "/login";
+						}
+				</script>
+			</c:if>
 		</section>
 	</main>
 

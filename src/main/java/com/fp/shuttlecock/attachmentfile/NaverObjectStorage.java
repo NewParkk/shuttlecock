@@ -20,6 +20,7 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.fp.shuttlecock.freeboard.FreeboardServiceImpl;
 import com.fp.shuttlecock.mypage.MypageServiceImpl;
 import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
 
@@ -35,6 +36,9 @@ public class NaverObjectStorage {
 
 	@Autowired
 	TradeboardServiceImpl boardService;
+	
+	@Autowired
+	FreeboardServiceImpl freeService;
 
 	@Value("${NCP.STORAGE.ACCESSKEY}")
 	private String accessKey; // api 인증키 > Access Key ID

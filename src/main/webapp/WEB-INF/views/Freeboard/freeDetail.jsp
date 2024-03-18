@@ -13,7 +13,11 @@
 <link rel="stylesheet" href="/css/free.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+<style>
+.contents {
+	width: 80%;
+}
+</style>
 </head>
 
 <body>
@@ -22,21 +26,19 @@
 
 	<!-- main -->
 	<main id="boardmain">
-
-
 		<section id="contents">
 			<!-- aside -->
 			<div class="aside">
 				<div class="menubar">
 					<ul>
-						<li><a href="/Freeboard/freeList">자유게시판</a></li>
-						<li><a href="#">물품거래소</a></li>
-						<li><a href="#">운동장소찾기</a></li>
+						<li><a class="list" href="/Freeboard/freeList">자유게시판</a></li>
+						<li><a class="list" href="/Tradeboard">물품거래소</a></li>
+						<li><a class="list" href="#">운동장소찾기</a></li>
 					</ul>
 				</div>
 			</div>
 			<div class="noticeboard">
-				<div class="page-title">
+				<div class="title" style="">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>자유 게시판</h3>
@@ -47,74 +49,64 @@
 				<div class="post-info">
 					<p>
 						<label for="exampleFormControlInput1" class="form-label">제목</label>
-					<input type="text" class="form-control"
-						id="exampleFormControlInput1" value="${Detail.title}" readonly>
+						<input type="text" class="form-control"
+							id="exampleFormControlInput1" value="${freeboard.title}" readonly>
 					</p>
 					<p>
-						<div class="col">
+					<div class="col">
 						<label for="exampleFormControlInput1" class="form-label">작성자</label>
 						<input type="text" class="form-control"
-							id="exampleFormControlInput1" value="${Detail.userId}" readonly>
+							id="exampleFormControlInput1" value="${freeboard.userId}"
+							readonly>
 					</div>
 					<div class="col">
 						<label for="exampleFormControlInput1" class="form-label">작성
 							시간</label> <input type="text" class="form-control"
-							id="exampleFormControlInput1" value="${Detail.regdate}" readonly>
+							id="exampleFormControlInput1" value="${freeboard.regdate}"
+							readonly>
 					</div>
 					</p>
 					<p>
-						<div class="col">
+					<div class="col">
 						<label for="exampleFormControlInput1" class="form-label">조회</label>
 						<input type="text" class="form-control"
-							id="exampleFormControlInput1" value="${Detail.hit}" readonly>
+							id="exampleFormControlInput1" value="${freeboard.hit}" readonly>
 					</div>
 					<div class="col">
 						<label for="exampleFormControlInput1" class="form-label">추천</label>
 						<input type="text" class="form-control"
-							id="exampleFormControlInput1" value="${Detail.like}" readonly>
+							id="exampleFormControlInput1" value="${freeboard.like}" readonly>
 					</div>
 					</p>
 				</div>
-				
-				
-				
-				<%-- <div class="mb-3" style="width: 70%; margin: 0 auto;">
-					<label for="exampleFormControlTextarea1" class="form-label"></label>
-					<div>${Detail.content}</div>
-					<!-- 첨부된 이미지를 표시할 섹션을 추가합니다 -->
-					<c:if test="${not empty Detail.uploadPath}">
-						<div class="image-gallery">
-							<h4>첨부된 이미지</h4>
-							<img src="${Detail.uploadPath}" alt="첨부된 이미지">
-						</div>
-					</c:if>
-				</div> --%>
+
 
 				<!-- 게시글 내용 표시 -->
-				<div class="post-content">${Detail.content}</div>
-
-				<!-- 첨부된 이미지 표시 -->
-				<c:if test="${not empty Detail.uploadPath}">
-					<div class="image-gallery">
-						<h4>첨부된 이미지</h4>
-						<img src="${Detail.uploadPath}" alt="첨부된 이미지">
+				<div class="post-content">${freeboard.content}</div>
+				<!-- 첨부파일 표시 -->
+				<c:if test="${freeboard.imageName != 'noImage'}">
+					<div class="image-container"
+						style="width: 200px; height: 200px; object-fit: cover;">
+						<img src="https://kr.object.ncloudstorage.com/team1bucket/boardFile/2_${freeboard.imageName}.png"><br>
 					</div>
 				</c:if>
 
 				<!-- 버튼들 -->
 				<div class="post-buttons">
 					<button type="button" class="btn btn-primary listBtn">목록</button>
-					<c:if test="${sessionScope.userId eq Detail.userId}">
+					<c:if test="${sessionScope.userId eq freeboard.userId}">
 						<button type="submit" class="btn btn-primary CancleBtn updateBtn">수정</button>
 					</c:if>
 					<c:if
-						test="${sessionScope.userId eq Detail.userId or sessionScope.isAdmin eq true}">
+						test="${sessionScope.userId eq freeboard.userId or sessionScope.isAdmin eq true}">
 						<button type="button" class="btn btn-primary CancleBtn delbtn">삭제</button>
 					</c:if>
-					<button type="button" class="btn btn-primary CancleBtn LikeBtn"
-						id="LikeBtn">추천 ${Detail.like}</button>
+					<c:if test="${sessionScope.userId ne freeboard.userId}">
+						<button type="button" class="btn btn-primary CancleBtn LikeBtn"
+							id="LikeBtn">추천 ${freeboard.like}</button>
+					</c:if>
 					<c:if
-						test="${sessionScope.userId ne Detail.userId and not empty sessionScope.userId}">
+						test="${sessionScope.userId ne freeboard.userId and not empty sessionScope.userId}">
 						<button type="button" id="userblock">게시자차단</button>
 					</c:if>
 				</div>
@@ -234,6 +226,7 @@
 						</c:if>
 					</div>
 				</div>
+			</div>
 		</section>
 
 
@@ -306,6 +299,14 @@
 	document.getElementById("exampleFormControlInput2").value = formattedDate; */
 
 
+	
+		// 글수정
+		$('.updateBtn')
+				.click(
+						function() {
+							location.href = "<c:url value='/Freeboard/update/${freeboard.freeboardId}'/>";
+						})
+					
 		// 좋아요 
 		$('.LikeBtn').click(function(){
 			if(${empty sessionScope.userId}){
@@ -318,7 +319,7 @@
 					url : "/likes",
 					data : {
 						"userId" : "${sessionScope.userId}",
-						"bno" : ${Detail.freeboardId},
+						"bno" : ${freeboard.freeboardId},
 						"likesType" : 2
 					},
 					success : function(data){
@@ -343,15 +344,14 @@
 
 		        if (isConfirmed) {
 		            // 액시오스를 사용하여 서버로 DELETE 요청을 보냅니다.
-		            axios.delete('/Freeboard/${Detail.freeboardId}')
+		            axios.delete('/Freeboard/freeDelete/' + ${freeboard.freeboardId})
 		            .then(function (response) {
-		            	//ResponseEntity.ok 보내주면
 		                console.log(response.data);
 		                alert("게시글이 삭제되었습니다.");
-		                window.location.href = "/Freeboard/freeList";
+		             // 게시글 목록 페이지로 이동합니다.
+		                window.location.href = '/Freeboard/freeList';
 		            })
 		            .catch(function (error) {
-		                // 아닐시
 		                console.error('Error during board deletion:', error);
 		                alert("게시글 삭제 실패");
 		            });
@@ -363,7 +363,7 @@
 		$('#com_btn').click(function() {
 			const userId = $('.userId').val();
 			const content = $('.content').val();
-			const freeboardId = ${Detail.freeboardId};
+			const freeboardId = ${freeboard.freeboardId};
 			const commentType = 2; 
 			const secret = $('#secret').is(':checked') ? 1 : 0;
 			console.log(secret);
@@ -441,7 +441,7 @@
 	    		url : "/blockuser",
 	    		data : {
 	    			"userId" : "${sessionScope.userId}",
-	    			"blockedUser" : "${Detail.userId}"
+	    			"blockedUser" : "${freeboard.userId}"
 	    		},
 	    		success : function(data){
 	    			alert(data);

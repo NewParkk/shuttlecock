@@ -13,9 +13,12 @@
 			WHERE userId LIKE CONCAT('%',#{keyword},'%')
 		</if>
 	</sql>
-
-	<!-- <select id="getFreeboardByFreeboardId" parameterType="_int" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO"> 
-		select * from freeboard where freeboardId = #{freeboardId} </select> -->
+	
+	<select id="getFreePostByFreeboardId" parameterType="_int"
+		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
+		select * from freeboard where freeboardId =
+		#{freeboardId}
+	</select>
 
 	<!-- 글 등록 조회수랑 좋아요수는 0으로 세팅! -->
 	<insert id="insertFreeboard"
@@ -25,8 +28,9 @@
 		userId,
 		content,
 		`like`,
-		`hit`
-		) values (#{title},#{userId},#{content},0,0)
+		`hit`,
+		imageName
+		) values (#{title},#{userId},#{content},0,0, #{imageName})
 	</insert>
 
 
@@ -47,12 +51,7 @@
 
 
 	</select>
-
-	<select id="freeDetail"
-		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
-		select * from freeBoard where freeboardId = #{freeboardId}
-	</select>
-
+	
 	<!-- 토탈 -->
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)
@@ -74,17 +73,28 @@
 		from freeboard u where freeboardId = #{freeboardId};
 	</select>
 
-	<!-- 게시물 삭제 -->
-	<update id="deleteFree" parameterType="_int">
-		update
-		freeboard set deleteYN = 1 where freeboardId = #{freeboardId}
+	<update id="updateFreePost" parameterType="com.fp.shuttlecock.freeboard.FreeboardDTO">
+		update freeboard 
+		set title = #{title}, content = #{content}, 
+			regdate = NOW(), imageName = #{imageName}
+		where freeboardId = #{freeboardId}
+	</update>
+	
+	<delete id="deleteFree" parameterType="_int">
+		delete from
+		freeboard where freeboardId = #{freeboardId}
+	</delete>
+
+	<update id="increaseWriteCount" parameterType="string">
+		update user
+		set
+		writeCount = writeCount + 1
+		where userId = #{userId}
 	</update>
 
-
-	<!-- 게시물 수정 -->
-	<update id="updateFree">
-		update freeboard set title = #{title} , content = #{content}
-		where freeboardId = #{freeboardId}
+	<update id="updateDeletedFreePost" parameterType="_int">
+		update
+		freeboard set deleteYN = 1 where freeboardId = #{freeboardId}
 	</update>
 
 </mapper>

@@ -11,13 +11,10 @@ import com.fp.shuttlecock.util.PageVO;
 public interface FreeboardService {
 
 	// 글 등록
-	int insertFreeboard(FreeboardDTO dto);
+	boolean insertFreeboard(FreeboardDTO dto);
 	
 	// 글 목록
 	List<FreeboardDTO> getFreeboard(PageVO vo);
-	
-	// 글 상세보기
-	FreeboardDTO freeDetail(int freeboardId);
 	
 	int getTotal(PageVO vo);
 	
@@ -25,13 +22,16 @@ public interface FreeboardService {
 	
 	void comCNT(int freeboardId);
 	
-	void deleteFree(int freeboradId);
+	boolean deleteFree(int freeboardId);
+
+	void increaseWriteCount(String userId);
+
+	boolean updateDeletedFreePost(int freeboardId);
 	
-	void updateFree(FreeboardDTO dto);
-	
-//	boolean updateFreePost(FreeboardDTO freeboard);
-	
-	FreeboardDTO getFreeboardByFreeboardId(int freeboardId);
+	boolean updateFreePost(FreeboardDTO freeboard);
+
+	FreeboardDTO getFreePostByFreeboardId(int freeboardId);
+
 
 	
 	
