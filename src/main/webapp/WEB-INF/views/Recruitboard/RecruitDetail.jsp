@@ -1,19 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>거래게시판</title>
+<title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <style>
+.secret-comment {
+	font-style: italic;
+	color: #999; /* 원하는 색상으로 변경 가능 */
+}
 .mainTitle {
 	text-align: center;
 }
@@ -57,7 +58,8 @@ h1 {
 			<div class="col">
 				<label for="exampleFormControlInput1" class="form-label">작성자</label>
 				<input type="text" class="form-control"
-					id="exampleFormControlInput1" value="${recruitboard.userId}" readonly>
+					id="exampleFormControlInput1" value="${recruitboard.userId}"
+					readonly>
 			</div>
 			<div class="col">
 				<label for="exampleFormControlInput1" class="form-label">작성시간</label>
@@ -144,7 +146,8 @@ h1 {
 	<div class="com_box">
 		<c:if test="${not empty commentList}">
 			<c:forEach items="${commentList}" var="comment">
-				<div class="row g-3" style="width: 70%; margin: 0 auto;">
+				<div class="row g-3"
+					style="width: 50%; margin: 0 auto; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
 					<div class="col">
 						<label for="exampleFormControlInput1" class="form-label">작성자</label>
 						<input type="text" class="form-control"
@@ -156,75 +159,60 @@ h1 {
 							id="exampleFormControlInput2" value="${comment.regdate}" readonly>
 					</div>
 				</div>
-				<div class="mb-3" style="width: 70%; margin: 0 auto;">
-					<label for="exampleFormControlTextarea1" class="form-label">댓글
-						내용</label>
-					<c:choose>
-						<c:when
-							test="${comment.secret eq 0 or sessionScope.userId eq recruitboard.userId or 
+				<div class="row g-3"
+					style="width: 50%; margin: 0 auto; border: 1px solid #ccc; padding: 10px;">
+					<div class="col">
+						<label for="exampleFormControlTextarea1" class="form-label"></label>
+						<div id="com_updateMode_div_${comment.commentsId}">
+							<c:choose>
+								<c:when
+									test="${comment.secret eq 0 or sessionScope.userId eq recruitboard.userId or 
 						comment.userId eq sessionScope.userId or sessionScope.isAdmin eq true}">
-							<textarea class="form-control content"
-								id="exampleFormControlTextarea1" rows="2" name="content"
-								readonly>${comment.content}</textarea>
-						</c:when>
-						<c:when test="${comment.secret eq 1}">
-							<textarea class="form-control content"
-								id="exampleFormControlTextarea1" rows="2" name="content"
-								readonly>비밀댓글입니다.</textarea>
-						</c:when>
-					</c:choose>
-				</div>
-				<c:if
-					test="${sessionScope.userId eq comment.userId or sessionScope.isAdmin eq true}">
-					<button type="button"
-						class="btn btn-primary whyBtn1 com_delete_btn" id="com_delete_btn"
-						value="${comment.commentsId}">댓글삭제</button>
-				</c:if>
-				<c:if test="${sessionScope.userId eq comment.userId}">
-					<button type="button"
-						class="btn btn-primary whyBtn1 com_update_btn" id="com_update_btn"
-						data-toggle="modal"
-						data-target="#editPostModal_${comment.commentsId}">댓글수정</button>
-				</c:if>
-
-				<!-- 댓글 수정 모달 -->
-				<div class="modal fade" id="editPostModal_${comment.commentsId}"
-					tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel"
-					aria-hidden="true" style="display: none;">
-					<div class="modal-dialog modal-lg" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="editPostModalLabel">댓글 수정</h5>
-								<button type="button" class="close" data-dismiss="modal"
-									aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
-								<form action="/comments/update" id="editPostForm" method="post"
-									enctype="multipart/form-data"
-									onsubmit="return validatePostForm()">
-									<input type="hidden" class="form-control mb-2" name="userId"
-										value="${comment.userId}"> <input type="hidden"
-										class="form-control mb-2" name="commentsId"
-										value="${comment.commentsId}"> <input type="hidden"
-										class="form-control mb-2" name="bno" value="${comment.bno}">
-									<input type="hidden" class="form-control mb-2"
-										name="commentType" value="${comment.commentType}">
-									<textarea class="form-control" style="height: 100px"
-										name="content">${comment.content}</textarea>
-									<div style="display: flex; align-items: center;">
-										<div style="margin-right: auto;">
-											<input type="radio" id="secret" name="secret" value="1"
-												style="margin-left: 10px;">비밀댓글
-										</div>
-										<button type="submit" class="btn btn-primary mt-2"
-											style="margin-left: auto;">저장</button>
-									</div>
-								</form>
-							</div>
-
+									<textarea class="form-control content"
+										id="exampleFormControlTextarea1" rows="2" name="content"
+										readonly>${comment.content}</textarea>
+								</c:when>
+								<c:when test="${comment.secret eq 1}">
+									<span class="secret-comment">비밀 댓글입니다</span>
+								</c:when>
+							</c:choose>
 						</div>
+						<!-- 댓글 수정 모드를 위한 textarea 추가 -->
+						<textarea class="form-control com_updateMode_textarea"
+							id="exampleFormControlTextarea1_${comment.commentsId}" rows="2"
+							style="display: none;">${comment.content}</textarea>
+						<!-- 비밀 댓글 여부를 표시할 체크박스 추가 -->
+						<c:choose>
+							<c:when test="${sessionScope.userId eq comment.userId}">
+								<!-- 수정 버튼을 눌렀을 때만 비밀댓글 체크박스가 보이도록 합니다. -->
+								<c:if test="${not empty comment.content}">
+									<input type="checkbox" class="secret"
+										id="secret_${comment.commentsId}" name="secret" value="1"
+										${comment.secret == 1 ? 'checked' : ''}>
+									<label for="secret_${comment.commentsId}">비밀댓글</label>
+								</c:if>
+							</c:when>
+						</c:choose>
+					</div>
+				</div>
+				<div class="row g-3"
+					style="width: 50%; margin: 0 auto; border: 1px solid #ccc; padding: 10px;">
+					<div class="col">
+						<c:if
+							test="${sessionScope.userId eq comment.userId or sessionScope.isAdmin eq true}">
+							<button type="button"
+								class="btn btn-primary whyBtn1 com_delete_btn"
+								id="com_delete_btn" value="${comment.commentsId}">댓글삭제</button>
+						</c:if>
+						<c:if test="${sessionScope.userId eq comment.userId}">
+							<button type="button"
+								class="btn btn-primary whyBtn1 com_update_btn"
+								id="com_update_btn" data-toggle="modal"
+								data-target="#editPostModal_${comment.commentsId}">댓글수정</button>
+							<button type="button"
+								class="btn btn-primary whyBtn1 com_save_btn"
+								id="com_save_btn_${comment.commentsId}" style="display: none;">저장</button>
+						</c:if>
 					</div>
 				</div>
 			</c:forEach>
@@ -237,23 +225,54 @@ h1 {
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
-//모달 열기
-function validatePostForm() 
-{
-	//var titleField = document.querySelector('#editPostForm input[name="title"]');
-	var contentField = document.querySelector('.modal textarea[name="content"]');
-	if (contentField.value.trim() === '') {
-	    alert('내용을 입력하세요.');
-	    return false;
-	}
-return true;
- }
 $(document).ready(function() {
 	$('.com_update_btn').click(function() {
 	    const modalId = $(this).data('target'); // data-target 속성이 각 버튼에 설정되어 있다고 가정
-	    console.log(modalId);
-	    $(`${modalId}`).modal('show');
+	    const chars = modalId.split('_');
+        const commentId = chars[1];
+        // 해당 댓글의 내용을 편집할 수 있도록 수정 모드로 변경
+        $('#com_updateMode_div_' + commentId).hide();
+        $('#exampleFormControlTextarea1_' + commentId).show();
+        $(this).hide();
+        // 저장 버튼 표시
+        $('#com_save_btn_' + commentId).show();
 	});
+	
+	// 저장 버튼 클릭 시 댓글을 업데이트하는 기능을 추가합니다.
+    $('.com_save_btn').click(function() {
+        // 클릭된 버튼의 ID에서 댓글의 ID를 추출합니다.
+        const commentId = $(this).attr('id').split('_')[3];
+        const content = $('#exampleFormControlTextarea1_' + commentId).val().trim();
+        const secret = $('#secret_' + commentId).is(':checked') ? 1 : 0; // 수정된 비밀 댓글 여부를 가져옵니다.
+
+        // AJAX를 사용하여 서버로 댓글 업데이트 요청을 보냅니다.
+        $.ajax({
+            type: 'POST',
+            url: '/comments/update',
+            data: {
+                'commentsId': commentId,
+                'content': content,
+                'secret': secret // 수정된 비밀 댓글 여부를 서버로 전송합니다.
+            },
+            success: function(data) {
+                // 성공적으로 업데이트되면 해당 댓글의 내용을 업데이트합니다.
+                $('#com_updateMode_div_' + commentId).text(content);
+                $('#com_updateMode_div_' + commentId).show();
+
+                // textarea와 저장 버튼을 숨깁니다.
+                $('#exampleFormControlTextarea1_' + commentId).hide();
+                $(this).hide();
+
+                alert("댓글이 수정되었습니다.");
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error('댓글 업데이트 중 에러 발생:', error);
+                alert('댓글 업데이트 실패');
+            }
+        });
+    });
+	
 });
 
 // regdate 값을 포맷팅하여 input 태그에 적용

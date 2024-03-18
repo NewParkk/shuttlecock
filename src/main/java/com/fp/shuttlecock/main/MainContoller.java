@@ -13,7 +13,10 @@ import com.fp.shuttlecock.freeboard.FreeboardDTO;
 import com.fp.shuttlecock.freeboard.FreeboardServiceImpl;
 import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
 import com.fp.shuttlecock.leagueboard.LeagueboardServiceImpl;
+import com.fp.shuttlecock.leagueboard.PageRequestDTO;
 import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MainContoller {
@@ -21,13 +24,19 @@ public class MainContoller {
 	@Autowired
 	MainService mainService;
 	
+	@Autowired
+	LeagueboardServiceImpl leagueservice;
+	
 	@Value("${KAKAO.KEY.JS}")
 	private String apiKey;
 	
 	@GetMapping("/main")
-    public String showMainPage(Model model) throws ParseException {
-		
-		List<LeagueboardDTO> leaguePosts = mainService.get5LeaguePosts();
+    public String showMainPage(Model model, HttpSession session, PageRequestDTO pagerequest) throws ParseException {
+		if(session.getAttribute("userId") != null) {
+			pagerequest.setUserId(String.valueOf(session.getAttribute("userId")));
+		}
+		pagerequest.setIsMain(1);
+		List<LeagueboardDTO> leaguePosts = leagueservice.getAllLeaguePostByPage(pagerequest);
 		
 		List<FreeboardDTO> freePosts = mainService.get5FreePosts();
 		System.out.println(apiKey);

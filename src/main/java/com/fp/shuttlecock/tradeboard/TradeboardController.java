@@ -141,7 +141,9 @@ public class TradeboardController {
 				result = boardService.updateTradePost(tradeboard);
 				naverfile.ncpFileupload(file, fileName, 3);
 			} else {
-				tradeboard.setImageName("noImage");
+				if(tradeboard.getImageName() == null || tradeboard.getImageName().equals("")) {
+					tradeboard.setImageName("noImage");
+				}
 				result = boardService.updateTradePost(tradeboard);
 			}
 			if (result) {

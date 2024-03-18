@@ -144,7 +144,10 @@ public class RecruitboardController {
 				result = boardService.updateTradePost(recruitboard);
 				naverfile.ncpFileupload(file, fileName, 4);
 			} else {
-				recruitboard.setImageName("noImage");
+				System.out.println("이미지 데이터 : " + recruitboard.getImageName());
+				if(recruitboard.getImageName() == null || recruitboard.getImageName().equals("")) {
+					recruitboard.setImageName("noImage");
+				}
 				result = boardService.updateTradePost(recruitboard);
 			}
 			if (result) {

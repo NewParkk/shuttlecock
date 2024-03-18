@@ -53,8 +53,7 @@
         <li>
           <h3><a href="/Recruitboard">Meeting</a></h3>
           <ul class="submenu">
-            <li><a href="/Recruitboard?recruitType=1">League단식</a></li>
-            <li><a href="/Recruitboard?recruitType=2">League복식</a></li>
+            <li><a href="/Recruitboard?recruitType=1">League</a></li>
             <li><a href="/Recruitboard?recruitType=3">단식</a></li>
             <li><a href="/Recruitboard?recruitType=4">복식</a></li>
           </ul>

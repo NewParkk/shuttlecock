@@ -1,37 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>거래게시판</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
 <!-- <link rel="stylesheet" href="/css/aside.css"> -->
-<!-- <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
 <style>
 .info p {
 	white-space: pre-wrap; /* Or normal */
 }
 
-.container1 {
+.grid-container {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
-	width: 80%;
-	margin: 0 auto;
+	justify-content: space-around; /* 요소를 가운데 정렬합니다 */
+}
+
+.container1 {
+	width: calc(33.33% - 20px); /* 컨테이너 너비를 33.33%로 설정합니다 */
+	margin-bottom: 20px; /* 각 컨테이너 아래 여백을 설정합니다 */
+	position: relative;
+	
+}
+
+.container1 span {
+	display: block; /* 각 span 요소를 블록 요소로 설정하여 한 줄씩 표시합니다 */
 }
 
 .image-container {
-	display: flex;
+	display: block;
 	flex-direction: column;
 	align-items: center;
 	margin: 10px;
+	width: 100px; /* 너비 조절 */
+	height: 100px; /* 높이 조절 */
 }
 
 .image {
@@ -41,9 +46,8 @@
 }
 
 .info {
-	display: flex;
+	display: block;
 	justify-content: space-between;
-	width: 100%;
 	margin-top: 5px;
 }
 
@@ -163,9 +167,9 @@ a:active {
 					name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
 				<input name="region" type="hidden"
 					value="${pageInfo.pageRequest.region}"> <input name="sort"
-					type="hidden" value="${pageInfo.pageRequest.sort}">
-					<input name="itemClass"
-					type="hidden" value="${pageInfo.pageRequest.itemClass}">
+					type="hidden" value="${pageInfo.pageRequest.sort}"> <input
+					name="itemClass" type="hidden"
+					value="${pageInfo.pageRequest.itemClass}">
 				<button class="btn btn-primary search-btn" type="submit"
 					style="margin-right: 16%">검색</button>
 			</div>
@@ -351,16 +355,18 @@ a:active {
 						</tr>
 					</thead>
 				</table>
-				<c:forEach items="${tradeboardList}" var="tradeboard">
-					<div class="container1">
-						<div class="image-container">
-							<a href="/Tradeboard/${tradeboard.tradeboardId}"><img
-								src="${imgUrl}/boardFile/3_${tradeboard.imageName}.png"></a><br>
+				<div class="grid-container">
+					<c:forEach items="${tradeboardList}" var="tradeboard">
+						<div class="container1">
+							<div class="image-container">
+								<a href="/Tradeboard/${tradeboard.tradeboardId}"><img
+									src="${imgUrl}/boardFile/3_${tradeboard.imageName}.png"></a><br>
+							</div>
 							<div class="info">
 								<c:choose>
 									<c:when test="${tradeboard.commentCount != 0}">
 										<p align="center">
-											<span style="font-size: 12pt;"> <b><a
+											<span style="font-size: 13pt;"> <b><a
 													href="/Tradeboard/${tradeboard.tradeboardId}">${tradeboard.title}
 														[${tradeboard.commentCount}]</a></b>
 											</span><br>
@@ -368,7 +374,7 @@ a:active {
 									</c:when>
 									<c:when test="${tradeboard.commentCount == 0}">
 										<p align="center">
-											<span style="font-size: 12pt;"> <b><a
+											<span style="font-size: 13pt;"> <b><a
 													href="/Tradeboard/${tradeboard.tradeboardId}">${tradeboard.title}</a></b>
 											</span><br>
 										</p>
@@ -376,40 +382,41 @@ a:active {
 								</c:choose>
 								<br>
 								<p align="center">
-									<span style="font-size: 12pt;"> <b>${tradeboard.hit}</b>
+									<span style="font-size: 11pt;"> <b>조회: ${tradeboard.hit}</b>
 									</span>
 								</p>
 								<p align="center">
-									<span style="font-size: 12pt;"> <b>${tradeboard.like}</b>
+									<span style="font-size: 11pt;"> <b>추천: ${tradeboard.like}</b>
 									</span><br>
 								</p>
 								<p align="center">
-									<span style="font-size: 12pt;"> <b><fmt:formatDate
+									<span style="font-size: 11pt;"> <b><fmt:formatDate
 												value="${tradeboard.regdate}" pattern="yyyy-MM-dd HH:mm" /></b>
 									</span><br>
 								</p>
 								<p align="center">
-									<span style="font-size: 12pt;"> <b>${tradeboard.userId}</b>
+									<span style="font-size: 11pt;"> <b>${tradeboard.userId}</b>
 									</span><br>
 								</p>
 								<c:choose>
 									<c:when test="${tradeboard.complete eq 1}">
 										<p align="center">
-											<span style="font-size: 12pt;"> <b>판매완료</b>
+											<span style="font-size: 11pt;"> <b>판매완료</b>
 											</span>
 										</p>
 									</c:when>
 									<c:when test="${tradeboard.complete eq 0}">
 										<p align="center">
-											<span style="font-size: 12pt;"> <b>판매중</b>
+											<span style="font-size: 11pt;"> <b>판매중</b>
 											</span>
 										</p>
 									</c:when>
 								</c:choose>
 							</div>
+
 						</div>
-					</div>
-				</c:forEach>
+					</c:forEach>
+				</div>
 				<c:if test="${empty tradeboardList}">
 					<div class="empty-post" style="text-align: center;">게시물이
 						없습니다.</div>

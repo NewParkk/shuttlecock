@@ -78,7 +78,14 @@
 		<if test="sort == 1">
 			ORDER BY regdate DESC
 		</if>
-		LIMIT #{start}, #{amount}
+		<choose>
+			<when test="isMain == 1">
+				LIMIT 5
+			</when>
+			<otherwise>
+				LIMIT #{start}, #{amount}
+			</otherwise>
+		</choose>
 	</select>
 
 	<select id="getSearchedLeaguePost"

@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Shuttle cock</title>
+<title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
 <!-- <link rel="stylesheet"
@@ -130,12 +129,12 @@ a:active {
 				<div class="aside">
 					<div class="menubar">
 						<ul>
-							<li><a href="/Tradeboard?itemClass=0">전체</a></li>
-							<li><a href="/Tradeboard?itemClass=1">의류</a></li>
-							<li><a href="/Tradeboard?itemClass=2">라켓</a></li>
-							<li><a href="/Tradeboard?itemClass=3">보호대</a></li>
-							<li><a href="/Tradeboard?itemClass=4">신발</a></li>
-							<li><a href="/Tradeboard?itemClass=5">기타</a></li>
+							<li><a href="/Recruitboard?recruitType=0">전체</a></li>
+							<li><a href="/Recruitboard?recruitType=1">리그 단식</a></li>
+							<li><a href="/Recruitboard?recruitType=2">리그 복식</a></li>
+							<li><a href="/Recruitboard?recruitType=3">단식</a></li>
+							<li><a href="/Recruitboard?recruitType=4">복식</a></li>
+							<li><a href="/Recruitboard?recruitType=5">심판</a></li>
 						</ul>
 					</div>
 				</div>
@@ -254,6 +253,7 @@ a:active {
 										<tr>
 											<th scope="col" style="text-align: center;"><a
 												href="/Recruitboard?sort=0">글번호</a></th>
+											<th scope="col" style="text-align: center;">분류</th>
 											<th scope="col" style="text-align: center;">지역</th>
 											<th scope="col" style="text-align: center;">제목</th>
 											<th scope="col" style="text-align: center;">작성자</th>
@@ -273,6 +273,30 @@ a:active {
 													<p align="center">
 														<span style="font-size: 12pt;"> <b>${recruitboard.recruitboardId}</b>
 														</span>
+													</p>
+												</td>
+												<td bgcolor="">
+													<p align="center">
+														<c:choose>
+															<c:when test="${recruitboard.recruitType eq 0}">
+																<span style="font-size: 12pt;"> <b>전체</b></span>
+															</c:when>
+															<c:when test="${recruitboard.recruitType eq 1}">
+																<span style="font-size: 12pt;"> <b>리그단식</b></span>
+															</c:when>
+															<c:when test="${recruitboard.recruitType eq 2}">
+																<span style="font-size: 12pt;"> <b>리그복식</b></span>
+															</c:when>
+															<c:when test="${recruitboard.recruitType eq 3}">
+																<span style="font-size: 12pt;"> <b>단식</b></span>
+															</c:when>
+															<c:when test="${recruitboard.recruitType eq 4}">
+																<span style="font-size: 12pt;"> <b>복식</b></span>
+															</c:when>
+															<c:when test="${recruitboard.recruitType eq 5}">
+																<span style="font-size: 12pt;"> <b>심판</b></span>
+															</c:when>
+														</c:choose>
 													</p>
 												</td>
 												<td bgcolor="">

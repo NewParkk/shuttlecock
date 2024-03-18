@@ -21,6 +21,8 @@ public class PageRequestDTO {
 	private String userId;
 	
 	private int sort = 0;
+	
+	private int isMain = 0;
 
 	public PageRequestDTO() {
 		this(1, 10);

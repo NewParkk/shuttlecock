@@ -2,6 +2,7 @@ package com.fp.shuttlecock.attachmentfile;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,39 +76,34 @@ public class NaverObjectStorage {
 
 		// upload local file
 		String objectName = folderName + boardType + "_" + fileName + ".png"; // upload폴더/생성할파일이름.확장자
-		String savePath = "C:\\oracle_example\\MULTI\\00.spring";
+		String savePath = "C:\\shuttlecock_img";
 		// 폴더 생성 -> 파일저장
-		if (!new File(savePath).exists()) {
-			new File(savePath).mkdir();
+		File directory = new File(savePath);
+		if (!directory.exists()) {
+			directory.mkdirs(); // 하위 디렉토리까지 생성
 		}
-			String filePath =  savePath + "\\" + file.getOriginalFilename(); // 실제 local에서 올릴 파일 경로 및 파일이름
-			System.out.println(filePath);
-			try {
-				// s3.putObject(bucketName, objectName, new File(filePath)); //기본 비공개로 생성
-
-				s3.putObject(new PutObjectRequest(bucketName, objectName, new File(filePath)) // PutObjectRequest 객체 생성
-																								// -> Public(공개) 생성
-						.withCannedAcl(CannedAccessControlList.PublicRead));
-
-				System.out.format("Object %s has been created.\n", objectName);
-			} catch (AmazonS3Exception e) {
-				e.printStackTrace();
-			} catch (SdkClientException e) {
-				e.printStackTrace();
-			}
+		String filePath = savePath + File.separator + fileName;
+		try {
+			file.transferTo(new File(filePath));
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		System.out.println(filePath);
+		try {
+			// s3.putObject(bucketName, objectName, new File(filePath)); //기본 비공개로 생성
 
-		/*
-		 * try { //s3.putObject(bucketName, objectName, new File(filePath)); //기본 비공개로
-		 * 생성
-		 * 
-		 * s3.putObject(new PutObjectRequest(bucketName, objectName, new File(filePath))
-		 * //PutObjectRequest 객체 생성 -> Public(공개) 생성
-		 * .withCannedAcl(CannedAccessControlList.PublicRead));
-		 * 
-		 * System.out.format("Object %s has been created.\n", objectName); } catch
-		 * (AmazonS3Exception e) { e.printStackTrace(); } catch (SdkClientException e) {
-		 * e.printStackTrace(); }
-		 */
+			s3.putObject(new PutObjectRequest(bucketName, objectName, new File(filePath)) // PutObjectRequest 객체 생성
+																							// -> Public(공개) 생성
+					.withCannedAcl(CannedAccessControlList.PublicRead));
 
+			System.out.format("Object %s has been created.\n", objectName);
+		} catch (AmazonS3Exception e) {
+			e.printStackTrace();
+		} catch (SdkClientException e) {
+			e.printStackTrace();
+		}
 	}
+
+}
