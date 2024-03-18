@@ -4,11 +4,14 @@ package com.fp.shuttlecock.user;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +24,9 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+    private JavaMailSender javaMailSender;
 
 	//로그인
 	public UserDTO getLoginUser(String userId, String pw) {
@@ -106,15 +112,52 @@ public class UserServiceImpl implements UserService{
 		return result;
 	}
 
-	//회원의 id, email이 있는지 확인
+	//회원의 id, email이 존재하는지 확인
 	public boolean isExistUser(String userId, String userEmail) {		
 	    return userMapper.isExistUser(userId, userEmail);
 	}
 
-	public String sendEmail(String email) {
-		
-		return null;
-	}
+	//인증번호 저장
+	public String sendEmail(String userEmail) {		
+        String sendEmailNum = randomNum();
+        try {
+			sendHtmlEmail(userEmail, sendEmailNum);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+        return sendEmailNum;
+    }
+	
+	// MimeMessageHelper를 사용하여 HTML 형식의 이메일 작성
+    private void sendHtmlEmail(String userEmail, String sendEmailNum) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        
+        helper.setTo(userEmail);
+        helper.setSubject("[shuttle-cock] 인증번호 발송");
+        String htmlContent = "<p>안녕하세요. shuttl-cock입니다.</p><p>회원님의 인증번호는 <strong>" + sendEmailNum + "</strong> 입니다.</p>";
+        helper.setText(htmlContent, true);
+        
+        //이메일 발송
+        javaMailSender.send(message);
+    }
+
+    //6자리 랜덤 숫자 생성하기
+    private String randomNum() {
+        Random random = new Random();
+        int code = 100000 + random.nextInt(900000);
+        return String.valueOf(code);
+    }
+
+    //userId로 암호화된 새 비밀번호로 변경하기
+    public boolean changePassword(String userId, String newPw) {
+        UserDTO userDTO = new UserDTO(); 
+        userDTO.setUserId(userId);
+        String encryptedNewPw = passwordEncoder.encode(newPw);
+        userDTO.setPw(encryptedNewPw);
+        return userMapper.changePassword(userDTO);
+    }
+}
 	
 
-}
+

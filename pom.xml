@@ -113,6 +113,10 @@
 		<!-- 이메일 인증 -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 		
@@ -124,6 +128,11 @@
 			  <version>1.15.1</version>
 		</dependency>
 		
+		<!-- selenium -->
+		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-java</artifactId>
+		</dependency>
 		<!-- Amazon sdk s3 -->
 		<dependency>
 			<groupId>com.amazonaws</groupId>

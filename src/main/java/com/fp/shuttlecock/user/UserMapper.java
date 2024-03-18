@@ -25,5 +25,8 @@ public interface UserMapper {
 	//비밀번호 찾기 - 해당 회원의 정보가 있는지 확인
 	public boolean isExistUser(@Param("userId") String userId, @Param("userEmail") String userEmail);
 
+	//새 비밀번호로 변경
+	public boolean changePassword(UserDTO userDTO);
+
 
 }

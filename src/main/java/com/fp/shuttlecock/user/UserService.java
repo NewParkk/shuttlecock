@@ -15,4 +15,8 @@ public interface UserService {
 	boolean isCheckEmail(String userEmail);
 	
 	boolean isExistUser(String userId, String userEmail);
+	
+	String sendEmail(String userEmail);
+
+	boolean changePassword(String userId, String newPw);
 }

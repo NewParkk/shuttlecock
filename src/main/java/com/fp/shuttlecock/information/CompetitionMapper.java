@@ -9,6 +9,8 @@ public interface CompetitionMapper {
 
 	List<CompetitionDTO> getEventByDate(String region);
 
-	CompetitionDTO insertGame(CompetitionDTO competition);
+	CompetitionDTO insertGame(CompetitionDTO competitionDTO);
+
+	boolean isCompCheck(String title);
 
 }
