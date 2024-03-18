@@ -59,11 +59,11 @@
           </ul>
         </li>
         <li>
-          <h3><a href="#">League</a></h3>
+          <h3><a href="/LeagueBoard">League</a></h3>
           <!-- 수정: h2를 h3로 변경 -->
           <ul class="submenu">
             <li><a href="/LeagueBoard">리그게시판</a></li>
-            <li><a href="#">리그 순위</a></li>
+            <li><a href="/LeagueBoardRanking">리그 순위</a></li>
           </ul>
         </li>
       </ul>
