@@ -1,5 +1,7 @@
 package com.fp.shuttlecock.user;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
@@ -25,5 +27,6 @@ public interface UserMapper {
 	//비밀번호 찾기 - 해당 회원의 정보가 있는지 확인
 	public boolean isExistUser(@Param("userId") String userId, @Param("userEmail") String userEmail);
 
-
+	public List<UserDTO> getAllUsers();
+	
 }

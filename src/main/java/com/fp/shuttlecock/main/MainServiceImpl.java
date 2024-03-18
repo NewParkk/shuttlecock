@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.fp.shuttlecock.freeboard.FreeboardDTO;
 import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
+import com.fp.shuttlecock.user.UserDTO;
 
 @Primary
 @Service
@@ -26,10 +27,22 @@ public class MainServiceImpl implements MainService{
 		return  mainMapper.get5FreePosts();
 	}
 
-//	@Override
-//	public void updateCommunityBadge() {
-//		mainMapper.updateCommunityBadge();
-//	}
+
+	@Override
+	public int updateCommunityBadge(UserDTO user) {
+		return mainMapper.updateCommunityBadge(user);
+	}
+
+	@Override
+	public List<BadgeDTO> getBadgeList(int badgeType) {
+		return mainMapper.getBadgeList(badgeType);
+	}
+
+	@Override
+	public void updateUserLeagueGrade() {
+		mainMapper.updateUserLeagueGrade();
+	}
+
 	
 	
 	

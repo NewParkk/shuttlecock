@@ -7,4 +7,13 @@
 	from user
 </select>
 
+<select id="getRankedList" resultType="com.fp.shuttlecock.user.UserDTO">
+	SELECT userId,
+		   username,
+		   gender,
+		   userLeagueGrade
+	FROM user
+	ORDER BY userLeagueGrade;
+</select>
+
 </mapper>

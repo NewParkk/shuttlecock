@@ -56,4 +56,9 @@
         select count(*) > 0 from sports.user
         where userId =#{userId} and userEmail=#{userEmail}
     </select>
+    
+    <select id="getAllUsers" parameterType="com.fp.shuttlecock.user.UserDTO">
+    	select * from user
+    </select>
+    
 </mapper>

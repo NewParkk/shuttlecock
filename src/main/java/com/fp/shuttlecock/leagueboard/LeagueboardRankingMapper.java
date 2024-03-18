@@ -10,4 +10,6 @@ import com.fp.shuttlecock.user.UserDTO;
 public interface LeagueboardRankingMapper {
 
 	public List<UserDTO> getLeagueRanking();
+
+	public List<UserDTO> getRankedList();
 }

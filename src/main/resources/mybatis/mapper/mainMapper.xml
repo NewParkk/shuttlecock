@@ -15,7 +15,26 @@
 		LIMIT 5
 	</select>
 	
-	<!-- <update id="updateCommunityBadge">
-		
-	</update> -->
+	<update id="updateCommunityBadge" parameterType="com.fp.shuttlecock.user.UserDTO">
+		UPDATE user
+		SET badgeId =#{badgeId}
+		WHERE userId =#{userId}
+	</update>
+	
+	<select id="getBadgeList" parameterType="int" resultType="com.fp.shuttlecock.main.BadgeDTO">
+		SELECT *
+		FROM badge
+		WHERE badgeType =#{badgeType}
+	</select>
+	
+	<update id="updateUserLeagueGrade">
+		UPDATE user AS U
+		JOIN (
+		    SELECT userId, RANK() OVER (ORDER BY (wincount - losecount) DESC) AS Ranking
+		    FROM user
+		) AS R ON U.userId = R.userId
+		SET U.userLeagueGrade = R.Ranking;
+	</update>
+	
+	
 </mapper>

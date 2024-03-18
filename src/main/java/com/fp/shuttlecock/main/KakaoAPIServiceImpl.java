@@ -36,10 +36,10 @@ import jakarta.servlet.http.HttpSession;
 public class KakaoAPIServiceImpl implements KakaoAPIService{
 	
 	@Autowired
-	UserServiceImpl userService;
+	private UserServiceImpl userService;
 	
 	@Autowired
-	MypageServiceImpl mypageService;
+	private MypageServiceImpl mypageService;
 	
 	@Value("${KAKAO.KEY.REST}")
 	private String apiKey;
@@ -125,6 +125,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 							  .gender(gender)
 							  .kakaoYN(true)
 							  .build();
+		System.out.println("id : " + id);
 		UserDTO originUser = userService.getUserByUserId(id);
 		
 		redirectAttributes.addFlashAttribute("accessToken", oauthToken.getAccess_token());
