@@ -23,9 +23,13 @@ public class FreeboardServiceImpl implements FreeboardService{
 	@Autowired
 	private FreeboardMapper mapper;
 	
+	@Override
+	public FreeboardDTO getFreePostByFreeboardId(int freeboardId) {
+		return mapper.getFreePostByFreeboardId(freeboardId);
+	}
 
 	@Override
-	public int insertFreeboard(FreeboardDTO dto){
+	public boolean insertFreeboard(FreeboardDTO dto){
 		
         
 		return mapper.insertFreeboard(dto);
@@ -35,12 +39,6 @@ public class FreeboardServiceImpl implements FreeboardService{
 	public List<FreeboardDTO> getFreeboard(PageVO vo) {
 		
 		return mapper.getFreeboard(vo);
-	}
-
-	@Override
-	public FreeboardDTO freeDetail(int freeboardId) {
-		
-		return mapper.freeDetail(freeboardId);
 	}
 
 	@Override
@@ -57,29 +55,37 @@ public class FreeboardServiceImpl implements FreeboardService{
 	public void comCNT(int freeboardId) {
 		mapper.comCNT(freeboardId);		
 	}
-
+	
 	@Override
-	public void deleteFree(int freeboradId) {
-		mapper.deleteFree(freeboradId);		
-	}
-
-	@Override
-	public void updateFree(FreeboardDTO dto) {
-		mapper.updateFree(dto);		
+	public boolean updateFreePost(FreeboardDTO freeboard) {
+		int result = mapper.updateFreePost(freeboard);
+		if (result == 1) {
+			return true;
+		}
+		return false;
 	}
 	
-//	public boolean updateFreePost(FreeboardDTO freeboard) {
-//		int result = mapper.updateFreePost(freeboard);
-//		if(result == 1) {
-//			return true;
-//		}
-//		return false;
-//	}
-
 	@Override
-	public FreeboardDTO getFreeboardByFreeboardId(int freeboardId) {
-		return mapper.getFreeboardByFreeboardId(freeboardId);
+	public boolean deleteFree(int freeboardId) {
+		int result = mapper.deleteFree(freeboardId);
+		if (result == 1) {
+			return true;
+		}
+		return false;
 	}
-
 	
+	@Override
+	public void increaseWriteCount(String userId) {
+		mapper.increaseWriteCount(userId);
+	}
+	
+	@Override
+	public boolean updateDeletedFreePost(int freeboardId) {
+		int result = mapper.updateDeletedFreePost(freeboardId);
+		if (result == 1) {
+			return true;
+		}
+		return false;
+	}
+		
 }

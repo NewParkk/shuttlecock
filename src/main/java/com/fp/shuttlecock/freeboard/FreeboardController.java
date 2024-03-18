@@ -10,16 +10,22 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fp.shuttlecock.attachmentfile.NaverObjectStorage;
 import com.fp.shuttlecock.comments.CommentsDTO;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
 import com.fp.shuttlecock.likes.LikesDTO;
+import com.fp.shuttlecock.tradeboard.PageRequestDTO;
+import com.fp.shuttlecock.tradeboard.PageResponseDTO;
 import com.fp.shuttlecock.tradeboard.TradeboardDTO;
 import com.fp.shuttlecock.user.UserServiceImpl;
 import com.fp.shuttlecock.util.PageCreate;
@@ -47,21 +53,46 @@ public class FreeboardController {
 	private FreeboardServiceImpl service;
 	@Autowired
 	private CommentsServiceImpl commentService;
+	@Autowired
+	private NaverObjectStorage naverfile;
 
-	// 테스트용 메소드
-	@GetMapping("/")
-	public void test() {
-		System.out.println("화면출력");
+	@GetMapping("/freeDetail/{freeboardId}")
+	public String getBoardByBoardId(@PathVariable int freeboardId, Model model) {
+		String view = "error";
+		System.out.println("controller이동");
+		System.out.println(freeboardId);
+
+		FreeboardDTO freeboard = null;
+		try {
+			freeboard = service.getFreePostByFreeboardId(freeboardId);
+//			model.addAttribute("pageInfo", pageRequest);
+			if (freeboard != null) {
+				List<CommentsDTO> commentList = commentService.getCommentList(freeboardId, 2);
+				// FileRequest file = fileService.getBoardFileByTradeboardId(tradeboardId);
+				service.hit(freeboardId);
+
+				// model.addAttribute("file", file);
+				model.addAttribute("freeboard", freeboard);
+				model.addAttribute("commentList", commentList);
+				System.out.println(commentList);
+				view = "Freeboard/freeDetail";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return view;
 	}
 
 	// 자유게시판 이동
 	@GetMapping("/freeList")
-	public String getFree(Model model, PageVO vo, FreeboardDTO dto) {
+	public String getFree(Model model, PageVO vo, FreeboardDTO dto, HttpSession session) {
 		System.out.println("자유게시판으로 이동");
 		System.out.println("검색어" + vo.getKeyword());
 		System.out.println("검색조건" + vo.getCondition());
 
-		dto.setUserId("1234"); // 임의로 userId 지정
+		if (session.getAttribute("userId") != null) {
+			dto.setUserId(String.valueOf(session.getAttribute("userId")));
+		}
 
 		PageCreate pc = new PageCreate();
 		pc.setPaging(vo);
@@ -83,144 +114,109 @@ public class FreeboardController {
 		System.out.println("글쓰기 페이지로 이동");
 	}
 
-	// 글 등록
 	@PostMapping("/insertFreeboard")
-	public String insertFreeboard(FreeboardDTO dto, Model model, HttpSession session,
-	        @RequestParam("upload") MultipartFile file) {
-
-		System.out.println("insertFreeboard  title : " + dto.getTitle());
-//		dto.setUserId("1234"); // 임의로 userId 지정
-		dto.setUserId(String.valueOf(session.getAttribute("userId")));
+	public String insertFreeboard(FreeboardDTO dto, @RequestParam("file") MultipartFile file) {
+		System.out.println("controller이동");
+		String view = "error";
+		boolean boardResult = false;
 		try {
-	        String imageUrl = uploadImage(file, session);
-	        dto.setUploadPath(imageUrl);
-	        dto.setUserId((String) session.getAttribute("userId"));
-	        service.insertFreeboard(dto);
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        // 업로드 실패 시 처리
-	    }
-		return "redirect:/Freeboard/freeList";
-	}
+			if (!file.isEmpty()) { // 파일이 전송되었는지 확인
 
-	// 글 상세 보기
-	@GetMapping("/freeDetail")
-	public void freeDetail(int freeboardId, String userId, Model model) {
-		System.out.println("상세보기 페이지");
-		FreeboardDTO dto = service.freeDetail(freeboardId);
-		if (dto != null) {
-			List<CommentsDTO> commentList = commentService.getCommentList(freeboardId, 2);
-			// FileRequest file = fileService.getBoardFileByTradeboardId(freeboardId);
-			service.hit(freeboardId);
-
-			// model.addAttribute("file", file);
-			model.addAttribute("Freeboard", dto);
-			model.addAttribute("commentList", commentList);
-		}
-		model.addAttribute("Detail", dto);
-		service.hit(freeboardId);
-	}
-
-	// 글 삭제
-	@GetMapping("/deleteFree")
-	public String deleteFree(int freeboardId) {
-		System.out.println("controller 연결" + freeboardId);
-		service.deleteFree(freeboardId);
-		return "redirect:/Freeboard/freeList";
-	}
-	
-	// 글 수정 페이지 이동
-	@GetMapping("/freeUpdate")
-	public void updateFree(int freeboardId, Model model) {
-		System.out.println(freeboardId + "번 게시물 수정");
-		model.addAttribute("Detail", service.freeDetail(freeboardId));
-	}
-
-	// 글 수정
-	@PostMapping("/updateFree")
-	public String updateBoard(FreeboardDTO dto, RedirectAttributes ra, HttpSession session) {
-		dto.setUserId(String.valueOf(session.getAttribute("userId")));
-		System.out.println("게시물 수정 요청");
-
-		System.out.println(dto.getFreeboardId());
-		System.out.println(dto.getContent());
-		System.out.println(dto.getTitle());
-
-		service.updateFree(dto);
-		ra.addFlashAttribute("msg", "updateSuccess");
-
-		return "redirect:/Freeboard/freeDetail?freeboardId=" + dto.getFreeboardId();
-	}
-		
-//	이미지 업로드
-
-	@ResponseBody
-	@RequestMapping(value = "fileupload.do")
-	public void communityImageUpload(HttpServletRequest req, HttpServletResponse resp,
-			MultipartHttpServletRequest multiFile) throws Exception { // JsonObject
-		JsonObject jsonObject = new JsonObject();
-		PrintWriter printWriter = null;
-		OutputStream out = null;
-		MultipartFile file = multiFile.getFile("upload");
-
-		if (file != null) {
-			if (file.getSize() > 0 && StringUtils.isNotBlank(file.getName())) {
-				if (file.getContentType().toLowerCase().startsWith("image/")) {
-					try {
-
-						String fileName = file.getOriginalFilename();
-						byte[] bytes = file.getBytes();
-
-						String uploadPath = req.getSession().getServletContext()
-								.getRealPath("/resources/images/free"); // 저장경로
-						System.out.println("uploadPath:" + uploadPath);
-
-						File uploadFile = new File(uploadPath);
-						if (!uploadFile.exists()) {
-							uploadFile.mkdir();
-						}
-						String fileName2 = UUID.randomUUID().toString();
-						uploadPath = uploadPath + "/" + fileName2 + fileName;
-
-						out = new FileOutputStream(new File(uploadPath));
-						out.write(bytes);
-						printWriter = resp.getWriter();
-						String fileUrl = req.getContextPath() + "/resources/images/free/" + fileName2 + fileName; // url경로
-						System.out.println("fileUrl :" + fileUrl);
-						JsonObject json = new JsonObject();
-						json.addProperty("uploaded", 1);
-						json.addProperty("fileName", fileName);
-						json.addProperty("url", fileUrl);
-						printWriter.print(json);
-						System.out.println(json);
-
-					} catch (IOException e) {
-						e.printStackTrace();
-					} finally {
-						if (out != null) {
-							out.close();
-						}
-						if (printWriter != null) {
-							printWriter.close();
-						}
-					}
-				}
-
+				String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+				dto.setImageName(fileName);
+				System.out.println(fileName);
+				// 파일 처리 로직 추가
+				// 예를 들어, 파일을 저장하거나 외부 서비스에 업로드하는 코드를 추가합니다.
+				// 여기에서는 NaverObjectStorage를 사용하여 파일을 업로드하는 코드를 사용했다고 가정합니다.
+				naverfile.ncpFileupload(file, fileName, 2);
+			} else {
+				System.out.println("파일이 전송되지 않았습니다.");
+				// 파일이 전송되지 않은 경우에 대한 처리
 			}
 
+			boardResult = service.insertFreeboard(dto);
+			if (boardResult) {
+			    service.increaseWriteCount(dto.getUserId());
+			    view = "redirect:/Freeboard/freeList";
+			    
+			    // 파일 업로드 후에 파일 삭제 메소드를 호출하여 파일을 삭제합니다.
+			    if (dto.getImageName() != null && dto.getImageName().equals("noImage")) {
+			        deleteFile(dto); // 파일 삭제 메소드 호출
+			    }
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return view;
+	}
 
+	@DeleteMapping(value = "/freeDelete/{freeboardId}")
+	public ResponseEntity<String> deleteFree(@PathVariable int freeboardId, HttpSession session) {
+	    System.out.println("삭제 메소드 실행");
+	    boolean result = false;
+	    FreeboardDTO freeboard = service.getFreePostByFreeboardId(freeboardId);
+	    if (String.valueOf(session.getAttribute("userId")) != null
+	            && (session.getAttribute("isAdmin") != null && ((boolean) session.getAttribute("isAdmin")
+	                    || freeboard.getUserId().equals(String.valueOf(session.getAttribute("userId")))))) {
+	        result = service.deleteFree(freeboardId); // deleteFree 메소드 호출하여 게시글 삭제
+	        if (result) {
+	            return ResponseEntity.ok("게시글 삭제 성공");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("게시글 삭제 실패");
+	        }
+	    } else {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("삭제 권한 없음");
+	    }
+	}
+
+	@GetMapping("/update/{freeboardId}")
+	public String updateFree(@PathVariable("freeboardId") int freeboardId, Model model) {
+		FreeboardDTO freeboard = service.getFreePostByFreeboardId(freeboardId);
+
+		model.addAttribute("freeboard", freeboard);
+		// model.addAttribute("file", file);
+		return "/Freeboard/freeUpdate";
 	}
 	
-	private String uploadImage(MultipartFile file, HttpSession session) throws IOException {
-	    if (file != null && !file.isEmpty() && file.getContentType().startsWith("image/")) {
-	        String uploadPath = session.getServletContext().getRealPath("/resources/images/free");
+	@PostMapping("/update")
+	public String updateBoard(FreeboardDTO freeboard, MultipartFile file, HttpSession session) {
+	    System.out.println(file);
+	    boolean result = false;
+	    if (!file.getOriginalFilename().equals("")) {
 	        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-	        String filePath = uploadPath + File.separator + fileName;
-	        File dest = new File(filePath);
-	        file.transferTo(dest);
-	        return "/resources/images/free/" + fileName;
+	        freeboard.setImageName(fileName);
+	        result = service.updateFreePost(freeboard);
+	        naverfile.ncpFileupload(file, fileName, 2);
+	    } else {
+	        freeboard.setImageName("noImage");
+	        result = service.updateFreePost(freeboard);
 	    }
-	    return null;
+	    
+	    // 파일이 수정되었을 때 기존 파일을 삭제합니다.
+	    if (result && !file.getOriginalFilename().equals("") && freeboard.getImageName() != null) {
+	        FreeboardDTO oldFreeboard = service.getFreePostByFreeboardId(freeboard.getFreeboardId());
+	        deleteFile(oldFreeboard); // 기존 파일 삭제 메소드 호출
+	    }
+	    
+	    if (result) {
+	        return "redirect:/Freeboard/freeDetail/" + freeboard.getFreeboardId();
+	    } else {
+	        return "error";
+	    }
 	}
+	
+	public boolean deleteFile(FreeboardDTO dto) {
+        String filePath = "/deleteFile/" + dto.getImageName(); // 파일의 경로를 지정합니다.
+
+        // 파일 객체 생성
+        File file = new File(filePath);
+
+        // 파일이 존재하면 삭제하고 삭제 여부를 반환합니다.
+        if (file.exists()) {
+            return file.delete();
+        } else {
+            // 파일이 존재하지 않으면 삭제하지 않고 false를 반환합니다.
+            return false;
+        }
+    }
 }
