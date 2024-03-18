@@ -34,6 +34,11 @@ public interface MypageMapper {
 
 	public int insertImage(UserDTO user);
 
+//	public List<HashMap<String, Object>> getBoard(String userId);
+
+	public List<HashMap<String, Object>> getBoard(PageRequestDTO pageRequest);
+
+	public List<HashMap<String, Object>> getTotalCount(PageRequestDTO pageRequest);
 
 
 

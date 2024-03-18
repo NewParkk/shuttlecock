@@ -66,10 +66,6 @@
 					</div> 
 
 
-
-
-
-
 					<div id="calendarBox">
 						<div id="calendar"></div>
 					</div>

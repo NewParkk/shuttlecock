@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.fp.shuttlecock.admin.PageRequestDTO;
+
 @Mapper
 public interface AdminMapper {
 
@@ -14,6 +16,11 @@ public interface AdminMapper {
 	public int updateUserAdmin(UserDTO user);
 
 	public List<VisitorDTO> todayVisit();
+
+	public int countSearchedUsers(PageRequestDTO pageRequest);
+
+	public List<UserDTO> getSearchedUsers(PageRequestDTO pageRequest);
+
 
 
 }

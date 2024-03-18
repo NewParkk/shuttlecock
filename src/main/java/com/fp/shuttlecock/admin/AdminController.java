@@ -1,5 +1,6 @@
 package com.fp.shuttlecock.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fp.shuttlecock.admin.PageRequestDTO;
+import com.fp.shuttlecock.admin.PageResponseDTO;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class AdminController {
@@ -24,6 +31,28 @@ public class AdminController {
 
 		return "admin/adminPage";
 	}
+
+	// 검색회원 보기
+	@GetMapping("/admin/search")
+	public String getUserListByUserIdOrUsername(@RequestParam String searchKeyword, String dropdown, Model model,
+			PageRequestDTO pageRequest, HttpSession session) {
+		List<UserDTO> userList = new ArrayList<UserDTO>();
+		pageRequest.setSearchKeyword(searchKeyword);
+		pageRequest.setCategory(dropdown);
+		if(session.getAttribute("userId") != null) {
+			pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
+		}
+		userList = service.getSearchedUsers(pageRequest);
+		int totalUsers = service.countSearchedUsers(pageRequest);
+		PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalUsers)
+				.pageAmount(pageRequest.getAmount()).pageRequest(pageRequest).build();
+
+		model.addAttribute("userList", userList);
+		model.addAttribute("pageInfo", pageResponse);
+		
+		return"admin/adminPage";
+	}
+
 
 	// 회원 상세보기
 	@GetMapping("/admin/{userId}")

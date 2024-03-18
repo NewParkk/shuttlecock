@@ -97,4 +97,18 @@ public class MypageServiceImpl {
 		return result;
 	}
 
+	/*
+	 * public List<HashMap<String, Object>> getBoard(String userId) { return
+	 * mapper.getBoard(userId); }
+	 */
+
+	public List<HashMap<String, Object>> getBoard(PageRequestDTO pageRequest) {
+		return mapper.getBoard(pageRequest);
+	}
+
+	public List<HashMap<String, Object>> getTotalCount(PageRequestDTO pageRequest) {
+		return mapper.getTotalCount(pageRequest);
+	}
+
+
 }

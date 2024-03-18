@@ -21,16 +21,7 @@
 		<%@ include file="../include/header.jsp"%>
 		<main id="boardmain">
 			<section id="contents">
-				<!-- aside -->
-				<div class="aside">
-					<div class="menubar">
-						<ul>
-						    <li><a class="list" href="/mypage">마이페이지</a></li>
-							<li><a class="list" href="/updateUser">회원수정</a></li>
-							<li><a class="list" href="/record">나의활동내역</a></li>
-						</ul>
-					</div>
-				</div>
+
 
 				<div class="noticeboard">
 					<div class="page-title">
@@ -40,59 +31,63 @@
 						</div>
 					</div>
 
-				<div id="board-list">
-					<div class="container2">
+					<div id="board-list">
+						<div class="container2">
 
-						<form action="<c:url value='/Freeboard/freeList'/>">
-							<div class="search-wrap clearfix">
-								<button type="submit" class="btn btn-primary search-btn"
-									style="margin-right: 24%;">검색</button>
-								<input type="text" name="keyword"
-									class="form-control search-input" value="${pc.paging.keyword}"
-									style="width: 200px;"> <select class="form-control"
-									id="search-select" name="condition"
-									style="width: 80px; margin-left: 45%">
-									<option value="title"
-										${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
-									<option value="content"
-										${pc.paging.condition == 'content' ? 'selected' : ''}>내용</option>
-									<option value="writer"
-										${pc.paging.condition == 'userId' ? 'selected' : ''}>작성자</option>
-								</select>
-							</div>
-						</form>
+							<form action="/admin/search" method="get">
+								<div class="search-wrap clearfix">
+									<select id="dropdown" name="dropdown"
+										style="width: 80px; margin-left: 54%">
+										<option value="userId"
+											${pageInfo.pageRequest.category == 'userId' ? 'selected' : ''}>
+											아이디</option>
+										<option value="title"
+											${pageInfo.pageRequest.category == 'title' ? 'selected' : ''}>
+											제목</option>
+									</select> <input id="searchKeyword" type="search" name="searchKeyword"
+										placeholder="검색어를 입력해주세요."
+										value="${pageInfo.pageRequest.searchKeyword}"> <input
+										name="pageNum" type="hidden"
+										value="${pageInfo.pageRequest.pageNum}"> <input
+										name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
+									<input name="amount" type="hidden"
+										value="${pageInfo.pageRequest.amount}">
+									<button class="btn btn-primary search-btn" type="submit"
+										style="margin-right: 16%">검색</button>
+								</div>
+							</form>
 
 
-						<table class="board-table" style="width: 90%; margin: 0 auto;">
-							<thead>
-								<tr>
-									<th scope="col" class="th-num">아이디</th>
-									<th scope="col" class="th-title">이메일</th>
-									<th scope="col" class="th-writer">이름</th>
-									<th scope="col" class="th-date">사진</th>
-									<th scope="col" class="th-hit">성별</th>
-									<th scope="col" class="th-like">작성게시글</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="user" items="${userList}">
+							<table class="board-table" style="width: 90%; margin: 0 auto;">
+								<thead>
 									<tr>
-										<th scope="row">${user.userId}</th>
-										<td><a href="">${user.userEmail}
-												(${user.username})</a></td>
-										<td>${user.userImageName}</td>
-										<td>${user.gender}</td>
-										<td>${user.writeCount}</td>
+										<th scope="col" class="th-writer">이름</th>
+										<th scope="col" class="th-title">이메일(아이디)</th>
+										<th scope="col" class="th-writer">이름</th>
+										<th scope="col" class="th-date">사진</th>
+										<th scope="col" class="th-hit">성별</th>
+										<th scope="col" class="th-like">작성게시글</th>
 									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
+								</thead>
+								<tbody>
+									<c:forEach var="user" items="${userList}">
+										<tr>
+											<th scope="row">${user.userId}</th>
+											<td><a href="/admin/${user.userId}">${user.userEmail}
+													(${user.username})</a></td>
+											<td>${user.userImageName}</td>
+											<td>${user.gender}</td>
+											<td>${user.writeCount}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
 
 
 
 
 
-<%-- 					<c:forEach items="${userList}" var="user">
+							<%-- 					<c:forEach items="${userList}" var="user">
 						<b> <a href="admin/${user.userId}">${user.userId}</a>
 						</b>
 					</c:forEach> --%>
@@ -155,6 +150,7 @@ a:active {
 .search-wrap {
 	overflow: hidden; /*부모요소에 히든 */
 	margin-bottom: 20px;
+	margin-right: 200px;
 }
 
 .search-btn, .search-input, .search-select {
