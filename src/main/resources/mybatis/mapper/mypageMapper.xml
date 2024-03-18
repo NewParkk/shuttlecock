@@ -95,10 +95,33 @@
 	<select id="getLike"
 		parameterType="String"
 		resultType="hashmap">
-		SELECT f.title , f.regdate, l.bno, l.likes_type
-		FROM likes l, freeboard f
-		WHERE l.userId = #{userId} AND l.likes_type = 2 AND l.bno = f.freeboardId;
+		SELECT l.bno, l.likes_type, f.title , f.regdate, t.title, t.regdate, r.title , r.regdate, i.title , i.regdate
+		FROM likes l, freeboard f, tradeboard t, recruitboard r, leagueboard i
+		WHERE l.userId = #{userId} AND l.likes_type = 2 AND l.bno = f.freeboardId
+		      OR l.userId = #{userId} AND l.likes_type = 3 AND l.bno = t.tradeboardId
+		      OR l.userId = #{userId} AND l.likes_type = 4 AND l.bno = r.recruitboardId
+		      OR l.userId = #{userId} AND l.likes_type = 5 AND l.bno = i.leagueboardId
 	</select>
+	
+<!-- 	<select id="getBoard"
+		parameterType="com.fp.shuttlecock.mypage.PageRequestDTO"
+		resultType="hashmap">
+		SELECT f.freeboardId,t.tradeboardId, t.title, t.regdate, r.recruitboardId, r.title , r.regdate, i.leagueboardId, i.title , i.regdate
+		FROM freeboard f, tradeboard t, recruitboard r, leagueboard i
+		WHERE f.userId = #{userId} OR t.userId = #{userId} OR r.userId = #{userId} OR i.userId = #{userId}
+		<bind name="start" value="(pageNum-1)*amount" />
+		LIMIT #{start}, #{amount}		
+	</select> -->
+	
+<!-- 	<select id="getTotalCount"
+		parameterType="com.fp.shuttlecock.mypage.PageRequestDTO"
+		resultType="hashmap">
+		SELECT COUNT(*)
+		FROM freeboard f, tradeboard t, recruitboard r, leagueboard i
+		WHERE f.userId = #{userId} OR t.userId = #{userId} OR r.userId = #{userId} OR i.userId = #{userId}
+		<bind name="start" value="(pageNum-1)*amount" />
+		LIMIT #{start}, #{amount}		
+	</select> -->
 	
 	<update id="insertImage"
 		parameterType="com.fp.shuttlecock.mypage.UserDTO">

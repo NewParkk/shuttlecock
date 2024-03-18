@@ -1,27 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fp.shuttlecock.admin.AdminMapper">
-	<select id="getAllUserList"	resultType="com.fp.shuttlecock.admin.UserDTO">
+	<select id="getAllUserList"
+		resultType="com.fp.shuttlecock.admin.UserDTO">
 		SELECT *
 		FROM user
 	</select>
-	
-	<select id="getUserByUserId" resultType="com.fp.shuttlecock.admin.UserDTO">
+
+	<select id="getUserByUserId"
+		resultType="com.fp.shuttlecock.admin.UserDTO">
 		SELECT *
 		FROM user
 		WHERE userId = #{userId}
 	</select>
-	
-	<update id="updateUserAdmin" parameterType="com.fp.shuttlecock.admin.UserDTO">
+
+	<update id="updateUserAdmin"
+		parameterType="com.fp.shuttlecock.admin.UserDTO">
 		UPDATE user
 		SET admin = #{admin}
 		WHERE userId = #{userId}
 	</update>
-	
-	<select id="todayVisit" resultType="com.fp.shuttlecock.admin.VisitorDTO">
+
+	<select id="todayVisit"
+		resultType="com.fp.shuttlecock.admin.VisitorDTO">
 		SELECT *
 		FROM visitor
 		WHERE date = CURRENT_DATE()
 	</select>
-	
+
+	<select id="countSearchedUsers">
+		SELECT count(userId)
+		FROM user
+	</select>
+
+	<select id="getSearchedUsers" parameterType="_int"
+		resultType="LeagueboardDTO">
+		select * from leagueboard where leagueboardId =
+		#{leagueboardId}
+	</select>
+
 </mapper>

@@ -12,6 +12,9 @@
 <link rel="stylesheet" href="/css/loginstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
 </head>
 <body>
 	<!-- header -->
@@ -67,7 +70,7 @@
 
 						<table class="board-table" style="width: 90%; margin: 0 auto;">
 							<form>
-								<select id="selectbox" name="selectbox"
+								<select class="selectbox" id="selectbox" name="selectbox"
 									onchange="chageLangSelect()">
 									<option value="boardList">게시물</option>
 									<option value="likeList">좋아요</option>
@@ -90,6 +93,14 @@
 
 							<tbody id="board1">
 								<!-- <div id="board" style="display:"> -->
+		<%-- 						<c:forEach items="${board}" var="board">
+									<tr>
+										<th scope="row">${board.leagueboardId}</th>
+										<td>${board.title}</td>
+										<td>${board.regdate}</td>
+									</tr>
+								</c:forEach> --%>
+								
 								<c:forEach items="${league}" var="legue">
 									<tr>
 										<th scope="row">${legue.leagueboardId}</th>
@@ -233,8 +244,35 @@
 			</div>
 		</section>
 	</main>
+<!-- https://getbootstrap.com/docs/5.3/layout/columns/#alignment -->
+<!-- https://getbootstrap.com/docs/5.3/components/pagination/#disabled-and-active-states -->
+	<div class="row justify-content-center">
+	<div class="col-auto">
+		<nav class="page navigation">
+			<ul class="pagination">
+				<c:if test="${pageInfo.prev}">
+					<li class="page-item">
+						<a class="page-link" aria-label="Previous" 
+							href="/page?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
+					</li>
+				</c:if>
+				<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+					<li class="page-item ${pageInfo.pageRequest.pageNum == num? "active" : ""}">
+						<a class="page-link"  
+							href="/page?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}</a>
+					</li>
+				</c:forEach>				
+				<c:if test="${pageInfo.next}">
+					<li class="page-item next">
+						<a class="page-link" aria-label="next" 
+							href="/page?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
+					</li>
+				</c:if>
+				</ul>
+			</nav>
+		</div>
 	</div>
-
+</div>
 
 
 
@@ -439,5 +477,27 @@ a:active {
 #search-select {
 	width: 80px;
 }
+
+.selectbox {
+  width: 100px; /* 원하는 너비로 설정하세요 */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  appearance: none; /* 기본 스타일링 제거 */
+  -webkit-appearance: none; /* Safari 및 Chrome 호환성 */
+  -moz-appearance: none; /* Firefox 호환성 */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="%23777" d="M7 10l3 3 3-3H7z"/></svg>'); /* 화살표 아이콘 */
+  background-repeat: no-repeat;
+  background-position-x: 95%;
+  background-position-y: center;
+  margin-bottom: 20px;
+}
+
+.selectbox:focus {
+  outline: none; /* 포커스 시 테두리 제거 */
+  border-color: #007bff; /* 포커스 시 테두리 색상 변경 */
+}
+
 </style>
 </html>

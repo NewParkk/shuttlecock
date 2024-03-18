@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fp.shuttlecock.admin.PageRequestDTO;
+
 @Service
 public class AdminServiceImpl {
 
@@ -31,6 +33,15 @@ public class AdminServiceImpl {
 	public List<VisitorDTO> todayVisit() {
 		return mapper.todayVisit();
 	}
+
+	public int countSearchedUsers(PageRequestDTO pageRequest) {
+		return mapper.countSearchedUsers(pageRequest);
+	}
+
+	public List<UserDTO> getSearchedUsers(PageRequestDTO pageRequest) {
+		return mapper.getSearchedUsers(pageRequest);
+	}
+
 
 
 }
