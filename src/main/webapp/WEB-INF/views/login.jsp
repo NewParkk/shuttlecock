@@ -43,7 +43,7 @@
                                 <input type="password" id="pw" name="pw" placeholder="비밀번호를 입력하세요" required>
                             </div>
                             <label for="remember-check">
-                                <input type="checkbox" id="remember-check" />
+                                <input type="checkbox" id="remember-check" name="remember-me" />
                                 <span class="remember-text">로그인 상태 유지</span>
                             </label>
                             <div class="item1">
