@@ -84,8 +84,31 @@ public class FreeboardController {
 	}
 
 	// 자유게시판 이동
+//	@GetMapping("/freeList")
+//	public String getFree(Model model, PageVO vo, FreeboardDTO dto, HttpSession session) {
+//		System.out.println("자유게시판으로 이동");
+//		System.out.println("검색어" + vo.getKeyword());
+//		System.out.println("검색조건" + vo.getCondition());
+//
+//		if (session.getAttribute("userId") != null) {
+//			dto.setUserId(String.valueOf(session.getAttribute("userId")));
+//		}
+//
+//		PageCreate pc = new PageCreate();
+//		pc.setPaging(vo);
+//		pc.setArticleTotalCount(service.getTotal(vo));
+//
+//		System.out.println(pc);
+//		vo.setPagecnt((vo.getPageNum() - 1) * vo.getCountPerPage());
+//		model.addAttribute("freeList", service.getFreeboard(vo));
+//		model.addAttribute("pc", pc);
+//
+//		return "Freeboard/freeList";
+//	}
+
 	@GetMapping("/freeList")
-	public String getFree(Model model, PageVO vo, FreeboardDTO dto, HttpSession session) {
+	public String getFree(Model model, PageVO vo, FreeboardDTO dto, HttpSession session,
+			@RequestParam(name = "sort", required = false, defaultValue = "0") int sort) {
 		System.out.println("자유게시판으로 이동");
 		System.out.println("검색어" + vo.getKeyword());
 		System.out.println("검색조건" + vo.getCondition());
@@ -98,7 +121,26 @@ public class FreeboardController {
 		pc.setPaging(vo);
 		pc.setArticleTotalCount(service.getTotal(vo));
 
-		System.out.println(pc);
+		// 정렬 기준에 따라 SQL의 sort 파라미터 값 설정
+		switch (sort) {
+		case 1:
+			vo.setSort(1);
+			break;
+		case 2:
+			vo.setSort(2);
+			break;
+		case 3:
+			vo.setSort(3);
+			break;
+		default:
+			vo.setSort(0); // 기본은 글번호순
+			break;
+		}
+
+		// 이전에 선택한 정렬 값 또는 기본값을 가져와서 모델에 설정
+	    String selectedSort = "0"; // 예시로 기본값을 최신순(0)으로 설정
+	    model.addAttribute("sort", selectedSort);
+		// 페이지 번호에 따라 데이터 가져오는 로직 변경
 		vo.setPagecnt((vo.getPageNum() - 1) * vo.getCountPerPage());
 		model.addAttribute("freeList", service.getFreeboard(vo));
 		model.addAttribute("pc", pc);
@@ -136,13 +178,13 @@ public class FreeboardController {
 
 			boardResult = service.insertFreeboard(dto);
 			if (boardResult) {
-			    service.increaseWriteCount(dto.getUserId());
-			    view = "redirect:/Freeboard/freeList";
-			    
-			    // 파일 업로드 후에 파일 삭제 메소드를 호출하여 파일을 삭제합니다.
-			    if (dto.getImageName() != null && dto.getImageName().equals("noImage")) {
-			        deleteFile(dto); // 파일 삭제 메소드 호출
-			    }
+				service.increaseWriteCount(dto.getUserId());
+				view = "redirect:/Freeboard/freeList";
+
+				// 파일 업로드 후에 파일 삭제 메소드를 호출하여 파일을 삭제합니다.
+//			    if (dto.getImageName() != null && dto.getImageName().equals("noImage")) {
+//			        deleteFile(dto); // 파일 삭제 메소드 호출
+//			    }
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -152,21 +194,21 @@ public class FreeboardController {
 
 	@DeleteMapping(value = "/freeDelete/{freeboardId}")
 	public ResponseEntity<String> deleteFree(@PathVariable int freeboardId, HttpSession session) {
-	    System.out.println("삭제 메소드 실행");
-	    boolean result = false;
-	    FreeboardDTO freeboard = service.getFreePostByFreeboardId(freeboardId);
-	    if (String.valueOf(session.getAttribute("userId")) != null
-	            && (session.getAttribute("isAdmin") != null && ((boolean) session.getAttribute("isAdmin")
-	                    || freeboard.getUserId().equals(String.valueOf(session.getAttribute("userId")))))) {
-	        result = service.deleteFree(freeboardId); // deleteFree 메소드 호출하여 게시글 삭제
-	        if (result) {
-	            return ResponseEntity.ok("게시글 삭제 성공");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("게시글 삭제 실패");
-	        }
-	    } else {
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("삭제 권한 없음");
-	    }
+		System.out.println("삭제 메소드 실행");
+		boolean result = false;
+		FreeboardDTO freeboard = service.getFreePostByFreeboardId(freeboardId);
+		if (String.valueOf(session.getAttribute("userId")) != null
+				&& (session.getAttribute("isAdmin") != null && ((boolean) session.getAttribute("isAdmin")
+						|| freeboard.getUserId().equals(String.valueOf(session.getAttribute("userId")))))) {
+			result = service.deleteFree(freeboardId); // deleteFree 메소드 호출하여 게시글 삭제
+			if (result) {
+				return ResponseEntity.ok("게시글 삭제 성공");
+			} else {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("게시글 삭제 실패");
+			}
+		} else {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("삭제 권한 없음");
+		}
 	}
 
 	@GetMapping("/update/{freeboardId}")
@@ -177,46 +219,46 @@ public class FreeboardController {
 		// model.addAttribute("file", file);
 		return "/Freeboard/freeUpdate";
 	}
-	
+
 	@PostMapping("/update")
 	public String updateBoard(FreeboardDTO freeboard, MultipartFile file, HttpSession session) {
-	    System.out.println(file);
-	    boolean result = false;
-	    if (!file.getOriginalFilename().equals("")) {
-	        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-	        freeboard.setImageName(fileName);
-	        result = service.updateFreePost(freeboard);
-	        naverfile.ncpFileupload(file, fileName, 2);
-	    } else {
-	        freeboard.setImageName("noImage");
-	        result = service.updateFreePost(freeboard);
-	    }
-	    
-	    // 파일이 수정되었을 때 기존 파일을 삭제합니다.
-	    if (result && !file.getOriginalFilename().equals("") && freeboard.getImageName() != null) {
-	        FreeboardDTO oldFreeboard = service.getFreePostByFreeboardId(freeboard.getFreeboardId());
-	        deleteFile(oldFreeboard); // 기존 파일 삭제 메소드 호출
-	    }
-	    
-	    if (result) {
-	        return "redirect:/Freeboard/freeDetail/" + freeboard.getFreeboardId();
-	    } else {
-	        return "error";
-	    }
+		System.out.println(file);
+		boolean result = false;
+		if (!file.getOriginalFilename().equals("")) {
+			String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+			freeboard.setImageName(fileName);
+			result = service.updateFreePost(freeboard);
+			naverfile.ncpFileupload(file, fileName, 2);
+		} else {
+			freeboard.setImageName("noImage");
+			result = service.updateFreePost(freeboard);
+		}
+
+		// 파일이 수정되었을 때 기존 파일을 삭제합니다.
+//	    if (result && !file.getOriginalFilename().equals("") && freeboard.getImageName() != null) {
+//	        FreeboardDTO oldFreeboard = service.getFreePostByFreeboardId(freeboard.getFreeboardId());
+//	        deleteFile(oldFreeboard); // 기존 파일 삭제 메소드 호출
+//	    }
+
+		if (result) {
+			return "redirect:/Freeboard/freeDetail/" + freeboard.getFreeboardId();
+		} else {
+			return "error";
+		}
 	}
-	
+
 	public boolean deleteFile(FreeboardDTO dto) {
-        String filePath = "/deleteFile/" + dto.getImageName(); // 파일의 경로를 지정합니다.
+		String filePath = "/deleteFile/" + dto.getImageName(); // 파일의 경로를 지정합니다.
 
-        // 파일 객체 생성
-        File file = new File(filePath);
+		// 파일 객체 생성
+		File file = new File(filePath);
 
-        // 파일이 존재하면 삭제하고 삭제 여부를 반환합니다.
-        if (file.exists()) {
-            return file.delete();
-        } else {
-            // 파일이 존재하지 않으면 삭제하지 않고 false를 반환합니다.
-            return false;
-        }
-    }
+		// 파일이 존재하면 삭제하고 삭제 여부를 반환합니다.
+		if (file.exists()) {
+			return file.delete();
+		} else {
+			// 파일이 존재하지 않으면 삭제하지 않고 false를 반환합니다.
+			return false;
+		}
+	}
 }

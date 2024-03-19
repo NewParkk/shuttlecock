@@ -16,32 +16,13 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 </head>
-<style>
-
-a:link {
-	text-decoration: none;
-	color: black;
-}
-
-a:visited {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-a:active {
-	text-decoration: none;
-}
-</style>
 <body>
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
 	<main id="boardmain">
-		
+
 
 		<section id="contents">
 
@@ -51,13 +32,12 @@ a:active {
 					<ul>
 						<li><a class="list" href="/Freeboard/freeList">자유게시판</a></li>
 						<li><a class="list" href="/Tradeboard">물품거래소</a></li>
-						<li><a class="list" href="#">운동장소찾기</a></li>
 					</ul>
 				</div>
 			</div>
 
 			<div class="noticeboard">
-				<div class="title" style="margin">
+				<div class="title" style="">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>자유 게시판</h3>
@@ -67,15 +47,14 @@ a:active {
 				<div id="board-list">
 					<div class="container2">
 
-						<form action="<c:url value='/Freeboard/freeList'/>">
+						<form action="<c:url value='/Freeboard/freeList'/>"
+							style="text-align: center;">
 							<div class="search-wrap clearfix">
-								<button type="submit" class="btn btn-primary search-btn"
-									style="margin-right: 24%;">검색</button>
 								<input type="text" name="keyword"
 									class="form-control search-input" value="${pc.paging.keyword}"
-									style="width: 200px;"> <select class="form-control"
-									id="search-select" name="condition"
-									style="width: 80px; margin-left: 45%">
+									style="width: 300px;" placeholder="검색어를 입력하세요"> <select
+									class="form-control" id="search-select" name="condition"
+									style="width: 100px; margin-left: 10px;">
 									<option value="title"
 										${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
 									<option value="content"
@@ -83,11 +62,21 @@ a:active {
 									<option value="writer"
 										${pc.paging.condition == 'userId' ? 'selected' : ''}>작성자</option>
 								</select>
+								<button type="submit" class="btn btn-primary search-btn"
+									style="margin-left: 10px;">검색</button>
 							</div>
 						</form>
+						<form id="sortForm" action="/Freeboard/freeList" method="get">
+							<select name="sort" id="sort" class="sort-select"
+								onchange="submitForm()">
+								<option value="1" ${param.sort == '1' ? 'selected' : ''}>최신순</option>
+								<option value="2" ${param.sort == '2' ? 'selected' : ''}>조회수순</option>
+								<option value="3" ${param.sort == '3' ? 'selected' : ''}>추천순</option>
+							</select>
+						</form>
 
-
-						<table class="board-table" style="width: 90%; margin: 0 auto;">
+						<table class="board-table"
+							style="width: 90%; margin: 20px auto 0;">
 							<thead>
 								<tr>
 									<th scope="col" class="th-num">번호</th>
@@ -116,8 +105,8 @@ a:active {
 
 						<!-- 글작성 -->
 
-						<div class="newsWrite">
-							<button type="button" class="btn btn-primary whyBtn">글작성</button>
+						<div class="newsWrite" style="margin-top: 20px;">
+							<button type="button" class="btn btn-primary WriteBtn">글작성</button>
 						</div>
 
 						<!-- 페이징 -->
@@ -128,20 +117,24 @@ a:active {
 								<div class="text-center clearfix">
 									<ul class="pagination" id="pagination">
 										<c:if test="${pc.prev}">
-											<li class="page-item "><a class="page-link" href="#"
+											<li class="page-item"><a class="page-link" href="#"
 												data-pageNum="${pc.beginPage-1}">Prev</a></li>
 										</c:if>
 
 										<c:forEach var="num" begin="${pc.beginPage}"
 											end="${pc.endPage}">
-											<li
-												class="${pc.paging.pageNum == num ? 'age-item active' : ''}"
-												page-item style="display: inline-block;"><a class="page-link" href="#"
-												data-pageNum="${num}">${num}</a></li>
+											<li class="page-item"><c:choose>
+													<c:when test="${pc.paging.pageNum == num}">
+														<span class="page-link current-page">${num}</span>
+													</c:when>
+													<c:otherwise>
+														<a class="page-link" href="#" data-pageNum="${num}">${num}</a>
+													</c:otherwise>
+												</c:choose></li>
 										</c:forEach>
 
 										<c:if test="${pc.next}">
-											<li class="page-item" ><a class="page-link" href="#"
+											<li class="page-item"><a class="page-link" href="#"
 												data-pageNum="${pc.endPage+1}">Next</a></li>
 										</c:if>
 									</ul>
@@ -157,6 +150,7 @@ a:active {
 								</div>
 							</form>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -167,7 +161,7 @@ a:active {
 
 <script>
 	$(function() {
-		$('.whyBtn').click(function() {
+		$('.WriteBtn').click(function() {
 			location.href = '<c:url value="/Freeboard/freeWrite"/>';
 		})
 		$('#pagination').on('click', 'a', function(e) {
@@ -180,5 +174,9 @@ a:active {
 		});
 
 	})
+
+	function submitForm() {
+		document.getElementById("sortForm").submit();
+	}
 </script>
 </html>

@@ -13,7 +13,7 @@
 			WHERE userId LIKE CONCAT('%',#{keyword},'%')
 		</if>
 	</sql>
-	
+
 	<select id="getFreePostByFreeboardId" parameterType="_int"
 		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
 		select * from freeboard where freeboardId =
@@ -30,7 +30,8 @@
 		`like`,
 		`hit`,
 		imageName
-		) values (#{title},#{userId},#{content},0,0, #{imageName})
+		) values (#{title},#{userId},#{content},0,0,
+		#{imageName})
 	</insert>
 
 
@@ -42,16 +43,32 @@
 		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
 
 		select *,
-		(select count(*) from comments where bno = f.freeboardId) as commentCount,
-		(select count(*) from likes where bno = f.freeboardId) as likeCount
+		(select count(*) from comments where bno = f.freeboardId) as
+		commentCount,
+		(select count(*) from likes where bno = f.freeboardId) as
+		likeCount
 		from freeBoard f
 		<include refid="search" />
-		order by freeboardId desc
+		ORDER BY
+		<choose>
+			<when test="sort == 1">
+				regdate DESC
+			</when>
+			<when test="sort == 2">
+				hit DESC
+			</when>
+			<when test="sort == 3">
+				`like` DESC
+			</when>
+			<otherwise>
+				freeboardId DESC <!-- 기본은 최신순 -->
+			</otherwise>
+		</choose>
 		limit #{pagecnt} , #{countPerPage}
 
 
 	</select>
-	
+
 	<!-- 토탈 -->
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)
@@ -63,26 +80,31 @@
 	<update id="hit">
 		update freeBoard
 		set hit = hit + 1
-		where freeboardId = #{freeboardId}
+		where freeboardId =
+		#{freeboardId}
 	</update>
 
 	<select id="comCNT"
 		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
 		select u.*,
-		(select count(*) from comments where bno = #{bno} ) as commentCount
-		from freeboard u where freeboardId = #{freeboardId};
+		(select count(*) from comments where bno =
+		#{bno} ) as commentCount
+		from freeboard u where freeboardId =
+		#{freeboardId};
 	</select>
 
-	<update id="updateFreePost" parameterType="com.fp.shuttlecock.freeboard.FreeboardDTO">
-		update freeboard 
-		set title = #{title}, content = #{content}, 
-			regdate = NOW(), imageName = #{imageName}
+	<update id="updateFreePost"
+		parameterType="com.fp.shuttlecock.freeboard.FreeboardDTO">
+		update freeboard
+		set title = #{title}, content = #{content},
+		regdate = NOW(), imageName = #{imageName}
 		where freeboardId = #{freeboardId}
 	</update>
-	
+
 	<delete id="deleteFree" parameterType="_int">
 		delete from
-		freeboard where freeboardId = #{freeboardId}
+		freeboard where
+		freeboardId = #{freeboardId}
 	</delete>
 
 	<update id="increaseWriteCount" parameterType="string">

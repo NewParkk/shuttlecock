@@ -40,7 +40,6 @@
 					<ul>
 						<li><a class="list" href="/Freeboard/freeList">자유게시판</a></li>
 						<li><a class="list" href="/Tradeboard">물품거래소</a></li>
-						<li><a class="list" href="#">운동장소찾기</a></li>
 					</ul>
 				</div>
 			</div>
@@ -55,26 +54,20 @@
 				<form action="<c:url value='/Freeboard/update'/>" method="post"
 					enctype="multipart/form-data">
 					<div class="mb-3" style="width: 70%; margin: 0 auto;">
-						<label for="exampleFormControlInput1" class="form-label">제목</label>
-						<input type="text" class="form-control" name="title"
-							id="exampleFormControlInput1" value="${freeboard.title}">
+							<span class="post-info-text"> <strong>제목 :</strong>
+							${freeboard.title}
 					</div>
 					<div class="row g-3" style="width: 70%; margin: 0 auto;">
 						<div class="col">
-							<label for="exampleFormControlInput1" class="form-label">작성자</label>
-							<input type="text" class="form-control"
-								id="exampleFormControlInput1" value="${freeboard.userId}"
-								readonly>
+							<span class="post-info-text"> <strong>작성자 :</strong>
+							${freeboard.userId}
 						</div>
 						<div class="col">
-							<label for="exampleFormControlInput1" class="form-label">작성
-								날짜</label> <input type="text" class="form-control"
-								id="exampleFormControlInput1" value="${freeboard.regdate}"
-								readonly>
+							<span class="post-info-text"> <strong>작성 날짜 :</strong>
+							${freeboard.regdate}
 						</div>
 					</div>
 					<div class="mb-3" style="width: 70%; margin: 0 auto;">
-						<label for="exampleFormControlTextarea1" class="form-label">내용</label>
 						<textarea class="form-control " name="content" id="ckeditor"
 							rows="6">${freeboard.content}</textarea>
 					</div>
@@ -98,12 +91,13 @@
 							</div>
 						</c:if>
 					</div>
-
-					<input type="hidden" value="${freeboard.freeboardId}"
-						name="freeboardId">
-					<button type="button" class="btn btn-primary whyBtn">글 수정</button>
-					<button type="button" class="btn btn-primary CancleBtn">취
-						&nbsp; 소</button>
+					<div class=button-container>
+						<input type="hidden" value="${freeboard.freeboardId}"
+							name="freeboardId">
+						<button type="button" class="btn btn-primary whyBtn">글 수정</button>
+						<button type="button" class="btn btn-primary CancleBtn">취
+							&nbsp; 소</button>
+					</div>
 				</form>
 			</div>
 		</section>

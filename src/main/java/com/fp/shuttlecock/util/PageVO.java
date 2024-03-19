@@ -16,15 +16,19 @@ public class PageVO {
     public int getPageStart() {
 	        return (pageNum-1)*countPerPage;
 	    }
+    
+    // 정렬 기준을 나타내는 변수
+    private int sort;
 
 	//검색에 필요한 데이터를 변수로 선언.
 	private String keyword;
 	private String condition;
 	
 	public PageVO() {
-		this.pageNum = 1;
-		this.countPerPage = 12;
-	}
+        this.pageNum = 1;
+        this.countPerPage = 12;
+        this.sort = 0; // 기본 정렬 기준은 최신순
+    }
 	
 
 }
