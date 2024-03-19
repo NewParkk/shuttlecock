@@ -1,5 +1,7 @@
 package com.fp.shuttlecock.leagueboard;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,20 @@ public class LeagueboardRankingController {
 		
 		List<UserDTO> leagueRankingList = LRS.getLeagueRanking();
 		
+		// 승점에 따라 내림차순으로 정렬
+        Collections.sort(leagueRankingList, Comparator.comparingInt(user -> (((UserDTO) user).getWincount() - ((UserDTO) user).getLosecount())).reversed());
+
+		
 		model.addAttribute("leagueRankingList", leagueRankingList);
 		
-		return "/LeagueBoard/LeagueBoardRanking";
+		return "/LeagueBoard/LeagueBoardRanking_new";
 		
 	}
+	
+	@GetMapping("/card")
+	public String getMethodName() {
+		return "/LeagueBoard/card";
+	}
+	
 	
 }

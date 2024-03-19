@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,10 @@
 <link rel="stylesheet" href="/css/mainstyle.css">
 <style>
 .mainTitle {
+	text-align: center;
+}
+
+.RankList {
 	text-align: center;
 }
 
@@ -32,6 +37,7 @@ h1 {
 	padding-top: 30px;
 	padding-bottom: 30px
 }
+
 
 .paging {
 	margin-left: auto;
@@ -83,11 +89,13 @@ a:active {
 <body>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ include file="category.jsp"%>
+	
 	<div class="mainTitle">
     <h1>리그 순위</h1>
 	</div>
-
-      <table>
+	
+	<div class ="RankList">
+      <table border = "1">
         <thead>
             <tr>
                 <th>유저</th>
@@ -98,19 +106,23 @@ a:active {
             </tr>
         </thead>
         <tbody>
-            <!-- 사용자의 리그 랭킹 정보를 표시합니다. -->
+            <!-- leagueRankingList에 있는 각 UserDTO의 정보를 테이블로 출력 -->
             <c:forEach items="${leagueRankingList}" var="user">
+            	<c:if test="${user.wincount ne 0 or user.losecount ne 0}">
                 <tr>
-                	<td>${user.username}</td>
+                    <td>${user.username}</td>
                     <td>${user.wincount}</td>
                     <td>${user.losecount}</td>
                     <td>${user.wincount - user.losecount}</td>
-                    <td>${(user.wincount/(user.wincount + user.losecount))*100}</td>
+                    <!-- 승률 계산 및 소수점 둘째 자리까지 표시 -->
+                    <c:set var="winRatio" value="${(user.wincount * 1.0 / (user.wincount + user.losecount)) * 100}" />
+                    <td><fmt:formatNumber value="${winRatio}"  pattern="###.##" />%</td>
                 </tr>
+                </c:if>
             </c:forEach>
         </tbody>
     </table>
-
+	</div>
 
 
 
