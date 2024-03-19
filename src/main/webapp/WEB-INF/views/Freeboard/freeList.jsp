@@ -49,15 +49,15 @@ a:active {
 			<div class="aside">
 				<div class="menubar">
 					<ul>
-						<li><a class="list" href="/Freeboard/freeList">자유게시판</a></li>
-						<li><a class="list" href="/Tradeboard">물품거래소</a></li>
-						<li><a class="list" href="#">운동장소찾기</a></li>
+						<li><a href="/Freeboard/freeList">자유게시판</a></li>
+						<li><a href="#">물품거래소</a></li>
+						<li><a href="#">운동장소찾기</a></li>
 					</ul>
 				</div>
 			</div>
 
 			<div class="noticeboard">
-				<div class="title" style="margin">
+				<div class="page-title">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>자유 게시판</h3>
@@ -103,7 +103,7 @@ a:active {
 									<tr>
 										<th scope="row">${vo.freeboardId}</th>
 										<td><a
-											href="<c:url value='/Freeboard/freeDetail/${vo.freeboardId}'/>">${vo.title}
+											href="<c:url value='/Freeboard/freeDetail?freeboardId=${vo.freeboardId}&userId=${vo.userId}'/>">${vo.title}
 												(${vo.commentCount})</a></td>
 										<td>${vo.userId}</td>
 										<td>${vo.regdate}</td>

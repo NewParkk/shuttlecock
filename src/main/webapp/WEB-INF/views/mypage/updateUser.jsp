@@ -30,6 +30,7 @@
 							<li><a class="list" href="/mypage">마이페이지</a></li>
 							<li><a class="list" href="/updateUser">회원수정</a></li>
 							<li><a class="list" href="/record">나의활동내역</a></li>
+							<li><a class="list" href="/manageBlockedUser">차단유저관리</a></li>
 						</ul>
 					</div>
 				</div>
