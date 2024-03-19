@@ -35,21 +35,63 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public String loginUser(String userId, String pw, HttpSession session, Model model) {
+	public String loginUser(String userId, String pw, HttpSession session, Model model, 
+							@RequestParam(value = "remember-me", required = false) boolean autoLogin, 
+							HttpServletResponse response, HttpServletRequest request) 
+	{
 		UserDTO user = null;
-		
+		System.out.println("autoLogin 값 : " + autoLogin);
 		user = userService.getLoginUser(userId, pw);
 
-		if(user!=null) {
+		if(user!=null) 
+		{
 			session.setAttribute("userId", user.getUserId());
 			session.setAttribute("isAdmin", user.isAdmin());
 			session.setAttribute("username", user.getUsername());
 			session.setAttribute("kakaoYN", user.isKakaoYN());
+
+			if (autoLogin) 
+			{
+	            // 자동 로그인이 체크된 경우, 쿠키를 생성하고 저장합니다.
+	            createAutoLoginCookie(response, user.getUserId());
+	        } else 
+	        {
+	            // 자동 로그인이 체크되지 않은 경우 해당 userId를 가진 쿠키의 만료 기간을 0으로 설정하여 무효화합니다.
+	            invalidateAutoLoginCookie(response, user.getUserId(), request);
+	        }
 			
 			return "redirect:/main";
 		}else {
 	        model.addAttribute("errorMsg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 	        return "login";
+	    }
+		
+	}
+	
+	private void createAutoLoginCookie(HttpServletResponse response, String userId) {
+		// 자동 로그인을 위한 쿠키 생성
+		Cookie autoLoginCookie = new Cookie("autoLoginUser", userId); // 쿠키 이름과 값 설정
+		autoLoginCookie.setMaxAge(7 * 24 * 60 * 60); // 쿠키의 만료 시간 설정 (예: 7일)
+		autoLoginCookie.setPath("/"); // 쿠키의 유효 범위 설정
+		System.out.println("자동로그인 cookie 저장됨");
+		response.addCookie(autoLoginCookie); // 응답에 쿠키 추가
+	}
+	
+	private void invalidateAutoLoginCookie(HttpServletResponse response, String userId, HttpServletRequest request) 
+	{
+	    Cookie[] cookies = request.getCookies();
+	    if (cookies != null) 
+	    {
+	        for (Cookie cookie : cookies) 
+	        {
+	            if (cookie.getName().equals("autoLoginUser") && cookie.getValue().equals(userId)) 
+	            {
+	                cookie.setMaxAge(0); 
+	                cookie.setPath("/");
+	                response.addCookie(cookie);
+	                break;
+	            }
+	        }
 	    }
 	}
 	
