@@ -25,34 +25,33 @@ public class AdminController {
 
 	// 모든회원 리스트
 	@GetMapping("/admin")
-	public String getAllUserList(Model model) {
+	public String getAllUserList(PageRequestDTO pageRequest, Model model) {
+		
+		System.out.println(pageRequest);
+		
 		List<UserDTO> userList = service.getAllUserList();
+		
+		List<UserDTO> userSearchList = service.getUserBySearchWithPage(pageRequest);
+		
+		// 검색했을때 1페이지로 넘어가기
+		if (pageRequest.getPageNum() != 1) {
+			pageRequest.setPageNum(1);
+		}
+		int totalCount = service.getTotalCount(pageRequest);
+		
+		PageResponseDTO pageResponse = new PageResponseDTO().builder()
+									.total(totalCount)
+									.pageAmount(pageRequest.getAmount())
+									.pageRequest(pageRequest)
+									.build();
+		
 		model.addAttribute("userList", userList);
+		model.addAttribute("userSearchList", userSearchList);
+		model.addAttribute("pageInfo", pageResponse);
+
 
 		return "admin/adminPage";
 	}
-
-	// 검색회원 보기
-	@GetMapping("/admin/search")
-	public String getUserListByUserIdOrUsername(@RequestParam String searchKeyword, String dropdown, Model model,
-			PageRequestDTO pageRequest, HttpSession session) {
-		List<UserDTO> userList = new ArrayList<UserDTO>();
-		pageRequest.setSearchKeyword(searchKeyword);
-		pageRequest.setCategory(dropdown);
-		if(session.getAttribute("userId") != null) {
-			pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
-		}
-		userList = service.getSearchedUsers(pageRequest);
-		int totalUsers = service.countSearchedUsers(pageRequest);
-		PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalUsers)
-				.pageAmount(pageRequest.getAmount()).pageRequest(pageRequest).build();
-
-		model.addAttribute("userList", userList);
-		model.addAttribute("pageInfo", pageResponse);
-		
-		return"admin/adminPage";
-	}
-
 
 	// 회원 상세보기
 	@GetMapping("/admin/{userId}")

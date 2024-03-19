@@ -106,9 +106,23 @@ public class MypageServiceImpl {
 		return mapper.getBoard(pageRequest);
 	}
 
-	public List<HashMap<String, Object>> getTotalCount(PageRequestDTO pageRequest) {
+	public List<RecruitboardDTO> getRecruitBoardLike(String userId) {
+		return mapper.getRecruitBoardLike(userId);
+	}
+
+	public List<TradeboardDTO> getTradeboardLike(String userId) {
+		return mapper.getTradeboardLike(userId);
+	}
+
+	public List<FreeboardDTO> getFreeboardLike(String userId) {
+		return mapper.getFreeboardLike(userId);
+	}
+
+	public int getTotalCount(PageRequestDTO pageRequest) {
 		return mapper.getTotalCount(pageRequest);
 	}
+
+
 
 
 }

@@ -38,9 +38,12 @@ public interface MypageMapper {
 
 	public List<HashMap<String, Object>> getBoard(PageRequestDTO pageRequest);
 
-	public List<HashMap<String, Object>> getTotalCount(PageRequestDTO pageRequest);
+	public List<RecruitboardDTO> getRecruitBoardLike(String userId);
 
+	public List<FreeboardDTO> getFreeboardLike(String userId);
 
+	public List<TradeboardDTO> getTradeboardLike(String userId);
 
+	public int getTotalCount(PageRequestDTO pageRequest);
 
 }

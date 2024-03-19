@@ -20,8 +20,8 @@ public class CommentsDTO {
 	private Timestamp regdate;
 	private int secret;
 	private int bno;
-	private boolean delete_yn;
-	private int comment_type;
+	private boolean deleteYN;
+	private int commentType;
 	private String userId;
 	
 }
