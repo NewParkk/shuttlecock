@@ -5,6 +5,7 @@
 <select id="getLeagueRanking" resultType="com.fp.shuttlecock.user.UserDTO" >
 	select wincount, losecount, username, userId
 	from user
+	where wincount != 0 and losecount != 0;
 </select>
 
 <select id="getRankedList" resultType="com.fp.shuttlecock.user.UserDTO">
