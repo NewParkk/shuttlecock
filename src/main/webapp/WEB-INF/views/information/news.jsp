@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/mainstyle.css">
     <link rel="stylesheet" href="/css/aside.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/js/aside-js.js"></script>
 </head>
 <body>
 <!-- wrap -->
@@ -28,10 +29,10 @@
           <div class="aside">
             <div class="menubar">
               <ul>
-                <li><a class="list" href="#">HOME</a></li>
-                <li><a class="list" href="#">공지사항</a></li>
+                <li><a class="list" href="/main">HOME</a></li>
+                <li><a class="list" href="/Announcement/">공지사항</a></li>
                 <li><a class="list" href="/getNews">배드민턴 정보</a></li>
-                <li><a class="list" href="#">정규대회 일정</a></li>
+                <li><a class="list" href="/getGame">정규대회 일정</a></li>
               </ul>
             </div>
           </div>
@@ -134,6 +135,7 @@
 	    moveSlide(slideCount - 3);
 	  }
 	});
+	
 </script>
 </body>
 </html>

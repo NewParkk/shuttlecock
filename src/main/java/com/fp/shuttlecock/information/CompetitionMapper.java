@@ -7,10 +7,14 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CompetitionMapper {
 
-	List<CompetitionDTO> getEventByDate(String region);
+	List<CompetitionDTO> getEventByDate();
 
-	CompetitionDTO insertGame(CompetitionDTO competitionDTO);
+	void insertGame(CompetitionDTO competitionDTO);
 
 	boolean isCompCheck(String title);
+
+	int isFirstData();
+
+	List<CompetitionDTO> getRegionEvent(String region);
 
 }

@@ -7,12 +7,19 @@
         VALUES (0, #{region}, #{title}, #{startDate}, #{endDate}, #{image}, #{url}, #{applicationStartDate}, #{applicationEndDate})
     </insert>
     
-	<select id="getEventByDate" parameterType="string" resultType="com.fp.shuttlecock.information.CompetitionDTO">
-	    SELECT * FROM sports.competition WHERE region = #{region} ORDER BY startDate ASC
+	<select id="getEventByDate" resultType="com.fp.shuttlecock.information.CompetitionDTO">
+	    SELECT * FROM sports.competition ORDER BY startDate ASC
 	</select>
 
 	<select id="isCompCheck" resultType="boolean" parameterType="string">
         SELECT COUNT(*) > 0 FROM sports.competition WHERE title = #{title}
     </select>
 
+	 <select id="isFirstData" resultType="int">
+        SELECT COUNT(*) FROM sports.competition;
+    </select>
+
+	<select id="getRegionEvent" resultType="com.fp.shuttlecock.information.CompetitionDTO" parameterType="string">
+	    SELECT * FROM sports.competition WHERE region = #{region} ORDER BY startDate ASC
+	</select>
 </mapper>

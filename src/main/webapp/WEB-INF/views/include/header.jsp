@@ -39,7 +39,7 @@
           <ul class="submenu">
             <li><a href="/Announcement/">공지사항</a></li>
             <li><a href="/getNews">정보게시판</a></li>
-            <li><a href="#">정규대회 일정</a></li>
+            <li><a href="/getGame">정규대회 일정</a></li>
           </ul>
         </li>
         <li>

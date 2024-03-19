@@ -54,7 +54,7 @@ public class BadgeScheduler {
 			mainService.updateCommunityBadge(user);
 		}
 		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
-		System.out.println(currentTime + " badgeId 갱신");
+		//System.out.println(currentTime + " badgeId 갱신");
 		
 		
 	}
@@ -68,7 +68,7 @@ public class BadgeScheduler {
 		mainService.updateUserLeagueGrade();
 		
 		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
-		System.out.println(currentTime + " UserLeagueGrade 갱신");
+		//System.out.println(currentTime + " UserLeagueGrade 갱신");
 	}
 	
 	

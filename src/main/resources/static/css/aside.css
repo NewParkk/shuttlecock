@@ -70,3 +70,15 @@
 .menubar > ul > li > a.list:hover::before {
   width: 100%;
 }
+.menubar > ul > li > a.list.active::before,
+.menubar > ul > li > a.list.active::after {
+  border-color: #405448; 
+  transition: none; 
+  width: 100%;
+}
+.menubar > ul > li > a.list.active {
+  background-color: #fff;
+  border-color: #405448;
+  color: #405448;
+  width: 100%;
+}

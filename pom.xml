@@ -130,9 +130,15 @@
 		
 		<!-- selenium -->
 		<dependency>
-		    <groupId>org.seleniumhq.selenium</groupId>
-		    <artifactId>selenium-java</artifactId>
-		</dependency>
+	        <groupId>org.seleniumhq.selenium</groupId>
+	        <artifactId>selenium-java</artifactId>
+	        <version>4.18.1</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.seleniumhq.selenium</groupId>
+	        <artifactId>selenium-devtools-v122</artifactId>
+	        <version>4.18.1</version>
+	    </dependency>
 		<!-- Amazon sdk s3 -->
 		<dependency>
 			<groupId>com.amazonaws</groupId>
@@ -156,6 +162,12 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- RestTemplate -->
+		<!--<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-web</artifactId>
+		</dependency>-->
 	</dependencies>
 
 	<build>
