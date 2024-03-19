@@ -69,13 +69,6 @@
 					<div id="calendarBox">
 						<div id="calendar"></div>
 					</div>
-					<a id="kakao-login-btn" href="javascript:loginWithKakao()"> <img
-						src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
-						width="222" alt="카카오 로그인 버튼" />
-					</a>
-					<p id="token-result"></p>
-					<button class="api-btn" onclick="sendToMe()"
-						style="visibility: hidden">나에게 메시지 보내기</button>
 					<!-- modal 추가 -->
 					<div id="my_modal">
 						<div class="modal-content">
@@ -164,54 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 			calendar.render();
 		});
-</script>
-
-<script type="text/javascript">
-// 카카오톡
-function loginWithKakao() {
-    Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:8099/mypage',
-      state: 'sendme_custom',
-      scope: 'talk_message', // 앱 동의 항목 설정 및 사용자 동의 필요
-    });
-  }
-
-function sendToMe() {
-    Kakao.API.request({
-      url: '/v2/api/talk/memo/send',
-      data: {
-        template_id: ${1046994},
-        template_args: {
-          title: '라이언이 즐겨먹던 바로 그 틴케이스 치즈볼',
-          description: '바라만 봐도 즐거워지는 힐링 패키지에는 시크릿 스토리가 숨어있어요.',
-        },
-      },
-    })
-      .then(function(res) {
-        alert('success: ' + JSON.stringify(res));
-      })
-      .catch(function(err) {
-        alert('error: ' + JSON.stringify(err));
-      });
-  }
-
-  
-// 아래는 데모를 위한 UI 코드입니다.
-displayToken()
-function displayToken() {
-  var token = getCookie('authorize-access-token');
-
-  if(token) {
-    Kakao.Auth.setAccessToken(token);
-    document.querySelector('#token-result').innerText = 'login success, ready to send a message';
-    document.querySelector('button.api-btn').style.visibility = 'visible';
-  }
-}
-
-function getCookie(name) {
-  var parts = document.cookie.split(name + '=');
-  if (parts.length === 2) { return parts[1].split(';')[0]; }
-}
 </script>
 
 <script type="text/javascript">

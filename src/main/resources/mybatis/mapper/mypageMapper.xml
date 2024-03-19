@@ -95,12 +95,38 @@
 	<select id="getLike"
 		parameterType="String"
 		resultType="hashmap">
-		SELECT l.bno, l.likes_type, f.title , f.regdate, t.title, t.regdate, r.title , r.regdate, i.title , i.regdate
+<!-- 		SELECT l.bno, l.likesType, f.title, f.regdate, t.title, t.regdate, r.title , r.regdate, i.title, i.regdate
 		FROM likes l, freeboard f, tradeboard t, recruitboard r, leagueboard i
-		WHERE l.userId = #{userId} AND l.likes_type = 2 AND l.bno = f.freeboardId
-		      OR l.userId = #{userId} AND l.likes_type = 3 AND l.bno = t.tradeboardId
-		      OR l.userId = #{userId} AND l.likes_type = 4 AND l.bno = r.recruitboardId
-		      OR l.userId = #{userId} AND l.likes_type = 5 AND l.bno = i.leagueboardId
+		WHERE l.userId = #{userId} AND l.likesType = 2 AND l.bno = f.freeboardId
+		      OR l.userId = #{userId} AND l.likesType = 3 AND l.bno = t.tradeboardId 
+		      OR l.userId = #{userId} AND l.likesType = 4 AND l.bno = r.recruitboardId
+		      OR l.userId = #{userId} AND l.likesType = 5 AND l.bno = i.leagueboardId
+		SELECT l.likesType, l.bno, r.title, r.regdate, t.title, t.regdate, f.title, f.regdate
+		FROM likes l, recruitboard r, tradeboard t, freeboard f
+		WHERE l.userId = #{userId} AND l.likesType = 4 AND l.bno = r.recruitboardId
+		   OR l.userId = #{userId} AND l.likesType = 3 AND l.bno = t.tradeboardId
+		   OR l.userId = #{userId} AND l.likesType = 2 AND l.bno = f.freeboardId -->
+	</select>
+	
+	<select id="getRecruitBoardLike"
+		resultType="com.fp.shuttlecock.mypage.RecruitboardDTO">
+			SELECT *
+			FROM recruitBoard
+			WHERE userId = #{userId}
+	</select>
+	
+		<select id="getFreeboardLike"
+		resultType="com.fp.shuttlecock.mypage.FreeboardDTO">
+			SELECT *
+			FROM freeboard
+			WHERE userId = #{userId}
+	</select>
+	
+	<select id="getTradeboardLike"
+		resultType="com.fp.shuttlecock.mypage.TradeboardDTO">
+			SELECT *
+			FROM tradeboard
+			WHERE userId = #{userId}
 	</select>
 	
 <!-- 	<select id="getBoard"
@@ -113,15 +139,19 @@
 		LIMIT #{start}, #{amount}		
 	</select> -->
 	
-<!-- 	<select id="getTotalCount"
-		parameterType="com.fp.shuttlecock.mypage.PageRequestDTO"
-		resultType="hashmap">
-		SELECT COUNT(*)
-		FROM freeboard f, tradeboard t, recruitboard r, leagueboard i
-		WHERE f.userId = #{userId} OR t.userId = #{userId} OR r.userId = #{userId} OR i.userId = #{userId}
-		<bind name="start" value="(pageNum-1)*amount" />
-		LIMIT #{start}, #{amount}		
-	</select> -->
+	<select id="getTotalCount" resultType="int" parameterType="com.fp.shuttlecock.mypage.PageRequestDTO">
+	    SELECT 
+	        COUNT(tb1.userId) + COUNT(rb.userId) AS total_count
+	    FROM 
+	        tradeboard AS tb1
+	    JOIN 
+	        recruitboard AS rb ON tb1.userId = rb.userId
+		<trim prefix="WHERE">
+			<if test="searchKeyword != null">
+				content LIKE CONCAT(#{searchKeyword})
+			</if>
+		</trim>
+	</select>
 	
 	<update id="insertImage"
 		parameterType="com.fp.shuttlecock.mypage.UserDTO">

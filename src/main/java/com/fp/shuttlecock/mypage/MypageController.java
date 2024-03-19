@@ -109,22 +109,23 @@ public class MypageController {
 	}
 
 	// 회원탈퇴
-	@RequestMapping("/deleteUser")
+	@GetMapping("/deleteUser")
 	public String deleteUser(HttpSession session, @RequestParam("pw") String pw) {
 		String userId = session.getAttribute("userId").toString();
 		UserDTO user = service.getMypage(userId);
 
 		boolean result = false;
 		System.out.println(user);
-		System.out.println(pw.getClass());
-		System.out.println(user.getPw().getClass());
+		System.out.println(pw);
+		System.out.println(user.getPw());
 
-		if (user.getPw() != (String) pw) {
+		if (user.getPw() != pw && user.getPw() == "") {
+			System.out.println("nnnn");
+			return "error";
+		} else {
+			System.out.println("ddd");
 			result = service.deleteUser(userId);
 			session.invalidate();
-
-		} else {
-			return "error";
 		}
 
 		return "redirect:/login";
@@ -135,17 +136,14 @@ public class MypageController {
 	public String getRecord(HttpSession session, Model model, PageRequestDTO pageRequest) {
 		String userId = session.getAttribute("userId").toString();
 		
-		System.out.println(pageRequest);
-		
-		
 		UserDTO user = service.getMypage(userId);
 
 		model.addAttribute("user", user);
 
 		// 게시물
-		List<LeagueboardDTO> leagueList = service.getLeagueboard(userId);
 		List<FreeboardDTO> freeList = service.getFreeboard(userId);
 		List<TradeboardDTO> tradeList = service.getTradeboard(userId);
+		List<LeagueboardDTO> leagueList = service.getLeagueboard(userId);
 		List<RecruitboardDTO> recruitList = service.getRecruitBoard(userId);
 
 		model.addAttribute("league", leagueList);
@@ -153,25 +151,33 @@ public class MypageController {
 		model.addAttribute("trade", tradeList);
 		model.addAttribute("recruit", recruitList);
 
-//		List<HashMap<String, Object>> boardList = service.getBoard(pageRequest);
-//		int totalCount = service.getTotalCount(pageRequest);
-		
-		
-		
-//		model.addAttribute("board", boardList);
-//		
-//		System.out.println(boardList);
-
 		// 댓글
 		List<CommentsDTO> commentList = service.getComment(userId);
 
 		model.addAttribute("comment", commentList);
 
 		// 좋아요
-		List<HashMap<String, Object>> likeList = service.getLike(userId);
-		model.addAttribute("like", likeList);
-		System.out.println(likeList);
+		List<FreeboardDTO> freeLikeList = service.getFreeboardLike(userId);
+		List<TradeboardDTO> tradeLikeList = service.getTradeboardLike(userId);
+		List<RecruitboardDTO> recruitLikeList = service.getRecruitBoardLike(userId);
 		
+		model.addAttribute("tradeLikeList", tradeLikeList);
+		model.addAttribute("freeLikeList", freeLikeList);
+		model.addAttribute("recruitLike", recruitLikeList);
+		
+		//페이지 네이션
+//		
+//		
+//		int totalCount = service.getTotalCount(pageRequest);
+//		System.out.println(totalCount);
+//		PageResponseDTO pageResponse = new PageResponseDTO().builder()
+//				.total(totalCount)
+//				.pageAmount(pageRequest.getAmount())
+//				.pageRequest(pageRequest)
+//				.build();
+//		
+//		model.addAttribute("pageInfo", pageResponse);
+//		System.out.println(pageResponse);
 		return "mypage/record";
 	}
 

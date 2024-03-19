@@ -42,6 +42,14 @@ public class AdminServiceImpl {
 		return mapper.getSearchedUsers(pageRequest);
 	}
 
+	public List<UserDTO> getUserBySearchWithPage(PageRequestDTO pageRequest) {
+		return mapper.getUserBySearchWithPage(pageRequest);
+	}
+
+	public int getTotalCount(PageRequestDTO pageRequest) {
+		return mapper.getTotalCount(pageRequest);
+	}
+
 
 
 }

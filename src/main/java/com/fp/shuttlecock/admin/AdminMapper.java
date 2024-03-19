@@ -21,6 +21,8 @@ public interface AdminMapper {
 
 	public List<UserDTO> getSearchedUsers(PageRequestDTO pageRequest);
 
+	public List<UserDTO> getUserBySearchWithPage(PageRequestDTO pageRequest);
 
+	public int getTotalCount(PageRequestDTO pageRequest);
 
 }
