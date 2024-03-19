@@ -8,6 +8,27 @@
     <title>Shuttle Cock</title>
     <link rel="stylesheet" href="/css/mainstyle.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    
+<style>
+.cal{
+  border: 1px solid #eaeaea;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+}
+#calendar{
+	width: 90%;
+	height: 340px;
+	margin: 10px auto;
+	font-family: 'Arial', sans-serif; 
+    font-size: 10px; 
+    font-weight: bold;
+    color: #333; 
+}
+</style>
 </head>
 <body>
 
@@ -190,13 +211,16 @@
             </div>
           </div>
           
-          <div class="calendar">
-            <div class="page-title">
+         <div class="calendar1">
+            <div class="page-title" style="margin-bottom:0px;">
               <div class="vline"></div>
               <div class="container2">
                 <h3>정규대회 일정</h3>
               </div>
             </div>
+            
+    			<div id='calendar'></div>
+    		
           </div>
         </section>
 
@@ -233,7 +257,8 @@
               </div>
 
 			<div class="map" id="map"></div>
-      	</div>
+      	</div> 
+      	
       </section>
     </main>
 
@@ -409,6 +434,38 @@ function addClickListener(marker, iwContent)
     previousInfowindow = clickHandler;
 }
 
+	//캘린더
+	document.addEventListener('DOMContentLoaded', function() {
+	    var calendarEl = document.getElementById('calendar');
+	    var calendar = new FullCalendar.Calendar(calendarEl, {
+	      initialView: 'dayGridMonth',
+	      locale: 'ko',
+	      dayCellContent: function(arg) {
+	          return arg.dayNumberText.replace("일", "");
+	      },
+	      headerToolbar: {
+	          left: 'prev',
+	          center: 'title',
+	          right: 'next'
+	      },
+	      fixedWeekCount: false,
+	      events: [
+              <c:forEach items="${events}" var="event">
+                  {
+                	  title: '${event.region}',
+                      //title: '${event.title}',
+                      start: '${event.start}',
+                      end: '${event.end}',
+                      backgroundColor: '${event.backgroundColor}',
+                      textColor: '#333',
+                      borderColor: 'transparent',
+                      //url: '${event.url}'
+                  },
+              </c:forEach>
+          ]
+    	});
+       calendar.render();
+     });
 
 </script>
 </body>

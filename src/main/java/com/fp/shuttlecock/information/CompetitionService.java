@@ -4,9 +4,13 @@ import java.util.List;
 
 public interface CompetitionService {
 
-	CompetitionDTO insertGame(CompetitionDTO competitionDTO);
+	void insertGame(CompetitionDTO competitionDTO);
 	
-	List<CompetitionDTO> getEventByDate(String region);
+	List<CompetitionDTO> getEventByDate();
 	
 	boolean isCompCheck(CompetitionDTO competition);
+	
+	boolean isFirstData();
+	
+	List<CompetitionDTO> getRegionEvent(String region);
 }
