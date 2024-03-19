@@ -16,7 +16,7 @@ public interface AnnouncementMapper {
 
 	void updatePost(AnnouncementDTO post);
 
-	void deletePostbypostId(Integer postId);
+	int deletePostbypostId(Integer postId);
 
 	List<AnnouncementDTO> getSearchedPostPage(Map<String, Object> params);
 

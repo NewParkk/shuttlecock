@@ -12,7 +12,7 @@ public interface AnnouncementService {
 	// 글수정
 	void updatePost(AnnouncementDTO post);
 	// 글삭제
-	void deletePostbypostId(Integer postId);
+	boolean deletePostbypostId(int postId);
 
 	// 총 게시물 수
 	int countPosts();

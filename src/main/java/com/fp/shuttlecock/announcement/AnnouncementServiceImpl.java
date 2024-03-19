@@ -37,8 +37,12 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 	}
 	
 	@Override
-	public void deletePostbypostId(Integer postId) {
-		announcementMapper.deletePostbypostId(postId);
+	public boolean deletePostbypostId(int postId) {
+		int result  = announcementMapper.deletePostbypostId(postId);
+		if (result == 1) {
+			return true;
+		}
+		return false;
 	}
 	
 	@Override

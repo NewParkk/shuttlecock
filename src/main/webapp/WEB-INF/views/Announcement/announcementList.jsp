@@ -1,129 +1,123 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>PostList</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
-<style>
-
-a {
-	font-size: 1.17rem; !important;
-}
-
-.post-preview {
-	border: 1px solid #ddd;
-	padding: 15px;
-	margin-bottom: 10px;
-	cursor: pointer;
-	background-color: #f8f8f8;
-	height: 100px;
-	overflow: hidden;
-}
-
-.post-preview h4, .post-preview p {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-#title-p {
-	text-align: center;
-	padding: 5px 10px;
-	border: 1px solid #ddd;
-	margin: 10px 2px;
-}
-
-.empty-post {
-	text-align: center;
-	color: #999;
-}
-
-#pagination {
-	display: flex;
-	justify-content: center;
-	padding-top: 20px;
-}
-
-#pagination a {
-	color: #007bff;
-	text-decoration: none;
-	padding: 5px 10px;
-	border: 1px solid #ddd;
-	margin: 0 2px;
-}
-
-#pagination a:hover {
-	background-color: #f8f8f8;
-}
-
-#pagination span {
-	padding: 5px 10px;
-	border: 1px solid #ddd;
-	margin: 0 2px;
-	background-color: #007bff;
-	color: white;
-}
-
-.button-group {
-	text-align: right;
-}
-</style>
+<link rel="stylesheet" href="/css/aside.css">
+<link rel="stylesheet" href="/css/free.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </head>
 <body>
-<%@ include file="../include/header.jsp"%>
-	<div class="container" style="margin-top: 50px">
-	<h1 id="title-p">공지사항 게시판</h1>
-		<c:choose>
-			<c:when test="${not empty postList}">
-				<c:forEach items="${postList}" var="post">
-					<div class="post-preview"
-						onclick="location.href='/Announcement/postDetail/${post.announcementNo}'">
-						<h4>${post.title}</h4>
+	<!-- 헤더 -->
+	<%@ include file="../include/header.jsp"%>
+
+	<!-- main -->
+	<main id="boardmain">
+
+
+		<section id="contents">
+
+		
+			<div class="noticeboard">
+				<div class="title">
+					<div class="vline"></div>
+					<div class="container2">
+						<h3>공지사항 게시판</h3>
 					</div>
-				</c:forEach>
-			</c:when>
-			<c:otherwise>
-				<div class="empty-post">게시글이 없습니다.</div>
-			</c:otherwise>
-		</c:choose>
-		<div class="button-group">
-			<c:if test="${sessionScope.isAdmin}">
-				<button class="btn btn-primary writepost"
-					onclick="location.href='/Announcement/register'">글쓰기</button>
-			</c:if>
-			<div style="text-align: right">
-				<a href="/Announcement/"
-					class="btn btn-primary btn-sm">목록</a>
-			</div>
-		</div>
-		<nav id="pagination">
-			<c:forEach begin="1" end="${totalPage}" var="pageNum">
-				<c:choose>
-					<c:when test="${pageNum == currentPage}">
-						<span>${pageNum}</span>
-					</c:when>
-					<c:otherwise>
-						<a href="?page=${pageNum}&query=${param.query}">${pageNum}</a>
-					</c:otherwise>
-				</c:choose>
-			</c:forEach>
-		</nav>
-		<form action="/Announcement/postList/search" method="get">
-			<div class="input-group mb-3">
-				<input type="text" class="form-control" placeholder="검색어 입력"
-					name="query">
-				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" type="submit">검색</button>
+				</div>
+
+				<div id="board-list">
+					<div class="container2">
+
+						<form action="<c:url value='/Announcement/postList/search'/>"
+							style="text-align: center;">
+							<input type="text" name="query"
+									class="form-control search-input" value="${param.query}"
+									style="width: 300px;" placeholder="검색어를 입력하세요">
+							<button type="submit" class="btn btn-primary search-btn"
+									style="margin-left: 10px;">검색</button>
+						</form>
+						<table class="board-table"
+							style="width: 90%; margin: 20px auto 0;">
+							<thead>
+								<tr>
+									<th scope="col" class="th-num">번호</th>
+									<th scope="col" class="th-title">제목</th>
+									<th scope="col" class="th-writer">작성자</th>
+									<th scope="col" class="th-date">작성시간</th>
+									<th scope="col" class="th-hit">조회수</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="post" items="${postList}">
+									<tr>
+										<th scope="row">${post.announcementNo}</th>
+										<td><a
+											href="<c:url value='/Announcement/postDetail/${post.announcementNo}'/>">${post.title}
+											</a></td>
+										<td>${post.userId}</td>
+										<td><fmt:formatDate value="${post.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
+										<td>${post.hit}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+
+						<!-- 글작성 -->
+
+						<div class="newsWrite" style="margin-top: 20px;">
+							<button type="button" class="btn btn-primary WriteBtn">글작성</button>
+							<button type="button" class="btn btn-primary goBtn" style="margin-right: 3px;">목록</button>
+						</div>
+
+						<!-- 페이징 -->
+
+						<div class="paging">
+							<c:forEach begin="1" end="${totalPage}" var="pageNum">
+								<c:choose>
+									<c:when test="${pageNum == currentPage}">
+										<li class="page-item">
+											<span class="page-link current-page">${pageNum}</span>
+										</li>
+									</c:when>
+									<c:otherwise>
+										 <li class="page-item">
+											<a class="page-link" href="?page=${pageNum}&query=${param.query}">${pageNum}</a>
+										</li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</div>
+
+					</div>
 				</div>
 			</div>
-		</form>
-	</div>
-	<%@ include file="../include/footer.jsp"%>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		</section>
+	</main>
+	<%@include file="../include/footer.jsp"%>
 </body>
+
+<script>
+	$(function() {
+		$('.WriteBtn').click(function() {
+			location.href = '<c:url value="/Announcement/register"/>';
+		})
+		
+		$('.goBtn').click(function() {
+			location.href = '<c:url value="/Announcement/"/>';
+		})
+		
+
+	})
+
+</script>
 </html>

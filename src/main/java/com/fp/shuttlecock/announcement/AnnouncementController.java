@@ -2,14 +2,20 @@ package com.fp.shuttlecock.announcement;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fp.shuttlecock.freeboard.FreeboardDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -74,7 +80,7 @@ public class AnnouncementController
 		announcementService.hit(postId);
 		model.addAttribute("post", post);
 //		System.out.println("postDetail : " + post);
-		return "/Announcement/announcementDetail";
+		return "/Announcement/announcementDetail2";
 	}
 	
 	
@@ -87,24 +93,37 @@ public class AnnouncementController
 		return "redirect:/Announcement/";
 	}
 	
-	
-	@PostMapping("/updatepost/{postId}")
-	public String updatepost(@PathVariable Integer postId, AnnouncementDTO post, HttpSession session) 
-	{
-		String userId = (String) session.getAttribute("userId");
-		post.setUserId(userId);
-		post.setAnnouncementNo(postId);
-
-		announcementService.updatePost(post);
-		return "redirect:/Announcement/postDetail/"+ postId;
+	@GetMapping("/update/{postId}")
+	public String updateFree(@PathVariable int postId, AnnouncementDTO post, Model model) {
+		AnnouncementDTO updatepost = announcementService.getpostDetailbypostId(postId);
+		System.out.println("updatepost : " + updatepost);
+		model.addAttribute("post", updatepost);
+		return "/Announcement/announcementUpdate";
 	}
 	
 	
-	@GetMapping("/deletepost/{postId}")
-	public String deletepost(@PathVariable Integer postId, HttpSession session) 
+	@PostMapping("/updatepost")
+	public String updatepost(AnnouncementDTO post, HttpSession session) 
 	{
-		announcementService.deletePostbypostId(postId);
-		return "redirect:/Announcement/";
+		String userId = (String) session.getAttribute("userId");
+		System.out.println("title : " + post.getTitle());
+		post.setUserId(userId);
+		post.setAnnouncementNo(post.getAnnouncementNo());
+
+		announcementService.updatePost(post);
+		return "redirect:/Announcement/postDetail/"+ post.getAnnouncementNo();
+	}
+	
+	
+	@DeleteMapping("/deletepost/{postId}")
+	public ResponseEntity<String> deletepost(@PathVariable Integer postId, HttpSession session) 
+	{
+		boolean result = announcementService.deletePostbypostId(postId);
+		if (result) {
+			return ResponseEntity.ok("게시글 삭제 성공");
+		}else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("게시글 삭제 실패");
+		}
 	}
 	
 	
