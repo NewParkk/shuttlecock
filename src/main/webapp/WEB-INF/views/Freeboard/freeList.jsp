@@ -92,7 +92,7 @@
 									<tr>
 										<th scope="row">${vo.freeboardId}</th>
 										<td><a
-											href="<c:url value='/Freeboard/freeDetail?freeboardId=${vo.freeboardId}&userId=${vo.userId}'/>">${vo.title}
+											href="<c:url value='/Freeboard/freeDetail/${vo.freeboardId}=${vo.freeboardId}&userId=${vo.userId}'/>">${vo.title}
 												(${vo.commentCount})</a></td>
 										<td>${vo.userId}</td>
 										<td>${vo.regdate}</td>
