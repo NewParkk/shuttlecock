@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fp.shuttlecock.tradeboard.PageRequestDTO;
+
 import jakarta.servlet.http.HttpSession;
 
 
@@ -34,11 +36,11 @@ public class BlockuserController {
 	}
 	
 	@GetMapping("/manageBlockedUser")
-	public String getMethodName(HttpSession session, Model model) {
+	public String getMethodName(PageRequestDTO pagerequest, HttpSession session, Model model) {
 		String view = "error";
 		if(session.getAttribute("userId") != null) {
 			
-			List<BlockuserDTO> blockeduserList = blockuserService.getBlockedUserList(String.valueOf(session.getAttribute("userId")));
+			List<BlockuserDTO> blockeduserList = blockuserService.getBlockedUserList(pagerequest);
 			model.addAttribute("blockeduserList", blockeduserList);
 			view = "/mypage/manageBlockedUser";
 		}

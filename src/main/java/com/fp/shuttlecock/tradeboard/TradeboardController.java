@@ -77,7 +77,7 @@ public class TradeboardController {
 		if (session.getAttribute("userId") != null) {
 			pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
 		}
-		pageRequest.setAmount(12);
+		//pageRequest.setAmount(10);
 		System.out.println(pageRequest);
 		List<TradeboardDTO> tradeboardList = boardService.getPagenatedSearch(pageRequest);
 		int totalCount = boardService.getTotalCount(pageRequest);

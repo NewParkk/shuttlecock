@@ -5,8 +5,17 @@
 		insert into blockuser(userId, blockedUser) values(#{userId}, #{blockedUser})
 	</insert>
 	
-	<select id="getBlockedUserList" parameterType="string" resultType="BlockuserDTO">
-		select * from blockuser where userId = #{userId}
+	<select id="getBlockedUserList" parameterType="com.fp.shuttlecock.tradeboard.PageRequestDTO" resultType="BlockuserDTO">
+		<bind name="start" value="(pageNum - 1) * amount" />
+		
+		select * from blockuser 
+		<where>
+			userId = #{userId}
+			<if test="searchKeyword != null and searchKeyword != ''">
+				AND blockedUser LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+		</where>
+		LIMIT #{start}, #{amount}		
 	</select>
 	
 	<delete id="deleteBlockuser" parameterType="BlockuserDTO">

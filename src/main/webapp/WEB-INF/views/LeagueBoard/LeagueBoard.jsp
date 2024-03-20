@@ -9,21 +9,17 @@
 <link rel="stylesheet" href="/css/aside.css">
 <link rel="stylesheet" href="/css/free.css">
 <style>
-a:link {
-	text-decoration: none;
-	color: black;
+.current-page {
+	background-color: #405448 !important;
+	color: #fff !important;
+	padding: 5px 10px !important;
+	border-radius: 5px !important;
 }
 
-a:visited {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-a:active {
-	text-decoration: none;
+.search-wrap {
+	display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
 }
 </style>
 </head>
@@ -33,14 +29,7 @@ a:active {
 	<main id="boardmain">
 		<section id="contents">
 
-			<div class="aside">
-				<div class="menubar">
-					<ul>
-						<li><a class="list" href="/LeagueBoard">리그게시판</a></li>
-						<li><a class="list" href="/LeagueBoardRanking">리그순위</a></li>
-					</ul>
-				</div>
-			</div>
+			<%@ include file="category.jsp"%>
 
 			<div class="noticeboard">
 				<div class="title" style="">
@@ -53,8 +42,8 @@ a:active {
 					<div class="container">
 						<form action="/LeagueBoard/search" method="get">
 							<div class="search-wrap clearfix">
-								<select id="dropdown" name="dropdown"
-									style="width: 80px; margin-left: 45%">
+								<select name="dropdown" style="width: 100px; margin-left: 10px;"
+									class="form-control" id="search-select">
 									<option value="user_userId"
 										${pageInfo.pageRequest.category == 'user_userId' ? 'selected' : ''}>
 										작성자</option>
@@ -62,7 +51,8 @@ a:active {
 										${pageInfo.pageRequest.category == 'title' ? 'selected' : ''}>
 										제목</option>
 								</select> <input id="searchKeyword" type="search" name="searchKeyword"
-									placeholder="검색어를 입력해주세요."
+									placeholder="검색어를 입력해주세요." style="width: 300px;"
+									class="form-control search-input"
 									value="${pageInfo.pageRequest.searchKeyword}"> <input
 									name="pageNum" type="hidden"
 									value="${pageInfo.pageRequest.pageNum}"> <input
@@ -70,19 +60,34 @@ a:active {
 								<input name="amount" type="hidden"
 									value="${pageInfo.pageRequest.amount}">
 								<button class="btn btn-primary search-btn" type="submit"
-									style="margin-right: 24%">검색</button>
+									style="margin-left: 10px">검색</button>
 							</div>
 						</form>
+						<form id="sortForm" action="/LeagueBoard" method="get">
+							<select name="sort" id="sort" class="sort-select"
+								onchange="submitForm()">
+								<option value="0"
+									${pageInfo.pageRequest.sort == '0' ? 'selected' : ''}>글번호순</option>
+								<option value="1"
+									${pageInfo.pageRequest.sort == '1' ? 'selected' : ''}>최신순</option>
+							</select> <input name="pageNum" type="hidden"
+								value="${pageInfo.pageRequest.pageNum}"> <input
+								name="amount" type="hidden"
+								value="${pageInfo.pageRequest.amount}"> <input
+								name="searchKeyword" type="hidden"
+								value="${pageInfo.pageRequest.searchKeyword}"> <input
+								name="category" type="hidden"
+								value="${pageInfo.pageRequest.category}">
+						</form>
+
 						<!-- board list area -->
-						<table class="board-table" style="width: 90%; margin: 0 auto;">
+						<table class="board-table" style="width: 90%; margin: 20px auto 0"">
 							<thead>
 								<tr>
-									<th scope="col" class="th-num"><a
-										href="/LeagueBoard?sort=0">글번호</a></th>
+									<th scope="col" class="th-num">글번호</th>
 									<th scope="col" class="th-title">제목</th>
 									<th scope="col" class="th-title">작성자</th>
-									<th scope="col" class="th-date"><a
-										href="/LeagueBoard?sort=1">날짜</a></th>
+									<th scope="col" class="th-date">날짜</th>
 									<!-- <th scope="col">조회수</th> -->
 								</tr>
 							</thead>
@@ -102,21 +107,23 @@ a:active {
 							</tbody>
 						</table>
 						<c:if test="${empty leagueboardList}">
-							<div class="empty-post" style="text-align: center; margin-top: 10px;">게시물이
-								없습니다.</div>
+							<div class="empty-post"
+								style="text-align: center; margin-top: 10px;">게시물이 없습니다.</div>
 						</c:if>
 					</div>
-					<c:choose>
-						<c:when test="${sessionScope.userId == null}">
-							<button onclick="redirectToLoginPage()"
-								class="btn btn-primary whyBtn">글쓰기</button>
-						</c:when>
-						<c:otherwise>
-							<button onclick="redirectToInsertForm()"
-								class="btn btn-primary whyBtn">글쓰기</button>
-						</c:otherwise>
-					</c:choose>
-					<div id="pageBtn" style="margin: 10px;">
+					<div class="newsWrite" style="margin-top: 20px;">
+						<c:choose>
+							<c:when test="${sessionScope.userId == null}">
+								<button onclick="redirectToLoginPage()"
+									class="btn btn-primary WriteBtn">글작성</button>
+							</c:when>
+							<c:otherwise>
+								<button onclick="redirectToInsertForm()"
+									class="btn btn-primary WriteBtn">글작성</button>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<div class="paging">
 						<div class="row justify-content-center"
 							style="display: flex; justify-content: center;">
 							<div class="col-auto">
@@ -126,7 +133,7 @@ a:active {
 											<th class="page-item"><a class="page-link"
 												aria-label="Previous"
 												href="/LeagueBoard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
-													&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}">Prev</a>
 											</th>
 										</c:if>
 										<c:if test="${pageInfo.pageRequest.category == null}">
@@ -156,7 +163,7 @@ a:active {
 											<th class="page-item next"><a class="page-link"
 												aria-label="next"
 												href="/LeagueBoard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
-													&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}">Next</a>
 											</th>
 										</c:if>
 									</tr>
@@ -187,6 +194,16 @@ a:active {
 				mainForm.searchKeyword.remove();
 			}
 		}
+
+		function submitForm() {
+			document.getElementById("sortForm").submit();
+		}
+
+		window.onload = function() {
+			const pageNum = ${pageInfo.pageRequest.pageNum};
+			console.log(pageNum);
+			$('#pbtn_' + pageNum).toggleClass('current-page');
+		};
 	</script>
 </body>
 </html>
