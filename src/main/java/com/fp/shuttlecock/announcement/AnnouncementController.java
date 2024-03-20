@@ -80,7 +80,7 @@ public class AnnouncementController
 		announcementService.hit(postId);
 		model.addAttribute("post", post);
 //		System.out.println("postDetail : " + post);
-		return "/Announcement/announcementDetail2";
+		return "/Announcement/announcementDetail";
 	}
 	
 	

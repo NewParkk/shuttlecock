@@ -18,7 +18,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 public class LocationController {
 	
 	@Autowired
-	LocationService locationservice;
+	private LocationService locationservice;
 	
 	@Bean
     MappingJackson2JsonView jsonView(){

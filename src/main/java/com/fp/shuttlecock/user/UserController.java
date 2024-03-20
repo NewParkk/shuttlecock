@@ -40,7 +40,8 @@ public class UserController {
 							HttpServletResponse response, HttpServletRequest request) 
 	{
 		UserDTO user = null;
-		System.out.println("autoLogin 값 : " + autoLogin);
+//		System.out.println("autoLogin 값 : " + autoLogin);
+		
 		user = userService.getLoginUser(userId, pw);
 
 		if(user!=null) 
@@ -54,7 +55,7 @@ public class UserController {
 			{
 	            // 자동 로그인이 체크된 경우, 쿠키를 생성하고 저장합니다.
 	            createAutoLoginCookie(response, user.getUserId());
-	        } else 
+	        } else
 	        {
 	            // 자동 로그인이 체크되지 않은 경우 해당 userId를 가진 쿠키의 만료 기간을 0으로 설정하여 무효화합니다.
 	            invalidateAutoLoginCookie(response, user.getUserId(), request);
@@ -68,8 +69,9 @@ public class UserController {
 		
 	}
 	
-	private void createAutoLoginCookie(HttpServletResponse response, String userId) {
-		// 자동 로그인을 위한 쿠키 생성
+	// 자동 로그인을 위한 쿠키 생성
+	private void createAutoLoginCookie(HttpServletResponse response, String userId) 
+	{
 		Cookie autoLoginCookie = new Cookie("autoLoginUser", userId); // 쿠키 이름과 값 설정
 		autoLoginCookie.setMaxAge(7 * 24 * 60 * 60); // 쿠키의 만료 시간 설정 (예: 7일)
 		autoLoginCookie.setPath("/"); // 쿠키의 유효 범위 설정
@@ -77,6 +79,7 @@ public class UserController {
 		response.addCookie(autoLoginCookie); // 응답에 쿠키 추가
 	}
 	
+	// 자동 로그인 해제시 쿠키 삭제
 	private void invalidateAutoLoginCookie(HttpServletResponse response, String userId, HttpServletRequest request) 
 	{
 	    Cookie[] cookies = request.getCookies();

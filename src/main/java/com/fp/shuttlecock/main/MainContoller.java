@@ -57,7 +57,7 @@ public class MainContoller {
 		// getGame에 저장된 events 가져오기
 		model.addAttribute("events", session.getAttribute("events"));
 		
-        return "main"; // "main"은 실제로 /WEB-INF/views/main.jsp에 매핑됩니다.
+        return "main";
     }
 	
 

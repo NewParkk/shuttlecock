@@ -1,4 +1,4 @@
-package com.fp.global;
+package com.fp.global.Config;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;

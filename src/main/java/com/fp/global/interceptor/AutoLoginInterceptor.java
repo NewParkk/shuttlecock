@@ -1,6 +1,8 @@
-package com.fp.global;
+package com.fp.global.interceptor;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.fp.shuttlecock.user.UserDTO;
@@ -11,7 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class SessionInterceptor implements HandlerInterceptor
+@Component
+public class AutoLoginInterceptor implements HandlerInterceptor
 {	
 	@Autowired
 	private UserServiceImpl userService;
@@ -19,15 +22,18 @@ public class SessionInterceptor implements HandlerInterceptor
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception 
-	{
+	{	
 		 // 자동로그인 유저를 위한 쿠키확인
 		Cookie[] cookies = request.getCookies();
+//		System.out.println("자동로그인 핸들러 작동 유무");
         if (cookies != null) 
         {
             for (Cookie cookie : cookies) 
-            {
+            {	
+            	//자동로그인 유저인지 확인
                 if (cookie.getName().equals("autoLoginUser")) 
-                {
+                {	
+//                	System.out.println("autoLoginUser 확인 : " + cookie.getValue());
                     // 쿠키에서 사용자 정보 추출
                     String userId = cookie.getValue();
                     // 자동 로그인 처리하는 서비스 호출
@@ -37,24 +43,15 @@ public class SessionInterceptor implements HandlerInterceptor
                     session.invalidate();
                     // 새로운 세션 생성 및 사용자 정보 저장
                     session = request.getSession(); 
-                    session.setAttribute("user", user.getUserId());
+                    session.setAttribute("userId", user.getUserId());
                     session.setAttribute("isAdmin", user.isAdmin());
                     session.setAttribute("username", user.getUsername());
         			session.setAttribute("kakaoYN", user.isKakaoYN());
-                    // 로그인 처리 후 메인 페이지로 리디렉션
-                    response.sendRedirect(request.getContextPath() + "/main");
-                    return false; // 인터셉터를 더 이상 실행하지 않고 요청을 종료합니다.
+        			
                 }
             }
         }
 		
-		//session 유무 검증
-		HttpSession session = request.getSession(false);
-		
-		if(session == null || session.getAttribute("userId") == null) {
-			response.sendRedirect("/main");
-			return false;
-		}
 		return true;
 	}
 }

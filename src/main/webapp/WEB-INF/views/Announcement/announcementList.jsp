@@ -17,6 +17,11 @@
 
 </head>
 <body>
+	<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+    response.setDateHeader("Expires", 0); // 지난 시간으로 설정하여 캐시 무효화
+	%>
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
 

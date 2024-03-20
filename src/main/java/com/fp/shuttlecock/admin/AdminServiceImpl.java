@@ -11,7 +11,7 @@ import com.fp.shuttlecock.admin.PageRequestDTO;
 public class AdminServiceImpl {
 
 	@Autowired
-	AdminMapper mapper;
+	private AdminMapper mapper;
 	
 	public List<UserDTO> getAllUserList(){
 		return mapper.getAllUserList(); 
