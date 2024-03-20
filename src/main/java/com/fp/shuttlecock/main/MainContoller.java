@@ -56,7 +56,7 @@ public class MainContoller {
 //		ResponseEntity<String> response = restTemplate.getForEntity("/getGame", String.class);
 //		String responseBody = response.getBody();
 		
-        return "main"; // "main"은 실제로 /WEB-INF/views/main.jsp에 매핑됩니다.
+        return "main";
     }
 	
 

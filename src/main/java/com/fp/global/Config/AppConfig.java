@@ -1,4 +1,4 @@
-package com.fp.global;
+package com.fp.global.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

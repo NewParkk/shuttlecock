@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class AnnouncementServiceImpl implements AnnouncementService{
 	
 	@Autowired
-	AnnouncementMapper announcementMapper;
+	private AnnouncementMapper announcementMapper;
 	
 	@Override
 	public List<AnnouncementDTO> getboardList() {
