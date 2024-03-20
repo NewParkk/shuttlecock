@@ -10,18 +10,31 @@
 <title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<!-- aisde-js 파일 -->
+<script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+<style>
+.imageWrap1 {
+  width: 100%;
+  height: 140px;
+  background: url("/img/badminton-bg.jpg") repeat;
+  background-size: contain;
+}
+</style>
 </head>
 <body>
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-	<main id="boardmain">
+	<!-- <main id="boardmain"> -->
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
 
 
 		<section id="contents">
@@ -37,7 +50,7 @@
 			</div>
 
 			<div class="noticeboard">
-				<div class="title">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>자유 게시판</h3>
@@ -47,14 +60,10 @@
 				<div id="board-list">
 					<div class="container2">
 
-						<form action="<c:url value='/Freeboard/freeList'/>"
-							style="text-align: center;">
+		<%-- 				<form action="<c:url value='/Freeboard/freeList'/>"
+							style="float:left; margin-left: 45px; background: #f9f9f9; width:520px; height: 50px; display: flex; align-items: center;">
 							<div class="search-wrap clearfix">
-								<input type="text" name="keyword"
-									class="form-control search-input" value="${pc.paging.keyword}"
-									style="width: 300px;" placeholder="검색어를 입력하세요"> <select
-									class="form-control" id="search-select" name="condition"
-									style="width: 100px; margin-left: 10px;">
+								<select class="form-control" id="search-select" name="condition" style="width: 100px; margin-left: 10px;">
 									<option value="title"
 										${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
 									<option value="content"
@@ -62,10 +71,12 @@
 									<option value="writer"
 										${pc.paging.condition == 'userId' ? 'selected' : ''}>작성자</option>
 								</select>
-								<button type="submit" class="btn btn-primary search-btn"
-									style="margin-left: 10px;">검색</button>
+								<input type="text" name="keyword"
+									class="form-control search-input" value="${pc.paging.keyword}"
+									style="width: 300px;" placeholder="검색어를 입력하세요"> 
+								<button type="submit" class="btn btn-primary search-btn">검색</button>
 							</div>
-						</form>
+						</form> --%>
 						<form id="sortForm" action="/Freeboard/freeList" method="get">
 							<select name="sort" id="sort" class="sort-select"
 								onchange="submitForm()">
@@ -76,7 +87,7 @@
 						</form>
 
 						<table class="board-table"
-							style="width: 90%; margin: 20px auto 0;">
+							style="width: 92%; margin: 20px auto 0;">
 							<thead>
 								<tr>
 									<th scope="col" class="th-num">번호</th>
@@ -95,7 +106,7 @@
 											href="<c:url value='/Freeboard/freeDetail/${vo.freeboardId}=${vo.freeboardId}&userId=${vo.userId}'/>">${vo.title}
 												(${vo.commentCount})</a></td>
 										<td>${vo.userId}</td>
-										<td>${vo.regdate}</td>
+										<td><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm"/></td> <%-- ${vo.regdate} --%>
 										<td>${vo.hit}</td>
 										<td>${vo.like}</td>
 									</tr>
@@ -105,7 +116,7 @@
 
 						<!-- 글작성 -->
 
-						<div class="newsWrite" style="margin-top: 20px;">
+						<div class="newsWrite" style="margin-top: 10px;">
 							<button type="button" class="btn btn-primary WriteBtn">글작성</button>
 						</div>
 
@@ -151,6 +162,24 @@
 							</form>
 						</div>
 
+						<form action="<c:url value='/Freeboard/freeList'/>"
+							style="text-align: center;">
+							<div class="search-wrap clearfix">
+								<select class="form-control" id="search-select" name="condition" style="width: 100px; margin-left: 10px;">
+									<option value="title"
+										${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
+									<option value="content"
+										${pc.paging.condition == 'content' ? 'selected' : ''}>내용</option>
+									<option value="writer"
+										${pc.paging.condition == 'userId' ? 'selected' : ''}>작성자</option>
+								</select>
+								<input type="text" name="keyword"
+									class="form-control search-input" value="${pc.paging.keyword}"
+									style="width: 300px;" placeholder="검색어를 입력하세요"> 
+								<button type="submit" class="btn btn-primary search-btn">검색</button>
+							</div>
+						</form> 
+						
 					</div>
 				</div>
 			</div>

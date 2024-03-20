@@ -2,6 +2,7 @@ package com.fp.shuttlecock.main;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,10 +33,7 @@ public class MainContoller {
 	
 	@Autowired
 	LeagueboardServiceImpl leagueservice;
-	
-//	@Autowired
-//	private RestTemplate restTemplate;
-	
+	 
 	@Value("${KAKAO.KEY.JS}")
 	private String apiKey;
 	
@@ -53,8 +51,11 @@ public class MainContoller {
 		model.addAttribute("freePosts", freePosts);
 		model.addAttribute("apiKey", apiKey);
 		
-//		ResponseEntity<String> response = restTemplate.getForEntity("/getGame", String.class);
-//		String responseBody = response.getBody();
+//		session.getAttribute("events");
+//		System.out.println(session.getAttribute("events"));
+		
+		// getGame에 저장된 events 가져오기
+		model.addAttribute("events", session.getAttribute("events"));
 		
         return "main"; // "main"은 실제로 /WEB-INF/views/main.jsp에 매핑됩니다.
     }

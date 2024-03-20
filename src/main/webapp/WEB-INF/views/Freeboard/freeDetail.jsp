@@ -54,7 +54,7 @@
 						<span class="post-info-text"> <strong>작성자:</strong>
 							${freeboard.userId}
 						</span> <span class="post-info-text"> <strong>작성 시간:</strong>
-							${freeboard.regdate}
+							<fmt:formatDate value="${freeboard.regdate}" pattern="yyyy-MM-dd HH:mm"/><%-- ${freeboard.regdate} --%>
 						</span> <span class="post-info-text"> <strong>조회:</strong>
 							${freeboard.hit} / <strong>추천:</strong> ${freeboard.like}
 						</span>

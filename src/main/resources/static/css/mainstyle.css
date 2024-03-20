@@ -12,10 +12,10 @@
   padding: 200px 0px 100px 0px;
 }
 
-.whyBtn{
+/* .whyBtn{
     margin-top: 31px;
     margin-bottom: 30px;
-}
+} */
 a {
   text-decoration: none;
   color: #333;
@@ -210,6 +210,7 @@ section {
   width: 490px;
   padding: 10px 15px 5px 15px;
   position: relative;
+  margin-top: 10px;
 }
 table {
   border-collapse: collapse;
@@ -220,7 +221,7 @@ table {
   height: 30px;
 }
 .page-title {
-  margin-bottom: 30px;
+  margin-bottom: 45px;
   display: flex;
 }
 
@@ -284,7 +285,7 @@ table {
 }
 
 .board-table .th-date {
-  width: 100px;
+  width: 170px;
 }
 
 .board-table th,
@@ -323,6 +324,7 @@ table {
   width: 490px;
   padding: 10px 15px 5px 15px;
   position: relative;
+  margin-top: 10px;
 }
 
 .more2 {
@@ -334,6 +336,7 @@ table {
 #contents1 .calendar1 {
   width: 490px;
   padding: 10px 15px 5px 15px;
+  margin-top: 10px;
 }
 
 #contents2 {
@@ -349,7 +352,6 @@ table {
   position: relative;
   /* border: 1px solid #ddd;
   border-radius: 8px; */
-  margin-top: 20px;
 }
 
 .video .container {
@@ -375,7 +377,6 @@ table {
 #contents2 .place {
   width: 500px;
   padding: 20px 15px 5px 15px;
-  margin-top: 20px;
 }
 
 .map{

@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class CompetitionController {
 
@@ -21,7 +23,7 @@ public class CompetitionController {
 	
 	
 	@GetMapping("/getGame")
-    public String getEventByDate(CompetitionDTO competitionDTO, @RequestParam(value="region",required=false) String region, Model model) {
+    public String getEventByDate(CompetitionDTO competitionDTO, @RequestParam(value="region",required=false) String region, HttpSession session, Model model) {
 		boolean isFirstData = competitionService.isFirstData();
 
 		//초기데이터가 있는지 없는지 확인
@@ -90,8 +92,9 @@ public class CompetitionController {
     	     
     	     events.add(eventData);
     	 }
-         
+
          model.addAttribute("events", events);
+         session.setAttribute("events", events);
  
 	     return "information/competition";
 	}
