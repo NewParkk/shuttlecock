@@ -17,4 +17,11 @@
 	ORDER BY userLeagueGrade;
 </select>
 
+<select id="countLeagueUser">
+	select count(userId)
+	from user
+	where wincount != 0 and losecount != 0;
+	
+</select>
+
 </mapper>

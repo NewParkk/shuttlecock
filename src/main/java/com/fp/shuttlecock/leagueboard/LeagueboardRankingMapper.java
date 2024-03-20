@@ -12,4 +12,6 @@ public interface LeagueboardRankingMapper {
 	public List<UserDTO> getLeagueRanking();
 
 	public List<UserDTO> getRankedList();
+
+	public int countLeagueUser();
 }
