@@ -12,7 +12,7 @@ public class PageVO {
 	//사용자가 선택한 페이지 정보를 담을 변수.
 	private int pageNum; //pageNum
 	private int countPerPage; //amount
-	private int pagecnt; //start
+	private int pagecnt; 
     public int getPageStart() {
 	        return (pageNum-1)*countPerPage;
 	    }

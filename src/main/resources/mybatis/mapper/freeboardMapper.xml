@@ -29,7 +29,7 @@
 
 	<select id="getFreeboard"
 		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
-		<bind name="pagecnt" value="(pageNum - 1) * countPerPage" />
+		<bind name="start" value="(pageNum - 1) * countPerPage" />
 		select * from freeBoard
 		<where>
 			(deleteYN IS NULL OR deleteYN != 1)
@@ -68,7 +68,7 @@
 				ORDER BY `like` DESC
 			</when>
 		</choose>
-		limit #{pagecnt} , #{countPerPage}
+		limit #{start} , #{countPerPage}
 
 
 	</select>

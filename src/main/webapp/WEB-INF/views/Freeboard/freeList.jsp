@@ -127,15 +127,15 @@
 								name="pageForm">
 								<div class="text-center clearfix">
 									<ul class="pagination" id="pagination">
-										<c:if test="${pc.prev}">
+										<c:if test="${pageInfo.prev}">
 											<li class="page-item"><a class="page-link" href="#"
-												data-pageNum="${pc.beginPage-1}">Prev</a></li>
+												data-pageNum="${pageInfo.startPage-1}">Prev</a></li>
 										</c:if>
 
-										<c:forEach var="num" begin="${pc.beginPage}"
-											end="${pc.endPage}">
+										<c:forEach var="num" begin="${pageInfo.startPage}"
+											end="${pageInfo.endPage}">
 											<li class="page-item"><c:choose>
-													<c:when test="${pc.paging.pageNum == num}">
+													<c:when test="${pageInfo.vo.pageNum == num}">
 														<span class="page-link current-page">${num}</span>
 													</c:when>
 													<c:otherwise>
@@ -144,19 +144,19 @@
 												</c:choose></li>
 										</c:forEach>
 
-										<c:if test="${pc.next}">
+										<c:if test="${pageInfo.next}">
 											<li class="page-item"><a class="page-link" href="#"
-												data-pageNum="${pc.endPage+1}">Next</a></li>
+												data-pageNum="${pageInfo.endPage+1}">Next</a></li>
 										</c:if>
 									</ul>
 
 									<!-- 페이지 관련 버튼을 클릭 시 같이 숨겨서 보낼 값 -->
 									<input type="hidden" name="pageNum"
-										value="${pc.paging.pageNum}"> <input type="hidden"
-										name="countPerPage" value="${pc.paging.countPerPage}">
+										value="${pageInfo.vo.pageNum}"> <input type="hidden"
+										name="countPerPage" value="${pageInfo.vo.countPerPage}">
 									<input type="hidden" name="keyword"
-										value="${pc.paging.keyword}"> <input type="hidden"
-										name="condition" value="${pc.paging.condition}"> <input
+										value="${pageInfo.vo.keyword}"> <input type="hidden"
+										name="condition" value="${pageInfo.vo.condition}"> <input
 										type="hidden" name="pagecnt" value="10">
 								</div>
 							</form>
@@ -167,14 +167,14 @@
 							<div class="search-wrap clearfix">
 								<select class="form-control" id="search-select" name="condition" style="width: 100px; margin-left: 10px;">
 									<option value="title"
-										${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
+										${pageInfo.vo.condition == 'title' ? 'selected' : ''}>제목</option>
 									<option value="content"
-										${pc.paging.condition == 'content' ? 'selected' : ''}>내용</option>
+										${pageInfo.vo.condition == 'content' ? 'selected' : ''}>내용</option>
 									<option value="writer"
-										${pc.paging.condition == 'userId' ? 'selected' : ''}>작성자</option>
+										${pageInfo.vo.condition == 'userId' ? 'selected' : ''}>작성자</option>
 								</select>
 								<input type="text" name="keyword"
-									class="form-control search-input" value="${pc.paging.keyword}"
+									class="form-control search-input" value="${pageInfo.vo.keyword}"
 									style="width: 300px;" placeholder="검색어를 입력하세요"> 
 								<button type="submit" class="btn btn-primary search-btn">검색</button>
 							</div>
