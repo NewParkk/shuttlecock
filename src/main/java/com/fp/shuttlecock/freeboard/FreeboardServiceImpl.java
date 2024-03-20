@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.fp.shuttlecock.tradeboard.PageRequestDTO;
 import com.fp.shuttlecock.tradeboard.TradeboardDTO;
 import com.fp.shuttlecock.util.PageVO;
 

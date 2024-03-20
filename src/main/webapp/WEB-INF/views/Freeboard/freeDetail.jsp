@@ -397,7 +397,8 @@ $(document).ready(function() {
 	    		},
 	    		success : function(data){
 	    			alert(data);
-	    			location.reload();
+	    			location.href = "/Freeboard/freeList";
+	    			//location.reload();
 	    		} // success
 	    	}) // ajax
 	    }) //버튼 클릭

@@ -41,10 +41,6 @@ public class FreeboardDTO {
 	private String content;
 	private int like;
 	private int hit;
-	private String uploadPath;
-	private String fileLoca;
-	private String fileName;
-	private String realFilename; // 파일리얼네임
 	private Timestamp regdate;
 	private int commentCount;	
 	private int likeCount;

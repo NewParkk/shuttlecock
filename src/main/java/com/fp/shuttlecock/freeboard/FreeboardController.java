@@ -24,6 +24,7 @@ import com.fp.shuttlecock.attachmentfile.NaverObjectStorage;
 import com.fp.shuttlecock.comments.CommentsDTO;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
 import com.fp.shuttlecock.likes.LikesDTO;
+import com.fp.shuttlecock.recruitboard.RecruitboardDTO;
 import com.fp.shuttlecock.tradeboard.PageRequestDTO;
 import com.fp.shuttlecock.tradeboard.PageResponseDTO;
 import com.fp.shuttlecock.tradeboard.TradeboardDTO;
@@ -83,67 +84,19 @@ public class FreeboardController {
 		return view;
 	}
 
-	// 자유게시판 이동
-//	@GetMapping("/freeList")
-//	public String getFree(Model model, PageVO vo, FreeboardDTO dto, HttpSession session) {
-//		System.out.println("자유게시판으로 이동");
-//		System.out.println("검색어" + vo.getKeyword());
-//		System.out.println("검색조건" + vo.getCondition());
-//
-//		if (session.getAttribute("userId") != null) {
-//			dto.setUserId(String.valueOf(session.getAttribute("userId")));
-//		}
-//
-//		PageCreate pc = new PageCreate();
-//		pc.setPaging(vo);
-//		pc.setArticleTotalCount(service.getTotal(vo));
-//
-//		System.out.println(pc);
-//		vo.setPagecnt((vo.getPageNum() - 1) * vo.getCountPerPage());
-//		model.addAttribute("freeList", service.getFreeboard(vo));
-//		model.addAttribute("pc", pc);
-//
-//		return "Freeboard/freeList";
-//	}
-
 	@GetMapping("/freeList")
-	public String getFree(Model model, PageVO vo, FreeboardDTO dto, HttpSession session,
-			@RequestParam(name = "sort", required = false, defaultValue = "0") int sort) {
-		System.out.println("자유게시판으로 이동");
-		System.out.println("검색어" + vo.getKeyword());
-		System.out.println("검색조건" + vo.getCondition());
-
+	public String getFree(Model model, PageVO vo, HttpSession session) {
 		if (session.getAttribute("userId") != null) {
-			dto.setUserId(String.valueOf(session.getAttribute("userId")));
+			vo.setUserId(String.valueOf(session.getAttribute("userId")));
 		}
-
-		PageCreate pc = new PageCreate();
-		pc.setPaging(vo);
-		pc.setArticleTotalCount(service.getTotal(vo));
-
-		// 정렬 기준에 따라 SQL의 sort 파라미터 값 설정
-		switch (sort) {
-		case 1:
-			vo.setSort(1);
-			break;
-		case 2:
-			vo.setSort(2);
-			break;
-		case 3:
-			vo.setSort(3);
-			break;
-		default:
-			vo.setSort(0); // 기본은 글번호순
-			break;
-		}
-
-		// 이전에 선택한 정렬 값 또는 기본값을 가져와서 모델에 설정
-	    String selectedSort = "0"; // 예시로 기본값을 최신순(0)으로 설정
-	    model.addAttribute("sort", selectedSort);
-		// 페이지 번호에 따라 데이터 가져오는 로직 변경
-		vo.setPagecnt((vo.getPageNum() - 1) * vo.getCountPerPage());
-		model.addAttribute("freeList", service.getFreeboard(vo));
-		model.addAttribute("pc", pc);
+		vo.setCountPerPage(10);
+		System.out.println(vo);
+		List<FreeboardDTO> freeboardList = service.getFreeboard(vo);
+		int totalCount = service.getTotal(vo);
+		PageCreate pageResponse = new PageCreate().builder().total(totalCount).pageAmount(vo.getCountPerPage()).vo(vo)
+				.build();
+		model.addAttribute("freeList", freeboardList);
+		model.addAttribute("pageInfo", pageResponse);
 
 		return "Freeboard/freeList";
 	}
@@ -224,27 +177,28 @@ public class FreeboardController {
 	public String updateBoard(FreeboardDTO freeboard, MultipartFile file, HttpSession session) {
 		System.out.println(file);
 		boolean result = false;
-		if (!file.getOriginalFilename().equals("")) {
-			String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-			freeboard.setImageName(fileName);
-			result = service.updateFreePost(freeboard);
-			naverfile.ncpFileupload(file, fileName, 2);
-		} else {
-			freeboard.setImageName("noImage");
-			result = service.updateFreePost(freeboard);
-		}
+		if (String.valueOf(session.getAttribute("userId")) != null
+				&& freeboard.getUserId().equals(String.valueOf(session.getAttribute("userId")))) {
+			if (!file.getOriginalFilename().equals("")) {
+				String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+				freeboard.setImageName(fileName);
+				result = service.updateFreePost(freeboard);
+				naverfile.ncpFileupload(file, fileName, 2);
+			} else {
+				System.out.println("이미지 데이터 : " + freeboard.getImageName());
+				if(freeboard.getImageName() == null || freeboard.getImageName().equals("")) {
+					freeboard.setImageName("noImage");
+				}
+				result = service.updateFreePost(freeboard);
+			}
 
-		// 파일이 수정되었을 때 기존 파일을 삭제합니다.
-//	    if (result && !file.getOriginalFilename().equals("") && freeboard.getImageName() != null) {
-//	        FreeboardDTO oldFreeboard = service.getFreePostByFreeboardId(freeboard.getFreeboardId());
-//	        deleteFile(oldFreeboard); // 기존 파일 삭제 메소드 호출
-//	    }
-
-		if (result) {
-			return "redirect:/Freeboard/freeDetail/" + freeboard.getFreeboardId();
-		} else {
-			return "error";
+			if (result) {
+				return "redirect:/Freeboard/freeDetail/" + freeboard.getFreeboardId();
+			} else {
+				return "error";
+			}
 		}
+		return "redirect:/login";
 	}
 
 	public boolean deleteFile(FreeboardDTO dto) {
