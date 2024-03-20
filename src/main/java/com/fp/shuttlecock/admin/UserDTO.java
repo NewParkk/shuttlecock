@@ -1,6 +1,5 @@
 package com.fp.shuttlecock.admin;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ public class UserDTO {
 	private String pw;
 	private String username;
 	private int gender;
-	private int admin;
+	private boolean admin;
 	private String userEmail;
 	private String userImageName;
 	private String userImagePath;
@@ -27,7 +26,7 @@ public class UserDTO {
 	private int badgeId;
 
 	@Builder
-	public UserDTO(String userId, String pw, String username, int gender, int admin, String userEmail, String userImageName,String userImagePath,
+	public UserDTO(String userId, String pw, String username, int gender, boolean admin, String userEmail, String userImageName,String userImagePath,
 			int userLeagueGrade, int wincount, int losecount, int writeCount, int badgeId) {
 		super();
 		this.userId = userId;
