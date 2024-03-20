@@ -19,14 +19,25 @@
   display: flex;
   margin: 15px;
   flex-wrap: wrap;
-  display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+.cal h3{
+	margin-bottom: 35px;
+}
+.cal-in {
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(100vh - 100px);
+    margin: 70px 10px 20px 10px;
+}
 #calendar{
-	width: 90%;
-	height: 900px;
-	margin: 10px auto;
+	/* width: 90%;
+	height: 900px; */
+	width: 60%;
+	height: 700px;
+	/* margin: 10px auto; */
+	margin: 20px 10px;
 	font-family: 'Arial', sans-serif;
     font-size: 14px; 
     font-weight: bold;
@@ -50,6 +61,29 @@
   }
 #calendar .fc-toolbar-chunk{
 	display: flex;
+}
+#calendar .fc-event {
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+    height: 15px; 
+    line-height: 12px;
+}
+#calendar .fc-daygrid-event-harness{
+     overflow: hidden;
+}
+/* #calendar .fc-event:hover{
+	transition: margin-left 2s;
+	margin-left: -100%;
+} */
+.line1 {
+  width: 2px;
+  height: 700px;
+  margin: 0 20px;
+  background: linear-gradient(to bottom, transparent, #eaeaea, transparent);
+}
+#calendar .fc-day:hover{
+	background-color: #f6f6f6;
 }
 </style>
 </head>
@@ -84,9 +118,10 @@
             
             <div class="cal">
     			<div id='calendar'></div>
-    		</div>
-    		<div class="cal-in">
-    		
+    			<div class="line1"></div>
+	    		<div class="cal-in">
+	    		
+	    		</div>
     		</div>
     
      		</div>
@@ -111,8 +146,8 @@
               return arg.dayNumberText.replace("일", "");
           },
           headerToolbar: {
-        	  left: 'prev title next',
-              right: 'regionButton countryButton'
+        	  left: 'countryButton regionButton',
+              right: 'prev title next'
           },
           customButtons: {
         	    regionButton: {
@@ -129,11 +164,32 @@
         	    }
         	},
           fixedWeekCount: false,
-          eventClick: function(info) {
+         /*  eventClick: function(info) {
               if (info.event.extendedProps.url) {
                   window.open(info.event.extendedProps.url);
               }
+          }, */
+          eventClick: function(info) {
+              var eventTitle = info.event.title;
+
+              var calInContent = '<h3>' + eventTitle + '</h3>';
+              document.querySelector('.cal-in').innerHTML = calInContent;
           },
+          dateClick: function(info) {
+              var clickedDate = info.date;
+              var eventsOnDate = calendar.getEvents().filter(function(event) {
+                  return event.start.toDateString() === clickedDate.toDateString();
+              });
+
+              var eventTitles = eventsOnDate.map(function(event) {
+            	    return '<p><a href="' + event.url + '">' + event.title + '</a></p>';
+            	});
+
+              var calInContent = '<h3>' + clickedDate.toLocaleDateString('ko-KR') + '</h3>' +
+                  eventTitles.join('');
+              document.querySelector('.cal-in').innerHTML = calInContent;
+          },
+          
           events: [
               <c:forEach items="${events}" var="event">
                   {
@@ -142,7 +198,7 @@
                       start: '${event.start}',
                       end: '${event.end}',
                       backgroundColor: '${event.backgroundColor}',
-                      textColor: '#333',
+                      textColor: '#405448',
                       borderColor: 'transparent',
                       url: '${event.url}'
                   },
@@ -151,7 +207,17 @@
           
         });
         calendar.render();
-      });
+       
+        document.querySelectorAll('.fc-event').forEach(function(event) {
+            event.addEventListener('mouseenter', function() {
+                event.classList.add('hovered');
+            });
+            event.addEventListener('mouseleave', function() {
+                event.classList.remove('hovered');
+            });
+        });
+        
+	});
     
     </script>
 </html>

@@ -42,10 +42,6 @@ a {
     text-decoration: none; /* 밑줄 제거 */
 }
 
-a:hover {
-    text-decoration: underline; /* 호버 시 밑줄 추가 */
-}
-
 /* 헤더 */
 /* header {
     background-color: #405448; 헤더 배경색 설정
@@ -62,39 +58,40 @@ main {
 }
 
 /* 사이드바 */
-.aside {
-    width: 20%; /* 사이드바의 너비 설정 */
-}
+/* .aside {
+    width: 20%; 사이드바의 너비 설정
+} */
 
-.menubar ul {
-    list-style-type: none; /* 목록 기호 제거 */
-    padding: 0; /* 내부 여백 제거 */
+/* .menubar ul {
+    list-style-type: none; 목록 기호 제거
+    padding: 0; 내부 여백 제거
 }
 
 .menubar li {
-    margin-bottom: 10px; /* 아이템 간격 설정 */
+    margin-bottom: 10px; 아이템 간격 설정
 }
 
 .menubar a {
-    display: block; /* 링크를 블록 요소로 변환하여 전체 영역을 클릭 가능하도록 설정 */
-    padding: 10px; /* 내부 여백 설정 */
-    border-radius: 5px; /* 모서리 둥글게 설정 */
-    background-color: #405448; /* 배경색 설정 */
-    color: #fff; /* 텍스트 색상 설정 */
+    display: block; 링크를 블록 요소로 변환하여 전체 영역을 클릭 가능하도록 설정
+    padding: 10px; 내부 여백 설정
+    border-radius: 5px; 모서리 둥글게 설정
+    background-color: #405448; 배경색 설정
+    color: #fff; 텍스트 색상 설정
 }
 
 .menubar a:hover {
-    background-color: #2c3a3f; /* 호버 시 배경색 변경 */
-}
+    background-color: #2c3a3f; 호버 시 배경색 변경
+} */
 
 /* 콘텐츠 */
 .noticeboard {
-	width:90%;
+	width:85%;
     background-color: #fff; /* 배경색 설정 */
     border: 1px solid #ccc; /* 테두리 설정 */
-    border-radius: 5px; /* 모서리 둥글게 설정 */
+    border-radius: 10px; /* 모서리 둥글게 설정 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
-    padding: 30px; /* 내부 여백 설정 */
+    padding: 0px 0px 50px 0px; /* 내부 여백 설정 */
+    margin-top: 14px;
 }
 
 .title {
@@ -124,7 +121,7 @@ main {
     padding: 30px;
     margin-bottom:20px;
 }
-/* 게시글 정보 영역 스타일 */
+
 /* 게시글 정보 영역 스타일 */
 .post-info {
     margin-bottom: 20px; /* 아래 여백 설정 */
@@ -279,6 +276,7 @@ main {
     cursor: pointer;
     margin-bottom: 20px;
     float: right;
+    margin-right: 46px;
 }
 
 .WriteBtn:hover, .listBtn:hover, .goBtn:hover {
@@ -312,7 +310,7 @@ main {
 #sortForm {
 	display: inline-block;
 	float:right;
-    margin: 30px 60px 10px 0; /* 오른쪽 여백 설정 */
+    margin: 30px 50px 10px 0; /* 오른쪽 여백 설정 */
 }
 
 .sort-select {
@@ -371,6 +369,7 @@ main {
     margin-top: 70px; /* 위 여백 설정 */
     margin-bottom: 30px;
     text-align: center; /* 가운데 정렬 */
+    background-color: #f9f9f9; 
 }
 
 .paging ul {
@@ -384,23 +383,29 @@ main {
 }
 
 .paging a {
-    display: block; /* 링크를 블록 요소로 변환하여 전체 영역을 클릭 가능하도록 설정 */
+    /* display: block; */ /* 링크를 블록 요소로 변환하여 전체 영역을 클릭 가능하도록 설정 */
     padding: 5px 10px; /* 내부 여백 설정 */
-    border: 1px solid #405448; /* 테두리 설정 */
-    border-radius: 5px; /* 모서리 둥글게 설정 */
+   /*  border: 1px solid #405448; 테두리 설정
+    border-radius: 5px; 모서리 둥글게 설정 */
     background-color: #fff; /* 배경색 설정 */
     color: #405448; /* 텍스트 색상 설정 */
+    border-radius: 5px; 
+    border: 1px solid #f9f9f9;
 }
 
 .current-page {
-    background-color: #405448;
+    /* background-color: #405448;
+    color: #fff; */
+    background-color: #607d67;
     color: #fff;
     padding: 5px 10px;
+    border: 1px solid #607d67;
     border-radius: 5px;
 }
 
 
 .paging a:hover {
-    background-color: #405448; /* 호버 시 배경색 변경 */
-    color: #fff; /* 호버 시 텍스트 색상 변경 */
+   /*  background-color: #607d67; 호버 시 배경색 변경
+    color: #fff;  *//* 호버 시 텍스트 색상 변경 */
+    border: 1px solid #607d67;
 }

@@ -39,7 +39,7 @@
 
 		  <!-- contents -->
           <div class="contents">
-            <div class="title" style="margin">
+            <div class="title">
               <div class="vline"></div>
               <h2>정보게시판</h2>
             </div>

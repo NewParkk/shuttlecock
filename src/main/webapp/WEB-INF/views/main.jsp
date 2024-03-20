@@ -20,13 +20,18 @@
   justify-content: center;
 }
 #calendar{
-	width: 90%;
-	height: 340px;
+	width: 96%;
+	height: 288px;
 	margin: 10px auto;
 	font-family: 'Arial', sans-serif; 
     font-size: 10px; 
     font-weight: bold;
     color: #333; 
+}
+#calendar .fc-col-header-cell {
+    background-color: rgba(103, 141, 115, 0.1);
+    color: #fff;
+    padding: 0 5px;
 }
 </style>
 </head>
@@ -220,6 +225,7 @@
             </div>
             
     			<div id='calendar'></div>
+    			<%-- <input type="hidden" id="eventsData" th:value="${calendarEvent}" /> --%>
     		
           </div>
         </section>
@@ -453,13 +459,12 @@ function addClickListener(marker, iwContent)
               <c:forEach items="${events}" var="event">
                   {
                 	  title: '${event.region}',
-                      //title: '${event.title}',
                       start: '${event.start}',
                       end: '${event.end}',
                       backgroundColor: '${event.backgroundColor}',
                       textColor: '#333',
                       borderColor: 'transparent',
-                      //url: '${event.url}'
+                      url: '/getGame'
                   },
               </c:forEach>
           ]
