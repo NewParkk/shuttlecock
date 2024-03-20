@@ -12,13 +12,14 @@
 <style>
 .grid-container {
 	display: inline-block;
+	justify-content: space-between;
 }
 
 .container1 {
 	padding: 20px;
 	display: inline-block;
 	width: 190px;
-	height: 400px justify-content: space-between;
+	justify-content: space-between;
 	flex-direction: column;
 }
 
@@ -45,25 +46,17 @@
 	height: 150px;
 }
 
-a:link {
-	text-decoration: none;
-	color: black;
+.current-page {
+	background-color: #405448 !important;
+	color: #fff !important;
+	padding: 5px 10px !important;
+	border-radius: 5px !important;
 }
 
-a:visited {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-a:active {
-	text-decoration: none;
-}
-
-.clicked {
-	font-weight: bold;
+.search-wrap {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 </style>
 </head>
@@ -100,9 +93,9 @@ a:active {
 				<div id="board-list">
 					<div class="container">
 						<form action="/Tradeboard" method="get">
-							<div class="search-wrap clearfix">
-								<select id="category" name="category"
-									style="width: 80px; margin-left: 45%">
+							<div class="search-wrap clearfix" style="margin-left: 30px;">
+								<select name="category" style="width: 100px; margin-left: 10px"
+									class="form-control" id="search-select">
 									<option value="user_userId"
 										${pageInfo.pageRequest.category == 'user_userId' ? 'selected' : ''}>
 										작성자</option>
@@ -113,7 +106,8 @@ a:active {
 										${pageInfo.pageRequest.category == 'content' ? 'selected' : ''}>
 										글내용</option>
 								</select> <input id="searchKeyword" type="search" name="searchKeyword"
-									placeholder="검색어를 입력해주세요."
+									placeholder="검색어를 입력해주세요." style="width: 300px;"
+									class="form-control search-input"
 									value="${pageInfo.pageRequest.searchKeyword}"> <input
 									name="pageNum" type="hidden"
 									value="${pageInfo.pageRequest.pageNum}"> <input
@@ -125,8 +119,33 @@ a:active {
 								<input name="itemClass" type="hidden"
 									value="${pageInfo.pageRequest.itemClass}">
 								<button class="btn btn-primary search-btn" type="submit"
-									style="margin-right: 24%">검색</button>
+									style="margin-left: 10px;">검색</button>
 							</div>
+						</form>
+
+						<form id="sortForm" action="/Tradeboard" method="get">
+							<select name="sort" id="sort" class="sort-select"
+								onchange="submitForm()">
+								<option value="0"
+									${pageInfo.pageRequest.sort == '0' ? 'selected' : ''}>글번호순</option>
+								<option value="1"
+									${pageInfo.pageRequest.sort == '1' ? 'selected' : ''}>최신순</option>
+								<option value="2"
+									${pageInfo.pageRequest.sort == '2' ? 'selected' : ''}>조회수순</option>
+								<option value="3"
+									${pageInfo.pageRequest.sort == '3' ? 'selected' : ''}>추천순</option>
+							</select> <input name="pageNum" type="hidden"
+								value="${pageInfo.pageRequest.pageNum}"> <input
+								name="amount" type="hidden"
+								value="${pageInfo.pageRequest.amount}"> <input
+								name="region" type="hidden"
+								value="${pageInfo.pageRequest.region}"> <input
+								name="itemClass" type="hidden"
+								value="${pageInfo.pageRequest.itemClass}"> <input
+								name="searchKeyword" type="hidden"
+								value="${pageInfo.pageRequest.searchKeyword}"> <input
+								name="category" type="hidden"
+								value="${pageInfo.pageRequest.category}">
 						</form>
 
 						<table class="table" style="width: 90%; margin: 0 auto;">
@@ -149,7 +168,8 @@ a:active {
 										&category=${pageInfo.pageRequest.category}
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
-										&region=1" <c:if test="${pageInfo.pageRequest.region eq 1}">style="text-decoration: underline;"</c:if>>서울</a>
+										&region=1"
+											<c:if test="${pageInfo.pageRequest.region eq 1}">style="text-decoration: underline;"</c:if>>서울</a>
 									</span></th>
 									<th scope="col" style="text-align: center;"><span
 										style="font-size: 12pt;"> <a class="region-div"
@@ -158,7 +178,8 @@ a:active {
 										&category=${pageInfo.pageRequest.category}
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
-										&region=2" <c:if test="${pageInfo.pageRequest.region eq 2}">style="text-decoration: underline;"</c:if>>경기</a>
+										&region=2"
+											<c:if test="${pageInfo.pageRequest.region eq 2}">style="text-decoration: underline;"</c:if>>경기</a>
 									</span></th>
 									<th scope="col" style="text-align: center;"><span
 										style="font-size: 12pt;"> <a class="region-div"
@@ -167,7 +188,8 @@ a:active {
 										&category=${pageInfo.pageRequest.category}
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
-										&region=3" <c:if test="${pageInfo.pageRequest.region eq 3}">style="text-decoration: underline;"</c:if>>충청</a>
+										&region=3"
+											<c:if test="${pageInfo.pageRequest.region eq 3}">style="text-decoration: underline;"</c:if>>충청</a>
 									</span></th>
 									<th scope="col" style="text-align: center;"><span
 										style="font-size: 12pt;"> <a class="region-div"
@@ -176,7 +198,8 @@ a:active {
 										&category=${pageInfo.pageRequest.category}
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
-										&region=4" <c:if test="${pageInfo.pageRequest.region eq 4}">style="text-decoration: underline;"</c:if>>경상</a>
+										&region=4"
+											<c:if test="${pageInfo.pageRequest.region eq 4}">style="text-decoration: underline;"</c:if>>경상</a>
 									</span></th>
 									<th scope="col" style="text-align: center;"><span
 										style="font-size: 12pt;"> <a class="region-div"
@@ -185,7 +208,8 @@ a:active {
 										&category=${pageInfo.pageRequest.category}
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
-										&region=5" <c:if test="${pageInfo.pageRequest.region eq 5}">style="text-decoration: underline;"</c:if>>전라</a>
+										&region=5"
+											<c:if test="${pageInfo.pageRequest.region eq 5}">style="text-decoration: underline;"</c:if>>전라</a>
 									</span></th>
 									<th scope="col" style="text-align: center;"><span
 										style="font-size: 12pt;"> <a class="region-div"
@@ -194,22 +218,9 @@ a:active {
 										&category=${pageInfo.pageRequest.category}
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
-										&region=6" <c:if test="${pageInfo.pageRequest.region eq 6}">style="text-decoration: underline;"</c:if>>강원</a>
+										&region=6"
+											<c:if test="${pageInfo.pageRequest.region eq 6}">style="text-decoration: underline;"</c:if>>강원</a>
 									</span></th>
-								</tr>
-							</thead>
-						</table>
-						<table class="board-table" style="width: 90%; margin: 0 auto; margin-top: 10px;">
-							<thead>
-								<tr>
-									<th scope="col" style="text-align: center;"><a
-										href="/Tradeboard?sort=0&region=${pageInfo.pageRequest.region}&itemClass=${pageInfo.pageRequest.itemClass}">글번호순</a></th>
-									<th scope="col" style="text-align: center;"><a
-										href="/Tradeboard?sort=1&region=${pageInfo.pageRequest.region}&itemClass=${pageInfo.pageRequest.itemClass}">최신순</a></th>
-									<th scope="col" style="text-align: center;"><a
-										href="/Tradeboard?sort=2&region=${pageInfo.pageRequest.region}&itemClass=${pageInfo.pageRequest.itemClass}">조회수순</a></th>
-									<th scope="col" style="text-align: center;"><a
-										href="/Tradeboard?sort=3&region=${pageInfo.pageRequest.region}&itemClass=${pageInfo.pageRequest.itemClass}">추천순</a></th>
 								</tr>
 							</thead>
 						</table>
@@ -271,93 +282,59 @@ a:active {
 							</c:forEach>
 						</div>
 						<c:if test="${empty tradeboardList}">
-							<div class="empty-post" style="text-align: center; margin-top: 10px;">게시물이
-								없습니다.</div>
+							<div class="empty-post"
+								style="text-align: center; margin-top: 10px;">게시물이 없습니다.</div>
 						</c:if>
 					</div>
-					<c:choose>
-						<c:when test="${sessionScope.userId == null}">
-							<button onclick="redirectToLoginPage()"
-								class="btn btn-primary whyBtn">글쓰기</button>
-						</c:when>
-						<c:otherwise>
-							<button onclick="redirectToInsertForm()"
-								class="btn btn-primary whyBtn">글쓰기</button>
-						</c:otherwise>
-					</c:choose>
-					<div id="pageBtn" style="margin: 10px;">
+					<div class="newsWrite" style="margin-top: 20px;">
+						<c:choose>
+							<c:when test="${sessionScope.userId == null}">
+								<button onclick="redirectToLoginPage()"
+									class="btn btn-primary WriteBtn">글작성</button>
+							</c:when>
+							<c:otherwise>
+								<button onclick="redirectToInsertForm()"
+									class="btn btn-primary WriteBtn">글작성</button>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<div class="paging">
 						<div class="row justify-content-center"
 							style="display: flex; justify-content: center;">
 							<div class="col-auto">
 								<table class="page navigation">
-									<c:choose>
-										<c:when
-											test="${empty pageInfo.pageRequest.searchKeyword || pageInfo.pageRequest.searchKeyword == ''}">
-											<tr class="pagination">
-												<c:if test="${pageInfo.prev}">
-													<th class="page-item"><a class="page-link"
-														aria-label="Previous"
-														href="/Tradeboard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
-											&region=${pageInfo.pageRequest.region}&sort=${pageInfo.pageRequest.sort}
-											&itemClass=${pageInfo.pageRequest.itemClass}">Prev</a>
-													</th>
-												</c:if>
-												<c:forEach var="num" begin="${pageInfo.startPage}"
-													end="${pageInfo.endPage}">
-													<th
-														class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-														<a class="page-link" style="padding: 10px;"
-														href="/Tradeboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
-											&region=${pageInfo.pageRequest.region}&sort=${pageInfo.pageRequest.sort}
-											&itemClass=${pageInfo.pageRequest.itemClass}">${num}
-													</a>
-													</th>
-												</c:forEach>
-												<c:if test="${pageInfo.next}">
-													<th class="page-item next"><a class="page-link"
-														aria-label="next"
-														href="/Tradeboard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
-											&region=${pageInfo.pageRequest.region}&sort=${pageInfo.pageRequest.sort}
-											&itemClass=${pageInfo.pageRequest.itemClass}">Next</a>
-													</th>
-												</c:if>
-											</tr>
-										</c:when>
-										<c:when test="${pageInfo.pageRequest.searchKeyword != null}">
-											<tr class="pagination">
-												<c:if test="${pageInfo.prev}">
-													<th class="page-item"><a class="page-link"
-														aria-label="Previous"
-														href="/Tradeboard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
+									<tr class="pagination">
+										<c:if test="${pageInfo.prev}">
+											<th class="page-item"><a class="page-link"
+												aria-label="Previous"
+												href="/Tradeboard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
 													&sort=${pageInfo.pageRequest.sort}&itemClass=${pageInfo.pageRequest.itemClass}">Prev</a>
-													</th>
-												</c:if>
-												<c:forEach var="num" begin="${pageInfo.startPage}"
-													end="${pageInfo.endPage}">
-													<th
-														class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-														<a class="page-link" style="padding: 10px;"
-														href="/Tradeboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
+											</th>
+										</c:if>
+										<c:forEach var="num" begin="${pageInfo.startPage}"
+											end="${pageInfo.endPage}">
+											<th
+												class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+												<a id="pbtn_${num}" class="page-link" style="padding: 10px;"
+												href="/Tradeboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
 										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 										&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
 										&sort=${pageInfo.pageRequest.sort}&itemClass=${pageInfo.pageRequest.itemClass}">${num}
-													</a>
-													</th>
-												</c:forEach>
-												<c:if test="${pageInfo.next}">
-													<th class="page-item next"><a class="page-link"
-														aria-label="next"
-														href="/Tradeboard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
+											</a>
+											</th>
+										</c:forEach>
+										<c:if test="${pageInfo.next}">
+											<th class="page-item next"><a class="page-link"
+												aria-label="next"
+												href="/Tradeboard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
 													&sort=${pageInfo.pageRequest.sort}&itemClass=${pageInfo.pageRequest.itemClass}">Next</a>
-													</th>
-												</c:if>
-											</tr>
-										</c:when>
-									</c:choose>
+											</th>
+										</c:if>
+									</tr>
 								</table>
 							</div>
 						</div>
@@ -395,6 +372,16 @@ a:active {
 	            makeBold(event.target);
 	        });
 	    });
+	    
+	    function submitForm() {
+			document.getElementById("sortForm").submit();
+		}
+	    
+	    window.onload = function(){
+			const pageNum = ${pageInfo.pageRequest.pageNum};
+			console.log(pageNum);
+			$('#pbtn_' + pageNum).toggleClass('current-page');
+		};
 	</script>
 </body>
 </html>

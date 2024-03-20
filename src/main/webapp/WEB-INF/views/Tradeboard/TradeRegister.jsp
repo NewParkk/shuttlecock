@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/mainstyle.css">
+<link rel="stylesheet" href="/css/aside.css">
+<link rel="stylesheet" href="/css/free.css">
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
@@ -14,52 +16,40 @@
 	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 </head>
 <style>
-.mainTitle {
-	text-align: center;
-}
-
-.whyBtn {
-	margin-left: 46%;
-}
-
-h1 {
-	padding-top: 30px;
-	padding-bottom: 30px
-}
-
-#main {
-	width: 70%; /* 메인 섹션의 너비를 조정 */
-	margin: 0 auto; /* 좌우 여백을 자동으로 설정하여 중앙에 정렬 */
+#container {
+	width: 1000px;
+	margin: 20px auto;
 }
 </style>
 <body>
-	<div id="wrap">
-		<%@ include file="/WEB-INF/views/include/header.jsp"%>
-		<%@ include file="category.jsp"%>
+	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-		<div class="mainTitle">
-			<h1>거래게시판</h1>
-		</div>
-		<!-- main  -->
-		<main id="main">
-			<section class="notice">
+	<main id="boardmain">
+		<section id="contents">
+			<%@ include file="category.jsp"%>
+
+			<div class="noticeboard">
+				<div class="title" style="">
+					<div class="vline"></div>
+					<div class="container2">
+						<h3>물품거래소</h3>
+					</div>
+				</div>
+				<!-- main  -->
 
 				<c:if test="${not empty sessionScope.userId}">
 					<form action="/Tradeboard/insert" method="POST"
 						enctype="multipart/form-data">
-						<div class="mb-3" style="width: 70%;">
-							<label for="exampleFormControlInput1" class="form-label">제목</label>
+						<div class="mb-3" style="width: 70%; margin: 0 auto;">
+							<span class="post-info-text"> <strong>제목 : </strong></span>
 							<input type="text" class="form-control" name="title"
 								id="exampleFormControlInput1" placeholder="제목을 입력하세요. ">
 						</div>
-						<div class="mb-3" style="width: 70%;">
-							<label for="exampleFormControlInput1" class="form-label">작성자</label>
-							<input type="text" class="form-control" name="userId"
-								value="${sessionScope.userId}" id="exampleFormControlInput1"
-								readonly>
+						<div class="mb-3" style="width: 70%; margin: 0 auto;">
+							<span class="post-info-text"> <strong>작성자 :</strong></span>
+							${sessionScope.userId}
 						</div>
-						<div class="mb-3" style="width: 70%;">
-							<label for="exampleFormControlTextarea1" class="form-label">내용</label>
+						<div class="mb-3" style="width: 70%; margin: 0 auto;">
 							<textarea class="form-control " name="content" id="ckeditor"
 								rows="6" placeholder="내용을 입력하세요. "></textarea>
 						</div>
@@ -68,8 +58,8 @@ h1 {
 								class="form-control" type="file" id="formFileMultiple"
 								name="file">
 						</div>
-						<label for="exampleFormControlInput1" class="form-label">지역분류</label>
-						<div class="mb-3" style="width: 70%;">
+						<br>
+						<div class="mb-3" style="width: 70%; margin: 0 auto;">
 							<input type="radio" id="region" name="region" value="0">전체
 							<input type="radio" id="region" name="region" value="1">서울
 							<input type="radio" id="region" name="region" value="2">경기
@@ -78,8 +68,8 @@ h1 {
 							<input type="radio" id="region" name="region" value="5">전라
 							<input type="radio" id="region" name="region" value="6">강원
 						</div>
-						<label for="exampleFormControlInput1" class="form-label">품목분류</label>
-						<div class="mb-3" style="width: 70%;">
+						<br>
+						<div class="mb-3" style="width: 70%; margin: 0 auto;">
 							<input type="radio" id="itemClass" name="itemClass" value="0">전체
 							<input type="radio" id="itemClass" name="itemClass" value="1">의류
 							<input type="radio" id="itemClass" name="itemClass" value="2">라켓
@@ -88,8 +78,9 @@ h1 {
 							<input type="radio" id="itemClass" name="itemClass" value="5">기타
 						</div>
 						<br>
-						<div class="container"
-							style="height: 50px; display: flex; justify-content: flex-end;">
+						<div class=button-container>
+							<input type="hidden" value="${sessionScope.userId}"
+								name="userId">
 							<button type="button" class="btn btn-primary CancleBtn"
 								onclick="location.href='/Tradeboard'" style="margin-left: 10px;">취&nbsp;소</button>
 							<button type="submit" class="btn btn-primary whyBtn"
@@ -105,14 +96,11 @@ h1 {
 						}
 					</script>
 				</c:if>
+			</div>
+		</section>
+	</main>
 
-			</section>
-		</main>
-
-		<%@ include file="/WEB-INF/views/include/footer.jsp"%>
-
-	</div>
-
+	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
 </body>
 
 <script type="text/javascript">

@@ -76,8 +76,8 @@
 						</div>
 
 						<div class=button-container>
-							<input type="hidden" value="${freeboard.freeboardId}"
-								name="freeboardId">
+							<input type="hidden" value="${sessionScope.userId}"
+								name="userId">
 							<button type="button" class="btn btn-primary whyBtn">글
 								작성</button>
 							<button type="button" class="btn btn-primary CancleBtn">취

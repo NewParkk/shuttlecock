@@ -123,12 +123,8 @@ public class RecruitboardController {
 
 	@GetMapping("/Recruitboard/update/{recruitboardId}")
 	public String updateBoardForm(@PathVariable("recruitboardId") int recruitboardId, Model model) {
-//		int tradeboardInt = Integer.parseInt(tradeboardId);
 		RecruitboardDTO recruitboard = boardService.getTradePostByTradeboardId(recruitboardId);
-		// FileRequest file = fileService.getBoardFileByBoardId(tradeboardId);
-
 		model.addAttribute("recruitboard", recruitboard);
-		// model.addAttribute("file", file);
 		return "/Recruitboard/RecruitUpdate";
 	}
 
