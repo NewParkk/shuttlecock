@@ -2,18 +2,6 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fp.shuttlecock.freeboard.FreeboardMapper">
 
-	<sql id="search">
-		<if test="condition == 'title'">
-			WHERE title LIKE CONCAT('%',#{keyword},'%')
-		</if>
-		<if test="condition == 'content'">
-			WHERE content LIKE CONCAT('%',#{keyword},'%')
-		</if>
-		<if test="condition == 'writer'">
-			WHERE userId LIKE CONCAT('%',#{keyword},'%')
-		</if>
-	</sql>
-
 	<select id="getFreePostByFreeboardId" parameterType="_int"
 		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
 		select * from freeboard where freeboardId =
@@ -41,28 +29,44 @@
 
 	<select id="getFreeboard"
 		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
-
-		select *,
-		(select count(*) from comments where bno = f.freeboardId) as
-		commentCount,
-		(select count(*) from likes where bno = f.freeboardId) as
-		likeCount
-		from freeBoard f
-		<include refid="search" />
-		ORDER BY
+		<bind name="pagecnt" value="(pageNum - 1) * countPerPage" />
+		select * from freeBoard
+		<where>
+			(deleteYN IS NULL OR deleteYN != 1)
+			<if test="userId != null">
+				AND (userId NOT IN (SELECT blockedUser FROM blockuser
+				WHERE userId = #{userId}))
+			</if>
+			<choose>
+				<when
+					test="keyword != null and keyword != ''">
+					<choose>
+						<when test="condition == 'title'">
+							AND title LIKE CONCAT('%', #{keyword}, '%')
+						</when>
+						<when test="condition == 'userId'">
+							AND userId LIKE CONCAT('%', #{keyword}, '%')
+						</when>
+						<when test="condition == 'content'">
+							AND content LIKE CONCAT('%', #{keyword}, '%')
+						</when>
+					</choose>
+				</when>
+			</choose>
+		</where>
 		<choose>
+			<when test="sort == 0">
+				ORDER BY freeboardId DESC
+			</when>
 			<when test="sort == 1">
-				regdate DESC
+				ORDER BY regdate DESC
 			</when>
 			<when test="sort == 2">
-				hit DESC
+				ORDER BY hit DESC
 			</when>
 			<when test="sort == 3">
-				`like` DESC
+				ORDER BY `like` DESC
 			</when>
-			<otherwise>
-				freeboardId DESC <!-- 기본은 최신순 -->
-			</otherwise>
 		</choose>
 		limit #{pagecnt} , #{countPerPage}
 
@@ -73,7 +77,29 @@
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)
 		FROM freeBoard
-		<include refid="search" />
+		<where>
+			(deleteYN IS NULL OR deleteYN != 1)
+			<if test="userId != null">
+				AND (userId NOT IN (SELECT blockedUser FROM blockuser
+				WHERE userId = #{userId}))
+			</if>
+			<choose>
+				<when
+					test="keyword != null and keyword != ''">
+					<choose>
+						<when test="condition == 'title'">
+							AND title LIKE CONCAT('%', #{keyword}, '%')
+						</when>
+						<when test="condition == 'userId'">
+							AND userId LIKE CONCAT('%', #{keyword}, '%')
+						</when>
+						<when test="condition == 'content'">
+							AND content LIKE CONCAT('%', #{keyword}, '%')
+						</when>
+					</choose>
+				</when>
+			</choose>
+		</where>
 	</select>
 
 	<!-- 조회수 -->
