@@ -1,23 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리그 순위</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
+
 <style>
 .mainTitle {
-	text-align: center;
-}
-
-.RankList {
 	text-align: center;
 }
 
@@ -37,7 +28,6 @@ h1 {
 	padding-top: 30px;
 	padding-bottom: 30px
 }
-
 
 .paging {
 	margin-left: auto;
@@ -83,49 +73,136 @@ a:active {
 #search-select {
 	width: 80px;
 }
-</style>
 
+.card-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.card {
+	background-color: #ffffff;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	margin: 10px;
+	width: 300px;
+	max-width: 80%;
+}
+
+.card img {
+	width: 100%;
+	border-radius: 8px;
+	margin-bottom: 10px;
+}
+
+.card h2 {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+.card p {
+	margin-top: 0;
+}
+</style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ include file="category.jsp"%>
-	
 	<div class="mainTitle">
-    <h1>리그 순위</h1>
+		<h1>리그 순위</h1>
 	</div>
-	
-	<div class ="RankList">
-      <table border = "1">
-        <thead>
-            <tr>
-                <th>유저</th>
-                <th>승</th>
-                <th>패</th>
-                <th>승점</th>
-                <th>승률</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- leagueRankingList에 있는 각 UserDTO의 정보를 테이블로 출력 -->
-            <c:forEach items="${leagueRankingList}" var="user">
-            	<c:if test="${user.wincount ne 0 or user.losecount ne 0}">
-                <tr>
-                    <td>${user.username}</td>
-                    <td>${user.wincount}</td>
-                    <td>${user.losecount}</td>
-                    <td>${user.wincount - user.losecount}</td>
-                    <!-- 승률 계산 및 소수점 둘째 자리까지 표시 -->
-                    <c:set var="winRatio" value="${(user.wincount * 1.0 / (user.wincount + user.losecount)) * 100}" />
-                    <td><fmt:formatNumber value="${winRatio}"  pattern="###.##" />%</td>
-                </tr>
-                </c:if>
-            </c:forEach>
-        </tbody>
-    </table>
+	<div class="container">
+		<div class="card-container">
+			<div class="card">
+				<span style="width: 20%">이름</span> <span style="width: 20%">이미지</span>
+				<span style="width: 20%">승</span><span style="width: 20%">승</span><span
+					style="width: 20%">승</span>
+			</div>
+			<c:forEach items="${leagueRankingList}" var="user">
+				<div class="card">
+					<p>${user.username}
+						<img src=""> ${user.wincount} ${user.losecount}
+						${user.wincount - user.losecount} <b> <c:set var="winRatio"
+								value="${(user.wincount * 1.0 / (user.wincount + user.losecount)) * 100}" />
+							<fmt:formatNumber value="${winRatio}" pattern="###.##" />%
+						</b>
+					</p>
+				</div>
+			</c:forEach>
+
+		</div>
+
+		
+	</div>
+	<div id="pageBtn" style="margin: 10px;">
+		<div class="row justify-content-center"
+			style="display: flex; justify-content: center;">
+			<div class="col-auto">
+				<table class="page navigation">
+					<tr class="pagination">
+						<c:if test="${pageInfo.prev}">
+							<th class="page-item"><a class="page-link"
+								aria-label="Previous"
+								href="/LeagueBoard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
+							</th>
+						</c:if>
+						<c:if test="${pageInfo.pageRequest.category == null}">
+							<c:forEach var="num" begin="${pageInfo.startPage}"
+								end="${pageInfo.endPage}">
+								<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+									<a class="page-link" style="padding: 10px;"
+									href="/LeagueBoard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&sort=${pageInfo.pageRequest.sort}
+ 													">${num}</a>
+								</th>
+							</c:forEach>
+						</c:if>
+						<c:if test="${pageInfo.pageRequest.category != null}">
+							<c:forEach var="num" begin="${pageInfo.startPage}"
+								end="${pageInfo.endPage}">
+								<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+									<a class="page-link" style="padding: 10px;"
+									href="/LeagueBoard/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+									&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}
+ 													">${num}</a>
+								</th>
+							</c:forEach>
+						</c:if>
+						<c:if test="${pageInfo.next}">
+							<th class="page-item next"><a class="page-link"
+								aria-label="next"
+								href="/LeagueBoard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
+							</th>
+						</c:if>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<%@ include file="/WEB-INF/views/include/footer.jsp"%>
 	</div>
 
-
-
-
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script>
+		function redirectToInsertForm() {
+			window.location.href = "/LeagueBoard/insert";
+		}
+		function redirectToLoginPage() {
+			window.location.href = "/login";
+		}
+		function checkKeyword() {
+			let mainForm = document.getElementById('mainForm');
+			// 검색 시 항상 pageNum을 1로 설정
+			mainForm.pageNum.value = 1;
+			if (mainForm.searchKeyword.value === null
+					|| mainForm.searchKeyword.value === '') {
+				mainForm.searchKeyword.remove();
+			}
+		}
+	</script>
 </body>
 </html>

@@ -21,5 +21,9 @@ public class LeagueboardRankingServiceImpl implements LeagueboardRankingService 
 	public List<UserDTO> getRankedList() {
 		return LRM.getRankedList();
 	}
+
+	public int countLeagueUser() {
+		return LRM.countLeagueUser();
+	}
 	
 }

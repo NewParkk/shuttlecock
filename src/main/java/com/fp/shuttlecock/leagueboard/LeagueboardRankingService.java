@@ -10,5 +10,6 @@ public interface LeagueboardRankingService {
 
 	List<UserDTO> getRankedList();
 	
+	int countLeagueUser();
 	
 }
