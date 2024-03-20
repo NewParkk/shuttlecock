@@ -45,8 +45,11 @@
 		SELECT COUNT(*)
 		FROM user
 		<trim prefix="WHERE">
-			<if test="searchKeyword != null">
+			<if test="category == 'userId'">
 				userId LIKE CONCAT('%',#{searchKeyword},'%')
+			</if>
+			<if test="category == 'username'">
+				username LIKE CONCAT('%',#{searchKeyword},'%')
 			</if>
 		</trim>
 	</select>
@@ -59,8 +62,11 @@
 		SELECT *
 		FROM user
 		<trim prefix="WHERE">
-			<if test="searchKeyword != null">
+			<if test="category == 'userId'">
 				userId LIKE CONCAT('%',#{searchKeyword},'%')
+			</if>
+			<if test="category == 'username'">
+				username LIKE CONCAT('%',#{searchKeyword},'%')
 			</if>
 		</trim>
 		LIMIT #{start}, #{amount}

@@ -12,8 +12,10 @@
 <title>Insert title here</title>
 
 <!-- <link rel="stylesheet" href="/css/mainstyle.css"> -->
-<link rel="stylesheet" href="/css/loginstyle.css">
+<link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<link rel="stylesheet" href="/css/free.css">
+
 
 <!-- fullcalendar css -->
 <link rel="stylesheet"
@@ -43,7 +45,7 @@
 
 		<!-- header -->
 		<%@ include file="../include/header.jsp"%>
-		<main id="main">
+		<main id="boardmain">
 
 			<section id="contents">
 
@@ -58,23 +60,23 @@
 						</ul>
 					</div>
 				</div>
- 				<div class="noticeboard">
-					<div class="page-title">
+				<div class="noticeboard">
+					<div class="title">
 						<div class="vline"></div>
 						<div class="container2">
 							<h3>마이 페이지</h3>
 						</div>
-					</div> 
+					</div>
 
-
+				<div id="board-list">
 					<div id="calendarBox">
 						<div id="calendar"></div>
 					</div>
 					<!-- modal 추가 -->
 					<div id="my_modal">
 						<div class="modal-content">
-							<span class="close">&times;</span>
-							<h2>일정 추가</h2>
+								<span class="close">&times;</span>
+								<h2>일정 추가</h2>
 							<form action="/mypage" method="POST"
 								enctype="multipart/form-data">
 								<input type="text" id="title" name="title" placeholder="일정 제목">
@@ -95,6 +97,7 @@
 							</form>
 						</div>
 					</div>
+				</div>
 			</section>
 		</main>
 		<%@ include file="../include/footer.jsp"%>
@@ -198,14 +201,8 @@ window.addEventListener('click', function(event) {
 </script>
 <style>
 #calendarBox {
-	width: 70%;
-	padding-left: 10px;
-}
-
-a {
-	font-size: 1.17rem;
-	!
-	important;
+	width: 90%;
+	padding-left:10%;
 }
 
 #my_modal {
@@ -262,8 +259,5 @@ a {
 	cursor: pointer;
 }
 
-.noticeboard {
-	width: 100%;
-}
 </style>
 </html>

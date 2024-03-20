@@ -11,125 +11,130 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/css/loginstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<link rel="stylesheet" href="/css/free.css">
 </head>
-
 <body>
-	<!-- wrap -->
-	<div id="wrap">
-		<!-- header -->
-		<%@ include file="../include/header.jsp"%>
-		<main id="boardmain">
-			<section id="contents">
+<h2>
+
+${user.admin}
+</h2>
+		<!-- wrap -->
+		<div id="wrap">
+			<!-- header -->
+			<%@ include file="../include/header.jsp"%>
+			<main id="boardmain">
+				<section id="contents">
 
 
-				<div class="noticeboard">
-					<div class="page-title">
-						<div class="vline"></div>
-						<div class="container2">
-							<h3>회원 리스트</h3>
-						</div>
-					</div>
-
-					<div id="board-list">
-						<div class="container2">
-							
-							<form id="mainForm" class="row justify-content-center g-3"
-								action="/admin" method="GET" onsubmit="checkKeyword()">
-								<div class="col-auto">
-								<select
-									class="selectbox" id="selectbox" name="selectbox"
-									onchange="chageLangSelect()">
-									<option value="${pageInfo.pageRequest.category}">게시물</option>
-									<option value="${pageInfo.pageRequest.category}">좋아요</option>
-									<option value="${pageInfo.pageRequest.category}">댓글</option>
-								</select>
-									<label for="keyword" class="visually-hidden">Search</label> <input
-										type="text" class="form-control" id="searchKeyword"
-										placeholder="SearchKeyword" name="searchKeyword"
-										value="${pageInfo.pageRequest.searchKeyword}">
-									<!-- hidden -->
-									<input name="pageNum" type="hidden"
-										value="${pageInfo.pageRequest.pageNum}">
-									<input
-										name="amount" type="hidden"
-										value="${pageInfo.pageRequest.amount}">
-								</div>
-								<div class="col-auto">
-									<input type="submit" class="btn btn-primary mb-3"
-										value="Search" />
-								</div>
-							</form>
-
-
-							<table class="board-table" style="width: 90%; margin: 0 auto;">
-								<thead>
-									<tr>
-										<th scope="col" class="th-like">이름</th>
-										<th scope="col" class="th-title">이메일(아이디)</th>
-										<th scope="col" class="th-writer">이름</th>
-										<th scope="col" class="th-date">사진</th>
-										<th scope="col" class="th-hit">성별</th>
-										<th scope="col" class="th-like">작성게시글</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="user" items="${userSearchList}">
-										<tr>
-											<th scope="row">${user.username}</th>
-											<td><a href="/admin/${user.userId}">${user.userEmail}
-													(${user.userId})</a></td>
-											<td>${user.userImageName}</td>
-											<td>${user.gender}</td>
-											<td>${user.writeCount}</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-							<!-- Paging -->
-							<!-- https://getbootstrap.com/docs/5.3/layout/columns/#alignment -->
-							<!-- https://getbootstrap.com/docs/5.3/components/pagination/#disabled-and-active-states -->
-							<div class="row justify-content-center">
-								<div class="col-auto">
-									<nav class="page navigation">
-										<ul class="pagination">
-											<c:if test="${pageInfo.prev}">
-												<li class="page-item"><a class="page-link"
-													aria-label="Previous"
-													href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
-												</li>
-											</c:if>
-											<c:forEach var="num" begin="${pageInfo.startPage}"
-												end="${pageInfo.endPage}">
-												<li
-													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-													<a class="page-link"
-													href="/main?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
-												</li>
-											</c:forEach>
-											<c:if test="${pageInfo.next}">
-												<li class="page-item next"><a class="page-link"
-													aria-label="next"
-													href="/main?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
-												</li>
-											</c:if>
-										</ul>
-									</nav>
-								</div>
+					<div class="noticeboard">
+						<div class="title">
+							<div class="vline"></div>
+							<div class="container2">
+								<h3>회원 리스트</h3>
 							</div>
 						</div>
 
+						<div id="board-list">
+							<div class="container2">
+
+								<form id="mainForm" action="/admin" onsubmit="checkKeyword()"
+									style="text-align: center;">
+									<div class="search-wrap clearfix">
+										<select class="form-control" id="search-select"
+											name="category" onchange="chageLangSelect()"
+											style="width: 100px; margin-left: 10px;">
+											<option value="userId">아이디</option>
+											<option value="username">이름</option>
+										</select> <input type="text" class="form-control search-input"
+											id="searchKeyword" placeholder="SearchKeyword"
+											name="searchKeyword" style="width: 300px"
+											value="${pageInfo.pageRequest.searchKeyword}">
+										<!-- hidden -->
+										<input name="pageNum" type="hidden"
+											value="${pageInfo.pageRequest.pageNum}"> <input
+											name="amount" type="hidden"
+											value="${pageInfo.pageRequest.amount}"> <input
+											type="submit" class="btn btn-primary search-btn" value="검색"
+											style="margin-left: 100px;" />
+									</div>
+								</form>
 
 
-
-						<%-- 					<c:forEach items="${userList}" var="user">
-						<b> <a href="admin/${user.userId}">${user.userId}</a>
-						</b>
-					</c:forEach> --%>
-			</section>
-		</main>
-		<%@ include file="../include/footer.jsp"%>
-	</div>
-
+								<table class="board-table" style="width: 90%; margin: 0 auto;">
+									<thead>
+										<tr>
+											<th scope="col" class="th-like">이름</th>
+											<th scope="col" class="th-title">이메일(아이디)</th>
+											<th scope="col" class="th-date">관리자</th>
+											<th scope="col" class="th-hit">성별</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="user" items="${userSearchList}">
+											<tr>
+												<th scope="row">${user.username}</th>
+												<td><a href="/admin/${user.userId}">${user.userEmail}
+														(${user.userId})</a></td>
+												<td><c:set var="isFlag" value="${user.admin}" /> <c:choose>
+														<c:when test="${isFlag == true}">
+														관리자
+													</c:when>
+													</c:choose> <c:choose>
+														<c:when test="${isFlag == false}">
+														회원
+													</c:when>
+													</c:choose></td>
+												<td><c:set var="num" value="${user.gender}" /> <c:choose>
+														<c:when test="${num == 1}">
+														남
+													</c:when>
+													</c:choose> <c:choose>
+														<c:when test="${num == 2}">
+														여
+													</c:when>
+													</c:choose></td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+								<!-- Paging -->
+								<!-- https://getbootstrap.com/docs/5.3/layout/columns/#alignment -->
+								<!-- https://getbootstrap.com/docs/5.3/components/pagination/#disabled-and-active-states -->
+								<div class="paging">
+									<div class="col-auto">
+										<nav class="page navigation">
+											<ul class="pagination">
+												<c:if test="${pageInfo.prev}">
+													<li class="page-item"><a class="page-link"
+														aria-label="Previous"
+														href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
+													</li>
+												</c:if>
+												<c:forEach var="num" begin="${pageInfo.startPage}"
+													end="${pageInfo.endPage}">
+													<li
+														class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+														<a class="page-link"
+														href="/admin?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
+													</li>
+												</c:forEach>
+												<c:if test="${pageInfo.next}">
+													<li class="page-item next"><a class="page-link"
+														aria-label="next"
+														href="/admin?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
+													</li>
+												</c:if>
+											</ul>
+										</nav>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</main>
+			<%@ include file="../include/footer.jsp"%>
+		</div>
 </body>
 <script type="text/javascript">
 	//step01 : 페이징 버튼 클릭시 지정 url 요청 갈수 있도록 이벤트 등록
@@ -155,11 +160,13 @@
 	})
 
 	function checkKeyword() {
-		let mainForm = document.getElementById('mainForm');
+		let mainFormkey = document.getElementById('mainForm');
 		if(mainForm.searchKeyword.value === null || mainForm.searchKeyword.value === '') {
 			mainForm.searchKeyword.remove();
 		}
 	}
+	
+	function
 	
 	
 	

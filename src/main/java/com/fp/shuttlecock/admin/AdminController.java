@@ -1,6 +1,5 @@
 package com.fp.shuttlecock.admin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fp.shuttlecock.admin.PageRequestDTO;
-import com.fp.shuttlecock.admin.PageResponseDTO;
+import com.fp.shuttlecock.mypage.MypageServiceImpl;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -37,6 +35,17 @@ public class AdminController {
 		if (pageRequest.getPageNum() != 1) {
 			pageRequest.setPageNum(1);
 		}
+		
+		// 키워드가 빈칸일때 null
+		/*
+		 * if(pageRequest.getSearchKeyword() != "" && pageRequest.getSearchKeyword() !=
+		 * null) {
+		 * 
+		 * }else { pageRequest.setSearchKeyword(null);
+		 * 
+		 * }
+		 */
+
 		int totalCount = service.getTotalCount(pageRequest);
 		
 		PageResponseDTO pageResponse = new PageResponseDTO().builder()
@@ -64,14 +73,20 @@ public class AdminController {
 
 	// 관리자 부여
 	@PostMapping("/admin/{userId}")
-	public String updateUserAdmin(@PathVariable String userId, @ModelAttribute UserDTO newUser) {
-		String view = "error/error";
+	public String updateUserAdmin(@PathVariable String userId, @ModelAttribute UserDTO newUser, HttpServletRequest request) {
 		UserDTO user = null;
+		String view = "error/error";
 		boolean result = false;
+
+		// 체크박스 boolean 여부 true, false
+		boolean checkboxValue = request.getParameter("checkbox") != null;
+		System.out.println("Checkbox value: " + checkboxValue);
+		
 		
 		user = service.getUserByUserId(userId);
-		user.setAdmin(newUser.getAdmin());
+		user.setAdmin(checkboxValue);
 		result = service.updateUserAdmin(user);
+	
 
 		if (result) {
 			view = "redirect:/admin";

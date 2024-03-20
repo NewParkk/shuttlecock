@@ -11,6 +11,7 @@
 
 <link rel="stylesheet" href="/css/loginstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<link rel="stylesheet" href="/css/free.css">
 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -46,7 +47,7 @@
 				</div>
 			</div>
 			<div class="noticeboard">
-				<div class="page-title">
+				<div class="title">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>나의 활동내역</h3>
@@ -61,7 +62,7 @@
 							<form>
 								 <select
 									class="selectbox" id="selectbox" name="selectbox"
-									onchange="chageLangSelect()">
+									onchange="chageLangSelect()" style="margin-left:50px">
 									<option value="boardList">게시물</option>
 									<option value="likeList">좋아요</option>
 									<option value="commentList">댓글</option>
@@ -142,8 +143,9 @@
 								<!-- 			<div id="comment" style="display: none"> -->
 								<c:forEach items="${comment}" var="comment">
 									<tr>
-										<th scope="row"><c:set var="num"
-												value="${comment.commentType}" /> <c:choose>
+										<th scope="row">
+											<c:set var="num" value="${comment.commentType}" /> 
+											<c:choose>
 												<c:when test="${num == 1}">
 													<!-- 조건 1이 true일 때 실행되는 부분 -->
 											        공지게시판

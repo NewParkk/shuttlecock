@@ -30,7 +30,6 @@ public class MypageController {
 	@GetMapping("/mypage")
 	public String getMypage(HttpSession session, Model model) {
 		String userId = session.getAttribute("userId").toString();
-		System.out.println((String) session.getAttribute("userId"));
 
 		UserDTO user = service.getMypage(userId);
 		List<CalendarDTO> calendarList = service.getCalendar(userId);
