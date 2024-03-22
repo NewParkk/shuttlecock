@@ -16,12 +16,17 @@
     </c:if>
     <c:if test="${not empty sessionScope.userId}">
     	<c:if test="${kakaoYN eq true}">
-    		<strong class="Btn"><a href="/mypage">${username} 님</a></strong>
+    		<strong class="Btn">
+    		<a href="/mypage">
+    		<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/1.png"
+			width="30px" height="25px">${username} 님</a></strong>
     	</c:if>
     	<c:if test="${kakaoYN eq false}">
-       		<strong class="Btn"><a href="/mypage">${userId} 님</a></strong>    		
+       		<strong class="Btn"><a href="/mypage">
+       		<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/1.png"
+			width="30px" height="25px">${userId} 님</a></strong>    		
     	</c:if>
-       	<div class="v-line"></div>
+    	<div class="v-line"></div>
         <button type="button" class="Btn" onClick="location.href='/logout'">Logout</button>
     </c:if>   
     </div>

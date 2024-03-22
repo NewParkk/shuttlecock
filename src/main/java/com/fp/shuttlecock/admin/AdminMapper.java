@@ -25,4 +25,8 @@ public interface AdminMapper {
 
 	public int getTotalCount(PageRequestDTO pageRequest);
 
+	public UserDTO getMypage(String userId);
+	
+	public int deleteUser(String userId);
+
 }

@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insert title here</title>
+<title>Admin-Detail</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
 <link rel="stylesheet" href="/css/free.css">
@@ -40,39 +40,50 @@
 										src="https://kr.object.ncloudstorage.com/team1bucket/profile/${user.userImageName}"><br>
 									<br>
 								</div>
-								<div class="details">
+								<div class="details" style="margin-left: 100px;">
 									<h2>
-										아이디 : <input type="text" value="${user.userId}"
-											class="custom-input" readonly disabled>
+										아이디 : <img
+											src="https://kr.object.ncloudstorage.com/team1bucket/badge/1.png"
+											width="30px" height="25px">${user.userId}
 									</h2>
 									<br>
-									<h2>
-										이름 : <input type="text" name="username" class="custom-input"
-											value="${user.username}" readonly disabled>
-									</h2>
+									<h2>이름 : ${user.username}</h2>
+									<br>
+									<h2>이메일 : ${user.userEmail}</h2>
 									<br>
 									<h2>
-										이메일 : <input type="text" name="userEmail" class="custom-input"
-											value="${user.userEmail}" readonly disabled>
+										성별 :
+										<c:set var="num" value="${user.gender}" />
+										<c:choose>
+											<c:when test="${num == 1}">
+											        남자
+											    </c:when>
+											<c:when test="${num == 2}">
+											        여자
+											    </c:when>
+										</c:choose>
+
 									</h2>
 									<br>
-									<h2>
-										성별 : <input type="text" name="usergender" class="custom-input"
-											value="${user.gender}" readonly disabled>
-									</h2>
+									<h2>승리 : ${user.wincount}</h2>
+									<br>
+									<h2>패배 : ${user.losecount}</h2>
+									<br>
+									<h2>게시글 수 : ${user.writeCount}</h2>
 									<br>
 								</div>
 
 
 
 								<div class="details" style="margin-left: 100px;">
+									<c:set var="isFlag" value="${user.admin}" />
 									<h2>
 										관리자 권한 : <input type="checkbox" name="checkbox"
-											class="checkbox" value="true">
+											class="checkbox" value="true"
+											<c:if test="${isFlag == true}">checked</c:if>>
 									</h2>
 									<br>
 									<h2>
-										<c:set var="isFlag" value="${user.admin}" />
 										<c:choose>
 											<c:when test="${isFlag == true}">
 												관리자 입니다
@@ -84,9 +95,9 @@
 											</c:when>
 										</c:choose>
 									</h2>
-									<br> <br> <input class="update" type="submit"
-										id="update" value="수정"><br>
-
+									<button type="submit" class="btn btn-primary goBtn updateBtn">수정</button>
+									<button type="button" class="btn btn-primary goBtn updateBtn"
+										onclick="redirectToPage()">목록</button>
 								</div>
 							</div>
 						</form>
@@ -158,27 +169,12 @@
 	cursor: pointer;
 }
 
-.update {
-	background-color: #4CAF50; /* 버튼 배경색 */
-	color: white; /* 버튼 글자색 */
+.updateBtn {
+	margin-top: 30px;
 	padding: 12px 20px; /* 내부 여백 */
 	border: none; /* 테두리 없음 */
 	border-radius: 4px; /* 버튼 모서리 둥글게 */
 	cursor: pointer; /* 마우스 커서를 포인터로 변경 */
-}
-
-.delete-btn {
-	background-color: #f44336; /* 삭제 버튼 배경색 */
-	color: white; /* 삭제 버튼 글자색 */
-	padding: 10px 20px; /* 내부 여백 */
-	border: none; /* 테두리 없음 */
-	border-radius: 4px; /* 버튼 모서리 둥글게 */
-	cursor: pointer; /* 마우스 커서를 포인터로 변경 */
-}
-
-/* 버튼에 마우스를 올렸을 때의 스타일 */
-.delete-btn:hover {
-	background-color: #d32f2f;
 }
 
 .custom-input {
@@ -214,8 +210,15 @@
 .custom-file-upload:focus {
 	outline: none;
 }
-
-
 </style>
+<script>
+	function redirectToPage() {
+		// 원하는 페이지의 URL을 여기에 입력합니다.
+		var desiredPageUrl = "/admin";
+
+		// 페이지 이동
+		window.location.href = desiredPageUrl;
+	}
+</script>
 </html>
 

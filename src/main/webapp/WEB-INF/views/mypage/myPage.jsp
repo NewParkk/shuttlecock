@@ -28,13 +28,6 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
 
-<!-- 카카오 일정 보내기 -->
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.0/kakao.min.js"
-	integrity="sha384-l+xbElFSnPZ2rOaPrU//2FF5B4LB8FiX5q4fXYTlfcG4PGpMkE1vcL7kNXI6Cci0"
-	crossorigin="anonymous"></script>
-<script>
-  Kakao.init('9642c668efb62c980d8b2f016f784e27'); // 사용하려는 앱의 JavaScript 키 입력
-</script>
 </head>
 
 

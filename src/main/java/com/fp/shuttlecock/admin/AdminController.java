@@ -3,14 +3,15 @@ package com.fp.shuttlecock.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.fp.shuttlecock.mypage.MypageServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,7 +24,10 @@ public class AdminController {
 
 	// 모든회원 리스트
 	@GetMapping("/admin")
-	public String getAllUserList(PageRequestDTO pageRequest, Model model) {
+	public String getAllUserList(HttpSession session ,PageRequestDTO pageRequest, Model model) {
+		String userId = session.getAttribute("userId").toString();
+		UserDTO user = service.getMypage(userId);
+		model.addAttribute("user" ,user);
 		
 		System.out.println(pageRequest);
 		
@@ -35,16 +39,6 @@ public class AdminController {
 		if (pageRequest.getPageNum() != 1) {
 			pageRequest.setPageNum(1);
 		}
-		
-		// 키워드가 빈칸일때 null
-		/*
-		 * if(pageRequest.getSearchKeyword() != "" && pageRequest.getSearchKeyword() !=
-		 * null) {
-		 * 
-		 * }else { pageRequest.setSearchKeyword(null);
-		 * 
-		 * }
-		 */
 
 		int totalCount = service.getTotalCount(pageRequest);
 		
@@ -64,13 +58,34 @@ public class AdminController {
 
 	// 회원 상세보기
 	@GetMapping("/admin/{userId}")
-	public String getUserByUserId(@PathVariable String userId, Model model) {
+	public String getUserByUserId( @PathVariable String userId, Model model) {
+
+		// 검색한 회원 정보
 		UserDTO user = service.getUserByUserId(userId);
 		model.addAttribute("user", user);
-
+		System.out.println(user);
+		
 		return "admin/adminPageDetail";
 	}
-
+	
+	@DeleteMapping(value = "/admin/delete/{userId}")
+	public ResponseEntity<String> deleteUser(@PathVariable String userId, HttpSession session) {
+	    System.out.println("삭제 메소드 실행");
+	    boolean result = false;
+	    if (String.valueOf(session.getAttribute("userId")) != null
+	            && (session.getAttribute("isAdmin") != null && ((boolean) session.getAttribute("isAdmin")))) {
+	    	
+	    	result = service.deleteUser(userId); // deleteUser 메소드 호출하여 사용자 삭제
+	        if (result) {
+	            return ResponseEntity.ok("사용자 삭제 성공");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("사용자 삭제 실패");
+	        }
+	    } else {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("삭제 권한 없음");
+	    }
+	}
+	
 	// 관리자 부여
 	@PostMapping("/admin/{userId}")
 	public String updateUserAdmin(@PathVariable String userId, @ModelAttribute UserDTO newUser, HttpServletRequest request) {
@@ -89,7 +104,7 @@ public class AdminController {
 	
 
 		if (result) {
-			view = "redirect:/admin";
+			view = "redirect:/admin/{userId}";
 			return view;
 		}
 		return view;
