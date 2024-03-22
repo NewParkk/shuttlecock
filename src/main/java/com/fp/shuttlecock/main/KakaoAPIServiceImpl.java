@@ -139,7 +139,9 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 			session.setAttribute("userId", loginUser.getUserId());
 			session.setAttribute("isAdmin", loginUser.isAdmin());
 			session.setAttribute("username", loginUser.getUsername());
-          session.setAttribute("kakaoYN", loginUser.isKakaoYN());
+			session.setAttribute("kakaoYN", loginUser.isKakaoYN());
+			session.setAttribute("badgeId", loginUser.getBadgeId());
+          
 		}
 //		UserDTO existingUser = userService.getUserByUserId(kakaoId);
 //

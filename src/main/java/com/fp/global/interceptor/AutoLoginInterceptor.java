@@ -47,6 +47,7 @@ public class AutoLoginInterceptor implements HandlerInterceptor
                     session.setAttribute("isAdmin", user.isAdmin());
                     session.setAttribute("username", user.getUsername());
         			session.setAttribute("kakaoYN", user.isKakaoYN());
+        			session.setAttribute("badgeId", user.getBadgeId());
         			
                 }
             }
