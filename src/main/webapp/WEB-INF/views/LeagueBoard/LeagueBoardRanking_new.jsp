@@ -97,12 +97,6 @@ a:active {
 	align-items: center;
 }
 
-.card img {
-	width: 100%;
-	border-radius: 8px;
-	margin-bottom: 10px;
-}
-
 .card h2 {
 	margin-top: 0;
 	margin-bottom: 10px;
@@ -190,7 +184,8 @@ a:active {
 												</c:when>
 												<c:otherwise>${user.idx}</c:otherwise>
 											</c:choose>
-											<img alt="" src=" ${user.badgeId}">
+											<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${user.badgeId}.png"
+											width="30px" height="20px">
 											${user.username}(${user.userId}) 
 											${user.wincount}승 
 											${user.losecount}패 
@@ -199,6 +194,7 @@ a:active {
 													value="${(user.wincount * 1.0 / (user.wincount + user.losecount)) * 100}" />
 												<fmt:formatNumber value="${winRatio}" pattern="###.##" />%
 											</b>
+											
 										</p>
 									</div>
 								</c:forEach>
