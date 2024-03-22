@@ -76,7 +76,7 @@
 		                    <tr>
 		                      <td>${fn:length(freePosts) - s.count + 1}</td>
 		                      <th>
-		                        <a href="#!"
+		                        <a href="/Freeboard/freeDetail/${post.freeboardId}"
 		                          >${post.title}</a
 		                        >
 		                        <p>테스트</p>
@@ -87,47 +87,6 @@
 		                 </c:forEach>
                       </c:when>
                     </c:choose>
-                    <!-- <tr>
-                      <td>4</td>
-                      <th>
-                        <a href="#!"
-                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
-                        >
-                        <p>테스트</p>
-                      </th>
-                      <td>2017.07.13</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <th>
-                        <a href="#!"
-                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
-                        >
-                        <p>테스트</p>
-                      </th>
-                      <td>2017.07.13</td>
-                    </tr>
-
-                    <tr>
-                      <td>2</td>
-                      <th>
-                        <a href="#!"
-                          >공지사항 안내입니다. 이용해주셔서 감사합니다</a
-                        >
-                      </th>
-                      <td>2017.06.15</td>
-                    </tr>
-
-                    <tr>
-                      <td>1</td>
-                      <th>
-                        <a href="#!"
-                          >공지사항 안내입니다. 이용해주셔서 감사합니다</a
-                        >
-                      </th>
-                      <td>2017.06.15</td>
-                    </tr>
-                  </tbody> -->
                 </table>
               </div>
             </div>
@@ -170,46 +129,6 @@
 		                 </c:forEach>
                       </c:when>
                     </c:choose>
-                    <!-- <tr>
-                      <td>4</td>
-                      <th>
-                        <a href="#!"
-                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
-                        >
-                        <p>테스트</p>
-                      </th>
-                      <td>2017.07.13</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <th>
-                        <a href="#!"
-                          >[공지사항] 개인정보 처리방침 변경안내처리방침</a
-                        >
-                        <p>테스트</p>
-                      </th>
-                      <td>2017.07.13</td>
-                    </tr>
-
-                    <tr>
-                      <td>2</td>
-                      <th>
-                        <a href="#!"
-                          >공지사항 안내입니다. 이용해주셔서 감사합니다</a
-                        >
-                      </th>
-                      <td>2017.06.15</td>
-                    </tr>
-
-                    <tr>
-                      <td>1</td>
-                      <th>
-                        <a href="#!"
-                          >공지사항 안내입니다. 이용해주셔서 감사합니다</a
-                        >
-                      </th>
-                      <td>2017.06.15</td>
-                    </tr> -->
                   </tbody>
                 </table>
               </div>
@@ -358,14 +277,12 @@ if (navigator.geolocation)
 			            var lat = positions[i].latlng.getLat();
 			            var lng = positions[i].latlng.getLng();
 			            var latlngString = lat + ',' + lng;
-			            var iwRemoveable = true;
 			            var iwContent = '<div style="padding:6px; width:230px;">'+ positions[i].title +'<br><a href="https://map.kakao.com/link/map/'
 			            				+ positions[i].title + ',' + latlngString + '" style="color:blue" target="_blank">지도보기</a> <a href="https://map.kakao.com/link/to/'
 			            				+ positions[i].title + ',' + latlngString + '" style="color:blue" target="_blank">길찾기</a></div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 			            var iwPosition = positions[i]; //인포윈도우 표시 위치입니다
-			            var previousInfowindow = null;
 			            // 마커 클릭 이벤트 리스너 추가
-		           	    addClickListener(marker, iwContent, previousInfowindow);
+		           	    addClickListener(marker, iwContent);
 		           	    
 				        // 현재위치의 마커, message표시
 				        crrentMarker(locPosition, message);
@@ -393,14 +310,13 @@ function crrentMarker(locPosition, message)
         position: locPosition
     }); 
     
-    var iwContent = message, // 인포윈도우에 표시할 내용
-        iwRemoveable = true;
-
+    var iwContent = message; // 인포윈도우에 표시할 내용
+	var iwRemoveable = iwRemoveable;
     // 인포윈도우를 생성합니다
     var infowindow = new kakao.maps.InfoWindow
     ({
-        content : iwContent,
-        removable : iwRemoveable
+        content: iwContent,
+        removable: true
     });
     
     // 인포윈도우를 마커위에 표시합니다 
@@ -412,7 +328,6 @@ function crrentMarker(locPosition, message)
 
 function addClickListener(marker, iwContent) 
 {	
-	var previousInfowindow = null;
 	var infowindow = new kakao.maps.InfoWindow
 	({
         position: marker.getPosition(),
@@ -426,11 +341,6 @@ function addClickListener(marker, iwContent)
         // 새 인포윈도우 열기
         infowindow.setPosition(marker.getPosition());
         infowindow.open(map, marker);
-    }
-
-    // 이전 인포윈도우가 있다면 이전 클릭 이벤트를 제거합니다.
-    if (previousInfowindow) {
-        kakao.maps.event.removeListener(marker, 'click', previousInfowindow);
     }
 
     // 클릭 이벤트 핸들러를 등록합니다.

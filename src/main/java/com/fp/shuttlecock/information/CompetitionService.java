@@ -1,6 +1,7 @@
 package com.fp.shuttlecock.information;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CompetitionService {
 
@@ -13,4 +14,6 @@ public interface CompetitionService {
 	boolean isFirstData();
 	
 	List<CompetitionDTO> getRegionEvent(String region);
+	
+	List<Map<String, Object>> getCompetitionDB();
 }

@@ -1,11 +1,15 @@
 package com.fp.shuttlecock.information;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.openqa.selenium.By;
@@ -15,6 +19,7 @@ import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import lombok.RequiredArgsConstructor;
 
@@ -143,6 +148,49 @@ public class CompetitionServiceImpl implements CompetitionService {
             return null;
         }
     }
+    
+    //캘린더에 DB에 저장된 데이터 가져오기
+    public List<Map<String, Object>> getCompetitionDB() {
+   
+     List<CompetitionDTO> gamesList = getEventByDate();
+   	 List<Map<String, Object>> events = new ArrayList<>();
+   	 for (CompetitionDTO game : gamesList) {
+   		String region1 = game.getRegion();
+   		String url1 = game.getUrl();
+   		String eventTitle = "[" + region1 + "] " + game.getTitle(); //[지역]대회이름
+   		 
+		    Map<String, Object> eventData = new HashMap<>();
+		    eventData.put("region", region1);
+		    eventData.put("title", eventTitle);
+		    eventData.put("url", url1); 
+		    
+		    //캘린더는 ISO 8601 형식의 문자열이나 Timestamp 등을 사용하여 날짜를 표현해야함
+		    Date startDate = game.getStartDate();
+		    Date endDate = game.getEndDate();
+		    
+		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		    String formattedStartDate = formatter.format(startDate);
+		    String formattedEndDate = formatter.format(endDate);
+		    
+		    eventData.put("start", formattedStartDate); //시작일
+		    eventData.put("end", formattedEndDate);     //종료일
+		    
+		    String backgroundColor;
+		    if (region1.contains("전국")) {
+		    	backgroundColor = "rgba(255, 204, 0, 0.3)"; //전국인 경우
+		    } else {
+		    	backgroundColor = "rgba(46, 139, 87, 0.2)"; //그 외의 경우
+		    }
+		    eventData.put("backgroundColor", backgroundColor);
+		    eventData.put("textColor", "#fff");
+		    events.add(eventData);
+   		   	
+   	 	}
+	  
+	   	 return events;
+	}
+    
+    
     
     //정규대회 중복체크
     public boolean isCompCheck(CompetitionDTO competition) {

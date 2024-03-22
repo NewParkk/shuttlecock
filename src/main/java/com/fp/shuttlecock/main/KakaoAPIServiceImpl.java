@@ -16,20 +16,25 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fp.shuttlecock.mypage.CalendarDTO;
+import com.fp.shuttlecock.mypage.MypageService;
 import com.fp.shuttlecock.mypage.MypageServiceImpl;
 import com.fp.shuttlecock.user.UserDTO;
+import com.fp.shuttlecock.user.UserService;
 import com.fp.shuttlecock.user.UserServiceImpl;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @Primary
 @Service
@@ -45,7 +50,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 	private String apiKey;
 	
 	@Override
-	public String kakaoLogin(String code, HttpSession session, RedirectAttributes redirectAttributes) throws JsonMappingException, JsonProcessingException 
+	public String kakaoLogin(String code, HttpSession session, ModelAndView mv) throws JsonMappingException, JsonProcessingException 
 	{
 		
 		//받아온 code로 사용자 정보 불러오기
@@ -105,45 +110,59 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 		ObjectMapper objectMapper2 = new ObjectMapper();
 		KakaoProfile kakaoProfile = objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
 		
-		String id = kakaoProfile.getId().toString();
+		String kakaoId = kakaoProfile.getId().toString();
 		String username = kakaoProfile.getProperties().getNickname();
 		String email = kakaoProfile.getKakao_account().getEmail();
 		String strgender = kakaoProfile.getKakao_account().getGender();
-		int gender = 0;
-		if (strgender.equals("male")) {
-			gender = 1;
-		}else {
-			gender = 2;
-		}
-		UUID uuid = UUID.randomUUID();
-		String garbagePassword= uuid.toString().replace("-", "").substring(0, 12);
+		int gender = strgender.equals("male") ? 1 : 2;
+		//UUID uuid = UUID.randomUUID();
+		//String garbagePassword= uuid.toString().replace("-", "").substring(0, 12);
 		UserDTO kakaoUser = UserDTO.builder()
-							  .userId(id)
+							  .userId(kakaoId)
 							  .username(username)
 							  .userEmail(email)
-							  .pw(id)
+							  .pw(kakaoId)
 							  .gender(gender)
 							  .kakaoYN(true)
 							  .build();
-		System.out.println("id : " + id);
-		UserDTO originUser = userService.getUserByUserId(id);
+		System.out.println("id : " + kakaoId);
+		UserDTO originUser = userService.getUserByUserId(kakaoId);
 		
-		redirectAttributes.addFlashAttribute("accessToken", oauthToken.getAccess_token());
-		
-		// 가입한 아이디가 있으면
+		// 가입한 아이디가 없으면 회원가입 진행
 		if (originUser == null) 
 		{
 			userService.getJoinUser(kakaoUser);
-		// 없으면 회원가입 진행
+		// 있으면 해당 정보로 로그인 진행
 		} else 
 		{
-			UserDTO loginUser = userService.getLoginUser(id, id);
+			UserDTO loginUser = userService.getLoginUser(kakaoId, kakaoId);
 			session.setAttribute("userId", loginUser.getUserId());
 			session.setAttribute("isAdmin", loginUser.isAdmin());
 			session.setAttribute("username", loginUser.getUsername());
-            session.setAttribute("kakaoYN", loginUser.isKakaoYN());
+          session.setAttribute("kakaoYN", loginUser.isKakaoYN());
 		}
-		
+//		UserDTO existingUser = userService.getUserByUserId(kakaoId);
+//
+//		if (existingUser == null) {
+//		    // 기존 사용자가 없는 경우: Kakao 계정 정보로 새로운 사용자 생성
+//		    UserDTO newUser = UserDTO.builder()
+//		            .userId(kakaoId)
+//		            .username(username)
+//		            .userEmail(email)
+//		            .pw(null) // 카카오 로그인 시에는 비밀번호를 사용하지 않음
+//		            .gender(gender)
+//		            .kakaoYN(true)
+//		            // 다른 필드도 설정할 수 있음
+//		            .build();
+//
+//		    userService.getJoinUser(newUser);
+//		} else {
+//		    // 기존 사용자가 있는 경우: Kakao 계정 정보로 로그인
+//			existingUser.setUsername(username);
+//	        existingUser.setUserEmail(email);
+//	        existingUser.setGender(gender);
+//	        existingUser.setKakaoYN(true); 
+//		}	
 		sendKakaoMessage(oauthToken.getAccess_token(),session);
 		
 		return "redirect:/main";
@@ -184,10 +203,10 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
         
         System.out.println("talkDateList : " + talkDate);
         
-        
         // 3일이내 일정들 알람톡으로 보내기
         for (CalendarDTO calendarDTO : talkDate) 
         {
+        	UserDTO user = userService.getUserByUserId(calendarDTO.getUserId());
 			
         	//알람톡 보내기
         	//RestTemplate
@@ -202,7 +221,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
         	// template_object를 Map에 담기
         	Map<String, Object> templateObject = new HashMap<>();
         	templateObject.put("object_type", "text");
-        	templateObject.put("text", calendarDTO.getTitle() + " 일정이 예정되어있습니다!");
+        	templateObject.put("text",user.getUsername() + "님!\n" + calendarDTO.getDate() + "일\n" + calendarDTO.getTitle() + " 일정이 예정되어있습니다!");
         	Map<String, String> link = new HashMap<>();
         	link.put("web_url", "http://localhost:8099/mypage");
         	link.put("mobile_web_url", "http://localhost:8099/mypage");
@@ -227,6 +246,10 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 				kakaoTalkMessage,
 				String.class
         	);
+        	
+        	System.out.println("response" + response.getBody().toString());
+        	
+        	
 		}
         
 	}

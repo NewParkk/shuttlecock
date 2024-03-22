@@ -51,9 +51,10 @@
 						<div class="col">
 							<span class="post-info-text"> <strong>작성자 :</strong>
 							${post.userId}
+							</span>
 						</div>
 						<div class="col">
-							<span class="post-info-text"> <strong>작성 날짜 :</strong>
+							<span class="post-info-text"> <strong>작성 날짜 :</strong></span>
 							<fmt:formatDate value="${post.regdate}" pattern="yyyy-MM-dd HH:mm" />
 						</div>
 					</div>
