@@ -283,10 +283,9 @@ if (navigator.geolocation)
 			            var iwPosition = positions[i]; //인포윈도우 표시 위치입니다
 			            // 마커 클릭 이벤트 리스너 추가
 		           	    addClickListener(marker, iwContent);
-		           	    
-				        // 현재위치의 마커, message표시
-				        crrentMarker(locPosition, message);
 			        }
+			        // 현재위치의 마커, message표시
+			        crrentMarker(locPosition, message);
 			        
 				}//success
 	        })//$ajax
@@ -295,14 +294,13 @@ if (navigator.geolocation)
 } else 
 	{ // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 	    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
-	        message = 'geolocation을 사용할수 없어요..'
-	        crrentMarker(locPosition, message);
+	        message = 'geolocation을 사용할수 없어요..';
 	}
 
 
 // 지도에 마커와 인포윈도우를 표시하는 함수입니다
 function crrentMarker(locPosition, message) 
-{
+{	
     // 마커를 생성합니다
     var marker = new kakao.maps.Marker
     ({  
@@ -311,7 +309,6 @@ function crrentMarker(locPosition, message)
     }); 
     
     var iwContent = message; // 인포윈도우에 표시할 내용
-	var iwRemoveable = iwRemoveable;
     // 인포윈도우를 생성합니다
     var infowindow = new kakao.maps.InfoWindow
     ({

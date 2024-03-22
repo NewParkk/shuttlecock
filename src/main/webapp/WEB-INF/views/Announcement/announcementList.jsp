@@ -25,7 +25,7 @@
 	%>
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
-
+<div id="wrap">
 	<!-- main -->
 	<main id= "main">
         <div id="slider">
@@ -133,7 +133,9 @@
 	
 	<!-- footer -->
 	<%@include file="../include/footer.jsp"%>
+	</div>
 </body>
+
 
 <script>
 	$(function() {
