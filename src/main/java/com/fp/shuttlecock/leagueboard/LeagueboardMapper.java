@@ -32,5 +32,9 @@ public interface LeagueboardMapper {
 	void increaseWriteCount(String userId);
 
 	int updateDeletedLeaguePost(int leagueboardId);
+
+	void decreaseLoserPoint(String userId);
+
+	void decreaseWinnerPoint(String userId);
 	
 }

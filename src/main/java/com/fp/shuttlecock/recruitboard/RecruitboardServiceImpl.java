@@ -76,4 +76,8 @@ public class RecruitboardServiceImpl {
 			recruitboardmapper.updateDeletedTradePost(recruitboardId);
 		}
 	}
+	
+	public void setPostCompleted(int recruitboardId) {
+		recruitboardmapper.setPostCompleted(recruitboardId);
+	}
 }

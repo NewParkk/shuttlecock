@@ -20,15 +20,15 @@
 
 	<insert id="insertLeaguePost" parameterType="LeagueboardDTO">
 		insert into
-		leagueboard (title, content, winner, loser, userId)
+		leagueboard (title, content, winner, loser, userId, winners, losers)
 		values (#{title},
-		#{content}, #{winner}, #{loser}, #{userId})
+		#{content}, #{winner}, #{loser}, #{userId}, #{winners}, #{losers})
 	</insert>
 
 	<update id="updateLeaguePost" parameterType="LeagueboardDTO">
 		update leagueboard
 		set title = #{title}, content = #{content}, winner = #{winner}, loser
-		= #{loser}, regdate = NOW()
+		= #{loser}, regdate = NOW(), winners = #{winners}, losers = #{losers}
 		where leagueboardId = #{leagueboardId}
 	</update>
 
@@ -51,23 +51,18 @@
 		where userId = #{loser}
 	</update>
 
-	<!-- <select id="getAllLeaguePostByPage" parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO" 
-		resultType="LeagueboardDTO"> <bind name="start" value="(pageNum-1)*amount"/> 
-		SELECT * FROM leagueboard <where> (delete_yn IS NULL OR delete_yn != 1) <if 
-		test="searchKeyword != null and searchKeyword != ''"> AND title LIKE CONCAT 
-		('%', #{searchKeyword}, '%') </if> </where> ORDER BY leagueboardId DESC LIMIT 
-		#{start}, #{amount} </select> -->
-
 	<select id="getAllLeaguePostByPage"
 		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
 		resultType="LeagueboardDTO">
 		<bind name="start" value="(pageNum-1)*amount" />
-		SELECT *
+		SELECT leagueboard.*, badge.badgeName
 		FROM leagueboard
+		INNER JOIN user ON leagueboard.userId = user.userId
+		INNER JOIN badge ON user.badgeId = badge.badgeId
 		WHERE (deleteYN IS NULL OR deleteYN != 1)
 		<if test="userId != null">
-			AND (userId NOT IN (SELECT blockedUser FROM blockuser
-			WHERE userId = #{userId}))
+			AND (leagueboard.userId NOT IN (SELECT blockedUser FROM blockuser
+			WHERE blockuser.userId = #{userId}))
 		</if>
 		<if test="searchKeyword != null and searchKeyword != ''">
 			AND title LIKE CONCAT ('%', #{searchKeyword}, '%')
@@ -76,7 +71,7 @@
 			ORDER BY leagueboardId DESC
 		</if>
 		<if test="sort == 1">
-			ORDER BY regdate DESC
+			ORDER BY leagueboard.regdate DESC
 		</if>
 		<choose>
 			<when test="isMain == 1">
@@ -92,13 +87,15 @@
 		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
 		resultType="LeagueboardDTO">
 		<bind name="start" value="(pageNum-1)*amount" />
-		SELECT *
+		SELECT leagueboard.*, badge.badgeName
 		FROM leagueboard
+		INNER JOIN user ON leagueboard.userId = user.userId
+		INNER JOIN badge ON user.badgeId = badge.badgeId
 		<where>
 			(deleteYN IS NULL OR deleteYN != 1)
 			<if test="userId != null">
-				AND (userId NOT IN (SELECT blockedUser FROM blockuser
-				WHERE userId = #{userId}))
+				AND (leagueboard.userId NOT IN (SELECT blockedUser FROM blockuser
+				WHERE blockuser.userId = #{userId}))
 			</if>
 			<if test="category == 'title'">
 				<if test="searchKeyword != null and searchKeyword != ''">
@@ -107,7 +104,7 @@
 			</if>
 			<if test="category == 'user_userId'">
 				<if test="searchKeyword != null and searchKeyword != ''">
-					AND userId LIKE CONCAT ('%', #{searchKeyword}, '%')
+					AND leagueboard.userId LIKE CONCAT ('%', #{searchKeyword}, '%')
 				</if>
 			</if>
 		</where>
@@ -156,5 +153,13 @@
 		leagueboard
 		set deleteYN = 1
 		where leagueboardId = #{leagueboardId}
+	</update>
+	
+	<update id="decreaseLoserPoint" parameterType="string">
+		update user set losecount = losecount - 1 where userId = #{userId}
+	</update>
+	
+	<update id="decreaseWinnerPoint" parameterType="string">
+		update user set wincount = wincount - 1 where userId = #{userId}
 	</update>
 </mapper>

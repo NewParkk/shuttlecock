@@ -81,4 +81,8 @@ public class TradeboardServiceImpl implements TradeboardService {
 		}
 	}
 
+	public String getBadgeNameById(int badgeId) {
+		return tradeboardmapper.getBadgeNameById(badgeId);
+	}
+
 }

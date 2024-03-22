@@ -13,5 +13,7 @@ public interface BlockuserMapper {
 	void deleteBlockuser(BlockuserDTO blockuser);
 
 	List<BlockuserDTO> getBlockedUserList(PageRequestDTO pagerequest);
+
+	int getTotalCount(PageRequestDTO pagerequest);
 	
 }

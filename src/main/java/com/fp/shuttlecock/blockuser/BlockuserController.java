@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fp.shuttlecock.tradeboard.PageRequestDTO;
+import com.fp.shuttlecock.tradeboard.PageResponseDTO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -39,8 +40,15 @@ public class BlockuserController {
 	public String getMethodName(PageRequestDTO pagerequest, HttpSession session, Model model) {
 		String view = "error";
 		if(session.getAttribute("userId") != null) {
-			
+			pagerequest.setUserId(String.valueOf(session.getAttribute("userId")));
+			pagerequest.setAmount(5);
+			System.out.println("페이지리퀘스트 : " + pagerequest);
 			List<BlockuserDTO> blockeduserList = blockuserService.getBlockedUserList(pagerequest);
+			System.out.println("차단된 사용자 리스트 : " + blockeduserList);
+			int totalCount = blockuserService.getTotalCount(pagerequest);
+			PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalCount)
+					.pageAmount(pagerequest.getAmount()).pageRequest(pagerequest).build();
+			model.addAttribute("pageInfo", pageResponse);
 			model.addAttribute("blockeduserList", blockeduserList);
 			view = "/mypage/manageBlockedUser";
 		}

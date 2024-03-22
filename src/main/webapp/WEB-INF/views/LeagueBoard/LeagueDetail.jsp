@@ -39,7 +39,7 @@
 					</p>
 					<p class="post-metadata">
 						<span class="post-info-text"> <strong>작성자:</strong>
-							${leagueboard.userId}
+							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">${leagueboard.userId}
 						</span> <span class="post-info-text"> <strong>작성 시간:</strong>
 							<fmt:formatDate value="${leagueboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
 						</span>
@@ -50,12 +50,22 @@
 				<div class="post-info">
 				<p class="post-metadata">
 					<span class="post-info-text"> <strong>승자:</strong>
-						${leagueboard.winner}
+						<c:if test="${not empty leagueboard.winners}">
+								${leagueboard.winners} 
+						</c:if>
+						<c:if test="${not empty leagueboard.winner}">
+							${leagueboard.winner}
+						</c:if>
 					</span> 
 					<br>
 					<br>
 					<span class="post-info-text"> <strong>패자:</strong>
-						${leagueboard.loser}
+						<c:if test="${not empty leagueboard.losers}">
+							${leagueboard.losers}
+						</c:if>
+						<c:if test="${not empty leagueboard.loser}">
+							${leagueboard.loser}
+						</c:if>
 					</span>
 				</p>
 				</div>

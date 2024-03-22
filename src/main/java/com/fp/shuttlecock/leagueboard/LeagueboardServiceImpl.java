@@ -41,20 +41,10 @@ public class LeagueboardServiceImpl implements LeagueboardService{
 	}
 
 	public void increaseWinnerPoint(String winner) {
-		if(winner.contains(",")) {
-			String[] winnerList = winner.split(",");
-			leaguemapper.increaseWinnerPoint(winnerList[0]);
-			leaguemapper.increaseWinnerPoint(winnerList[1]);
-		}
 		leaguemapper.increaseWinnerPoint(winner);
 	}
 
 	public void increaseLoserPoint(String loser) {
-		if(loser.contains(",")) {
-			String[] loserList = loser.split(",");
-			leaguemapper.increaseLoserPoint(loserList[0]);
-			leaguemapper.increaseLoserPoint(loserList[1]);
-		}
 		leaguemapper.increaseLoserPoint(loser);
 	}
 
@@ -85,6 +75,26 @@ public class LeagueboardServiceImpl implements LeagueboardService{
 			result = true;
 		}
 		return result;
+	}
+
+	public void increaseWinnerPoint(List<String> winnerList) {
+		for(String winner : winnerList) {
+			leaguemapper.increaseWinnerPoint(winner);
+		}
+	}
+
+	public void increaseLoserPoint(List<String> loserList) {
+		for(String loser : loserList) {
+			leaguemapper.increaseLoserPoint(loser);
+		}
+	}
+
+	public void decreaseLoserPoint(String userId) {
+		leaguemapper.decreaseLoserPoint(userId);
+	}
+
+	public void decreaseWinnerPoint(String userId) {
+		leaguemapper.decreaseWinnerPoint(userId);
 	}
 
 }

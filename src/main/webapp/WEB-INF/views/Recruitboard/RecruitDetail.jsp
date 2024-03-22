@@ -16,6 +16,11 @@
 .contents {
 	width: 80%;
 }
+
+#leagueRegister:disabled {
+	background-color: #d2d2d2;
+	color: white;
+}
 </style>
 <body>
 	<spring:eval
@@ -43,9 +48,9 @@
 					</p>
 					<p class="post-metadata">
 						<span class="post-info-text"> <strong>작성자:</strong>
-							${recruitboard.userId}
-						</span> <span class="post-info-text"> <strong>작성 시간:</strong>
-							<fmt:formatDate value="${recruitboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
+							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">${recruitboard.userId}
+						</span> <span class="post-info-text"> <strong>작성 시간:</strong> <fmt:formatDate
+								value="${recruitboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
 						</span> <span class="post-info-text"> <strong>조회:</strong>
 							${recruitboard.hit}
 						</span>
@@ -70,8 +75,8 @@
 					<button type="button" class="btn btn-primary whyBtn listBtn"
 						id="goList" style="margin: 0px 0px 20px 10px;">목록</button>
 					<c:if test="${sessionScope.userId eq recruitboard.userId}">
-						<button type="submit" class="btn btn-primary goBtn updateBtn" 
-						style="margin: 0px 0px 20px 10px;">수정</button>
+						<button type="submit" class="btn btn-primary goBtn updateBtn"
+							style="margin: 0px 0px 20px 10px;">수정</button>
 					</c:if>
 					<c:if
 						test="${sessionScope.userId eq recruitboard.userId or sessionScope.isAdmin eq true}">
@@ -81,7 +86,15 @@
 						id="LikeBtn">추천 ${recruitboard.like}</button>
 					<c:if
 						test="${sessionScope.userId != recruitboard.userId and not empty sessionScope.userId}">
-						<button type="button" id="userblock" style="margin: 0px 0px 20px 10px;">게시자차단</button>
+						<button type="button" id="userblock"
+							style="margin: 0px 0px 20px 10px;">게시자차단</button>
+					</c:if>
+					<c:if
+						test="${sessionScope.userId eq recruitboard.userId and recruitboard.complete ne 1 and (recruitboard.recruitType eq 1
+						or recruitboard.recruitType eq 2)}">
+						<button type="button" id="leagueRegister"
+							onclick="redirectToInsertForm()"
+							style="margin: 0px 0px 20px 10px;">전적반영</button>
 					</c:if>
 				</div>
 				<!-- </form> -->
@@ -118,10 +131,16 @@
 								<div class="row">
 									<div class="col">
 										<span class="post-info-text com-writer"> <strong>${comments.userId}</strong></span>
+										<c:if
+											test="${recruitboard.userId eq sessionScope.userId and recruitboard.complete ne 1 
+											and (recruitboard.recruitType eq 1 or recruitboard.recruitType eq 2)}">
+											<input type="checkbox" id="leaguer_${comments.userId}"
+												name="leaguer" value="${comments.userId}">모집하기
+										</c:if>
 									</div>
 									<div class="col">
-										<span class="post-info-text com-date">
-											<fmt:formatDate value="${comments.regdate}" pattern="yyyy-MM-dd HH:mm" />
+										<span class="post-info-text com-date"> <fmt:formatDate
+												value="${comments.regdate}" pattern="yyyy-MM-dd HH:mm" />
 										</span>
 									</div>
 								</div>
@@ -387,6 +406,50 @@ $(document).ready(function() {
 	    		} // success
 	    	}) // ajax
 	    }) //버튼 클릭
-	
+	    
+		var leagueRegister = document.getElementById('leagueRegister');
+		
+		window.onload = function() {
+			leagueRegister.disabled = true;
+		}
+		
+		var checkboxes = document.querySelectorAll('input[type="checkbox"][name="leaguer"]');
+
+		var checkedCount = 0;
+		
+		var checkedValues = [];
+		
+		checkboxes.forEach(function(checkbox) {
+		    checkbox.addEventListener('change', function() {
+		        if (checkbox.checked) {
+		            checkedCount++;
+		            checkedValues.push(checkbox.value);
+		        } else {
+		            checkedCount--;
+		            var index = checkedValues.indexOf(checkbox.value);
+		            if(index !== -1){
+		            	checkedValues.splice(index, 1);
+		            }
+		        }
+
+		        if ((${recruitboard.recruitType} == 2 && checkedCount === 3) || 
+		        		(${recruitboard.recruitType} == 1 && checkedCount === 1)) {
+		            leagueRegister.disabled = false;
+		        } else {
+		            leagueRegister.disabled = true;
+		        }
+		    });
+		});
+		
+		function redirectToInsertForm() {
+		    var queryString = checkedValues.map(function(item) {
+		        return 'userList=' + encodeURIComponent(item);
+		    }).join('&');
+		    console.log(queryString);
+		    window.location.href = "/LeagueBoard/insert?" + queryString 
+		    		+ "&recruitType=${recruitboard.recruitType}&recruitboardId=${recruitboard.recruitboardId}";
+		}
+		
+		
 </script>
 </html>

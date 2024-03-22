@@ -25,9 +25,11 @@ import com.fp.shuttlecock.comments.CommentsDTO;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
 import com.fp.shuttlecock.likes.LikesDTO;
 import com.fp.shuttlecock.recruitboard.RecruitboardDTO;
+import com.fp.shuttlecock.recruitboard.RecruitboardServiceImpl;
 import com.fp.shuttlecock.tradeboard.PageRequestDTO;
 import com.fp.shuttlecock.tradeboard.PageResponseDTO;
 import com.fp.shuttlecock.tradeboard.TradeboardDTO;
+import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
 import com.fp.shuttlecock.user.UserServiceImpl;
 import com.fp.shuttlecock.util.PageCreate;
 import com.fp.shuttlecock.util.PageVO;
@@ -56,6 +58,10 @@ public class FreeboardController {
 	private CommentsServiceImpl commentService;
 	@Autowired
 	private NaverObjectStorage naverfile;
+	@Autowired
+	private UserServiceImpl userService;
+	@Autowired
+	private TradeboardServiceImpl badgeService;
 
 	@GetMapping("/freeDetail/{freeboardId}")
 	public String getBoardByBoardId(@PathVariable int freeboardId, Model model) {
@@ -66,6 +72,8 @@ public class FreeboardController {
 		FreeboardDTO freeboard = null;
 		try {
 			freeboard = service.getFreePostByFreeboardId(freeboardId);
+			int badgeId = userService.getUserByUserId(freeboard.getUserId()).getBadgeId(); 
+			String badgeName = badgeService.getBadgeNameById(badgeId);
 //			model.addAttribute("pageInfo", pageRequest);
 			if (freeboard != null) {
 				List<CommentsDTO> commentList = commentService.getCommentList(freeboardId, 2);
@@ -76,6 +84,7 @@ public class FreeboardController {
 				model.addAttribute("freeboard", freeboard);
 				model.addAttribute("commentList", commentList);
 				System.out.println(commentList);
+				model.addAttribute("badgeName", badgeName);
 				view = "Freeboard/freeDetail";
 			}
 		} catch (Exception e) {

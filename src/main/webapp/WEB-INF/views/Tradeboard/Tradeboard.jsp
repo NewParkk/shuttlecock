@@ -70,18 +70,7 @@
 	<main id="boardmain">
 		<section id="contents">
 			<!-- aside -->
-			<div class="aside">
-				<div class="menubar">
-					<ul>
-						<li><a class="list" href="/Tradeboard?itemClass=0">전체</a></li>
-						<li><a class="list" href="/Tradeboard?itemClass=1">의류</a></li>
-						<li><a class="list" href="/Tradeboard?itemClass=2">라켓</a></li>
-						<li><a class="list" href="/Tradeboard?itemClass=3">보호대</a></li>
-						<li><a class="list" href="/Tradeboard?itemClass=4">신발</a></li>
-						<li><a class="list" href="/Tradeboard?itemClass=5">기타</a></li>
-					</ul>
-				</div>
-			</div>
+			<%@ include file="category.jsp"%>
 			<!-- contents -->
 			<div class="noticeboard">
 				<div class="title" style="">
@@ -92,8 +81,9 @@
 				</div>
 				<div id="board-list">
 					<div class="container">
-						<form action="/Tradeboard" method="get">
-							<div class="search-wrap clearfix" style="margin-left: 30px;">
+						<form action="/Tradeboard" method="get"
+							style="text-align: center;">
+							<div class="search-wrap clearfix">
 								<select name="category" style="width: 100px; margin-left: 10px"
 									class="form-control" id="search-select">
 									<option value="user_userId"
@@ -147,6 +137,49 @@
 								name="category" type="hidden"
 								value="${pageInfo.pageRequest.category}">
 						</form>
+						
+						<table class="table" style="width: 90%; margin: 0 auto;">
+							<thead>
+								<tr>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;">
+										<a class="item-div" href="/Tradeboard?itemClass=0">
+										전체
+										</a></span>
+									</th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;">
+										<a class="item-div" href="/Tradeboard?itemClass=1">
+										의류
+										</a></span>
+									</th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;">
+										<a class="item-div" href="/Tradeboard?itemClass=2">
+										라켓
+										</a></span>
+									</th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;">
+										<a class="item-div" href="/Tradeboard?itemClass=3">
+										보호대
+										</a></span>
+									</th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;">
+										<a class="item-div" href="/Tradeboard?itemClass=4">
+										신발
+										</a></span>
+									</th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;">
+										<a class="item-div" href="/Tradeboard?itemClass=5">
+										기타
+										</a></span>
+									</th>
+								</tr>
+							</thead>
+						</table>
 
 						<table class="table" style="width: 90%; margin: 0 auto;">
 							<thead>
@@ -259,7 +292,7 @@
 											</span>
 										</dd>
 										<dd align="center">
-											<span style="font-size: 11pt;"> <b>${tradeboard.userId}</b>
+											<span style="font-size: 11pt;"> <b><img src="/badge/${tradeboard.badgeName}.jpg" style="height:15px; width:15px;">${tradeboard.userId}</b>
 											</span><br>
 										</dd>
 										<c:choose>
@@ -368,6 +401,12 @@
 	    }
 
 	    document.querySelectorAll('.region-div').forEach(item => {
+	        item.addEventListener('click', event => {
+	            makeBold(event.target);
+	        });
+	    });
+	    
+	    document.querySelectorAll('.item-div').forEach(item => {
 	        item.addEventListener('click', event => {
 	            makeBold(event.target);
 	        });

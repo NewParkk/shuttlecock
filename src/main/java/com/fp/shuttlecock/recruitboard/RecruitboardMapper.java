@@ -33,5 +33,7 @@ public interface RecruitboardMapper {
 	List<Integer> findCompletedBoards(Timestamp threeDaysAgo);
 
 	List<Integer> getCompletedPost();
+
+	void setPostCompleted(int recruitboardId);
 	
 }

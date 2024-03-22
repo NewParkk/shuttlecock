@@ -244,7 +244,7 @@
 												</td>
 											</c:when>
 										</c:choose>
-										<td bgcolor="">${recruitboard.userId}</td>
+										<td bgcolor=""><img src="/badge/${recruitboard.badgeName}.jpg" style="height:15px; width:15px;">${recruitboard.userId}</td>
 										<td bgcolor=""><fmt:formatDate
 												value="${recruitboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
 										</td>
