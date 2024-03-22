@@ -22,5 +22,5 @@ public class CommentsDTO {
 	private int bno;
 	private int commentType;
 	private String userId;
-	
+	private int deleteYN;
 }

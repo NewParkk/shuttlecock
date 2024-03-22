@@ -62,8 +62,11 @@
 	</update>
 	
 	<select id="getCommentList" parameterType="map" resultType="CommentsDTO">
-		select * from comments where bno = #{bno} and commentType = #{commentType}
+		select * from comments where bno = #{bno} and commentType = #{commentType} and (deleteYN IS NULL OR deleteYN != 1)
 		order by commentsId DESC
 	</select>
 	
+	<update id="updateDeletedComment" parameterType="_int">
+		update comments set deleteYN = 1 where commentsId = #{commentsId}
+	</update>
 </mapper>

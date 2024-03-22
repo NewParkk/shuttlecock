@@ -61,35 +61,35 @@
 		resultType="com.fp.shuttlecock.mypage.LeagueboardDTO">
 		SELECT *
 		FROM leagueboard
-		WHERE userId = #{userId}
+		WHERE userId = #{userId} AND (deleteYN IS NULL OR deleteYN != 1)
 	</select>
 
 	<select id="getFreeboard"
 		resultType="com.fp.shuttlecock.mypage.FreeboardDTO">
 		SELECT *
 		FROM freeboard
-		WHERE userId = #{userId}
+		WHERE userId = #{userId} AND (deleteYN IS NULL OR deleteYN != 1)
 	</select>
 
 	<select id="getTradeboard"
 		resultType="com.fp.shuttlecock.mypage.TradeboardDTO">
 		SELECT *
 		FROM tradeboard
-		WHERE userId = #{userId}
+		WHERE userId = #{userId} AND (deleteYN IS NULL OR deleteYN != 1)
 	</select>
 
 	<select id="getRecruitBoard"
 		resultType="com.fp.shuttlecock.mypage.RecruitboardDTO">
 		SELECT *
 		FROM recruitBoard
-		WHERE userId = #{userId}
+		WHERE userId = #{userId} AND (deleteYN IS NULL OR deleteYN != 1)
 	</select>
 
 	<select id="getComment"
 		resultType="com.fp.shuttlecock.mypage.CommentsDTO">
 		SELECT *
 		FROM comments
-		WHERE userId = #{userId}
+		WHERE userId = #{userId} AND (deleteYN IS NULL OR deleteYN != 1)
 	</select>
 
 	<select id="getLike"

@@ -57,85 +57,7 @@
 				<c:if test="${not empty sessionScope.userId}">
 					<form action="/LeagueBoard/insert" method="POST"
 						enctype="application/x-www-form-urlencoded" style="margin: 30px 60px 30px 60px;">
-						<%-- <div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<span class="post-info-text"> <strong>제목 : </strong></span>
-							<input type="text" class="form-control" name="title"
->>>>>>> origin/feat/mh
-								id="exampleFormControlInput1" placeholder="제목을 입력하세요. ">
-						</div>
-						<div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<span class="post-info-text"> <strong>작성자 :</strong></span>
-							${sessionScope.userId}
-						</div>
-						<div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<textarea class="form-control " name="content" id="ckeditor"
-								rows="6" placeholder="경기 내용을 입력하세요."></textarea>
-						</div>
-						<div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<span class="post-info-text"> <strong>승자 :</strong></span>
-							<c:if test="${recruitType == 1}">
-								<select name="winner" style="width: 100px; margin-left: 10px;"
-									class="form-control" id="search-select">
-									<c:forEach items="${userList}" var="user">
-										<option value="${user}">${user}</option>
-									</c:forEach>
-								</select>
-							</c:if>
-							<c:if test="${recruitType == 2}">
-								<select name="winnerList" style="width: 100px; margin-left: 10px;"
-									class="form-control" id="search-select winner1">
-									<c:forEach items="${userList}" var="user">
-										<option value="${user}">${user}</option>
-									</c:forEach>
-								</select>
-								<select name="winnerList" style="width: 100px; margin-left: 10px;"
-									class="form-control" id="search-select winner2">
-									<c:forEach items="${userList}" var="user">
-										<option value="${user}">${user}</option>
-									</c:forEach>
-								</select>
-							</c:if>
-						</div>
-						<div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<span class="post-info-text"> <strong>패자 :</strong></span>
-							<c:if test="${recruitType == 1}">
-								<select name="loser" style="width: 100px; margin-left: 10px;"
-									class="form-control" id="search-select">
-									<c:forEach items="${userList}" var="user">
-										<option value="${user}">${user}</option>
-									</c:forEach>
-								</select>
-							</c:if>
-							<c:if test="${recruitType == 2}">
-								<select name="loserList" style="width: 100px; margin-left: 10px;"
-									class="form-control" id="search-select loser1">
-									<c:forEach items="${userList}" var="user">
-										<option value="${user}">${user}</option>
-									</c:forEach>
-								</select>
-								<select name="loserList" style="width: 100px; margin-left: 10px;"
-									class="form-control" id="search-select loser2">
-									<c:forEach items="${userList}" var="user">
-										<option value="${user}">${user}</option>
-									</c:forEach>
-								</select>
-							</c:if>
-						</div>
-						<div class=button-container>
-							<input type="hidden" value="${sessionScope.userId}" name="userId">
-							<input type="hidden" value="${recruitboardId}" name="recruitboardId">
-							<button type="button" class="btn btn-primary CancleBtn"
-								onclick="location.href='/LeagueBoard'"
-								style="margin-left: 10px;">취&nbsp; 소</button>
-							<button type="submit" class="btn btn-primary whyBtn"
-								style="margin-left: 10px; margin-top: 0px; height: 100%;">글
-								작성</button>
-						</div> --%>
-						
-						
 					<!-- 승자 패자 table 변경부분 -->
-					
-					
 						 <table class="board-table"> 
 				            <colgroup>
 				                <col width="15%">
@@ -179,7 +101,6 @@
 			        	</table>
 			        	
 			        	<!-- 승자 패자 table 변경부분 //////////////////////-->
-			        	
 			        	<div class="mb-3" style="width: 70%; margin: 0 auto;">
 							<span class="post-info-text"> <strong>승자 :</strong></span>
 							<c:if test="${recruitType == 1}">
@@ -229,11 +150,13 @@
 									</c:forEach>
 								</select>
 							</c:if>
+							<div id="message"></div>
 						</div>
 			        	
 						<div class=button-container>
 							<input type="hidden" value="${sessionScope.userId}"
 								name="userId">
+								<input type="hidden" value="${recruitboardId}" name="recruitboardId">
 							<button type="button" class="btn btn-primary CancleBtn" onclick="location.href='/LeagueBoard'" style="margin-left: 10px;">취&nbsp; 소</button>
 							<button type="submit" class="btn btn-primary whyBtn" style="margin-right:10px;">글작성</button>
 						</div>
@@ -295,8 +218,12 @@ $(document).ready(function() {
         // 중복된 값이 있으면 버튼 비활성화, 없으면 활성화
         if (hasDuplicate) {
             submitButton.prop('disabled', true);
+            $('#message').css('color', 'red');
+            $('#message').html("중복된 사용자가 선택되었습니다.");
         } else {
             submitButton.prop('disabled', false);
+            $('#message').css('color', 'green');
+            $('#message').html("글 등록이 가능합니다.");
         }
     }
 

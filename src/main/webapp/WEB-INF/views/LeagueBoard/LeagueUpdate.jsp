@@ -56,97 +56,6 @@
 				<c:if test="${not empty sessionScope.userId}">
 					<form action="/LeagueBoard/update" method="POST"
 						enctype="application/x-www-form-urlencoded" style="margin: 30px 60px 30px 60px;">
-						<%-- <input type="hidden" id="leagueboardId" name="leagueboardId"
-							value="${leagueboard.leagueboardId}" /> <input type="hidden"
-							id="user_userId" name="userId" value="${leagueboard.userId}" />
-
-						<div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<span class="post-info-text"> <strong>제목 :</strong></span> <input
-								type="text" class="form-control" name="title"
-								id="exampleFormControlInput1" value="${leagueboard.title}">
-						</div>
-						<div class="row g-3" style="width: 70%; margin: 0 auto;">
-							<div class="col">
-								<span class="post-info-text"> <strong>작성자 :</strong></span>
-								${leagueboard.userId}
-							</div>
-							<div class="col">
-								<span class="post-info-text"> <strong>작성 날짜 :</strong></span>
-								<fmt:formatDate value="${leagueboard.regdate}"
-									pattern="yyyy-MM-dd HH:mm" />
-							</div>
-						</div>
-						<div class="row g-3" style="width: 70%; margin: 0 auto;">
-							<div class="col">
-								<span class="post-info-text"> <strong>승자 :</strong></span>
-								<c:if test="${not empty leagueboard.winner}">
-									<select name="winner" style="width: 100px; margin-left: 10px;"
-										class="form-control" id="search-select">
-										<c:forEach items="${userList}" var="user">
-											<option value="${user}">${user}</option>
-										</c:forEach>
-									</select>
-								</c:if>
-								<c:if test="${not empty leagueboard.winners}">
-									<select name="winnerList"
-										style="width: 100px; margin-left: 10px;" class="form-control"
-										id="search-select winner1">
-										<c:forEach items="${userList}" var="user">
-											<option value="${user}">${user}</option>
-										</c:forEach>
-									</select>
-									<select name="winnerList"
-										style="width: 100px; margin-left: 10px;" class="form-control"
-										id="search-select winner2">
-										<c:forEach items="${userList}" var="user">
-											<option value="${user}">${user}</option>
-										</c:forEach>
-									</select>
-								</c:if>
-							</div>
-							<div class="col">
-								<span class="post-info-text"> <strong>패자 :</strong></span>
-								<c:if test="${not empty leagueboard.loser}">
-									<select name="loser" style="width: 100px; margin-left: 10px;"
-										class="form-control" id="search-select">
-										<c:forEach items="${userList}" var="user">
-											<option value="${user}">${user}</option>
-										</c:forEach>
-									</select>
-								</c:if>
-								<c:if test="${not empty leagueboard.losers}">
-									<select name="loserList"
-										style="width: 100px; margin-left: 10px;" class="form-control"
-										id="search-select loser1">
-										<c:forEach items="${userList}" var="user">
-											<option value="${user}">${user}</option>
-										</c:forEach>
-									</select>
-									<select name="loserList"
-										style="width: 100px; margin-left: 10px;" class="form-control"
-										id="search-select loser2">
-										<c:forEach items="${userList}" var="user">
-											<option value="${user}">${user}</option>
-										</c:forEach>
-									</select>
-								</c:if>
-							</div>
-						</div>
-						<div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<textarea class="form-control " name="content" id="ckeditor"
-								rows="6">${leagueboard.content}</textarea>
-						</div>
-						<div class=button-container>
-							<button type="submit" class="btn btn-primary whyBtn">글
-								수정</button>
-							<button type="button" class="btn btn-primary CancleBtn"
-<<<<<<< HEAD
-								onclick="removeGlobal();">취&nbsp; 소</button>
-						</div>
-=======
-								onclick="location.href='/LeagueBoard'">취&nbsp; 소</button>
-						</div> --%>
-						
 						<input type="hidden" id="leagueboardId" name="leagueboardId"
 							value="${leagueboard.leagueboardId}" /> 
 						<input type="hidden" id="user_userId" name="userId" value="${leagueboard.userId}" />
@@ -253,6 +162,7 @@
 									</select>
 								</c:if>
 							</div>
+							<div id="message"></div>
 						</div>
 						<div class=button-container>
 							<button type="submit" class="btn btn-primary whyBtn">글
@@ -322,10 +232,13 @@ $(document).ready(function() {
 
         // 중복된 값이 있으면 버튼 비활성화, 없으면 활성화
         if (hasDuplicate) {
-        	
             submitButton.prop('disabled', true);
+            $('#message').css('color', 'red');
+            $('#message').html("중복된 사용자가 선택되었습니다.");
         } else {
             submitButton.prop('disabled', false);
+            $('#message').css('color', 'green');
+            $('#message').html("글 수정이 가능합니다.");
         }
     }
 

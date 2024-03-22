@@ -46,7 +46,8 @@ public class CommentsController {
 	    		String.valueOf(session.getAttribute("userId")).equals(comment.getUserId()) ||
 	    		(boolean)session.getAttribute("isAdmin") == true) {
 	        //try {
-	            boolean result = commentService.deleteComment(commentsId);
+	            //boolean result = commentService.deleteComment(commentsId);
+	            boolean result = commentService.updateDeletedComment(commentsId);
 	            if (result) {
 	            	commentService.decreaseCommentCount(comment);
 	                return ResponseEntity.ok("댓글 삭제 성공");

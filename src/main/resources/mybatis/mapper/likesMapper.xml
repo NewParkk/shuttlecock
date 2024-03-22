@@ -20,14 +20,14 @@
 	</update>
 	
 	<select id="checkLikesList" parameterType="LikesDTO" resultType="_int">
-		select count(likesId) from likes where userId = #{userId} and bno = #{bno} and likesType = #{likesType}
+		select count(likesId) from likes where userId = #{userId} and bno = #{bno} and likesType = #{likesType} AND (deleteYN IS NULL OR deleteYN != 1)
 	</select>
 	
-	<!-- <update id="likesCancel" parameterType="LikesDTO">
-		update likes set delete_yn = 1 where likesId = #{likesId}
-	</update> -->
+	<update id="likesCancel" parameterType="LikesDTO">
+		update likes set deleteYN = 1 where userId = #{userId} AND bno = #{bno} AND likesType = #{likesType}
+	</update>
 	
-	<delete id="likesCancel" parameterType="LikesDTO">
+	<delete id="likesCancel1" parameterType="LikesDTO">
 		delete from likes where userId = #{userId} AND bno = #{bno} AND likesType = #{likesType}
 	</delete>
 	

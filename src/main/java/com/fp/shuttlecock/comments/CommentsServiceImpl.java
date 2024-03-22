@@ -56,4 +56,12 @@ public class CommentsServiceImpl implements CommentsService {
 		commentsmapper.decreaseCommentCount(comment);
 	}
 
+	public boolean updateDeletedComment(int commentsId) {
+		boolean result = false;
+		if(commentsmapper.updateDeletedComment(commentsId) != 0) {
+			result = true;
+		}
+		return result;
+	}
+
 }
