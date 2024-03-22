@@ -21,6 +21,16 @@
 	width: 1000px;
 	margin: 20px auto;
 }
+label {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 15px; 
+    font-weight: normal; 
+    cursor: pointer; 
+}
+input[type="radio"]:checked + label {
+    font-weight: bold; 
+}
 </style>
 <body>
 	<spring:eval
@@ -28,23 +38,33 @@
 		var="imgUrl" />
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-	<main id="boardmain">
+	<!-- main -->
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+
+		<!-- section -->
 		<section id="contents">
 			<%@ include file="category.jsp"%>
 
 			<div class="noticeboard">
-				<div class="title" style="">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
-						<h3>물품거래소</h3>
+						<h3>물품거래소 &#10095</h3>
 					</div>
 				</div>
+				<div class="title1" style="margin-left: 60px;">
+	              <div class="vline"></div>
+	              <h2>물품거래소 글 수정</h2>
+	            </div>
 
 				<!-- main  -->
 				<c:if test="${not empty sessionScope.userId}">
 					<form action="/Tradeboard/update" method="POST"
-						enctype="multipart/form-data">
-						<input type="hidden" id="tradeboardId" name="tradeboardId"
+						enctype="multipart/form-data" style="margin: 30px 60px 30px 60px;"> 
+						<%-- <input type="hidden" id="tradeboardId" name="tradeboardId"
 							value="${tradeboard.tradeboardId}" /> <input type="hidden"
 							id="userId" name="userId" value="${tradeboard.userId}" />
 
@@ -110,7 +130,93 @@
 								수정</button>
 							<button type="button" class="btn btn-primary CancleBtn"
 								onclick="location.href='/Tradeboard'">취&nbsp; 소</button>
-						</div>
+						</div> --%>
+						
+						<input type="hidden" id="tradeboardId" name="tradeboardId" value="${tradeboard.tradeboardId}" /> 
+						<input type="hidden" id="userId" name="userId" value="${tradeboard.userId}" />
+						<input name="imageName" type="hidden" value="${tradeboard.imageName}">
+						
+						<table class="board-table"> 
+			            <colgroup>
+			                <col width="15%">
+				            <col width="35%">
+				            <col width="15%">
+				            <col width="35%">
+			            </colgroup>
+			            <tbody> 
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">제목</th>
+			                    <td style="text-align: left; padding-left:10px;">
+			                    	<input type="text" class="form-control1" name="title"
+									id="exampleFormControlInput1" value="${tradeboard.title}">
+			                    </td>
+			                    <th scope="row" bgcolor="#F9F9F9">작성일</th>
+			                    <td scope="row" style="text-align: left; padding-left:10px;">
+							        <fmt:formatDate value="${tradeboard.regdate}" pattern="yyyy-MM-dd HH:mm"/>
+							    </td>
+			                </tr>
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">작성자</th>
+			                    <td scope="row" style="text-align: left; padding-left:10px; font-weight: bold;">
+							        ${tradeboard.userId}
+							    </td>
+							    <th scope="row" bgcolor="#F9F9F9">모집여부</th>
+			                    <td style="text-align: left; padding-left:10px;">
+			                    	<input type="checkbox" id="complete" name="complete" value="1">판매완료
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">지역</th>
+			                    <td colspan="4">
+							        <label><input type="radio" id="region0" name="region" value="0">전체</label>
+							        <label><input type="radio" id="region1" name="region" value="1">서울</label>
+							        <label><input type="radio" id="region2" name="region" value="2">경기</label>
+							        <label><input type="radio" id="region3" name="region" value="3">충청</label>
+							        <label><input type="radio" id="region4" name="region" value="4">경상</label>
+							        <label><input type="radio" id="region5" name="region" value="5">전라</label>
+							        <label><input type="radio" id="region6" name="region" value="6">강원</label>
+							    </td>
+			                </tr>
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">물품</th>
+			                    <td colspan="4">
+							        <label><input type="radio" id="itemClass0" name="itemClass" value="0">전체</label>
+							        <label><input type="radio" id="itemClass1" name="itemClass" value="1">의류</label>
+							        <label><input type="radio" id="itemClass2" name="itemClass" value="2">라켓</label>
+							        <label><input type="radio" id="itemClass3" name="itemClass" value="3">보호대</label>
+							        <label><input type="radio" id="itemClass4" name="itemClass" value="4">신발</label>
+							        <label><input type="radio" id="itemClass5" name="itemClass" value="5">기타</label>
+							    </td>
+			                </tr> 
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">첨부파일</th>
+			                    <td colspan="4" style="text-align: center;">
+		                        	<input class="form-con" type="file" id="formFileMultiple" name="file">
+			                    	<c:if test="${tradeboard.imageName != 'noImage'}">
+									<div class="image-container" style="display: flex; flex-direction: column;">
+										<img
+											src="${imgUrl}/boardFile/3_${tradeboard.imageName}.png" style="width: 100%; height: 150px;">
+										<div style="margin: 10px 10px 5px 10px;">	
+											<!-- 파일 삭제 버튼 -->
+											<button id="del_img">이미지 삭제</button>
+										</div>
+									</div>
+								</c:if>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">내용</th>
+			                    <td colspan="4" style="padding: 10px;">
+			                        <textarea class="form-control " name="content" id="ckeditor" rows="6">${tradeboard.content}</textarea>
+			                    </td>
+			                </tr>
+			            </tbody>
+			        </table>	
+					<div class=button-container>
+						<button type="button" class="btn btn-primary CancleBtn"
+							onclick="location.href='/Tradeboard'">취&nbsp; 소</button>
+						<button type="submit" class="btn btn-primary whyBtn">글 수정</button>
+					</div> 
 					</form>
 
 				</c:if>

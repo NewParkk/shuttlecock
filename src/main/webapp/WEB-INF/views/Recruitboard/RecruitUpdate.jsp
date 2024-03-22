@@ -21,6 +21,16 @@
 	width: 1000px;
 	margin: 20px auto;
 }
+label {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 15px; 
+    font-weight: normal; 
+    cursor: pointer; 
+}
+input[type="radio"]:checked + label {
+    font-weight: bold; 
+}
 </style>
 <body>
 	<spring:eval
@@ -28,23 +38,33 @@
 		var="imgUrl" />
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-	<main id="boardmain">
+	<!-- main -->
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+	
+		<!-- section -->
 		<section id="contents">
 
 			<%@ include file="category.jsp"%>
 			<div class="noticeboard">
-				<div class="title" style="">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
-						<h3>모집게시판</h3>
+						<h3>모집게시판 &#10095</h3>
 					</div>
 				</div>
+				<div class="title1" style="margin-left: 60px;">
+	              <div class="vline"></div>
+	              <h2>모집게시판 글 수정</h2>
+	            </div>
 
 				<!-- main  -->
 				<c:if test="${not empty sessionScope.userId}">
 					<form action="/Recruitboard/update" method="POST"
-						enctype="multipart/form-data">
-						<input type="hidden" id="recruitboardId" name="recruitboardId"
+						enctype="multipart/form-data" style="margin: 30px 60px 30px 60px;">
+						<%-- <input type="hidden" id="recruitboardId" name="recruitboardId"
 							value="${recruitboard.recruitboardId}" /> <input type="hidden"
 							id="userId" name="userId" value="${recruitboard.userId}" />
 
@@ -111,7 +131,94 @@
 								수정</button>
 							<button type="button" class="btn btn-primary CancleBtn"
 								onclick="location.href='/Recruitboard'">취&nbsp; 소</button>
-						</div>
+						</div> --%>
+						
+						<input type="hidden" id="recruitboardId" name="recruitboardId"
+							value="${recruitboard.recruitboardId}" /> 
+						<input type="hidden" id="userId" name="userId" value="${recruitboard.userId}" />
+						<input name="imageName" type="hidden" value="${recruitboard.imageName}">
+							
+						<table class="board-table"> 
+			            <colgroup>
+			                <col width="15%">
+				            <col width="35%">
+				            <col width="15%">
+				            <col width="35%">
+			            </colgroup>
+			            <tbody> 
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">제목</th>
+			                    <td style="text-align: left; padding-left:10px;">
+			                    	<input type="text" class="form-control1" name="title"
+									id="exampleFormControlInput1" value="${recruitboard.title}">
+			                    </td>
+			                    <th scope="row" bgcolor="#F9F9F9">작성일</th>
+			                    <td scope="row" style="text-align: left; padding-left:10px;">
+							        <fmt:formatDate value="${recruitboard.regdate}" pattern="yyyy-MM-dd HH:mm"/>
+							    </td>
+			                </tr>
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">작성자</th>
+			                    <td scope="row" style="text-align: left; padding-left:10px; font-weight: bold;">
+							        ${recruitboard.userId}
+							    </td>
+							    <th scope="row" bgcolor="#F9F9F9">모집여부</th>
+			                    <td style="text-align: left; padding-left:10px;">
+			                    	<input type="checkbox" id="complete" name="complete" value="1">모집완료
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">지역</th>
+			                    <td colspan="4">
+							        <label><input type="radio" id="region0" name="region" value="0">전체</label>
+							        <label><input type="radio" id="region1" name="region" value="1">서울</label>
+							        <label><input type="radio" id="region2" name="region" value="2">경기</label>
+							        <label><input type="radio" id="region3" name="region" value="3">충청</label>
+							        <label><input type="radio" id="region4" name="region" value="4">경상</label>
+							        <label><input type="radio" id="region5" name="region" value="5">전라</label>
+							        <label><input type="radio" id="region6" name="region" value="6">강원</label>
+							    </td>
+			                </tr>
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">경기</th>
+			                    <td colspan="4">
+							        <label><input type="radio" id="recruitType0" name="recruitType" value="0">전체</label>
+							        <label><input type="radio" id="recruitType1" name="recruitType" value="1">리그 단식</label>
+							        <label><input type="radio" id="recruitType2" name="recruitType" value="2">리그 복식</label>
+							        <label><input type="radio" id="recruitType3" name="recruitType" value="3">단식</label>
+							        <label><input type="radio" id="recruitType4" name="recruitType" value="4">복식</label>
+							        <label><input type="radio" id="recruitType5" name="recruitType" value="5">심판</label>
+							    </td>
+			                </tr> 
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">첨부파일</th>
+			                    <td colspan="4" style="text-align: center;">
+		                        	<input class="form-con" type="file" id="formFileMultiple" name="file">
+			                    	<c:if test="${recruitboard.imageName != 'noImage'}">
+									<div class="image-container" style="display: flex; flex-direction: column;">
+										<img
+											src="${imgUrl}/boardFile/4_${recruitboard.imageName}.png" style="width: 100%; height: 150px;">
+										<div style="margin: 10px 10px 5px 10px;">	
+											<!-- 파일 삭제 버튼 -->
+											<button id="del_img">이미지 삭제</button>
+										</div>
+									</div>
+								</c:if>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">내용</th>
+			                    <td colspan="4" style="padding: 10px;">
+			                        <textarea class="form-control " name="content" id="ckeditor" rows="6">${recruitboard.content}</textarea>
+			                    </td>
+			                </tr>
+			            </tbody>
+			        </table>	
+					<div class=button-container>
+						<button type="button" class="btn btn-primary CancleBtn"
+							onclick="location.href='/Recruitboard'">취&nbsp; 소</button>
+						<button type="submit" class="btn btn-primary whyBtn">글 수정</button>
+					</div>		
 					</form>
 
 				</c:if>

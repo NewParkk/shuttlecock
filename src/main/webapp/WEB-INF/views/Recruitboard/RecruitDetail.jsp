@@ -26,20 +26,27 @@
 	<spring:eval
 		expression="@environment.getProperty('NCP.STORAGE.APIURL')"
 		var="imgUrl" />
+		
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
+	
 	<!-- main -->
-	<main id="boardmain">
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+        
+        <!-- section -->
 		<section id="contents">
 
 			<%@ include file="category.jsp"%>
 
 			<!-- 붙혀 넣는곳 -->
 			<div class="noticeboard">
-				<div class="title" style="">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
-						<h3>모집게시판</h3>
+						<h3>모집게시판 &#10095</h3>
 					</div>
 				</div>
 				<div class="post-info">
@@ -47,8 +54,9 @@
 						<strong>${recruitboard.title}</strong>
 					</p>
 					<p class="post-metadata">
-						<span class="post-info-text"> <strong>작성자:</strong>
-							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">${recruitboard.userId}
+						<span class="post-info-text"> 작성자:
+							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">
+							<strong>${recruitboard.userId}</strong>
 						</span> <span class="post-info-text"> <strong>작성 시간:</strong> <fmt:formatDate
 								value="${recruitboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
 						</span> <span class="post-info-text"> <strong>조회:</strong>
@@ -63,17 +71,43 @@
 							</span>
 						</c:if>
 					</p>
+						<!-- <span class="post-info-text"> <strong>작성 시간:</strong>
+						</span>  -->
+					<p style="font-size:14px; color:gray;">
+						<fmt:formatDate value="${recruitboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
+						<span class="post-info-text" style="margin-left:10px;"> 조회&nbsp;${recruitboard.hit}
+						
+							<c:if test="${recruitboard.complete eq 0}">
+								<span class="post-info-text" style="font-size:15px; float: right; color:red;">
+									<span style="font-size:25px;">&#128587;</span>
+									<strong>모집 중</strong>
+								</span>
+							</c:if>
+							<c:if test="${recruitboard.complete eq 1}">
+								<span class="post-info-text" style="font-size:15px; float: right; color:#405448;">
+									<span style="font-size:25px;">&#128581;</span>
+									모집완료
+								</span>
+							</c:if>
+
+						</span>
+					</p>
+					
+					<div class="line"></div>
+					
+					<div class="post-content" id="post-content">${recruitboard.content}</div>
+					<c:if test="${recruitboard.imageName != 'noImage'}">
+						<div class="image-container"
+							style="width: 400px; height: 300px; object-fit: cover;">
+							<img src="${imgUrl}/boardFile/4_${recruitboard.imageName}.png"><br>
+						</div>
+					</c:if>
+					
+					<div class="line"></div>
 				</div>
-				<div class="post-content" id="post-content">${recruitboard.content}</div>
-				<c:if test="${recruitboard.imageName != 'noImage'}">
-					<div class="image-container"
-						style="width: 200px; height: 200px; object-fit: cover;">
-						<img src="${imgUrl}/boardFile/4_${recruitboard.imageName}.png"><br>
-					</div>
-				</c:if>
 				<div class="post-buttons">
 					<button type="button" class="btn btn-primary whyBtn listBtn"
-						id="goList" style="margin: 0px 0px 20px 10px;">목록</button>
+						id="goList" style="margin: 0px 30px 20px 10px;">목록</button>
 					<c:if test="${sessionScope.userId eq recruitboard.userId}">
 						<button type="submit" class="btn btn-primary goBtn updateBtn"
 							style="margin: 0px 0px 20px 10px;">수정</button>
@@ -83,7 +117,7 @@
 						<button type="button" class="btn btn-primary goBtn delbtn">삭제</button>
 					</c:if>
 					<button type="button" class="btn btn-primary goBtn LikeBtn"
-						id="LikeBtn">추천 ${recruitboard.like}</button>
+						id="LikeBtn" style="float:left; margin-left:30px;">&#128077; ${recruitboard.like}</button>
 					<c:if
 						test="${sessionScope.userId != recruitboard.userId and not empty sessionScope.userId}">
 						<button type="button" id="userblock"
@@ -102,8 +136,11 @@
 				<!-- 댓글 -->
 
 				<div class="comment-section">
+					<!-- <div class="comment-form">
+						<h3>댓글</h3>
+					</div> -->
 					<!-- 댓글 작성 폼 -->
-					<c:if test="${not empty sessionScope.userId}">
+					<%-- <c:if test="${not empty sessionScope.userId}">
 						<div class="comment-form">
 							<h3>댓글</h3>
 							<form id="commentForm">
@@ -122,14 +159,17 @@
 									id="com_btn">댓글 등록</button>
 							</form>
 						</div>
-					</c:if>
+					</c:if> --%>
 
 					<!-- 댓글 리스트 -->
 					<div class="comment-box">
 						<c:if test="${not empty commentList}">
+							<div class="comment-form">
+								<h3>댓글</h3>
+							</div>
 							<c:forEach items="${commentList}" var="comments">
 								<div class="row">
-									<div class="col">
+									<div class="col" style="margin-bottom:15px;">
 										<span class="post-info-text com-writer"> <strong>${comments.userId}</strong></span>
 										<c:if
 											test="${recruitboard.userId eq sessionScope.userId and recruitboard.complete ne 1 
@@ -139,12 +179,11 @@
 										</c:if>
 									</div>
 									<div class="col">
-										<span class="post-info-text com-date"> <fmt:formatDate
-												value="${comments.regdate}" pattern="yyyy-MM-dd HH:mm" />
+										<span class="post-info-text com-date" style="font-size:12px; color:gray;">
+											<fmt:formatDate value="${comments.regdate}" pattern="yyyy-MM-dd HH:mm" />
 										</span>
 									</div>
-								</div>
-								<div class="row">
+
 									<div class="col">
 										<div id="com_updateMode_div_${comments.commentsId}">
 											<c:choose>
@@ -161,7 +200,34 @@
 										<textarea class="form-control com_updateMode_textarea"
 											id="exampleFormControlTextarea1_${comments.commentsId}"
 											rows="2" style="display: none;">${comments.content}</textarea>
-
+										<div class="col">
+											<span class="post-info-text com-date" style="font-size:12px; color:gray;">
+												<fmt:formatDate value="${comments.regdate}" pattern="yyyy-MM-dd HH:mm" />
+											</span>
+											
+											<span class="col"  style="float: right;">
+												<c:if test="${sessionScope.userId eq comments.userId}">
+													<button type="button" class="btn btn-primary com_update_btn"
+														id="com_update_btn_${comments.commentsId}"
+														data-toggle="modal"
+														data-target="#editPostModal_${comments.commentsId}">댓글
+														수정</button>
+													<!-- <input type="checkbox" id="secret" name="secret"
+														value="1" style="display: none;">
+													<label for="secret" style="display: none;">비밀댓글</label> -->
+													<button type="button" class="btn btn-primary com_save_btn"
+														id="com_save_btn_${comments.commentsId}"
+														style="display: none;">저장</button>
+												</c:if>
+												<c:if
+													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
+													<button type="button" class="btn btn-primary com_delete_btn"
+														id="com_delete_btn_${comments.commentsId}"
+														value="${comments.commentsId}">댓글 삭제</button>
+												</c:if>
+											</span>
+									
+										</div>
 										<div id="secret-div_${comments.commentsId}" class="form-check"
 											style="display: none;">
 											<input type="checkbox" class="form-check-input secret"
@@ -171,8 +237,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col">
+								<%-- <div class="row">
+									<div class="col"  style="text-align: right;">
 										<c:if test="${sessionScope.userId eq comments.userId}">
 											<button type="button" class="btn btn-primary com_update_btn"
 												id="com_update_btn_${comments.commentsId}"
@@ -192,11 +258,32 @@
 												id="com_delete_btn_${comments.commentsId}"
 												value="${comments.commentsId}">댓글 삭제</button>
 										</c:if>
-									</div>
-								</div>
+									</div> 
+								</div> --%>
 							</c:forEach>
 						</c:if>
 					</div>
+					
+					<!-- 댓글 작성폼 -->
+					<c:if test="${not empty sessionScope.userId}">
+						<form id="commentForm">
+							<div class="comment-container">
+								<div class="form-group">
+									<div class="post-info-text com-writer"> <strong>${sessionScope.userId}</strong></div>
+									<textarea class="form-control content comment-textarea"
+										id="exampleFormControlTextarea1" rows="2" name="content"
+										placeholder="댓글을 남겨보세요"></textarea>
+									<div class="rowcheck" style="display: flex; justify-content: space-between;">	
+										<div class="form-check" style="display: flex; align-items: center; margin-left: 10px;">
+											<input type="checkbox" id="secret" name="secret" value="1">비밀댓글
+										</div>
+										<button type="button" class="comment-submit-button com-btn" id="com_btn">댓글 등록</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</c:if>
+					
 				</div>
 			</div>
 		</section>
@@ -451,5 +538,16 @@ $(document).ready(function() {
 		}
 		
 		
+	    /* input입력 시 테두리 색 변경 */
+	    document.querySelector('.comment-textarea').addEventListener('input', function() {
+	        var container = document.querySelector('.comment-container');
+	        if (this.value.trim().length > 0) {
+	            container.classList.add('has-text'); 
+	        } else {
+	            container.classList.remove('has-text'); 
+	        }
+	    });
+		
+	
 </script>
 </html>

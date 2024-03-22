@@ -11,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.fp.shuttlecock.user.UserDTO;
@@ -29,7 +30,7 @@ public class ArticleServiceImpl implements ArticleService{
 	private static final String News_URL = "https://www.thefairnews.co.kr/news/articleList.html?sc_sub_section_code=S2N1&view_type=sm";
 	
 	//jsoup으로 기사 크롤링
-	public ArticleDTO insertNews(ArticleDTO articleDTO) {
+	public void insertNews() {
 	    try {
 	        Document doc = Jsoup.connect(News_URL).get();
 
@@ -52,16 +53,27 @@ public class ArticleServiceImpl implements ArticleService{
 	                    image.get(i).attr("abs:src"), url.get(i).absUrl("href"), wDate);
 
 	            if (!isNewsCheck(article)) {
-	                articleMapper.insertNews(article);
+	                articleMapper.getinsertNews(article);
 	            }
 	        }
-
-	        return articleDTO;
+	        //System.out.println("articleDB 스케줄러에 의한 데이터 삽입 성공");
 	    } catch (IOException e) {
-	        e.printStackTrace();
+	    	//System.out.println("articleDB 스케줄러에 의한 데이터 삽입 실패: " + e.getMessage());
 	    }
-	    return null;
 	}
+	
+	//스케줄러
+    @Scheduled(cron = "0 0 0 * * *") //매일 자정에 실행
+    public void scheduledNewsData() {
+    	try {
+    		insertNews();
+            System.out.println("articleDB 스케줄러에 의한 데이터 삽입 성공");
+        } catch (Exception e) {
+            System.out.println("articleDB 스케줄러에 의한 데이터 삽입 실패: " + e.getMessage());
+        }
+    }
+	
+	
 		//중복된 뉴스체크
 		public boolean isNewsCheck(ArticleDTO article) {
 			return articleMapper.isNewsCheck(article.getTitle());
@@ -80,6 +92,12 @@ public class ArticleServiceImpl implements ArticleService{
 
 		public int countArticle() {
 			return articleMapper.countArticle();
+		}
+		
+		//초기데이터가 있는지 없는지
+		public boolean isNewsData() {
+			int count = articleMapper.isNewsData();
+		    return count != 0; //0이 아니면 true, 0이면 false
 		}
 
 

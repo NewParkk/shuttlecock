@@ -85,6 +85,12 @@
 #calendar .fc-day:hover{
 	background-color: #f6f6f6;
 }
+.imageWrap1 {
+  width: 100%;
+  height: 140px;
+  background: url("/img/badminton-bg.jpg") repeat;
+  background-size: contain;
+}
 </style>
 </head>
 <body>
@@ -95,6 +101,11 @@
 
 	<!-- main -->
 	<main id="main">
+		<div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+        
+        <!-- section -->
         <section id="section">
         
           <!-- aside -->
@@ -111,7 +122,7 @@
 
 		  <!-- contents -->
           <div class="contents">
-            <div class="title" style="margin">
+            <div class="title2" style="margin">
               <div class="vline"></div>
               <h2>정규대회 일정</h2>
             </div>

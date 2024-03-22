@@ -64,13 +64,14 @@
 <body>
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
+	
 	<!-- main -->
-	<!-- <main id="boardmain"> -->
-	<main id="main">
-		<div id="slider">
-			<div class="imageWrap1"></div>
-		</div>
-
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+	
+		<!-- section -->
 		<section id="contents">
 			<!-- aside -->
 			<div class="aside">
@@ -83,17 +84,61 @@
 			</div>
 
 			<c:if test="${not empty sessionScope.userId}">
-				<div class="noticeboard">
-					<div class="title" style="margin: 0px;">
+			<!-- noticeboard -->
+				<div class="noticeboard" >
+		            <div class="title" style="margin:0px;">
 						<div class="vline"></div>
 						<div class="container2">
-							<h3>자유 게시판</h3>
+							<h3>자유 게시판 &#10095</h3>
 						</div>
 					</div>
 					<div class="title1" style="margin-left: 60px;">
-						<div class="vline"></div>
-						<h2>자유게시판 글 작성</h2>
+		              <div class="vline"></div>
+		              <h2>자유게시판 글 작성</h2>
+		            </div>
+					
+				<form action="<c:url value ='/Freeboard/insertFreeboard'/>" method="post" enctype="multipart/form-data" style="margin: 30px 60px 30px 60px;">
+ 					<table class="board-table"> 
+			            <colgroup>
+			                <col width="15%">
+				            <col width="*">
+			            </colgroup>
+			            <tbody> 
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">제목</th>
+			                    <td colspan="4" style="text-align: left; padding-left:10px;">
+				                    <input type="text" class="form-control1" name="title"
+									id="exampleFormControlInput1" placeholder="제목을 입력하세요. ">
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">작성자</th>
+			                    <td colspan="4" style="text-align: left; padding-left:10px; font-weight: bold;">
+							        ${sessionScope.userId}
+							    </td>
+			                </tr>
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">첨부파일</th>
+			                    <td colspan="4">
+		                        	<input class="form-control" type="file" id="formFileMultiple" name="file" style="margin-left:30px;">
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <th scope="row" bgcolor="#F9F9F9">내용</th>
+			                    <td colspan="4" style="padding: 10px;">
+			                        <textarea class="form-control " name="content" id="ckeditor" rows="6" placeholder="내용을 입력하세요. "></textarea>
+			                    </td>
+			                </tr>
+			            </tbody>
+			        </table>
+			        
+			        <div class=button-container>
+						<input type="hidden" value="${sessionScope.userId}"
+							name="userId">
+						<button type="button" class="btn btn-primary CancleBtn" onclick="location.href='/Freeboard/freeList'">취&nbsp; 소</button>
+						<button type="button" class="btn btn-primary whyBtn" style="margin-right:10px;">글작성</button>
 					</div>
+				</form>
 
 					<form action="<c:url value ='/Freeboard/insertFreeboard'/>"
 						method="post" enctype="multipart/form-data"
@@ -138,7 +183,9 @@
 						</div>
 					</form>
 				</div>
+				<!-- //noticeboard -->
 			</c:if>
+			
 			<c:if test="${empty sessionScope.userId}">
 				<script>
 						function redirectToLoginPage() {
@@ -146,8 +193,11 @@
 						}
 				</script>
 			</c:if>
+			
 		</section>
+		<!-- //section -->
 	</main>
+	<!-- //main -->
 
 	<!-- 푸터 -->
 	<%@include file="../include/footer.jsp"%>

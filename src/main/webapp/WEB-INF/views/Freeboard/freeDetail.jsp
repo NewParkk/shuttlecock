@@ -10,6 +10,8 @@
 <title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<!-- aisde-js 파일 -->
+<script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -25,10 +27,15 @@
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-	<main id="boardmain">
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+        
+        <!-- section -->
 		<section id="contents">
+			
 			<!-- aside -->
-
 			<div class="aside">
 				<div class="menubar">
 					<ul>
@@ -37,35 +44,40 @@
 					</ul>
 				</div>
 			</div>
+			
+			<!-- noticeboard -->
 			<div class="noticeboard">
-				<div class="title" style="">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
-						<h3>자유 게시판</h3>
+						<h3>자유 게시판 &#10095 </h3>
 					</div>
 				</div>
-
 
 				<div class="post-info">
 					<p class="post-title">
 						<strong>${freeboard.title}</strong>
 					</p>
-					<p class="post-metadata">
-						<span class="post-info-text"> <strong>작성자:</strong>
-							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">${freeboard.userId}
-						</span> <span class="post-info-text"> <strong>작성 시간:</strong> <fmt:formatDate
-								value="${freeboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
-						</span> <span class="post-info-text"> <strong>조회:</strong>
-							${freeboard.hit} / <strong>추천:</strong> ${freeboard.like}
+					<p class="post-metadata" style="margin-bottom: 3px;">
+						<span class="post-info-text"> 작성자:
+							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">
+							<strong>${freeboard.userId}</strong>
+						</span>
+					</p> 
+						<!-- <span class="post-info-text"> <strong>작성 시간:</strong> -->
+						<!-- </span>  -->
+					<p style="font-size:14px; color:gray;">	
+						<fmt:formatDate value="${freeboard.regdate}" pattern="yyyy-MM-dd HH:mm"/>
+						<span class="post-info-text" style="margin-left:10px;">조회&nbsp;${freeboard.hit}
+							 <strong style="font-size:20px; float: right;">&#128077;${freeboard.like}</strong>
 						</span>
 					</p>
-				</div>
-
-
-				<!-- 게시물 내용 표시 -->
-				<div class="post-content" id="post-content">${freeboard.content}</div>
-				<!-- 첨부파일 표시 -->
-				<c:choose>
+					
+					<div class="line"></div>
+					
+					<!-- 게시물 내용 표시 -->
+					<div class="post-content" id="post-content">${freeboard.content}</div>
+					<!-- 첨부파일 표시 -->
 					<c:when test="${freeboard.imageName != 'noImage'}">
 						<div class="image-container"
 							style="width: 200px; height: 200px; object-fit: cover;">
@@ -77,11 +89,14 @@
 						<!-- 이미지가 없을 때는 아무것도 표시하지 않음 -->
 						<h1></h1>
 					</c:otherwise>
-				</c:choose>
+					
+					<div class="line"></div>
+				</div>
+
 
 				<!-- 버튼들 -->
 				<div class="post-buttons">
-					<button type="button" class="btn btn-primary listBtn">목록</button>
+					<button type="button" class="btn btn-primary listBtn" style="margin-right:30px;">목록</button>
 					<c:if test="${sessionScope.userId eq freeboard.userId}">
 						<button type="submit" class="btn btn-primary goBtn updateBtn">수정</button>
 					</c:if>
@@ -91,7 +106,7 @@
 					</c:if>
 					<c:if test="${sessionScope.userId ne freeboard.userId}">
 						<button type="button" class="btn btn-primary goBtn LikeBtn"
-							id="LikeBtn">추천 ${freeboard.like}</button>
+							id="LikeBtn" style="float:left; margin-left:30px;">&#128077; ${freeboard.like}</button>
 					</c:if>
 					<c:if
 						test="${sessionScope.userId ne freeboard.userId and not empty sessionScope.userId}">
@@ -100,36 +115,19 @@
 				</div>
 
 
-
 				&nbsp;&nbsp;
-
+				
 				<!-- 댓글 부분 -->
 				<div class="comment-section">
-					<!-- 댓글 작성 폼 -->
-					<c:if test="${not empty sessionScope.userId}">
-						<div class="comment-form">
-							<h3>댓글</h3>
-							<form id="commentForm">
-								<div class="form-group">
-									<span class="post-info-text com-writer"> <strong>${sessionScope.userId}</strong></span>
-								</div>
-								<div class="form-group">
-									<textarea class="form-control content"
-										id="exampleFormControlTextarea1" rows="2" name="content"
-										placeholder="의견을 남겨주세요"></textarea>
-								</div>
-								<div class="form-check">
-									<input type="checkbox" id="secret" name="secret" value="1">비밀댓글
-								</div>
-								<button type="submit" class="comment-submit-button com-btn"
-									id="com_btn">댓글 등록</button>
-							</form>
-						</div>
-					</c:if>
+					<!-- <div class="comment-form">
+						<h3>댓글</h3>
+					</div> -->
+				
 
 
 					<!-- 댓글 리스트 -->
-					<div class="comment-box">
+<<<<<<< HEAD
+					<%-- <div class="comment-box">
 						<c:if test="${not empty commentList}">
 							<c:forEach items="${commentList}" var="comments">
 								<div class="row">
@@ -189,16 +187,102 @@
 								</div>
 							</c:forEach>
 						</c:if>
-					</div>
+					</div> --%>
+=======
+                    <div class="comment-box">
+                        <c:if test="${not empty commentList}">
+                        	<div class="comment-form">
+								<h3>댓글</h3>
+							</div>
+                            <c:forEach items="${commentList}" var="comments">
+                                <div class="row">
+                                    <div class="col" style="margin-bottom:15px;">
+                                        <span class="post-info-text com-writer"> <strong>${sessionScope.userId}</strong></span> 
+                                    </div>
+                                
+                                    <div class="col">
+                                        <div id="com_updateMode_div_${comments.commentsId}">
+                                            <c:choose>
+												<c:when
+													test="${comments.secret eq 0 or sessionScope.userId eq freeboard.userId or 
+												comments.userId eq sessionScope.userId or sessionScope.isAdmin eq true}">
+													${comments.content}
+												</c:when>
+												<c:when test="${comments.secret eq 1}">
+													<span class="secret-comment">비밀 댓글입니다</span>
+												</c:when>
+											</c:choose>
+                                        </div>
+                                        <textarea class="form-control com_updateMode_textarea" id="exampleFormControlTextarea1_${comments.commentsId}" rows="2" style="display: none;">${comments.content}</textarea>
+                                        <div class="col">
+	                                        <span class="post-info-text com-date" style="font-size:12px; color:gray;"><fmt:formatDate value="${comments.regdate}" pattern="yyyy-MM-dd HH:mm"/></span>
+	                                    	
+	                                    	<span class="col" style="float: right;">
+		                                        <c:if test="${sessionScope.userId eq comments.userId}">
+		                                            <button type="button" class="btn btn-primary com_update_btn" id="com_update_btn_${comments.commentsId}" data-toggle="modal" data-target="#editPostModal_${comments.commentsId}">댓글 수정</button>
+		                                            <input type="checkbox" id="secretcom" name="secretcom" value="1" style="display: none;"> 
+													<label for="secretcom" style="display: none;">비밀댓글</label>
+		                                            <button type="button" class="btn btn-primary com_save_btn" id="com_save_btn_${comments.commentsId}" style="display: none;">저장</button>
+		                                        </c:if>
+		                                        <c:if test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
+		                                            <button type="button" class="btn btn-primary com_delete_btn" id="com_delete_btn_${comments.commentsId}" value="${comments.commentsId}">댓글 삭제</button>
+		                                        </c:if>
+                                    		</span>
+	                                    
+	                                    </div>
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input secret" id="secret_${comments.commentsId}" name="secret" value="1" ${comments.secret == 1 ? 'checked' : ''}>
+                                            <label class="form-check-label" for="secret_${comments.commentsId}">비밀댓글</label>
+                                        </div>
+                                    </div>  
+                                </div>
+                                
+                               <%--  <div class="row">
+                                    <div class="col" style="text-align: right;">
+                                        <c:if test="${sessionScope.userId eq comments.userId}">
+                                            <button type="button" class="btn btn-primary com_update_btn" id="com_update_btn_${comments.commentsId}" data-toggle="modal" data-target="#editPostModal_${comments.commentsId}">댓글 수정</button>
+                                            <input type="checkbox" id="secretcom" name="secretcom" value="1" style="display: none;"> 
+											<label for="secretcom" style="display: none;">비밀댓글</label>
+                                            <button type="button" class="btn btn-primary com_save_btn" id="com_save_btn_${comments.commentsId}" style="display: none;">저장</button>
+                                        </c:if>
+                                        <c:if test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
+                                            <button type="button" class="btn btn-primary com_delete_btn" id="com_delete_btn_${comments.commentsId}" value="${comments.commentsId}">댓글 삭제</button>
+                                        </c:if>
+                                    </div>
+                                </div>          --%>       
+                            </c:forEach>
+                        </c:if>
+                    </div>
+                    
+                    
+                    <!-- 댓글 작성 폼 -->
+					<c:if test="${not empty sessionScope.userId}">
+						<form id="commentForm">
+							<div class="comment-container">
+								<div class="form-group">
+									<div class="post-info-text com-writer" style="margin-left:7px;"> <strong>${sessionScope.userId}</strong></div> 
+									<textarea class="form-control content comment-textarea"
+										id="exampleFormControlTextarea1" rows="2" name="content" placeholder="댓글을 남겨보세요"></textarea>
+									<div class="rowcheck" style="display: flex; justify-content: space-between;">	
+										<div class="form-check" style="display: flex; align-items: center; margin-left: 10px;">
+											<input type="checkbox" id="secret" name="secret" value="1">비밀댓글
+										</div>
+										<button type="submit" class="comment-submit-button com-btn" id="com_btn">댓글등록</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</c:if>
 				</div>
 			</div>
+			<!-- //noticeboard -->
+			
 		</section>
-
-
-
+		<!-- //section -->
 	</main>
+	<!-- //main -->
 
-	<!-- 푸터 -->
+	<!-- footer -->
 	<footer>
 		<div class="container">
 			<%@include file="../include/footer.jsp"%>
@@ -418,6 +502,25 @@ $(document).ready(function() {
 	    		} // success
 	    	}) // ajax
 	    }) //버튼 클릭
+	    
+	    /* aside가 (/Freeboard/freeList)url이 같은 페이지로 인식되도록 작성함 */
+	    var currentPageUrl = "/Freeboard/freeList"; 
+	    var menuItems = document.querySelectorAll('.menubar .list');
+	    menuItems.forEach(function(item) {
+	        if (item.getAttribute('href') === currentPageUrl) {
+	            item.classList.add('active');
+	        }
+	    });
+	    
+	    /* input입력 시 테두리 색 변경 */
+	    document.querySelector('.comment-textarea').addEventListener('input', function() {
+	        var container = document.querySelector('.comment-container');
+	        if (this.value.trim().length > 0) {
+	            container.classList.add('has-text'); 
+	        } else {
+	            container.classList.remove('has-text'); 
+	        }
+	    });
 
 </script>
 </html>

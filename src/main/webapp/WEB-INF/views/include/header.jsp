@@ -40,7 +40,7 @@
     <nav class="nav">
       <ul>
         <li>
-          <h3><a href="#">About 배드민턴</a></h3>
+          <h3><a href="/Announcement/">About 배드민턴</a></h3>
           <ul class="submenu">
             <li><a href="/Announcement/">공지사항</a></li>
             <li><a href="/getNews">정보게시판</a></li>
@@ -48,7 +48,7 @@
           </ul>
         </li>
         <li>
-          <h3><a href="#">Community</a></h3>
+          <h3><a href="/Freeboard/freeList">Community</a></h3>
           <ul class="submenu">
             <li><a href="/Freeboard/freeList">자유게시판</a></li>
             <li><a href="/Tradeboard">물품거래소</a></li>

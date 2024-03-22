@@ -6,37 +6,86 @@
 <head>
 <meta charset="UTF-8">
 <title>Shuttle Cock</title>
-<link rel="stylesheet" href="/css/mainstyle.css">
-<link rel="stylesheet" href="/css/aside.css">
-<link rel="stylesheet" href="/css/free.css">
 <style type="text/css">
 .current-page {
-    background-color: #405448 !important;
-    color: #fff !important;
-    padding: 5px 10px !important;
-    border-radius: 5px !important;
+   background-color: #607d67 !important;
+   color: #fff !important;
+   padding: 5px 10px !important;
+   border: 1px solid #607d67 !important; 
+   border-radius: 5px !important;
+} 
+
+/* .table th {
+    text-align: center;
+    padding: 10px;
+}
+
+.table a {
+    text-decoration: none;
+    color: #405448;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+
+.table th a.active,
+.table th a:hover {
+    text-decoration: underline;
+}
+
+
+.table th a.active {
+    font-weight: bold;
+} */
+.table th {
+    text-align: center;
+    padding: 10px;
+}
+
+.table a {
+    text-decoration: none;
+    color: #b0b0b0; 
+    display: inline-block;
+    transition: color 0.3s; 
+}
+
+.table th a.active,
+.table th a:hover {
+    /* text-decoration: underline; */
+    font-weight: bold;
+    color: #000; 
+}
+
+.table th a.active {
+    font-weight: bold;
 }
 </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<!-- main -->
-	<main id="boardmain">
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+
+		<!-- section -->
 		<section id="contents">
 
 			<!-- aside -->
 			<%@ include file="category.jsp"%>
-			<!-- contents -->
+			
 			<div class="noticeboard">
-				<div class="title">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>모집게시판</h3>
 					</div>
 				</div>
+				
 				<div id="board-list">
 					<div class="container2">
-						<form action="/Recruitboard" method="get"
+						<%-- <form action="/Recruitboard" method="get"
 							style="text-align: center;">
 							<div class="search-wrap clearfix">
 								<select name="category" style="width: 100px; margin-left: 10px;"
@@ -66,7 +115,7 @@
 								<button class="btn btn-primary search-btn" type="submit"
 									style="margin-left: 10px;">검색</button>
 							</div>
-						</form>
+						</form> --%>
 						<form id="sortForm" action="/Recruitboard" method="get">
 							<select name="sort" id="sort" class="sort-select"
 								onchange="submitForm()">
@@ -95,89 +144,104 @@
 						<table class="table" style="width: 90%; margin: 0 auto;">
 							<thead>
 								<tr>
-									<th scope="col" style="text-align: center;"><span
-										style="font-size: 12pt;" class="region-div"> <b><a
-												href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
-										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}
-										&sort=${pageInfo.pageRequest.sort}
-										&recruitType=${pageInfo.pageRequest.recruitType}
-										&region=0"
-												<c:if test="${pageInfo.pageRequest.region eq 0}">style="text-decoration: underline;"</c:if>>전체</a></b>
-									</span></th>
-									<th scope="col" style="text-align: center;"><span
-										style="font-size: 12pt;" class="region-div"> <b><a
-												href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
-										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}
-										&sort=${pageInfo.pageRequest.sort}
-										&recruitType=${pageInfo.pageRequest.recruitType}
-										&region=1"
-												<c:if test="${pageInfo.pageRequest.region eq 1}">style="text-decoration: underline;"</c:if>>서울</a></b>
-									</span></th>
-									<th scope="col" style="text-align: center;"><span
-										style="font-size: 12pt;" class="region-div"> <b><a
-												href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
-										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}
-										&sort=${pageInfo.pageRequest.sort}
-										&recruitType=${pageInfo.pageRequest.recruitType}
-										&region=2"
-												<c:if test="${pageInfo.pageRequest.region eq 2}">style="text-decoration: underline;"</c:if>>경기</a></b>
-									</span></th>
-									<th scope="col" style="text-align: center;"><span
-										style="font-size: 12pt;" class="region-div"> <b><a
-												href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
-										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}
-										&sort=${pageInfo.pageRequest.sort}
-										&recruitType=${pageInfo.pageRequest.recruitType}
-										&region=3"
-												<c:if test="${pageInfo.pageRequest.region eq 3}">style="text-decoration: underline;"</c:if>>충청</a></b>
-									</span></th>
-									<th scope="col" style="text-align: center;"><span
-										style="font-size: 12pt;" class="region-div"> <b><a
-												href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
-										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}
-										&sort=${pageInfo.pageRequest.sort}
-										&recruitType=${pageInfo.pageRequest.recruitType}
-										&region=4"
-												<c:if test="${pageInfo.pageRequest.region eq 4}">style="text-decoration: underline;"</c:if>>경상</a></b>
-									</span></th>
-									<th scope="col" style="text-align: center;"><span
-										style="font-size: 12pt;" class="region-div"> <b><a
-												href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
-										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}
-										&sort=${pageInfo.pageRequest.sort}
-										&recruitType=${pageInfo.pageRequest.recruitType}
-										&region=5"
-												<c:if test="${pageInfo.pageRequest.region eq 5}">style="text-decoration: underline;"</c:if>>전라</a></b>
-									</span></th>
-									<th scope="col" style="text-align: center;"><span
-										style="font-size: 12pt;" class="region-div"> <b><a
-												href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
-										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}
-										&sort=${pageInfo.pageRequest.sort}
-										&recruitType=${pageInfo.pageRequest.recruitType}
-										&region=6"
-												<c:if test="${pageInfo.pageRequest.region eq 6}">style="text-decoration: underline;"</c:if>>강원</a></b>
-									</span></th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;" class="region-div"> 
+										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+											&category=${pageInfo.pageRequest.category}
+											&sort=${pageInfo.pageRequest.sort}
+											&recruitType=${pageInfo.pageRequest.recruitType}
+											&region=0" 
+											class="${pageInfo.pageRequest.region eq 0 ? 'active' : ''}"
+											<c:if test="${pageInfo.pageRequest.region eq 0}"></c:if>>전체</a></b>
+											 <!-- style="text-decoration: underline;" -->
+										</span>
+									</th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;" class="region-div"> 
+										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+											&category=${pageInfo.pageRequest.category}
+											&sort=${pageInfo.pageRequest.sort}
+											&recruitType=${pageInfo.pageRequest.recruitType}
+											&region=1"
+											 class="${pageInfo.pageRequest.region eq 1 ? 'active' : ''}"
+											<c:if test="${pageInfo.pageRequest.region eq 1}"><!-- style=""--></c:if>>서울${pageInfo.pageRequest.region eq 1 ? '🏸' : ''}</a></b>
+										</span>
+									</th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;" class="region-div"> 
+										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+											&category=${pageInfo.pageRequest.category}
+											&sort=${pageInfo.pageRequest.sort}
+											&recruitType=${pageInfo.pageRequest.recruitType}
+											&region=2"
+											class="${pageInfo.pageRequest.region eq 2 ? 'active' : ''}"
+											<c:if test="${pageInfo.pageRequest.region eq 2}"><!-- style="" --></c:if>>경기${pageInfo.pageRequest.region eq 2 ? '🏸' : ''}</a></b>
+										</span>
+									</th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;" class="region-div"> 
+										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+											&category=${pageInfo.pageRequest.category}
+											&sort=${pageInfo.pageRequest.sort}
+											&recruitType=${pageInfo.pageRequest.recruitType}
+											&region=3"
+											class="${pageInfo.pageRequest.region eq 3 ? 'active' : ''}"
+											<c:if test="${pageInfo.pageRequest.region eq 3}"><!-- style="" --></c:if>>충청${pageInfo.pageRequest.region eq 3 ? '🏸' : ''}</a></b>
+										</span>
+									</th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;" class="region-div"> 
+										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+											&category=${pageInfo.pageRequest.category}
+											&sort=${pageInfo.pageRequest.sort}
+											&recruitType=${pageInfo.pageRequest.recruitType}
+											&region=4"
+											class="${pageInfo.pageRequest.region eq 4 ? 'active' : ''}"
+											<c:if test="${pageInfo.pageRequest.region eq 4}"><!-- style="" --></c:if>>경상${pageInfo.pageRequest.region eq 4 ? '🏸' : ''}</a></b>
+										</span>
+									</th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;" class="region-div"> 
+											<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+											&category=${pageInfo.pageRequest.category}
+											&sort=${pageInfo.pageRequest.sort}
+											&recruitType=${pageInfo.pageRequest.recruitType}
+											&region=5"
+											class="${pageInfo.pageRequest.region eq 5 ? 'active' : ''}"
+											<c:if test="${pageInfo.pageRequest.region eq 5}"><!-- style="" --></c:if>>전라${pageInfo.pageRequest.region eq 5 ? '🏸' : ''}</a></b>
+										</span>
+									</th>
+									<th scope="col" style="text-align: center;">
+										<span style="font-size: 12pt;" class="region-div"> 
+										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+											&category=${pageInfo.pageRequest.category}
+											&sort=${pageInfo.pageRequest.sort}
+											&recruitType=${pageInfo.pageRequest.recruitType}
+											&region=6"
+											class="${pageInfo.pageRequest.region eq 6 ? 'active' : ''}"
+											<c:if test="${pageInfo.pageRequest.region eq 6}"><!-- style="" --></c:if>>강원${pageInfo.pageRequest.region eq 6 ? '🏸' : ''}</a></b>
+										</span>
+									</th>
 								</tr>
 							</thead>
 						</table>
 
 						<!-- board list area -->
-						<table class="board-table" style="width: 90%; margin: 10px auto 0">
+						<table class="board-table" style="width: 92%; margin: 0px auto 0;">
 							<thead>
 								<tr>
-									<th scope="col" class="th-num"><a
-										href="/Recruitboard?sort=0">번호</a></th>
+									<th scope="col" class="th-num">번호</th>
 									<th scope="col" class="th-writer">분류</th>
 									<th scope="col" class="th-writer">지역</th>
-									<th scope="col" class="th-title">제목</th>
+									<th scope="col" class="th-title"><a
+										href="/Recruitboard?sort=0">제목</a></th>
 									<th scope="col" class="th-writer">작성자</th>
 									<th scope="col" class="th-date">날짜</th>
 									<th scope="col" class="th-hit">조회수</th>
@@ -188,8 +252,8 @@
 							<tbody>
 								<c:forEach items="${recruitboardList}" var="recruitboard">
 									<tr>
-										<th scope="row">${recruitboard.recruitboardId}</th>
-										<td bgcolor=""><c:choose>
+										<td scope="row" style="font-size:11px;">${recruitboard.recruitboardId}</td>
+										<td bgcolor="#f9f9f9"><c:choose>
 												<c:when test="${recruitboard.recruitType eq 0}">
 														전체
 													</c:when>
@@ -234,22 +298,22 @@
 											</c:choose></td>
 										<c:choose>
 											<c:when test="${recruitboard.commentCount != 0}">
-												<td bgcolor=""><a
+												<td bgcolor="" style="text-align:left;"><a
 													href="/Recruitboard/${recruitboard.recruitboardId}">${recruitboard.title}
 														[${recruitboard.commentCount}]</a></td>
 											</c:when>
 											<c:when test="${recruitboard.commentCount == 0}">
-												<td bgcolor=""><a
+												<td bgcolor="" style="text-align:left;"><a
 													href="/Recruitboard/${recruitboard.recruitboardId}">${recruitboard.title}</a>
 												</td>
 											</c:when>
 										</c:choose>
-										<td bgcolor=""><img src="/badge/${recruitboard.badgeName}.jpg" style="height:15px; width:15px;">${recruitboard.userId}</td>
-										<td bgcolor=""><fmt:formatDate
+										<td bgcolor="" style="color:gray;"><img src="/badge/${recruitboard.badgeName}.jpg" style="height:15px; width:15px;">${recruitboard.userId}</td>
+										<td bgcolor="" style="color:gray;"><fmt:formatDate
 												value="${recruitboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
 										</td>
-										<td bgcolor="">${recruitboard.hit}</td>
-										<td bgcolor="">${recruitboard.like}</td>
+										<td bgcolor="" style="color:gray;">${recruitboard.hit}</td>
+										<td bgcolor="" style="color:gray;">${recruitboard.like}</td>
 										<c:choose>
 											<c:when test="${recruitboard.complete eq 1}">
 												<td bgcolor="">모집완료</td>
@@ -262,11 +326,14 @@
 								</c:forEach>
 							</tbody>
 						</table>
+						
 						<c:if test="${empty recruitboardList}">
 							<div class="empty-post"
-								style="text-align: center; margin-top: 10px;">게시물이 없습니다.</div>
+								style="text-align: center; margin:100px;">게시물이 없습니다.</div>
+							<div class="line" style="width:92%; margin: 0 auto;"></div>
 						</c:if>
-						<div class="newsWrite" style="margin-top: 20px;">
+						
+						<div class="newsWrite" style="margin-top: 10px; margin-right:50px;">
 							<c:choose>
 								<c:when test="${sessionScope.userId == null}">
 									<button onclick="redirectToLoginPage()"
@@ -284,7 +351,7 @@
 								<div class="row justify-content-center"
 									style="display: flex; justify-content: center;">
 									<div class="col-auto">
-										<table class="page navigation">
+										<%-- <table class="page navigation">
 											<tr class="pagination">
 												<c:if test="${pageInfo.prev}">
 													<th class="page-item"><a class="page-link"
@@ -298,7 +365,7 @@
 												<c:forEach var="num" begin="${pageInfo.startPage}"
 													end="${pageInfo.endPage}">
 													<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-														<a id="pbtn_${num}" class="page-link" style="padding: 10px;"
+														<a id="pbtn_${num}" class="page-link"
 														href="/Recruitboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
 										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 										&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
@@ -316,11 +383,78 @@
 													</th>
 												</c:if>
 											</tr>
-										</table>
+										</table> --%>
+										
+										<!-- 기존 table형식의 페이지네이션을 list 형식으로 바꿈 -->
+										<div class="page navigation">
+											<ul class="pagination">
+												<c:if test="${pageInfo.prev}">
+													<li class="page-item"><a class="page-link"
+														aria-label="Previous"
+														href="/Recruitboard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
+													&sort=${pageInfo.pageRequest.sort}&recruitType=${pageInfo.pageRequest.recruitType}">Prev</a>
+													</li>
+												</c:if>
+												<c:forEach var="num" begin="${pageInfo.startPage}"
+													end="${pageInfo.endPage}">
+													<li class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+														<a id="pbtn_${num}" class="page-link"
+														href="/Recruitboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
+										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+										&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
+										&sort=${pageInfo.pageRequest.sort}&recruitType=${pageInfo.pageRequest.recruitType}">${num}
+													</a>
+													</li>
+												</c:forEach>
+												<c:if test="${pageInfo.next}">
+													<li class="page-item next"><a class="page-link"
+														aria-label="next"
+														href="/Recruitboard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
+													&sort=${pageInfo.pageRequest.sort}&recruitType=${pageInfo.pageRequest.recruitType}">Next</a>
+													</li>
+												</c:if>
+											</ul>
+										</div>
 									</div>
 								</div>
 							</form>
 						</div>
+						
+						<!-- 검색창 -->
+						<form action="/Recruitboard" method="get"
+							style="text-align: center;">
+							<div class="search-wrap clearfix">
+								<select name="category" style="width: 100px; margin-left: 10px;"
+									class="form-control" id="search-select">
+									<option value="user_userId"
+										${pageInfo.pageRequest.category == 'user_userId' ? 'selected' : ''}>
+										작성자</option>
+									<option value="title"
+										${pageInfo.pageRequest.category == 'title' ? 'selected' : ''}>
+										제목</option>
+									<option value="content"
+										${pageInfo.pageRequest.category == 'content' ? 'selected' : ''}>
+										글내용</option>
+								</select> <input id="searchKeyword" type="search" name="searchKeyword"
+									placeholder="검색어를 입력해주세요." style="width: 300px;"
+									class="form-control search-input"
+									value="${pageInfo.pageRequest.searchKeyword}"> <input
+									name="pageNum" type="hidden"
+									value="${pageInfo.pageRequest.pageNum}"> <input
+									name="amount" type="hidden"
+									value="${pageInfo.pageRequest.amount}"> <input
+									name="region" type="hidden"
+									value="${pageInfo.pageRequest.region}"> <input
+									name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
+								<input name="recruitType" type="hidden"
+									value="${pageInfo.pageRequest.recruitType}">
+								<button class="btn btn-primary search-btn" type="submit">검색</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

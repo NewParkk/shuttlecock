@@ -8,7 +8,7 @@
     </select>
 	
 	<!-- 크롤링 기사 insert -->
-	<insert id="insertNews" parameterType="com.fp.shuttlecock.information.ArticleDTO">
+	<insert id="getinsertNews" parameterType="com.fp.shuttlecock.information.ArticleDTO">
         INSERT INTO sports.article (articleId, title, content, writer, image, url, updateDate)
         VALUES (0, #{title}, #{content}, #{writer}, #{image}, #{url}, #{updateDate})
     </insert>
@@ -22,4 +22,8 @@
 	<select id="countArticle" resultType="_int">
 	    SELECT COUNT(articleId) FROM sports.article
 	</select>
+	
+	<select id="isNewsData" resultType="int">
+        SELECT COUNT(*) FROM sports.article
+    </select>
 </mapper>
