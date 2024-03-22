@@ -19,4 +19,6 @@ public class TradeboardDTO {
 	private String userId;
 	private int itemClass;
 	private String imageName;
+	private int badgeId;
+	private String badgeName;
 }

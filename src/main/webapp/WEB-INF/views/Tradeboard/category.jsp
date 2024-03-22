@@ -14,12 +14,8 @@
 	<div class="aside">
 		<div class="menubar">
 			<ul>
-				<li><a class="list" href="/Tradeboard?itemClass=0">전체</a></li>
-				<li><a class="list" href="/Tradeboard?itemClass=1">의류</a></li>
-				<li><a class="list" href="/Tradeboard?itemClass=2">라켓</a></li>
-				<li><a class="list" href="/Tradeboard?itemClass=3">보호대</a></li>
-				<li><a class="list" href="/Tradeboard?itemClass=4">신발</a></li>
-				<li><a class="list" href="/Tradeboard?itemClass=5">기타</a></li>
+				<li><a class="list" href="/Freeboard/freeList">자유게시판</a></li>
+				<li><a class="list" href="/Tradeboard">물품거래소</a></li>
 			</ul>
 		</div>
 	</div>

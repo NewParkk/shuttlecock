@@ -7,7 +7,6 @@
 	
 	<select id="getBlockedUserList" parameterType="com.fp.shuttlecock.tradeboard.PageRequestDTO" resultType="BlockuserDTO">
 		<bind name="start" value="(pageNum - 1) * amount" />
-		
 		select * from blockuser 
 		<where>
 			userId = #{userId}
@@ -16,6 +15,16 @@
 			</if>
 		</where>
 		LIMIT #{start}, #{amount}		
+	</select>
+	
+	<select id="getTotalCount" parameterType="com.fp.shuttlecock.tradeboard.PageRequestDTO" resultType="_int">
+		select count(blockedUser) from blockuser
+		<where>
+			userId = #{userId}
+			<if test="searchKeyword != null and searchKeyword != ''">
+				AND blockedUser LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+		</where>
 	</select>
 	
 	<delete id="deleteBlockuser" parameterType="BlockuserDTO">

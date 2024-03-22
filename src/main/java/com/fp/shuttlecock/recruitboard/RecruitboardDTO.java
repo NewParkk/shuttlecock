@@ -19,4 +19,6 @@ public class RecruitboardDTO {
 	private String userId;
 	private int recruitType;
 	private String imageName;
+	private int badgeId;
+	private String badgeName;
 }

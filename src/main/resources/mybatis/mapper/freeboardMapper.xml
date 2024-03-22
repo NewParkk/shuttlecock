@@ -30,12 +30,14 @@
 	<select id="getFreeboard"
 		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
 		<bind name="start" value="(pageNum - 1) * countPerPage" />
-		select * from freeBoard
+		select freeBoard.*, badge.badgeName from freeBoard
+		INNER JOIN user ON freeBoard.userId = user.userId
+		INNER JOIN badge ON user.badgeId = badge.badgeId
 		<where>
 			(deleteYN IS NULL OR deleteYN != 1)
 			<if test="userId != null">
-				AND (userId NOT IN (SELECT blockedUser FROM blockuser
-				WHERE userId = #{userId}))
+				AND (freeBoard.userId NOT IN (SELECT blockedUser FROM blockuser
+				WHERE blockuser.userId = #{userId}))
 			</if>
 			<choose>
 				<when
@@ -45,7 +47,7 @@
 							AND title LIKE CONCAT('%', #{keyword}, '%')
 						</when>
 						<when test="condition == 'userId'">
-							AND userId LIKE CONCAT('%', #{keyword}, '%')
+							AND freeBoard.userId LIKE CONCAT('%', #{keyword}, '%')
 						</when>
 						<when test="condition == 'content'">
 							AND content LIKE CONCAT('%', #{keyword}, '%')

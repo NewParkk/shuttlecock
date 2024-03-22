@@ -16,11 +16,6 @@ public class BlockuserServiceImpl {
 		blockuserMapper.insertBlockuser(blockuser);
 	}
 	
-	public List<BlockuserDTO> getBlockedUserList(String userId) {
-		List<BlockuserDTO> blockuser = blockuserMapper.getBlockedUserList(userId);
-		return blockuser;
-	}
-
 	public void deleteBlockuser(BlockuserDTO blockuser) {
 		blockuserMapper.deleteBlockuser(blockuser);
 	}
@@ -28,6 +23,10 @@ public class BlockuserServiceImpl {
 	public List<BlockuserDTO> getBlockedUserList(PageRequestDTO pagerequest) {
 		List<BlockuserDTO> blockuser = blockuserMapper.getBlockedUserList(pagerequest);
 		return blockuser;
+	}
+
+	public int getTotalCount(PageRequestDTO pagerequest) {
+		return blockuserMapper.getTotalCount(pagerequest);
 	}
 	
 	

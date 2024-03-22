@@ -105,7 +105,7 @@
 										<td><a
 											href="<c:url value='/Freeboard/freeDetail/${vo.freeboardId}'/>">${vo.title}
 												(${vo.commentCount})</a></td>
-										<td>${vo.userId}</td>
+										<td><img src="/badge/${vo.badgeName}.jpg" style="height:15px; width:15px;">${vo.userId}</td>
 										<td><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm"/></td> <%-- ${vo.regdate} --%>
 										<td>${vo.hit}</td>
 										<td>${vo.like}</td>

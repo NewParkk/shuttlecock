@@ -98,7 +98,7 @@
 										<td bgcolor=""><a
 											href="/LeagueBoard/${leagueboard.leagueboardId}">${leagueboard.title}</a>
 										</td>
-										<td bgcolor="">${leagueboard.userId}</td>
+										<td bgcolor=""><img src="/badge/${leagueboard.badgeName}.jpg" style="height:15px; width:15px;">${leagueboard.userId}</td>
 										<td bgcolor=""><fmt:formatDate
 												value="${leagueboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
 										</td>
@@ -110,18 +110,6 @@
 							<div class="empty-post"
 								style="text-align: center; margin-top: 10px;">게시물이 없습니다.</div>
 						</c:if>
-					</div>
-					<div class="newsWrite" style="margin-top: 20px;">
-						<c:choose>
-							<c:when test="${sessionScope.userId == null}">
-								<button onclick="redirectToLoginPage()"
-									class="btn btn-primary WriteBtn">글작성</button>
-							</c:when>
-							<c:otherwise>
-								<button onclick="redirectToInsertForm()"
-									class="btn btn-primary WriteBtn">글작성</button>
-							</c:otherwise>
-						</c:choose>
 					</div>
 					<div class="paging">
 						<div class="row justify-content-center"

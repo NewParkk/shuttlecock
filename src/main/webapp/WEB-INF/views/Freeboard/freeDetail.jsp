@@ -52,7 +52,7 @@
 					</p>
 					<p class="post-metadata">
 						<span class="post-info-text"> <strong>작성자:</strong>
-							${freeboard.userId}
+							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">${freeboard.userId}
 						</span> <span class="post-info-text"> <strong>작성 시간:</strong>
 							<fmt:formatDate value="${freeboard.regdate}" pattern="yyyy-MM-dd HH:mm"/><%-- ${freeboard.regdate} --%>
 						</span> <span class="post-info-text"> <strong>조회:</strong>

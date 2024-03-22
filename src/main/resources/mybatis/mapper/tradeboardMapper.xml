@@ -19,12 +19,14 @@
 		parameterType="com.fp.shuttlecock.tradeboard.PageRequestDTO"
 		resultType="TradeboardDTO">
 		<bind name="start" value="(pageNum - 1) * amount" />
-		SELECT * FROM tradeboard
+		SELECT tradeboard.*, badge.badgeName FROM tradeboard
+		INNER JOIN user ON tradeboard.userId = user.userId
+		INNER JOIN badge ON user.badgeId = badge.badgeId
 		<where>
-			(deleteYN IS NULL OR deleteYN != 1)
+			(deleteYN IS NULL OR deleteYN != 1) 
 			<if test="userId != null">
-				AND (userId NOT IN (SELECT blockedUser FROM blockuser
-				WHERE userId = #{userId}))
+				AND (tradeboard.userId NOT IN (SELECT blockedUser FROM blockuser
+				WHERE blockuser.userId = #{userId}))
 			</if>
 			<if test="itemClass != 0">
 				AND itemClass = #{itemClass}
@@ -37,7 +39,7 @@
 							AND title LIKE CONCAT('%', #{searchKeyword}, '%')
 						</when>
 						<when test="category == 'user_userId'">
-							AND userId LIKE CONCAT('%', #{searchKeyword}, '%')
+							AND tradeboard.userId LIKE CONCAT('%', #{searchKeyword}, '%')
 						</when>
 						<when test="category == 'content'">
 							AND content LIKE CONCAT('%', #{searchKeyword}, '%')
@@ -52,7 +54,7 @@
 							#{region}
 						</when>
 						<when test="category == 'user_userId'">
-							AND userId LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
+							AND tradeboard.userId LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
 							#{region}
 						</when>
 						<when test="category == 'content'">
@@ -175,5 +177,9 @@
 	<select id="getCompletedPost" resultType="int">
 		SELECT tradeboardId FROM tradeboard
 		WHERE DATEDIFF(CURDATE(), regdate) >= 3 AND complete = 1
+	</select>
+	
+	<select id="getBadgeNameById" parameterType="_int" resultType="string">
+		select badgeName from badge where badgeId = #{badgeId}
 	</select>
 </mapper>

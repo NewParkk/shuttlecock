@@ -32,6 +32,7 @@ import com.fp.shuttlecock.comments.CommentsServiceImpl;
 import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
 import com.fp.shuttlecock.tradeboard.PageRequestDTO;
 import com.fp.shuttlecock.tradeboard.PageResponseDTO;
+import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
 import com.fp.shuttlecock.user.UserService;
 import com.fp.shuttlecock.user.UserServiceImpl;
 import com.fp.shuttlecock.util.LikesVO;
@@ -43,6 +44,12 @@ public class RecruitboardController {
 
 	@Autowired
 	private RecruitboardServiceImpl boardService;
+	
+	@Autowired
+	private TradeboardServiceImpl badgeService;
+	
+	@Autowired
+	UserServiceImpl userService;
 
 	@Autowired
 	private CommentsServiceImpl commentService;
@@ -56,6 +63,8 @@ public class RecruitboardController {
 		RecruitboardDTO recruitboard = null;
 		try {
 			recruitboard = boardService.getTradePostByTradeboardId(recruitboardId);
+			int badgeId = userService.getUserByUserId(recruitboard.getUserId()).getBadgeId(); 
+			String badgeName = badgeService.getBadgeNameById(badgeId);
 			model.addAttribute("pageInfo", pageRequest);
 			if (recruitboard != null) {
 				List<CommentsDTO> commentList = commentService.getCommentList(recruitboardId, 4);
@@ -65,6 +74,7 @@ public class RecruitboardController {
 				// model.addAttribute("file", file);
 				model.addAttribute("recruitboard", recruitboard);
 				model.addAttribute("commentList", commentList);
+				model.addAttribute("badgeName", badgeName);
 				System.out.println(commentList);
 				view = "Recruitboard/RecruitDetail";
 			}

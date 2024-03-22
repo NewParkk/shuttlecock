@@ -43,6 +43,9 @@ public class TradeboardController {
 
 	@Autowired
 	private CommentsServiceImpl commentService;
+	
+	@Autowired
+	UserServiceImpl userService;
 
 	@Autowired
 	private NaverObjectStorage naverfile;
@@ -53,6 +56,8 @@ public class TradeboardController {
 		TradeboardDTO tradeboard = null;
 		try {
 			tradeboard = boardService.getTradePostByTradeboardId(tradeboardId);
+			int badgeId = userService.getUserByUserId(tradeboard.getUserId()).getBadgeId(); 
+			String badgeName = boardService.getBadgeNameById(badgeId);
 			model.addAttribute("pageInfo", pageRequest);
 			if (tradeboard != null) {
 				List<CommentsDTO> commentList = commentService.getCommentList(tradeboardId, 3);
@@ -62,6 +67,7 @@ public class TradeboardController {
 				// model.addAttribute("file", file);
 				model.addAttribute("tradeboard", tradeboard);
 				model.addAttribute("commentList", commentList);
+				model.addAttribute("badgeName", badgeName);
 				System.out.println(commentList);
 				view = "Tradeboard/TradeDetail";
 			}
@@ -80,6 +86,7 @@ public class TradeboardController {
 		//pageRequest.setAmount(10);
 		System.out.println(pageRequest);
 		List<TradeboardDTO> tradeboardList = boardService.getPagenatedSearch(pageRequest);
+		System.out.println("뱃지 이름" + tradeboardList.get(0).getBadgeName());
 		int totalCount = boardService.getTotalCount(pageRequest);
 		PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalCount)
 				.pageAmount(pageRequest.getAmount()).pageRequest(pageRequest).build();

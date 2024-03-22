@@ -17,7 +17,13 @@
 
 th {
 	text-align: center;
-	font-size: 20px;
+	font-size: 17px;
+}
+.current-page {
+    background-color: #405448 !important;
+    color: #fff !important;
+    padding: 5px 10px !important;
+    border-radius: 5px !important;
 }
 </style>
 </head>
@@ -49,7 +55,7 @@ th {
 					</div>
 					<div id="board-list">
 						<div class="container">
-							<form action="/Recruitboard" method="get"
+							<form action="/manageBlockedUser" method="get"
 								style="text-align: center;">
 								<div class="search-wrap clearfix">
 									<input id="searchKeyword" type="search" name="searchKeyword"
@@ -91,6 +97,41 @@ th {
 									style="text-align: center; margin-top: 10px;">차단된 사용자가
 									없습니다.</div>
 							</c:if>
+							<div class="paging">
+							<form action="/manageBlockedUser" method="get">
+								<div class="row justify-content-center"
+									style="display: flex; justify-content: center;">
+									<div class="col-auto">
+										<table class="page navigation">
+											<tr class="pagination">
+												<c:if test="${pageInfo.prev}">
+													<th class="page-item"><a class="page-link"
+														aria-label="Previous"
+														href="/manageBlockedUser?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
+														&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
+													</th>
+												</c:if>
+												<c:forEach var="num" begin="${pageInfo.startPage}"
+													end="${pageInfo.endPage}">
+													<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+														<a id="pbtn_${num}" class="page-link" style="padding: 10px;"
+														href="/manageBlockedUser?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
+														&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
+													</th>
+												</c:forEach>
+												<c:if test="${pageInfo.next}">
+													<th class="page-item next"><a class="page-link"
+														aria-label="next"
+														href="/manageBlockedUser?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
+														&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
+													</th>
+												</c:if>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</form>
+						</div>
 						</div>
 					</div>
 				</div>
@@ -127,6 +168,12 @@ th {
 				}
 			});
 		}); // click
+		
+		window.onload = function(){
+			const pageNum = ${pageInfo.pageRequest.pageNum};
+			console.log(pageNum);
+			$('#pbtn_' + pageNum).toggleClass('current-page');
+		};
 	</script>
 </body>
 </html>

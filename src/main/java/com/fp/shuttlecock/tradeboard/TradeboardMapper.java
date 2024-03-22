@@ -29,5 +29,7 @@ public interface TradeboardMapper {
 	int deleteCompletedPost();
 
 	List<Integer> getCompletedPost();
+
+	String getBadgeNameById(int badgeId);
 	
 }
