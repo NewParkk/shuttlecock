@@ -86,7 +86,6 @@ public class TradeboardController {
 		//pageRequest.setAmount(10);
 		System.out.println(pageRequest);
 		List<TradeboardDTO> tradeboardList = boardService.getPagenatedSearch(pageRequest);
-		System.out.println("뱃지 이름" + tradeboardList.get(0).getBadgeName());
 		int totalCount = boardService.getTotalCount(pageRequest);
 		PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalCount)
 				.pageAmount(pageRequest.getAmount()).pageRequest(pageRequest).build();
