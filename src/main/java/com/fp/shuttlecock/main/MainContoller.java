@@ -30,6 +30,7 @@ public class MainContoller {
 	@Autowired
 	private MainService mainService;
 	
+	@Autowired
 	private FreeboardServiceImpl freeService;
 	
 	@Autowired

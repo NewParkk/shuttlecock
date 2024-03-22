@@ -57,19 +57,7 @@
 						<span class="post-info-text"> 작성자:
 							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">
 							<strong>${recruitboard.userId}</strong>
-						</span> <span class="post-info-text"> <strong>작성 시간:</strong> <fmt:formatDate
-								value="${recruitboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
-						</span> <span class="post-info-text"> <strong>조회:</strong>
-							${recruitboard.hit}
 						</span>
-						<c:if test="${recruitboard.complete eq 0}">
-							<span class="post-info-text"> <strong>모집중</strong>
-							</span>
-						</c:if>
-						<c:if test="${recruitboard.complete eq 1}">
-							<span class="post-info-text"> <strong>모집완료</strong>
-							</span>
-						</c:if>
 					</p>
 						<!-- <span class="post-info-text"> <strong>작성 시간:</strong>
 						</span>  -->
@@ -177,11 +165,6 @@
 											<input type="checkbox" id="leaguer_${comments.userId}"
 												name="leaguer" value="${comments.userId}">모집하기
 										</c:if>
-									</div>
-									<div class="col">
-										<span class="post-info-text com-date" style="font-size:12px; color:gray;">
-											<fmt:formatDate value="${comments.regdate}" pattern="yyyy-MM-dd HH:mm" />
-										</span>
 									</div>
 
 									<div class="col">

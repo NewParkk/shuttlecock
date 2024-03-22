@@ -78,18 +78,19 @@
 					<!-- 게시물 내용 표시 -->
 					<div class="post-content" id="post-content">${freeboard.content}</div>
 					<!-- 첨부파일 표시 -->
-					<c:when test="${freeboard.imageName != 'noImage'}">
-						<div class="image-container"
-							style="width: 200px; height: 200px; object-fit: cover;">
-							<img
-								src="https://kr.object.ncloudstorage.com/team1bucket/boardFile/2_${freeboard.imageName}.png"><br>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<!-- 이미지가 없을 때는 아무것도 표시하지 않음 -->
-						<h1></h1>
-					</c:otherwise>
-					
+					<c:choose>
+						<c:when test="${freeboard.imageName != 'noImage'}">
+							<div class="image-container"
+								style="width: 200px; height: 200px; object-fit: cover;">
+								<img
+									src="https://kr.object.ncloudstorage.com/team1bucket/boardFile/2_${freeboard.imageName}.png"><br>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<!-- 이미지가 없을 때는 아무것도 표시하지 않음 -->
+							<h1></h1>
+						</c:otherwise>
+					</c:choose>
 					<div class="line"></div>
 				</div>
 

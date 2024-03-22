@@ -9,7 +9,7 @@
 	SELECT username, userId, wincount, losecount, badgeId
 		FROM user
 		<where>
-			wincount != 0 or losecount != 0
+			(wincount != 0 or losecount != 0)
 			<if test="searchKeyword != null and searchKeyword != ''">
 				AND username LIKE CONCAT ('%', #{searchKeyword}, '%')
 			</if>
@@ -33,7 +33,7 @@
 	select count(userId)
 	from user
 		<where>
-			wincount != 0 or losecount != 0
+			(wincount != 0 or losecount != 0)
 			<if test="searchKeyword != null and searchKeyword != ''">
 				AND username LIKE CONCAT ('%', #{searchKeyword}, '%')
 			</if>

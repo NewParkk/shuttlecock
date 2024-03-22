@@ -427,7 +427,7 @@
 											</c:when>
 										</c:choose>
 										<dd>
-											<span style="font-size: 10pt;"> ${tradeboard.userId}
+											<span style="font-size: 10pt;"> <img src="/badge/${tradeboard.badgeName}.jpg" style="height:15px; width:15px;">${tradeboard.userId}
 											</span><br>
 										</dd>
 										
