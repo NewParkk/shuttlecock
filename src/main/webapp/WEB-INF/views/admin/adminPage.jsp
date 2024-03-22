@@ -44,8 +44,7 @@ a:active {
 /*---검색버튼--- */
 .search-wrap {
 	overflow: hidden; /*부모요소에 히든 */
-	margin-bottom: 20px;
-	margin-right: 100px;
+	margin: 20px 65px 20px 0;
 }
 
 .search-btn, .search-input, .search-select {
@@ -59,12 +58,19 @@ a:active {
 		<div id="wrap">
 			<!-- header -->
 			<%@ include file="../include/header.jsp"%>
-			<main id="boardmain">
+			
+			<!-- main -->
+			<main id= "main">
+		        <div id="slider">
+		          <div class="imageWrap1"></div>
+		        </div>
+		
+				<!-- section -->
 				<section id="contents">
 
 
 					<div class="noticeboard">
-						<div class="title">
+						<div class="title" style="margin:0px;">
 							<div class="vline"></div>
 							<div class="container2">
 								<h3>회원 리스트</h3>
@@ -151,7 +157,7 @@ a:active {
 													</c:when>
 													</c:choose></td>
 												<td><input type="hidden" value="${user.userId}">
-													<button type="button" class="btn btn-primary goBtn delBtn">삭제</button>
+													<button type="button" class="btn btn-primary goBtn delBtn" style="margin-bottom:0px;">삭제</button>
 												</td>
 
 											</tr>

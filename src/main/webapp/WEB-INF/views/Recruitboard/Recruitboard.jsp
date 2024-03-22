@@ -316,10 +316,10 @@
 										<td bgcolor="" style="color:gray;">${recruitboard.like}</td>
 										<c:choose>
 											<c:when test="${recruitboard.complete eq 1}">
-												<td bgcolor="">모집완료</td>
+												<td bgcolor="" style="color:gray;">모집완료</td>
 											</c:when>
 											<c:when test="${recruitboard.complete eq 0}">
-												<td bgcolor="">모집중</td>
+												<td bgcolor="" style="font-weight: bold;">모집중</td>
 											</c:when>
 										</c:choose>
 									</tr>

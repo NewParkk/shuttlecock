@@ -61,7 +61,7 @@
 							</span>
 						</c:if>
 						<c:if test="${tradeboard.complete eq 1}">
-							<span class="post-info-text"> <strong>거래완료</strong>
+							<span class="post-info-text" style="font-size:15px; float: right; color:#405448; text-decoration: line-through;"> <strong>거래완료</strong>
 							</span>
 						</c:if>
 					</p>

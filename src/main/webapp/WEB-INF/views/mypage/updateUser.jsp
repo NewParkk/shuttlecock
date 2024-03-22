@@ -10,6 +10,8 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<!-- aisde-js 파일 -->
+<script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
 
 
@@ -21,8 +23,13 @@
 
 		<!-- header -->
 		<%@ include file="../include/header.jsp"%>
-		<main id="boardmain">
-
+		<!-- main -->
+		<main id= "main">
+	        <div id="slider">
+	          <div class="imageWrap1"></div>
+	        </div>
+	
+			<!-- section -->
 			<section id="contents">
 
 				<!-- aside -->
@@ -38,10 +45,10 @@
 				</div>
 
 				<div class="noticeboard">
-					<div class="title">
+					<div class="title" style="margin:0px;">
 						<div class="vline"></div>
 						<div class="container2">
-							<h3>회원 수정</h3>
+							<h3>회원 수정 &#10095</h3>
 						</div>
 					</div>
 				
@@ -51,7 +58,7 @@
 					
 						<form action="/updateUser" method="POST"
 							enctype="multipart/form-data" id="next_form">
-							<div class="member-info">
+							<%-- <div class="member-info">
 								<div class="profile-picture">
 									<c:if test="${user.userImageName eq null}">
 									<img src="https://kr.object.ncloudstorage.com/team1bucket/profile/noprofile.png"><br>
@@ -84,7 +91,39 @@
 									<input type="button" class="delete-btn" id="btnDelete" value="회원탈퇴"
 									style="margin-left:50px;">
 								</div>
-							</div>
+							</div> --%>
+							
+							<table style="width: 70%; margin: 20px auto 0;">
+						      <tr>
+						          <td rowspan="5" class="profile-picture">
+						              <c:if test="${user.userImageName eq null}">
+						                  <img src="https://kr.object.ncloudstorage.com/team1bucket/profile/noprofile.png" alt="프로필 이미지">
+						              </c:if>
+						              <c:if test="${user.userImageName != null}">
+						                  <img src="https://kr.object.ncloudstorage.com/team1bucket/profile/${user.userImageName}" alt="프로필 이미지">
+						              </c:if>
+						              <input type="file" id="fileInput" name="file" class="custom-file-upload">
+						          </td>
+						          <td><strong>아이디:</strong></td>
+						          <td>${user.userId}</td>
+						      </tr>
+						      <tr>
+						          <td><strong>이름:</strong></td>
+						          <td><input type="text" name="username" class="custom-input" value="${user.username}"></td>
+						      </tr>
+						      <tr>
+						          <td><strong>이메일:</strong></td>
+						          <td><input type="text" name="userEmail" class="custom-input" value="${user.userEmail}"></td>
+						      </tr>
+						      <tr>
+						          <td colspan="2">
+						              <input class="update" type="submit" id="update" value="수정">
+						              <input type="button" class="delete-btn" id="btnDelete" value="회원탈퇴">
+						          </td>
+						      </tr>
+						  </table>
+							
+							
 						</form>
 						</div>
 					</div>
@@ -178,11 +217,6 @@
 	color: #666; /* 이메일 주소의 색상 변경 */
 }
 
-#wrap {
-	width: 100%;
-	top-margin: 30px;
-}
-
 #my_modal_delete {
 	display: none;
 	width: 350px;
@@ -244,7 +278,7 @@
 
 /* 입력 상자에 포커스를 받았을 때의 스타일 */
 .custom-input:focus {
-	border-color: #007bff; /* 포커스 시 테두리 색상 변경 */
+	border-color: #405448; /* 포커스 시 테두리 색상 변경 */
 }
 
 .custom-file-upload {
@@ -265,6 +299,66 @@
 /* 파일 업로드 버튼에 포커스를 받았을 때의 스타일 */
 .custom-file-upload:focus {
 	outline: none;
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.profile-picture {
+    text-align: center;
+    width: 350px;
+    margin: 0px auto;
+}
+.profile-picture img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.custom-file-upload {
+	margin-top:10px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.custom-input {
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.update, .delete-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 10px;
+}
+.update{
+	background-color: #4CAF50;
+}
+.delete-btn{
+	background-color:#f44336;
+}
+
+.update:hover, .delete-btn:hover {
+    background-color: #405448;
 }
 </style>
 </html>

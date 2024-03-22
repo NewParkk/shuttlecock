@@ -11,18 +11,29 @@
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
 <link rel="stylesheet" href="/css/free.css">
+
+<style>
+section{
+    justify-content: center;
+    align-items: center;
+}
+</style>
 </head>
 <body>
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-	<main id="boardmain">
-
-		<section id="contents">
+		<main id= "main">
+	        <div id="slider">
+	          <div class="imageWrap1"></div>
+	        </div>
+	
+			<!-- section -->
+			<section id="contents">
 
 			<div class="noticeboard">
-				<div class="title">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>회원 정보</h3>
