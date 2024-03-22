@@ -114,7 +114,7 @@
 											<!-- 이미지 이름 표시 -->
 											<span>${freeboard.imageName}</span>
 											<!-- 파일 삭제 버튼 -->
-											<button type="button" class="btn btn-danger" id="deleteFileBtn">이미지 삭제</button>
+											<button id="del_img">이미지 삭제</button>
 										</div>
 									</div>
 								</c:if>
@@ -168,8 +168,6 @@
 					<div class=button-container>
 						<input type="hidden" value="${freeboard.freeboardId}"
 							name="freeboardId">
-						<input type="hidden" value="${freeboard.title}"
-							name="title">
 						<input type="hidden" value="${freeboard.userId}"
 							name="userId">
 						<input type="hidden" value="${freeboard.imageName}"
@@ -185,9 +183,11 @@
 		<!-- //section -->
 	</main>
 	<!-- //main -->
-
-	<!-- 푸터 -->
+	
 	<%@include file="../include/footer.jsp"%>
+</body>
+	<!-- 푸터 -->
+	
 	<script type="text/javascript">
 		$(function() {
 			$('.whyBtn').click(function() {
@@ -227,5 +227,5 @@
 	        }
 	    });
 	</script>
-</body>
+
 </html>

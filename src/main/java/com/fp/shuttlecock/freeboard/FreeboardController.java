@@ -1,14 +1,8 @@
 package com.fp.shuttlecock.freeboard;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,29 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fp.shuttlecock.attachmentfile.NaverObjectStorage;
 import com.fp.shuttlecock.comments.CommentsDTO;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
-import com.fp.shuttlecock.likes.LikesDTO;
-import com.fp.shuttlecock.recruitboard.RecruitboardDTO;
-import com.fp.shuttlecock.recruitboard.RecruitboardServiceImpl;
-import com.fp.shuttlecock.tradeboard.PageRequestDTO;
-import com.fp.shuttlecock.tradeboard.PageResponseDTO;
-import com.fp.shuttlecock.tradeboard.TradeboardDTO;
 import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
 import com.fp.shuttlecock.user.UserServiceImpl;
 import com.fp.shuttlecock.util.PageCreate;
 import com.fp.shuttlecock.util.PageVO;
-import com.google.gson.JsonObject;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -64,17 +43,15 @@ public class FreeboardController {
 	private TradeboardServiceImpl badgeService;
 
 	@GetMapping("/freeDetail/{freeboardId}")
-	public String getBoardByBoardId(@PathVariable int freeboardId, Model model) {
+	public String getBoardByBoardId(@PathVariable int freeboardId, Model model, PageVO vo) {
 		String view = "error";
-		System.out.println("controller이동");
-		System.out.println(freeboardId);
 
 		FreeboardDTO freeboard = null;
 		try {
 			freeboard = service.getFreePostByFreeboardId(freeboardId);
 			int badgeId = userService.getUserByUserId(freeboard.getUserId()).getBadgeId(); 
 			String badgeName = badgeService.getBadgeNameById(badgeId);
-//			model.addAttribute("pageInfo", pageRequest);
+			model.addAttribute("pageInfo", vo);
 			if (freeboard != null) {
 				List<CommentsDTO> commentList = commentService.getCommentList(freeboardId, 2);
 				// FileRequest file = fileService.getBoardFileByTradeboardId(tradeboardId);
@@ -83,8 +60,8 @@ public class FreeboardController {
 				// model.addAttribute("file", file);
 				model.addAttribute("freeboard", freeboard);
 				model.addAttribute("commentList", commentList);
-				System.out.println(commentList);
 				model.addAttribute("badgeName", badgeName);
+				System.out.println(commentList);
 				view = "Freeboard/freeDetail";
 			}
 		} catch (Exception e) {
@@ -124,7 +101,7 @@ public class FreeboardController {
 		String view = "error";
 		boolean boardResult = false;
 		try {
-			if (!file.isEmpty()) { // 파일이 전송되었는지 확인
+			if (!file.getOriginalFilename().equals("")) { // 파일이 전송되었는지 확인
 
 				String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
 				dto.setImageName(fileName);
@@ -135,6 +112,7 @@ public class FreeboardController {
 				naverfile.ncpFileupload(file, fileName, 2);
 			} else {
 				System.out.println("파일이 전송되지 않았습니다.");
+				dto.setImageName("noImage");
 				// 파일이 전송되지 않은 경우에 대한 처리
 			}
 
@@ -208,19 +186,4 @@ public class FreeboardController {
 			return "error";
 		}
 	}
-
-//	public boolean deleteFile(FreeboardDTO dto) {
-//		String filePath = "/deleteFile/" + dto.getImageName(); // 파일의 경로를 지정합니다.
-//
-//		// 파일 객체 생성
-//		File file = new File(filePath);
-//
-//		// 파일이 존재하면 삭제하고 삭제 여부를 반환합니다.
-//		if (file.exists()) {
-//			return file.delete();
-//		} else {
-//			// 파일이 존재하지 않으면 삭제하지 않고 false를 반환합니다.
-//			return false;
-//		}
-//	}
 }

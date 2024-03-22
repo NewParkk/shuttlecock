@@ -183,20 +183,6 @@
 										</div>
 									</div>
 								</div>
-
-								<%--  <div class="row">
-                                    <div class="col" style="text-align: right;">
-                                        <c:if test="${sessionScope.userId eq comments.userId}">
-                                            <button type="button" class="btn btn-primary com_update_btn" id="com_update_btn_${comments.commentsId}" data-toggle="modal" data-target="#editPostModal_${comments.commentsId}">댓글 수정</button>
-                                            <input type="checkbox" id="secretcom" name="secretcom" value="1" style="display: none;"> 
-											<label for="secretcom" style="display: none;">비밀댓글</label>
-                                            <button type="button" class="btn btn-primary com_save_btn" id="com_save_btn_${comments.commentsId}" style="display: none;">저장</button>
-                                        </c:if>
-                                        <c:if test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
-                                            <button type="button" class="btn btn-primary com_delete_btn" id="com_delete_btn_${comments.commentsId}" value="${comments.commentsId}">댓글 삭제</button>
-                                        </c:if>
-                                    </div>
-                                </div>          --%>
 							</c:forEach>
 						</c:if>
 					</div>

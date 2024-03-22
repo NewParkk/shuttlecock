@@ -97,7 +97,7 @@
 		              <h2>자유게시판 글 작성</h2>
 		            </div>
 					
-				<form action="<c:url value ='/Freeboard/insertFreeboard'/>" method="post" enctype="multipart/form-data" style="margin: 30px 60px 30px 60px;">
+				<%-- <form action="<c:url value ='/Freeboard/insertFreeboard'/>" method="post" enctype="multipart/form-data" style="margin: 30px 60px 30px 60px;">
  					<table class="board-table"> 
 			            <colgroup>
 			                <col width="15%">
@@ -138,11 +138,10 @@
 						<button type="button" class="btn btn-primary CancleBtn" onclick="location.href='/Freeboard/freeList'">취&nbsp; 소</button>
 						<button type="button" class="btn btn-primary whyBtn" style="margin-right:10px;">글작성</button>
 					</div>
-				</form>
+				</form> --%>
 
-					<form action="<c:url value ='/Freeboard/insertFreeboard'/>"
-						method="post" enctype="multipart/form-data"
-						style="margin: 30px 60px 30px 60px;">
+					<form action="/Freeboard/insertFreeboard" method="POST"
+						enctype="multipart/form-data" style="margin: 30px 60px 30px 60px;">
 						<table class="board-table">
 							<colgroup>
 								<col width="15%">
@@ -177,9 +176,8 @@
 
 						<div class=button-container>
 							<input type="hidden" value="${sessionScope.userId}" name="userId">
-							<button type="button" class="btn btn-primary CancleBtn">취&nbsp;
-								소</button>
-							<button type="button" class="btn btn-primary whyBtn">글작성</button>
+							<button type="button" class="btn btn-primary CancleBtn" onclick="location.href='/Freeboard/freeList'">취&nbsp; 소</button>
+							<button type="submit" class="btn btn-primary whyBtn">글작성</button>
 						</div>
 					</form>
 				</div>
@@ -195,9 +193,7 @@
 			</c:if>
 			
 		</section>
-		<!-- //section -->
 	</main>
-	<!-- //main -->
 
 	<!-- 푸터 -->
 	<%@include file="../include/footer.jsp"%>
@@ -205,31 +201,32 @@
 
 <script>
 $(function() {
-    $('.whyBtn').click(function() {
-        // 제목과 내용을 가져옵니다.
-        var title = $('#exampleFormControlInput1').val();
-        var content = $('#ckeditor').val();
-        
-        // 제목이나 내용이 비어 있는지 확인합니다.
-        if (title.trim() === '') {
-            alert('제목을 입력하세요.');
-            return false; 
-        } if(content.trim() === ''){
-        	alert('내용을 입력하세요.');
-            return false; 
-        } else {
-            $("form").submit(); // 유효한 경우 폼을 제출합니다.
-        }
-    });
-
-    ClassicEditor.create(document.querySelector('#ckeditor'), {
-        toolbar: ['bold', 'italic', '|', 'link','undo','redo'],
-        language: 'ko'
-    }).then(editor => {
-        window.editor = editor;
-    }).catch(error => {
-        console.error(error);
-    });
+    ClassicEditor
+        .create(document.querySelector('#ckeditor'), {
+            toolbar: ['bold', 'italic', '|', 'link', 'undo', 'redo'],
+            language: 'ko'
+        })
+        .then(editor => {
+            window.editor = editor;
+            $('.whyBtn').click(function() {
+                // 제목과 내용을 가져옵니다.
+                var title = $('#exampleFormControlInput1').val();
+                var content = editor.getData(); // 에디터의 내용을 가져옵니다.
+                // 제목이나 내용이 비어 있는지 확인합니다.
+                if (title.trim() === '') {
+                    alert('제목을 입력하세요.');
+                    return false;
+                } if(content.trim() === ''){
+                    alert('내용을 입력하세요.');
+                    return false;
+                } else {
+                    $("form").submit(); // 유효한 경우 폼을 제출합니다.
+                }
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
 });
 	
 
