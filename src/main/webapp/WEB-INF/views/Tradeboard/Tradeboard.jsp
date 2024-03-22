@@ -210,37 +210,37 @@
 								<tr>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;">
-										<a class="item-div" href="/Tradeboard?itemClass=0">
+										<a class="item-div ${pageInfo.pageRequest.itemClass eq 0 ? 'active' : ''}" href="/Tradeboard?itemClass=0">
 										전체
 										</a></span>
 									</th>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;">
-										<a class="item-div" href="/Tradeboard?itemClass=1">
+										<a class="item-div ${pageInfo.pageRequest.itemClass eq 1 ? 'active' : ''}" href="/Tradeboard?itemClass=1">
 										의류
 										</a></span>
 									</th>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;">
-										<a class="item-div" href="/Tradeboard?itemClass=2">
+										<a class="item-div ${pageInfo.pageRequest.itemClass eq 2 ? 'active' : ''}" href="/Tradeboard?itemClass=2">
 										라켓
 										</a></span>
 									</th>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;">
-										<a class="item-div" href="/Tradeboard?itemClass=3">
+										<a class="item-div ${pageInfo.pageRequest.itemClass eq 3 ? 'active' : ''}" href="/Tradeboard?itemClass=3">
 										보호대
 										</a></span>
 									</th>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;">
-										<a class="item-div" href="/Tradeboard?itemClass=4">
+										<a class="item-div ${pageInfo.pageRequest.itemClass eq 4 ? 'active' : ''}" href="/Tradeboard?itemClass=4">
 										신발
 										</a></span>
 									</th>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;">
-										<a class="item-div" href="/Tradeboard?itemClass=5">
+										<a class="item-div ${pageInfo.pageRequest.itemClass eq 5 ? 'active' : ''}" href="/Tradeboard?itemClass=5">
 										기타
 										</a></span>
 									</th>

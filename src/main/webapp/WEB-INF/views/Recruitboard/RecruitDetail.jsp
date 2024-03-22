@@ -161,7 +161,7 @@
 										<span class="post-info-text com-writer"> <strong>${comments.userId}</strong></span>
 										<c:if
 											test="${recruitboard.userId eq sessionScope.userId and recruitboard.complete ne 1 
-											and (recruitboard.recruitType eq 1 or recruitboard.recruitType eq 2)}">
+											and (recruitboard.recruitType eq 1 or recruitboard.recruitType eq 2) and sessionScope.userId ne comments.userId}">
 											<input type="checkbox" id="leaguer_${comments.userId}"
 												name="leaguer" value="${comments.userId}">모집하기
 										</c:if>
