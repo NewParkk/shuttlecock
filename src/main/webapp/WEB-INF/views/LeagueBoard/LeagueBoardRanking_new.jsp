@@ -89,8 +89,12 @@ a:active {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	padding: 20px;
 	margin: 10px;
-	width: 300px;
+	/* width: 300px; */
 	max-width: 80%;
+	display: flex;
+	flex-direction: column; align-items : center;
+	justify-content: center;
+	align-items: center;
 }
 
 .card img {
@@ -106,6 +110,7 @@ a:active {
 
 .card p {
 	margin-top: 0;
+	text-align: center;
 }
 </style>
 </head>
@@ -139,20 +144,19 @@ a:active {
 				</div>
 				<div id="board-list">
 					<div class="container">
-						<%-- <form action="/LeagueBoard/search" method="get">
+						<form action="/LeagueBoardRanking/search" method="get">
 							<div class="search-wrap clearfix">
 								<input id="searchKeyword" type="search" name="searchKeyword"
-									placeholder="이름을 입력해주세요."
-									value="${pageInfo.pageRequest.searchKeyword}"> <input
-									name="pageNum" type="hidden"
-									value="${pageInfo.pageRequest.pageNum}"> <input
-									name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
-								<input name="amount" type="hidden"
-									value="${pageInfo.pageRequest.amount}">
+									placeholder="이름을 입력해주세요." style="width: 300px;"
+									value="${pageInfo.pageRequest.searchKeyword}"> 
+								<input name="pageNum" type="hidden"
+									value="${pageInfo.pageRequest.pageNum}"> 
+								<input name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
+								<input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
 								<button class="btn btn-primary search-btn" type="submit"
-									style="margin-right: 24%">검색</button>
+									style="margin-right: 10px">검색</button>
 							</div>
-						</form> --%>
+						</form>
 						<!-- board list area -->
 						<table class="board-table" style="width: 92%; margin: 30px auto 0;">
 							<thead>
@@ -171,9 +175,24 @@ a:active {
 								<c:forEach items="${leagueRankingList}" var="user">
 									<div class="card">
 										<p>${user.username}(${user.userId})
-											<img src=""> ${user.wincount} ${user.losecount}
-											${user.wincount - user.losecount} <b> <c:set
-													var="winRatio"
+											<%-- <c:choose>
+												<c:when test=" ${user.badgeId == 2}">
+												//조건문1이 참임 조건인 경우 수행되는 문장
+												<img
+														src="https://kr.object.ncloudstorage.com/team1bucket/badge/2.png">
+												</c:when>
+												<c:when test="${조건문2}">
+												//조건문1이 참임 조건인 경우 수행되는 문장
+												</c:when>
+												<c:when test="${조건문3}">
+												//조건문1이 참임 조건인 경우 수행되는 문장
+												</c:when>
+												<c:otherwise>
+												//위 조건에 해당하지 않는 경우 수행되는 문장
+												</c:otherwise>
+											</c:choose> --%>
+											${user.wincount}승 ${user.losecount}패 ${user.wincount - user.losecount}점
+											<b> <c:set var="winRatio"
 													value="${(user.wincount * 1.0 / (user.wincount + user.losecount)) * 100}" />
 												<fmt:formatNumber value="${winRatio}" pattern="###.##" />%
 											</b>
@@ -200,7 +219,7 @@ a:active {
 										<c:if test="${pageInfo.prev}">
 											<th class="page-item"><a class="page-link"
 												aria-label="Previous"
-												href="/LeagueBoard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
+												href="/LeagueBoardRanking?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
 											</th>
 										</c:if>
@@ -210,7 +229,7 @@ a:active {
 												<th
 													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
 													<a class="page-link" style="padding: 10px;"
-													href="/LeagueBoard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&sort=${pageInfo.pageRequest.sort}
+													href="/LeagueBoardRanking?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&sort=${pageInfo.pageRequest.sort}
  													">${num}</a>
 												</th>
 											</c:forEach>
@@ -221,8 +240,8 @@ a:active {
 												<th
 													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
 													<a class="page-link" style="padding: 10px;"
-													href="/LeagueBoard/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-									&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}
+													href="/LeagueBoardRanking/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+									&sort=${pageInfo.pageRequest.sort}
  													">${num}</a>
 												</th>
 											</c:forEach>
@@ -230,7 +249,7 @@ a:active {
 										<c:if test="${pageInfo.next}">
 											<th class="page-item next"><a class="page-link"
 												aria-label="next"
-												href="/LeagueBoard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
+												href="/LeagueBoardRanking?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
 											</th>
 										</c:if>
@@ -265,12 +284,6 @@ a:active {
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script>
-		function redirectToInsertForm() {
-			window.location.href = "/LeagueBoard/insert";
-		}
-		function redirectToLoginPage() {
-			window.location.href = "/login";
-		}
 		function checkKeyword() {
 			let mainForm = document.getElementById('mainForm');
 			// 검색 시 항상 pageNum을 1로 설정
