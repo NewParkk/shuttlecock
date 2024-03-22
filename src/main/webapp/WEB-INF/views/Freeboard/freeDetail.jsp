@@ -27,14 +27,14 @@
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-	<main id= "main">
-        <div id="slider">
-          <div class="imageWrap1"></div>
-        </div>
-        
-        <!-- section -->
+	<main id="main">
+		<div id="slider">
+			<div class="imageWrap1"></div>
+		</div>
+
+		<!-- section -->
 		<section id="contents">
-			
+
 			<!-- aside -->
 			<div class="aside">
 				<div class="menubar">
@@ -44,13 +44,13 @@
 					</ul>
 				</div>
 			</div>
-			
+
 			<!-- noticeboard -->
 			<div class="noticeboard">
-				<div class="title" style="margin:0px;">
+				<div class="title" style="margin: 0px;">
 					<div class="vline"></div>
 					<div class="container2">
-						<h3>자유 게시판 &#10095 </h3>
+						<h3>자유 게시판 &#10095</h3>
 					</div>
 				</div>
 
@@ -59,22 +59,23 @@
 						<strong>${freeboard.title}</strong>
 					</p>
 					<p class="post-metadata" style="margin-bottom: 3px;">
-						<span class="post-info-text"> 작성자:
-							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">
+						<span class="post-info-text"> 작성자: <img
+							src="/badge/${badgeName}.jpg" style="height: 15px; width: 15px;">
 							<strong>${freeboard.userId}</strong>
 						</span>
-					</p> 
-						<!-- <span class="post-info-text"> <strong>작성 시간:</strong> -->
-						<!-- </span>  -->
-					<p style="font-size:14px; color:gray;">	
-						<fmt:formatDate value="${freeboard.regdate}" pattern="yyyy-MM-dd HH:mm"/>
-						<span class="post-info-text" style="margin-left:10px;">조회&nbsp;${freeboard.hit}
-							 <strong style="font-size:20px; float: right;">&#128077;${freeboard.like}</strong>
+					</p>
+					<!-- <span class="post-info-text"> <strong>작성 시간:</strong> -->
+					<!-- </span>  -->
+					<p style="font-size: 14px; color: gray;">
+						<fmt:formatDate value="${freeboard.regdate}"
+							pattern="yyyy-MM-dd HH:mm" />
+						<span class="post-info-text" style="margin-left: 10px;">조회&nbsp;${freeboard.hit}
+							<strong style="font-size: 20px; float: right;">&#128077;${freeboard.like}</strong>
 						</span>
 					</p>
-					
+
 					<div class="line"></div>
-					
+
 					<!-- 게시물 내용 표시 -->
 					<div class="post-content" id="post-content">${freeboard.content}</div>
 					<!-- 첨부파일 표시 -->
@@ -97,7 +98,8 @@
 
 				<!-- 버튼들 -->
 				<div class="post-buttons">
-					<button type="button" class="btn btn-primary listBtn" style="margin-right:30px;">목록</button>
+					<button type="button" class="btn btn-primary listBtn"
+						style="margin-right: 30px;">목록</button>
 					<c:if test="${sessionScope.userId eq freeboard.userId}">
 						<button type="submit" class="btn btn-primary goBtn updateBtn">수정</button>
 					</c:if>
@@ -107,7 +109,8 @@
 					</c:if>
 					<c:if test="${sessionScope.userId ne freeboard.userId}">
 						<button type="button" class="btn btn-primary goBtn LikeBtn"
-							id="LikeBtn" style="float:left; margin-left:30px;">&#128077; ${freeboard.like}</button>
+							id="LikeBtn" style="float: left; margin-left: 30px;">&#128077;
+							${freeboard.like}</button>
 					</c:if>
 					<c:if
 						test="${sessionScope.userId ne freeboard.userId and not empty sessionScope.userId}">
@@ -117,29 +120,20 @@
 
 
 				&nbsp;&nbsp;
-				
+
 				<!-- 댓글 부분 -->
 				<div class="comment-section">
-					<!-- <div class="comment-form">
-						<h3>댓글</h3>
-					</div> -->
-				
-
-
-					<!-- 댓글 리스트 -->
-<<<<<<< HEAD
-					<%-- <div class="comment-box">
+					<div class="comment-box">
 						<c:if test="${not empty commentList}">
+							<div class="comment-form">
+								<h3>댓글</h3>
+							</div>
 							<c:forEach items="${commentList}" var="comments">
 								<div class="row">
-									<div class="col">
-										<span class="post-info-text com-writer"> <strong>${comments.userId}</strong></span>
+									<div class="col" style="margin-bottom: 15px;">
+										<span class="post-info-text com-writer"> <strong>${sessionScope.userId}</strong></span>
 									</div>
-									<div class="col">
-										<span class="post-info-text com-date">${comments.regdate}</span>
-									</div>
-								</div>
-								<div class="row">
+
 									<div class="col">
 										<div id="com_updateMode_div_${comments.commentsId}">
 											<c:choose>
@@ -156,7 +150,30 @@
 										<textarea class="form-control com_updateMode_textarea"
 											id="exampleFormControlTextarea1_${comments.commentsId}"
 											rows="2" style="display: none;">${comments.content}</textarea>
-
+										<div class="col">
+											<span class="post-info-text com-date"
+												style="font-size: 12px; color: gray;"> <fmt:formatDate
+													value="${comments.regdate}" pattern="yyyy-MM-dd HH:mm" />
+											</span> <span class="col" style="float: right;"> <c:if
+													test="${sessionScope.userId eq comments.userId}">
+													<button type="button"
+														class="btn btn-primary com_update_btn"
+														id="com_update_btn_${comments.commentsId}"
+														data-toggle="modal"
+														data-target="#editPostModal_${comments.commentsId}">댓글
+														수정</button>
+													<button type="button" class="btn btn-primary com_save_btn"
+														id="com_save_btn_${comments.commentsId}"
+														style="display: none;">저장</button>
+												</c:if> <c:if
+													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
+													<button type="button"
+														class="btn btn-primary com_delete_btn"
+														id="com_delete_btn_${comments.commentsId}"
+														value="${comments.commentsId}">댓글 삭제</button>
+												</c:if>
+											</span>
+										</div>
 										<div id="secret-div_${comments.commentsId}" class="form-check"
 											style="display: none;">
 											<input type="checkbox" class="form-check-input secret"
@@ -166,79 +183,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col">
-										<c:if test="${sessionScope.userId eq comments.userId}">
-											<button type="button" class="btn btn-primary com_update_btn"
-												id="com_update_btn_${comments.commentsId}"
-												data-toggle="modal"
-												data-target="#editPostModal_${comments.commentsId}">댓글
-												수정</button>
-											<button type="button" class="btn btn-primary com_save_btn"
-												id="com_save_btn_${comments.commentsId}"
-												style="display: none;">저장</button>
-										</c:if>
-										<c:if
-											test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
-											<button type="button" class="btn btn-primary com_delete_btn"
-												id="com_delete_btn_${comments.commentsId}"
-												value="${comments.commentsId}">댓글 삭제</button>
-										</c:if>
-									</div>
-								</div>
-							</c:forEach>
-						</c:if>
-					</div> --%>
-=======
-                    <div class="comment-box">
-                        <c:if test="${not empty commentList}">
-                        	<div class="comment-form">
-								<h3>댓글</h3>
-							</div>
-                            <c:forEach items="${commentList}" var="comments">
-                                <div class="row">
-                                    <div class="col" style="margin-bottom:15px;">
-                                        <span class="post-info-text com-writer"> <strong>${sessionScope.userId}</strong></span> 
-                                    </div>
-                                
-                                    <div class="col">
-                                        <div id="com_updateMode_div_${comments.commentsId}">
-                                            <c:choose>
-												<c:when
-													test="${comments.secret eq 0 or sessionScope.userId eq freeboard.userId or 
-												comments.userId eq sessionScope.userId or sessionScope.isAdmin eq true}">
-													${comments.content}
-												</c:when>
-												<c:when test="${comments.secret eq 1}">
-													<span class="secret-comment">비밀 댓글입니다</span>
-												</c:when>
-											</c:choose>
-                                        </div>
-                                        <textarea class="form-control com_updateMode_textarea" id="exampleFormControlTextarea1_${comments.commentsId}" rows="2" style="display: none;">${comments.content}</textarea>
-                                        <div class="col">
-	                                        <span class="post-info-text com-date" style="font-size:12px; color:gray;"><fmt:formatDate value="${comments.regdate}" pattern="yyyy-MM-dd HH:mm"/></span>
-	                                    	
-	                                    	<span class="col" style="float: right;">
-		                                        <c:if test="${sessionScope.userId eq comments.userId}">
-		                                            <button type="button" class="btn btn-primary com_update_btn" id="com_update_btn_${comments.commentsId}" data-toggle="modal" data-target="#editPostModal_${comments.commentsId}">댓글 수정</button>
-		                                            <input type="checkbox" id="secretcom" name="secretcom" value="1" style="display: none;"> 
-													<label for="secretcom" style="display: none;">비밀댓글</label>
-		                                            <button type="button" class="btn btn-primary com_save_btn" id="com_save_btn_${comments.commentsId}" style="display: none;">저장</button>
-		                                        </c:if>
-		                                        <c:if test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
-		                                            <button type="button" class="btn btn-primary com_delete_btn" id="com_delete_btn_${comments.commentsId}" value="${comments.commentsId}">댓글 삭제</button>
-		                                        </c:if>
-                                    		</span>
-	                                    
-	                                    </div>
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input secret" id="secret_${comments.commentsId}" name="secret" value="1" ${comments.secret == 1 ? 'checked' : ''}>
-                                            <label class="form-check-label" for="secret_${comments.commentsId}">비밀댓글</label>
-                                        </div>
-                                    </div>  
-                                </div>
-                                
-                               <%--  <div class="row">
+
+								<%--  <div class="row">
                                     <div class="col" style="text-align: right;">
                                         <c:if test="${sessionScope.userId eq comments.userId}">
                                             <button type="button" class="btn btn-primary com_update_btn" id="com_update_btn_${comments.commentsId}" data-toggle="modal" data-target="#editPostModal_${comments.commentsId}">댓글 수정</button>
@@ -250,25 +196,32 @@
                                             <button type="button" class="btn btn-primary com_delete_btn" id="com_delete_btn_${comments.commentsId}" value="${comments.commentsId}">댓글 삭제</button>
                                         </c:if>
                                     </div>
-                                </div>          --%>       
-                            </c:forEach>
-                        </c:if>
-                    </div>
-                    
-                    
-                    <!-- 댓글 작성 폼 -->
+                                </div>          --%>
+							</c:forEach>
+						</c:if>
+					</div>
+
+
+					<!-- 댓글 작성 폼 -->
 					<c:if test="${not empty sessionScope.userId}">
 						<form id="commentForm">
 							<div class="comment-container">
 								<div class="form-group">
-									<div class="post-info-text com-writer" style="margin-left:7px;"> <strong>${sessionScope.userId}</strong></div> 
+									<div class="post-info-text com-writer"
+										style="margin-left: 7px;">
+										<strong>${sessionScope.userId}</strong>
+									</div>
 									<textarea class="form-control content comment-textarea"
-										id="exampleFormControlTextarea1" rows="2" name="content" placeholder="댓글을 남겨보세요"></textarea>
-									<div class="rowcheck" style="display: flex; justify-content: space-between;">	
-										<div class="form-check" style="display: flex; align-items: center; margin-left: 10px;">
+										id="exampleFormControlTextarea1" rows="2" name="content"
+										placeholder="댓글을 남겨보세요"></textarea>
+									<div class="rowcheck"
+										style="display: flex; justify-content: space-between;">
+										<div class="form-check"
+											style="display: flex; align-items: center; margin-left: 10px;">
 											<input type="checkbox" id="secret" name="secret" value="1">비밀댓글
 										</div>
-										<button type="submit" class="comment-submit-button com-btn" id="com_btn">댓글등록</button>
+										<button type="submit" class="comment-submit-button com-btn"
+											id="com_btn">댓글등록</button>
 									</div>
 								</div>
 							</div>
@@ -277,7 +230,7 @@
 				</div>
 			</div>
 			<!-- //noticeboard -->
-			
+
 		</section>
 		<!-- //section -->
 	</main>
