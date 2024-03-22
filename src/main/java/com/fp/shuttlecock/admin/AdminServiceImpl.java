@@ -20,7 +20,16 @@ public class AdminServiceImpl {
 	public UserDTO getUserByUserId(String userId) {
 		return mapper.getUserByUserId(userId);
 	}
+	
+	public boolean deleteUser(String userId) {
+		int result = mapper.deleteUser(userId);
+		if (result == 1) {
+			return true;
+		}
+		return false;
+	}
 
+	
 	public boolean updateUserAdmin(UserDTO user) {
 		boolean result = false;
 		int res = mapper.updateUserAdmin(user);
@@ -48,6 +57,10 @@ public class AdminServiceImpl {
 
 	public int getTotalCount(PageRequestDTO pageRequest) {
 		return mapper.getTotalCount(pageRequest);
+	}
+
+	public UserDTO getMypage(String userId) {
+		return mapper.getMypage(userId);
 	}
 
 

@@ -60,17 +60,18 @@
 								</div>
 								<div class="details">
 									<h2>
-										ID : <input type="text" value="${user.userId}"
-											class="custom-input" readonly disabled>
+										아이디 : <img
+											src="https://kr.object.ncloudstorage.com/team1bucket/badge/1.png"
+											width="30px" height="25px">${user.userId}
 									</h2>
 									<br>
 									<h2>
-										name : <input type="text" name="username" class="custom-input"
+										이름 : <input type="text" name="username" class="custom-input"
 											value="${user.username}">
 									</h2>
 									<br>
 									<h2>
-										email : <input type="text" name="userEmail"
+										이메일 : <input type="text" name="userEmail"
 											class="custom-input" value="${user.userEmail}">
 									</h2>
 									<br> <input class="update" type="submit" id="update"

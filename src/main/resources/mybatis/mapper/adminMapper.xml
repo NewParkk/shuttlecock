@@ -13,7 +13,11 @@
 		FROM user
 		WHERE userId = #{userId}
 	</select>
-
+	
+	<delete id="deleteUser" parameterType="String">
+		 delete from user where userId = #{userId} 
+	</delete>
+	
 	<update id="updateUserAdmin"
 		parameterType="com.fp.shuttlecock.admin.UserDTO">
 		UPDATE user
@@ -70,6 +74,13 @@
 			</if>
 		</trim>
 		LIMIT #{start}, #{amount}
+	</select>
+	
+	<select id="getMypage"
+	resultType="com.fp.shuttlecock.admin.UserDTO">
+		SELECT *
+		FROM user
+		WHERE userId = #{userId}
 	</select>
 
 </mapper>
