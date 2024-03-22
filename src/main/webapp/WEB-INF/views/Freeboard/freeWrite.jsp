@@ -97,7 +97,7 @@
 		              <h2>자유게시판 글 작성</h2>
 		            </div>
 					
-				<form action="<c:url value ='/Freeboard/insertFreeboard'/>" method="post" enctype="multipart/form-data" style="margin: 30px 60px 30px 60px;">
+				<%-- <form action="<c:url value ='/Freeboard/insertFreeboard'/>" method="post" enctype="multipart/form-data" style="margin: 30px 60px 30px 60px;">
  					<table class="board-table"> 
 			            <colgroup>
 			                <col width="15%">
@@ -138,11 +138,10 @@
 						<button type="button" class="btn btn-primary CancleBtn" onclick="location.href='/Freeboard/freeList'">취&nbsp; 소</button>
 						<button type="button" class="btn btn-primary whyBtn" style="margin-right:10px;">글작성</button>
 					</div>
-				</form>
+				</form> --%>
 
-					<form action="<c:url value ='/Freeboard/insertFreeboard'/>"
-						method="post" enctype="multipart/form-data"
-						style="margin: 30px 60px 30px 60px;">
+					<form action="/Freeboard/insertFreeboard" method="POST"
+						enctype="multipart/form-data" style="margin: 30px 60px 30px 60px;">
 						<table class="board-table">
 							<colgroup>
 								<col width="15%">
@@ -177,9 +176,8 @@
 
 						<div class=button-container>
 							<input type="hidden" value="${sessionScope.userId}" name="userId">
-							<button type="button" class="btn btn-primary CancleBtn">취&nbsp;
-								소</button>
-							<button type="button" class="btn btn-primary whyBtn">글작성</button>
+							<button type="button" class="btn btn-primary CancleBtn" onclick="location.href='/Freeboard/freeList'">취&nbsp; 소</button>
+							<button type="submit" class="btn btn-primary whyBtn">글작성</button>
 						</div>
 					</form>
 				</div>
@@ -195,9 +193,7 @@
 			</c:if>
 			
 		</section>
-		<!-- //section -->
 	</main>
-	<!-- //main -->
 
 	<!-- 푸터 -->
 	<%@include file="../include/footer.jsp"%>
