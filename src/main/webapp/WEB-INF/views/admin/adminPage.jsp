@@ -195,8 +195,7 @@ a:active {
 												type="hidden" name="searchKeyword"
 												value="${pageInfo.pageRequest.searchKeyword}"> <input
 												type="hidden" name="category"
-												value="${pageInfo.pageRequest.category}"> <input
-												type="hidden" name="pagecnt" value="10">
+												value="${pageInfo.pageRequest.category}">
 										</div>
 									</form>
 								</div>
@@ -212,7 +211,7 @@ a:active {
 </body>
 <script>
 	//step01 : 페이징 버튼 클릭시 지정 url 요청 갈수 있도록 이벤트 등록
-	Array.from(document.getElementsByClassName('page-link'))
+	/* Array.from(document.getElementsByClassName('page-link'))
 		.forEach((pagingButton) => {
 			pagingButton.addEventListener('click', function(e) {
 				e.preventDefault();
@@ -269,11 +268,64 @@ a:active {
 	            }
 	        });
 	    });
+	}); */
+	
+	document.addEventListener("DOMContentLoaded", function () {
+	    // 페이지네이션 버튼에 이벤트 리스너 등록
+	    Array.from(document.getElementsByClassName('page-link'))
+	        .forEach((pagingButton) => {
+	            pagingButton.addEventListener('click', function(e) {
+	                e.preventDefault();
+	                // 페이지 번호를 가져옴
+	                let pageNum = parseInt(e.target.innerHTML);
+	                
+	                // 폼을 찾아서 pageNum 값을 변경
+	                let pageForm = document.forms.pageForm;
+	                pageForm.pageNum.value = pageNum;
+	                
+	                // 폼 제출
+	                pageForm.submit();
+	            });
+	        });
+	    
+	    
+	        
+	    // 삭제 버튼 클릭 이벤트를 처리합니다.
+	    document.querySelectorAll(".delBtn").forEach(function (button) {
+	        button.addEventListener("click", function (e) {
+	            e.preventDefault();
+	            
+	            // 현재 버튼의 부모 tr 요소를 찾아서 해당 사용자의 userId를 가져옵니다.
+	            var userId = this.closest("tr").querySelector("input[type='hidden']").value;
+	            
+	            // 알림을 통해 사용자에게 삭제 여부를 확인할 수 있습니다.
+	            var isConfirmed = confirm("사용자를 삭제하시겠습니까?");
+	            console.log("출력 : "+userId);
+	            if (isConfirmed) {
+	                // 액시오스를 사용하여 서버로 DELETE 요청을 보냅니다.
+	                console.log(userId);
+	                axios.delete('/admin/delete/' + userId)
+	                .then(function (response) {
+	                    console.log(response.data);
+	                    alert("사용자가 삭제되었습니다.");
+	                 // 페이지 새로고침
+	                    window.location.reload();
+	                })
+	                .catch(function (error) {
+	                    console.error('Error during user deletion:', error);
+	                    alert("삭제할 권한이 없습니다");
+	                });
+	            }
+	        });
+	    });
 	});
-
-
-
-
+	
+	function checkKeyword() {
+		let mainFormkey = document.getElementById('mainForm');
+		if(mainForm.searchKeyword.value === null || mainForm.searchKeyword.value === '') {
+			mainForm.searchKeyword.remove();
+		}
+	}
 
 </script>
 </html>

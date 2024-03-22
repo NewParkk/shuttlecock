@@ -19,12 +19,12 @@
     		<strong class="Btn">
     		<a href="/mypage">
     		<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${sessionScope.badgeId}.png"
-			width="30px" height="25px">${username} 님</a></strong>
+			width="30px" height="25px">${sessionScope.username} 님</a></strong>
     	</c:if>
     	<c:if test="${kakaoYN eq false}">
        		<strong class="Btn"><a href="/mypage">
        		<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${sessionScope.badgeId}.png"
-			width="30px" height="25px">${userId} 님</a></strong>    		
+			width="30px" height="25px">${sessionScope.userId} 님</a></strong>    		
 	    		<c:if test="${admin eq true}">
 	    		<strong class="Btn">
 	    		<a href="/admin">관리자페이지</a></strong>
