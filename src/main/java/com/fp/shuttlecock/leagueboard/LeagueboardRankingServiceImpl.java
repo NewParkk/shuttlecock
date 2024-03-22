@@ -13,8 +13,8 @@ public class LeagueboardRankingServiceImpl implements LeagueboardRankingService 
 	@Autowired
 	LeagueboardRankingMapper LRM;
 	
-	public List<UserDTO> getLeagueRanking() {
-		return LRM.getLeagueRanking();
+	public List<UserDTO> getLeagueRanking(PageRequestDTO pageRequest) {
+		return LRM.getLeagueRanking(pageRequest);
 	}
 
 	@Override
@@ -22,8 +22,19 @@ public class LeagueboardRankingServiceImpl implements LeagueboardRankingService 
 		return LRM.getRankedList();
 	}
 
-	public int countLeagueUser() {
-		return LRM.countLeagueUser();
+	public int countLeagueUser(PageRequestDTO pageRequest) {
+		return LRM.countLeagueUser(pageRequest);
 	}
-	
+//
+//	public List<UserDTO> getSearchLeagueUser(PageRequestDTO pageRequest) {
+//		return LRM.getSearchLeagueUser(pageRequest);
+//	}
+//
+//	public int countSearchLeagueUser(PageRequestDTO pageRequest) {
+//		return LRM.countSearchLeagueUser(pageRequest);
+//	}
+
+	public List<UserDTO> getLeagueRankingByUsername(String username) {
+	    return LRM.getLeagueRankingByUsername(username);
+	}
 }
