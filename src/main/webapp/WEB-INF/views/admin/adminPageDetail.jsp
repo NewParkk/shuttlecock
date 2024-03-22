@@ -36,8 +36,12 @@
 							enctype="multipart/form-data">
 							<div class="member-info">
 								<div class="profile-picture">
-									<img
-										src="https://kr.object.ncloudstorage.com/team1bucket/profile/${user.userImageName}"><br>
+									<c:if test="${user.userImageName eq null}">
+									<img src="https://kr.object.ncloudstorage.com/team1bucket/profile/noprofile.png"><br>
+									</c:if>
+									<c:if test="${user.userImageName != null}">
+									<img src="https://kr.object.ncloudstorage.com/team1bucket/profile/${user.userImageName}"><br>
+									</c:if><br>
 									<br>
 								</div>
 								<div class="details" style="margin-left: 100px;">
