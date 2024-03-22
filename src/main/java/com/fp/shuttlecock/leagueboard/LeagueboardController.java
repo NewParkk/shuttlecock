@@ -114,6 +114,7 @@ public class LeagueboardController {
 			leagueservice.increaseLoserPoint(leagueboardDTO.getLoserList());
 		}
 		leagueservice.increaseWriteCount(leagueboardDTO.getUserId());
+		System.out.println(leagueboardDTO.getRecruitboardId());
 		boardService.setPostCompleted(leagueboardDTO.getRecruitboardId());
 		return "redirect:/LeagueBoard";
 	}
@@ -121,7 +122,10 @@ public class LeagueboardController {
 	@GetMapping("/LeagueBoard/update/{leagueboardId}")
 	public String updateLeaguePostForm(@PathVariable int leagueboardId, Model model) throws Exception {
 		LeagueboardDTO leagueboard = leagueservice.getLeaguePostById(leagueboardId);
-		
+		globalWinner.setLength(0);
+		globalWinnerList.clear();
+		globalLoser.setLength(0);
+		globalLoserList.clear();
 		if(leagueboard.getWinner() != null && leagueboard.getLoser() != null) {
 			globalWinner.append(leagueboard.getWinner());
 			globalLoser.append(leagueboard.getLoser());

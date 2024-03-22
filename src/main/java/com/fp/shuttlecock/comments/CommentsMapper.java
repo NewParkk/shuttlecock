@@ -22,4 +22,6 @@ public interface CommentsMapper {
 
 	void decreaseCommentCount(CommentsDTO comment);
 
+	int updateDeletedComment(int commentsId);
+
 }
