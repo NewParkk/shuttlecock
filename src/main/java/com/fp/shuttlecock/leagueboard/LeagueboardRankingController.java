@@ -35,8 +35,6 @@ public class LeagueboardRankingController {
 				.pageAmount(pageRequest.getAmount()).pageRequest(pageRequest).build();
 
 		
-		// 승점에 따라 내림차순으로 정렬
-        Collections.sort(leagueRankingList, Comparator.comparingInt(user -> (((UserDTO) user).getWincount() - ((UserDTO) user).getLosecount())).reversed());
 
 		
 		model.addAttribute("leagueRankingList", leagueRankingList);
@@ -49,7 +47,7 @@ public class LeagueboardRankingController {
 
 	
 	@GetMapping("/LeagueBoardRanking/search")
-	public String getLeagueRanking(Model model, PageRequestDTO pageRequest, HttpSession session,
+	public String getLeagueRankingByUsername(Model model, PageRequestDTO pageRequest, HttpSession session,
 	                               @RequestParam(required = false) String username) {
 	    System.out.println(pageRequest);
 	    if(session.getAttribute("userId") != null) {
@@ -58,15 +56,13 @@ public class LeagueboardRankingController {
 	    
 	    List<UserDTO> leagueRankingList;
 	    
-	    leagueRankingList = LRS.getLeagueRanking(pageRequest);
+	    leagueRankingList = LRS.getLeagueRankingByUsername(pageRequest);
 	   
 	    
 	    int totalUser = LRS.countLeagueUser(pageRequest);
 	    PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalUser)
 	            .pageAmount(pageRequest.getAmount()).pageRequest(pageRequest).build();
 
-	    // 승점에 따라 내림차순으로 정렬
-	    Collections.sort(leagueRankingList, Comparator.comparingInt(user -> (((UserDTO) user).getWincount() - ((UserDTO) user).getLosecount())).reversed());
 
 	    model.addAttribute("leagueRankingList", leagueRankingList);
 	    model.addAttribute("pageInfo", pageResponse);
@@ -74,14 +70,6 @@ public class LeagueboardRankingController {
 	}
 	
 	
-	
-	
-	
-	
-	@GetMapping("/card")
-	public String getMethodName() {
-		return "/LeagueBoard/card";
-	}
 	
 	
 }

@@ -34,7 +34,7 @@ public class LeagueboardRankingServiceImpl implements LeagueboardRankingService 
 //		return LRM.countSearchLeagueUser(pageRequest);
 //	}
 
-	public List<UserDTO> getLeagueRankingByUsername(String username) {
-	    return LRM.getLeagueRankingByUsername(username);
+	public List<UserDTO> getLeagueRankingByUsername(PageRequestDTO pageRequest) {
+	    return LRM.getLeagueRankingByUsername(pageRequest);
 	}
 }
