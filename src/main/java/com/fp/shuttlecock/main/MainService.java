@@ -12,7 +12,7 @@ public interface MainService {
 	//메인에 표기할 leagueboard게시물
 	List<LeagueboardDTO> get5LeaguePosts() throws ParseException;
 	//메인에 표기할 freeboard게시물
-	List<FreeboardDTO> get5FreePosts() throws ParseException;
+	//List<FreeboardDTO> get5FreePosts() throws ParseException;
 	//뱃지 정보 가져오기
 	List<BadgeDTO> getBadgeList(int badgeType);
 	//유저 커뮤니티 뱃지 갱신

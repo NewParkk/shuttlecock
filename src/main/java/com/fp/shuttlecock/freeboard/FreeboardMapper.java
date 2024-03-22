@@ -15,6 +15,8 @@ import com.fp.shuttlecock.util.PageVO;
 public interface FreeboardMapper {
 	
 	FreeboardDTO getFreePostByFreeboardId(int freeboardId);
+	
+	List<FreeboardDTO> get5FreePosts();
 	// 게시판에 글 추가
 	boolean insertFreeboard(FreeboardDTO dto);
 

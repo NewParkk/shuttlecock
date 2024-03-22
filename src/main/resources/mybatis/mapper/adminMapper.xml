@@ -13,6 +13,12 @@
 		FROM user
 		WHERE userId = #{userId}
 	</select>
+	
+	<delete id="deleteUser" parameterType="String">
+		delete from
+		user where
+		userId = #{userId}
+	</delete>
 
 	<update id="updateUserAdmin"
 		parameterType="com.fp.shuttlecock.admin.UserDTO">

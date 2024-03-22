@@ -28,6 +28,11 @@ public class FreeboardServiceImpl implements FreeboardService{
 	public FreeboardDTO getFreePostByFreeboardId(int freeboardId) {
 		return mapper.getFreePostByFreeboardId(freeboardId);
 	}
+	
+	@Override
+	public List<FreeboardDTO> get5FreePosts() {
+		return  mapper.get5FreePosts();
+	}
 
 	@Override
 	public boolean insertFreeboard(FreeboardDTO dto){

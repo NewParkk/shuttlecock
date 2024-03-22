@@ -7,6 +7,13 @@
 		select * from freeboard where freeboardId =
 		#{freeboardId}
 	</select>
+	
+	<select id="get5FreePosts" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
+		SELECT *
+		FROM freeboard
+		ORDER BY regdate DESC
+		LIMIT 5
+	</select>
 
 	<!-- 글 등록 조회수랑 좋아요수는 0으로 세팅! -->
 	<insert id="insertFreeboard"

@@ -177,42 +177,41 @@ public class FreeboardController {
 	public String updateBoard(FreeboardDTO freeboard, MultipartFile file, HttpSession session) {
 		System.out.println(file);
 		boolean result = false;
-		if (String.valueOf(session.getAttribute("userId")) != null
-				&& freeboard.getUserId().equals(String.valueOf(session.getAttribute("userId")))) {
-			if (!file.getOriginalFilename().equals("")) {
-				String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-				freeboard.setImageName(fileName);
-				result = service.updateFreePost(freeboard);
-				naverfile.ncpFileupload(file, fileName, 2);
-			} else {
-				System.out.println("이미지 데이터 : " + freeboard.getImageName());
-				if(freeboard.getImageName() == null || freeboard.getImageName().equals("")) {
-					freeboard.setImageName("noImage");
-				}
-				result = service.updateFreePost(freeboard);
-			}
+		System.out.println(freeboard);
 
-			if (result) {
-				return "redirect:/Freeboard/freeDetail/" + freeboard.getFreeboardId();
-			} else {
-				return "error";
-			}
-		}
-		return "redirect:/login";
-	}
-
-	public boolean deleteFile(FreeboardDTO dto) {
-		String filePath = "/deleteFile/" + dto.getImageName(); // 파일의 경로를 지정합니다.
-
-		// 파일 객체 생성
-		File file = new File(filePath);
-
-		// 파일이 존재하면 삭제하고 삭제 여부를 반환합니다.
-		if (file.exists()) {
-			return file.delete();
+		if (!file.getOriginalFilename().equals("")) {
+			String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+			freeboard.setImageName(fileName);
+			result = service.updateFreePost(freeboard);
+			naverfile.ncpFileupload(file, fileName, 2);
 		} else {
-			// 파일이 존재하지 않으면 삭제하지 않고 false를 반환합니다.
-			return false;
+			System.out.println("이미지 데이터 : " + freeboard.getImageName());
+			if (freeboard.getImageName() == null || freeboard.getImageName().equals("")) {
+				freeboard.setImageName("noImage");
+				System.out.println(freeboard.getImageName());
+			}
+			result = service.updateFreePost(freeboard);
+		}
+
+		if (result) {
+			return "redirect:/Freeboard/freeDetail/" + freeboard.getFreeboardId();
+		} else {
+			return "error";
 		}
 	}
+
+//	public boolean deleteFile(FreeboardDTO dto) {
+//		String filePath = "/deleteFile/" + dto.getImageName(); // 파일의 경로를 지정합니다.
+//
+//		// 파일 객체 생성
+//		File file = new File(filePath);
+//
+//		// 파일이 존재하면 삭제하고 삭제 여부를 반환합니다.
+//		if (file.exists()) {
+//			return file.delete();
+//		} else {
+//			// 파일이 존재하지 않으면 삭제하지 않고 false를 반환합니다.
+//			return false;
+//		}
+//	}
 }

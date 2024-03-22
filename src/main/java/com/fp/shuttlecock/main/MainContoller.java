@@ -22,6 +22,7 @@ import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
 import com.fp.shuttlecock.user.UserDTO;
 import com.fp.shuttlecock.user.UserService;
 import com.fp.shuttlecock.user.UserServiceImpl;
+import com.fp.shuttlecock.util.PageVO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,7 +30,7 @@ import jakarta.servlet.http.HttpSession;
 public class MainContoller {
 	
 	@Autowired
-	MainService mainService;
+	FreeboardServiceImpl freeService;
 	
 	@Autowired
 	LeagueboardServiceImpl leagueservice;
@@ -38,14 +39,14 @@ public class MainContoller {
 	private String apiKey;
 	
 	@GetMapping("/main")
-    public String showMainPage(Model model, HttpSession session, PageRequestDTO pagerequest) throws ParseException {
+    public String showMainPage(Model model, HttpSession session, PageRequestDTO pagerequest, PageVO vo) throws ParseException {
 		if(session.getAttribute("userId") != null) {
 			pagerequest.setUserId(String.valueOf(session.getAttribute("userId")));
 		}
 		pagerequest.setIsMain(1);
 		List<LeagueboardDTO> leaguePosts = leagueservice.getAllLeaguePostByPage(pagerequest);
 		
-		List<FreeboardDTO> freePosts = mainService.get5FreePosts();
+		List<FreeboardDTO> freePosts = freeService.get5FreePosts();
 		System.out.println(apiKey);
 		model.addAttribute("leaguePosts", leaguePosts);
 		model.addAttribute("freePosts", freePosts);

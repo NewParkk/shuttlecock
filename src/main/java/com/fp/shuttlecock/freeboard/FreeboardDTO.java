@@ -44,11 +44,8 @@ public class FreeboardDTO {
 	private Timestamp regdate;
 	private int commentCount;	
 	private int likeCount;
-	private String delete_yn; // 삭제 여부
+	private int deleteYN;
 	private String userId; // 작성자 추가
 	private String imageName;
-	
-	// 이부분 추가
-    private List<String> imageUrls;
     
 }
