@@ -8,6 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<!-- aisde-js 파일 -->
+<script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
@@ -15,20 +17,32 @@
 .contents {
 	width: 80%;
 }
+.post-metadata1 {
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
+    border-radius: 10px;
+}
 </style>
 <body>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
 	<!-- main -->
-	<main id="boardmain">
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+
+		<!-- section -->
 		<section id="contents">
+		
 			<%@ include file="category.jsp"%>
 
 			<div class="noticeboard">
-				<div class="title" style="">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
-						<h3>리그게시판</h3>
+						<h3>리그게시판 &#10095</h3>
 					</div>
 				</div>
 
@@ -38,32 +52,62 @@
 						<strong>${leagueboard.title}</strong>
 					</p>
 					<p class="post-metadata">
-						<span class="post-info-text"> <strong>작성자:</strong>
-							${leagueboard.userId}
-						</span> <span class="post-info-text"> <strong>작성 시간:</strong>
+						<span class="post-info-text">작성자:
+							<strong>${leagueboard.userId}</strong>
+						</span> 
+					</p>
+						<!-- <span class="post-info-text"> <strong>작성 시간:</strong>
+						</span> -->
+					<p style="font-size:14px; color:gray;">	
+						<span>
 							<fmt:formatDate value="${leagueboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
+							<span class="post-metadata1" style="font-size:16px; float: right; margin-top:-40px; color:#333; text-align: left;">
+								<span class="post-info-text"> <strong>승자:</strong>
+									${leagueboard.winner}
+								</span> 
+								<br>
+								<span class="post-info-text" style="font-size:16px; float: right;"> <strong>패자:</strong>
+									${leagueboard.loser}
+								</span>
+							</span>
 						</span>
 					</p>
+					
+					<div class="line"></div>
+					
+					<%-- <div class="post-info">
+						<p class="post-metadata">
+							<span class="post-info-text"> <strong>승자:</strong>
+								${leagueboard.winner}
+							</span> 
+							<br>
+							<span class="post-info-text"> <strong>패자:</strong>
+								${leagueboard.loser}
+							</span>
+						</p>
+					</div> --%>
+					
+					<div class="post-content" id="post-content">${leagueboard.content}</div>
+					<div class="line"></div>
 				</div>
-				<div class="post-content" id="post-content">${leagueboard.content}</div>
-				<br>
-				<div class="post-info">
-				<p class="post-metadata">
-					<span class="post-info-text"> <strong>승자:</strong>
-						${leagueboard.winner}
-					</span> 
-					<br>
-					<br>
-					<span class="post-info-text"> <strong>패자:</strong>
-						${leagueboard.loser}
-					</span>
-				</p>
-				</div>
+				
+				<%-- <div class="post-info">
+					<p class="post-metadata">
+						<span class="post-info-text"> <strong>승자:</strong>
+							${leagueboard.winner}
+						</span> 
+						<br>
+						<br>
+						<span class="post-info-text"> <strong>패자:</strong>
+							${leagueboard.loser}
+						</span>
+					</p>
+				</div> --%>
 
 
 				<div class="post-buttons">
 					<button type="button" class="btn btn-primary whyBtn listBtn"
-						id="goList" style="margin: 0px 0px 20px 10px;">목록</button>
+						id="goList" style="margin: 0px 30px 20px 10px;">목록</button>
 					<c:if test="${sessionScope.userId eq leagueboard.userId}">
 						<button type="submit" class="btn btn-primary goBtn updateBtn" 
 						style="margin: 0px 0px 20px 10px;">수정</button>

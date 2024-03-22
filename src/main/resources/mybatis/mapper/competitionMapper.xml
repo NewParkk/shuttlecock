@@ -16,7 +16,7 @@
     </select>
 
 	 <select id="isFirstData" resultType="int">
-        SELECT COUNT(*) FROM sports.competition;
+        SELECT COUNT(*) FROM sports.competition
     </select>
 
 	<select id="getRegionEvent" resultType="com.fp.shuttlecock.information.CompetitionDTO" parameterType="string">

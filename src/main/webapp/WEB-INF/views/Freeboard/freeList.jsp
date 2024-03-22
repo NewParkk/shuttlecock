@@ -16,27 +16,18 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<style>
-.imageWrap1 {
-  width: 100%;
-  height: 140px;
-  background: url("/img/badminton-bg.jpg") repeat;
-  background-size: contain;
-}
-</style>
 </head>
 <body>
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-	<!-- <main id="boardmain"> -->
 	<main id= "main">
         <div id="slider">
           <div class="imageWrap1"></div>
         </div>
 
-
+		<!-- section -->
 		<section id="contents">
 
 			<!-- aside -->
@@ -49,6 +40,7 @@
 				</div>
 			</div>
 
+			<!-- noticeboard -->
 			<div class="noticeboard">
 				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
@@ -60,23 +52,6 @@
 				<div id="board-list">
 					<div class="container2">
 
-		<%-- 				<form action="<c:url value='/Freeboard/freeList'/>"
-							style="float:left; margin-left: 45px; background: #f9f9f9; width:520px; height: 50px; display: flex; align-items: center;">
-							<div class="search-wrap clearfix">
-								<select class="form-control" id="search-select" name="condition" style="width: 100px; margin-left: 10px;">
-									<option value="title"
-										${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
-									<option value="content"
-										${pc.paging.condition == 'content' ? 'selected' : ''}>내용</option>
-									<option value="writer"
-										${pc.paging.condition == 'userId' ? 'selected' : ''}>작성자</option>
-								</select>
-								<input type="text" name="keyword"
-									class="form-control search-input" value="${pc.paging.keyword}"
-									style="width: 300px;" placeholder="검색어를 입력하세요"> 
-								<button type="submit" class="btn btn-primary search-btn">검색</button>
-							</div>
-						</form> --%>
 						<form id="sortForm" action="/Freeboard/freeList" method="get">
 							<select name="sort" id="sort" class="sort-select"
 								onchange="submitForm()">
@@ -101,14 +76,14 @@
 							<tbody>
 								<c:forEach var="vo" items="${freeList}">
 									<tr>
-										<th scope="row">${vo.freeboardId}</th>
-										<td><a
+										<td scope="row" style="font-size:11px;">${vo.freeboardId}</td>
+										<td style="text-align:left; padding-left:20px;"><a
 											href="<c:url value='/Freeboard/freeDetail/${vo.freeboardId}'/>">${vo.title}
 												(${vo.commentCount})</a></td>
-										<td>${vo.userId}</td>
-										<td><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm"/></td> <%-- ${vo.regdate} --%>
-										<td>${vo.hit}</td>
-										<td>${vo.like}</td>
+										<td style="color:gray;">${vo.userId}</td>
+										<td style="color:gray;"><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm"/></td> <%-- ${vo.regdate} --%>
+										<td style="color:gray;">${vo.hit}</td>
+										<td style="color:gray;">${vo.like}</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -116,7 +91,7 @@
 
 						<!-- 글작성 -->
 
-						<div class="newsWrite" style="margin-top: 10px;">
+						<div class="newsWrite" style="margin-top: 10px; margin-right:50px;">
 							<button type="button" class="btn btn-primary WriteBtn">글작성</button>
 						</div>
 
@@ -162,6 +137,7 @@
 							</form>
 						</div>
 
+						<!-- 검색창 -->
 						<form action="<c:url value='/Freeboard/freeList'/>"
 							style="text-align: center;">
 							<div class="search-wrap clearfix">
@@ -183,16 +159,40 @@
 					</div>
 				</div>
 			</div>
+			<!-- // noticeboard -->
+			
 		</section>
+		<!-- //section -->
 	</main>
+	<!-- //main -->
+	
+	<!-- footer -->
 	<%@include file="../include/footer.jsp"%>
 </body>
 
 <script>
+	
 	$(function() {
-		$('.WriteBtn').click(function() {
+		/* $('.WriteBtn').click(function() {
 			location.href = '<c:url value="/Freeboard/freeWrite"/>';
-		})
+		}) */
+		//세션이 있는 경우 글작성 페이지로 이동
+		<c:if test="${not empty sessionScope.userId or sessionScope.isAdmin}">
+	        $('.WriteBtn').click(function() {
+	            window.location.href = '<c:url value="/Freeboard/freeWrite"/>';
+	        });
+    	</c:if>
+		
+    	//세션이 없으면 로그인 페이지로 이동
+	    <c:if test="${empty sessionScope.userId and empty sessionScope.isAdmin}">
+	        $('.WriteBtn').click(function() {
+	        	if(confirm("로그인이 필요한 작업입니다. 로그인 페이지로 이동하시겠습니까?")){
+					location.href = "/login";
+				}
+	        });
+	    </c:if>
+		
+		
 		$('#pagination').on('click', 'a', function(e) {
 			e.preventDefault();
 			console.log($(this));

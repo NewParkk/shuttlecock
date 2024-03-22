@@ -112,7 +112,13 @@ a:active {
 <body>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-	<main id="boardmain">
+	<!-- main -->
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+
+		<!-- section -->
 		<section id="contents">
 
 			<div class="aside">
@@ -125,7 +131,7 @@ a:active {
 			</div>
 
 			<div class="noticeboard">
-				<div class="title" style="">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>리그 순위</h3>
@@ -133,7 +139,7 @@ a:active {
 				</div>
 				<div id="board-list">
 					<div class="container">
-						<form action="/LeagueBoard/search" method="get">
+						<%-- <form action="/LeagueBoard/search" method="get">
 							<div class="search-wrap clearfix">
 								<input id="searchKeyword" type="search" name="searchKeyword"
 									placeholder="이름을 입력해주세요."
@@ -146,20 +152,19 @@ a:active {
 								<button class="btn btn-primary search-btn" type="submit"
 									style="margin-right: 24%">검색</button>
 							</div>
-						</form>
+						</form> --%>
 						<!-- board list area -->
-						<table class="board-table" style="width: 90%; margin: 0 auto;">
+						<table class="board-table" style="width: 92%; margin: 30px auto 0;">
 							<thead>
 								<tr>
-									<th scope="col" class="th-num"><a
+									<th scope="col" class="th-writer"><a
 										href="/LeagueBoard?sort=0">등수</a></th>
-									<th scope="col" class="th-title">유저</th>
+									<th scope="col" class="th-date">유저</th>
 									<th scope="col" class="th-title">승</th>
 									<th scope="col" class="th-title">패</th>
 									<th scope="col" class="th-title">승점</th>
 									<th scope="col" class="th-title">승률</th>
 									<!-- <th scope="col">조회수</th> -->
-									
 								</tr>
 							</thead>
 							<tbody>
@@ -176,12 +181,15 @@ a:active {
 									</div>
 								</c:forEach>
 							</tbody>
-						</table>
+						</table> 
+						
+						
 						<c:if test="${empty leagueRankingList}">
 							<div class="empty-post"
-								style="text-align: center; margin-top: 10px;">리그에 참여한 유저가 없습니다.</div>
+								style="text-align: center; margin:100px;">리그에 참여한 유저가 없습니다.</div>
+							<div class="line" style="width:92%; margin: 0 auto;"></div>
 						</c:if>
-					</div>
+					
 
 					<div id="pageBtn" style="margin: 10px;">
 						<div class="row justify-content-center"
@@ -231,6 +239,22 @@ a:active {
 							</div>
 						</div>
 					</div>
+				
+
+					<!-- 검색창 --> <!-- 미완성 -->
+					<form action="/LeagueBoard/search" method="get" style="text-align: center;">
+							<div class="search-wrap clearfix">
+								<input id="searchKeyword" type="search" name="searchKeyword"
+									placeholder="이름을 입력해주세요." style="width: 300px;"
+									class="form-control search-input"
+									value="${pageInfo.pageRequest.searchKeyword}"> 
+									<input name="pageNum" type="hidden" value="${pageInfo.pageRequest.pageNum}"> 
+									<input name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
+									<input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
+								<button class="btn btn-primary search-btn" type="submit">검색</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -256,6 +280,28 @@ a:active {
 				mainForm.searchKeyword.remove();
 			}
 		}
+		
+		document.addEventListener('DOMContentLoaded', function() {
+		    var menuItems = document.querySelectorAll('.menubar .list');
+		    var currentPageUrl = window.location.pathname; // 현재 페이지의 경로 부분만 추출
+
+		    menuItems.forEach(function(item) {
+		        var menuItemUrl = item.getAttribute('href');
+
+		        // 메뉴 항목의 URL이 현재 페이지의 경로 부분과 정확히 일치하는지 확인
+		        if (currentPageUrl === menuItemUrl) {
+		            item.classList.add('active');
+		        }
+
+		        // 메뉴 항목 클릭 시 active 클래스 설정
+		        item.addEventListener('click', function(event) {
+		            menuItems.forEach(function(menuItem) {
+		                menuItem.classList.remove('active');
+		            });
+		            this.classList.add('active');
+		        });
+		    });
+		});
 	</script>
 </body>
 </html>

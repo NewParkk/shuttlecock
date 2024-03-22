@@ -74,14 +74,14 @@
 						<c:forEach items="${freePosts}" var="post" varStatus="s">
 		                  <tbody>
 		                    <tr>
-		                      <td>${fn:length(freePosts) - s.count + 1}</td>
+		                      <td style="font-size:11px;">${fn:length(freePosts) - s.count + 1}</td>
 		                      <th>
 		                        <a href="#!"
 		                          >${post.title}</a
 		                        >
 		                        <p>테스트</p>
 		                      </th>
-		                      <td><fmt:formatDate value="${post.regdate}" pattern="yyyy.MM.dd"/></td>
+		                      <td style="color:gray;"><fmt:formatDate value="${post.regdate}" pattern="yyyy.MM.dd"/></td>
 		                    </tr>
 		                   </tbody>
 		                 </c:forEach>
@@ -157,14 +157,14 @@
 						<c:forEach items="${leaguePosts}" var="post" varStatus="s">
 		                  <tbody>
 		                    <tr>
-		                      <td>${fn:length(leaguePosts) - s.count + 1}</td>
+		                      <td style="font-size:11px;">${fn:length(leaguePosts) - s.count + 1}</td>
 		                      <th>
 		                        <a href="/LeagueBoard/${post.leagueboardId}"
 		                          >${post.title}</a
 		                        >
 		                        <p>테스트</p>
 		                      </th>
-		                      <td><fmt:formatDate value="${post.regdate}" pattern="yyyy.MM.dd"/></td>
+		                      <td style="color:gray;"><fmt:formatDate value="${post.regdate}" pattern="yyyy.MM.dd"/></td>
 		                    </tr>
 		                   </tbody>
 		                 </c:forEach>

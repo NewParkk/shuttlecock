@@ -25,13 +25,31 @@
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-	<main id="boardmain">
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+        
+        <!-- section -->
 		<section id="contents">
+			<!-- aside -->
+			<div class="aside">
+			  <div class="menubar">
+			    <ul>
+			      <li><a class="list" href="/main">HOME</a></li>
+			      <li><a class="list" href="/Announcement/">공지사항</a></li>
+			      <li><a class="list" href="/getNews">배드민턴 정보</a></li>
+			      <li><a class="list" href="/getGame">정규대회 일정</a></li>
+			    </ul>
+			  </div>
+			</div>
+          
+          	<!-- noticeboard -->
 			<div class="noticeboard">
-				<div class="title">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
-						<h3>공지사항 게시판</h3>
+						<h3>공지사항 게시판 &#10095</h3>
 					</div>
 				</div>
 
@@ -40,24 +58,33 @@
 					<p class="post-title">
 						<strong>${post.title}</strong>
 					</p>
-					<p class="post-metadata">
-						<span class="post-info-text"> <strong>작성자:</strong>
-							${post.userId}
-						</span> <span class="post-info-text"> <strong>작성 시간:</strong>
-							<fmt:formatDate value="${post.regdate}" pattern="yyyy-MM-dd HH:mm" />
-						</span> <span class="post-info-text"> <strong>조회:</strong>
+					<p class="post-metadata" style="margin-bottom: 3px;">
+						<span class="post-info-text"> 작성자:
+							<strong>${post.userId}</strong>
+						</span>
+					</p>
+						<!-- <span class="post-info-text"> <strong>작성 시간:</strong>
+						</span>  -->
+					<p style="font-size:14px; color:gray;">
+						<fmt:formatDate value="${post.regdate}" pattern="yyyy-MM-dd HH:mm" />
+						<span class="post-info-text" style="margin-left:10px;"> 조회&nbsp;
 							${post.hit}
 						</span>
 					</p>
+					
+					<div class="line"></div>
+					
+					<!-- 게시물 내용 표시 -->
+					<div class="post-content" id="post-content" style="height: 500px;">${post.content}</div>	
+					
+					<div class="line" style="height:2px;"></div>				
 				</div>
 
 
-				<!-- 게시물 내용 표시 -->
-				<div class="post-content" id="post-content" style="height: 500px;">${post.content}</div>
 
 				<!-- 버튼들 -->
 				<div class="post-buttons">
-					<button type="button" class="btn btn-primary listBtn">목록</button>
+					<button type="button" class="btn btn-primary listBtn" style="margin-right:30px;">목록</button>
 					<c:if test="${sessionScope.userId eq post.userId or sessionScope.isAdmin eq true}">
 						<button type="submit" class="btn btn-primary goBtn updateBtn">수정</button>
 					</c:if>
@@ -124,6 +151,15 @@ $(document).ready(function() {
             });
         }
     });
+});
+
+/* aside가 (/Announcement/)url이 같은 페이지로 인식되도록 작성함 */
+var currentPageUrl = "/Announcement/"; 
+var menuItems = document.querySelectorAll('.menubar .list');
+menuItems.forEach(function(item) {
+    if (item.getAttribute('href') === currentPageUrl) {
+        item.classList.add('active');
+    }
 });
 
 </script>

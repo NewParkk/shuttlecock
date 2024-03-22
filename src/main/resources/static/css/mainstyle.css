@@ -53,7 +53,7 @@ li {
   transition: all 400ms;
 }
 #header.on::after {
-  height: 180px;
+  height: 162px;
 }
 
 #header .inner1 .container {
@@ -397,12 +397,20 @@ table {
   display: flex;
   margin: 35px 25px 25px 25px;
 }
+.title2 {
+  display: flex;
+  margin: 20px 25px 0px 20px;
+}
 .contents .title h2{
   font-weight: 400;
   text-align: left;
   margin-left: 10px;
 }
-
+.contents .title2 h2{
+  font-weight: 400;
+  text-align: left;
+  margin-left: 10px;
+}
 /* 영상css */
 .info{
   width: 1220px;

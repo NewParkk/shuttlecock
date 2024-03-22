@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="/css/aside.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/js/aside-js.js"></script>
+<style>
+.imageWrap1 {
+  width: 100%;
+  height: 140px;
+  background: url("/img/badminton-bg.jpg") repeat;
+  background-size: contain;
+}
+</style>
 </head>
 <body>
 <!-- wrap -->
@@ -23,6 +31,11 @@
 
 	<!-- main -->
 	<main id="main">
+		<div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+        
+        <!-- section -->
         <section id="section">
         
           <!-- aside -->
@@ -39,7 +52,7 @@
 
 		  <!-- contents -->
           <div class="contents">
-            <div class="title">
+            <div class="title2">
               <div class="vline"></div>
               <h2>정보게시판</h2>
             </div>

@@ -55,6 +55,13 @@ public class UserServiceImpl implements UserService{
 	public boolean getJoinUser(UserDTO userDTO) {
 		boolean result = false;
 		
+		//이름에 admin이 들어가면 관리자로 부여!
+		if (userDTO.getUsername().contains("admin")) {
+	        userDTO.setAdmin(true);
+	    } else {
+	        userDTO.setAdmin(false);
+	    }
+		
 		//비밀번호 암호화
 		String encryptedPw = passwordEncoder.encode(userDTO.getPw());
 		userDTO.setPw(encryptedPw);

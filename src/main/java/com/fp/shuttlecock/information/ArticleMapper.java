@@ -10,11 +10,15 @@ public interface ArticleMapper {
 
 	public boolean isNewsCheck(String title);
 
-	public void insertNews(ArticleDTO articleDTO);
+	/* public void insertNews(ArticleDTO articleDTO); */
 
 	public List<ArticleDTO> getNewsByDate(Map<String, Object> articleList);
 
 	public int countArticle();
+
+	public int isNewsData();
+
+	public void getinsertNews(ArticleDTO article);
 
 
 }

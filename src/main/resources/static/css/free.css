@@ -88,7 +88,7 @@ main {
 	width:85%;
     background-color: #fff; /* 배경색 설정 */
     border: 1px solid #ccc; /* 테두리 설정 */
-    border-radius: 10px; /* 모서리 둥글게 설정 */
+    border-radius: 11px; /* 모서리 둥글게 설정 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
     padding: 0px 0px 50px 0px; /* 내부 여백 설정 */
     margin-top: 14px;
@@ -110,23 +110,16 @@ main {
 
 .post-info, .post-buttons {
     margin-bottom: 10px; /* 아래 여백 설정 */
-    padding:10px;
 }
 /* 게시글 디테일 */
 .post-info {
     background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    margin-bottom:20px;
+    /* border: 1px solid #ccc; */
+   /*  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    padding: 30px 30px 0px 30px;
 }
 
 /* 게시글 정보 영역 스타일 */
-.post-info {
-    margin-bottom: 20px; /* 아래 여백 설정 */
-}
-
 .post-info p {
     margin-bottom: 10px; /* 아래 여백 설정 */
 }
@@ -152,19 +145,19 @@ main {
 
 .post-content {
     background-color: #fff;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     border-radius: 5px;
-    padding: 20px;
+    padding: 20px 0px;
     margin-top: 20px;
     max-height: 300px; /* 내용 영역의 최대 높이 설정 */
     overflow-y: auto; /* 내용이 최대 높이를 초과할 경우 수직 스크롤 추가 */
 }
 
 .image-container img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
+   /* width: 100%; */ 
+   height: 100%; 
+   object-fit: contain;
+   /* margin: 0 auto; */
 }
 
 .post-buttons {
@@ -174,7 +167,8 @@ main {
 .post-buttons button {
     background-color: #607d67; /* 연한 초록색 */
     color: #fff;
-    border: none;
+    /* border: none; */
+    border: 1px solid #607d67;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
@@ -182,29 +176,32 @@ main {
 }
 
 .post-buttons button:hover {
-    background-color: #4e6555; /* 더 연한 초록색 */
+    background-color: #fff; /* 더 연한 초록색 */
+    color:#607d67;
+    border: 1px solid #607d67;
 }
 
 .comment-section {
-    margin-top: 150px;
-    padding-top: 30px;
-    border-top: 1px solid #ccc;
+    margin-top: 50px;
+    padding: 30px;
+    /* border-top: 1px solid #ccc; */
 }
 
 .comment-section h3 {
     font-size: 20px;
     margin-bottom: 20px;
-    text-align: center;
+    /* text-align: center; */
+    margin-left:3px;
 }
 
-.comment-section .comment-form textarea {
+/* .comment-section .comment-form textarea {
     width: 100%;
     min-height: 100px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: vertical;
-}
+} */
 
 .comment-submit-button {
     background-color: #405448;
@@ -225,16 +222,18 @@ main {
 }
 
 .comment-box {
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    /* background-color: #f9f9f9; */
+    /* border: 1px solid #ccc; */
     border-radius: 5px;
-    padding: 15px;
     margin-bottom: 10px;
     margin-top: 20px;
 }
 
 .comment-box .row {
-    margin: 10px 0;
+    margin: 20px 0;
+    background-color: #f6f6f6;
+    border-radius: 5px;
+	padding: 10px 20px 20px 20px;
 }
 
 .comment-box textarea {
@@ -246,24 +245,24 @@ main {
 .com_update_btn,
 .com_delete_btn,
 .com_save_btn {
-    background-color: #607d67; /* 연한 초록색 */
+    background-color: #405448; /* 연한 초록색 */
     color: #fff;
     border: none;
     padding: 8px 16px; /* 크기 조정 */
     border-radius: 4px; /* 크기 조정 */
     cursor: pointer;
-    margin-right: 8px; /* 간격 조정 */
+    /* margin-right: 8px; 간격 조정 */
 }
 
 .com-btn,
 .com_update_btn:hover,
 .com_delete_btn:hover,
 .com_save_btn:hover {
-    background-color: #4e6555; /* 더 연한 초록색 */
+    background-color: #607d67; /* 더 연한 초록색 */
 }
 
 .secret-comment {
-    font-style: italic;
+    font-style: italicrgb(0, 128, 64);    
     color: #999;
 }
 
@@ -276,7 +275,6 @@ main {
     cursor: pointer;
     margin-bottom: 20px;
     float: right;
-    margin-right: 46px;
 }
 
 .WriteBtn:hover, .listBtn:hover, .goBtn:hover {
@@ -287,7 +285,7 @@ main {
 
 .button-container {
     text-align: right; /* 버튼을 우측으로 정렬 */
-    margin-top: 20px; /* 위 여백 설정 */
+    margin-top: 15px; /* 위 여백 설정 */
 }
 
 .button-container input[type="hidden"] {
@@ -385,8 +383,6 @@ main {
 .paging a {
     /* display: block; */ /* 링크를 블록 요소로 변환하여 전체 영역을 클릭 가능하도록 설정 */
     padding: 5px 10px; /* 내부 여백 설정 */
-   /*  border: 1px solid #405448; 테두리 설정
-    border-radius: 5px; 모서리 둥글게 설정 */
     background-color: #fff; /* 배경색 설정 */
     color: #405448; /* 텍스트 색상 설정 */
     border-radius: 5px; 
@@ -394,8 +390,6 @@ main {
 }
 
 .current-page {
-    /* background-color: #405448;
-    color: #fff; */
     background-color: #607d67;
     color: #fff;
     padding: 5px 10px;
@@ -405,7 +399,102 @@ main {
 
 
 .paging a:hover {
-   /*  background-color: #607d67; 호버 시 배경색 변경
-    color: #fff;  *//* 호버 시 텍스트 색상 변경 */
     border: 1px solid #607d67;
+}
+
+.comment-container {
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    padding: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 댓글 css */
+.comment-textarea {
+    border: none; 
+    margin-bottom: 10px; 
+    padding: 10px 5px 5px 5px; 
+    outline: none;
+}
+
+.comment-submit-button {
+    align-self: flex-end;
+    /* padding: 5px 10px;  */
+    border: none;
+    border-radius: 5px; 
+    background-color: #405448; 
+    color: white; 
+    cursor: pointer; 
+    border: 1px solid #405448;
+}
+
+.comment-submit-button:hover {
+    background-color: #607d67; 
+    color: #fff;
+    border: 1px solid #607d67;
+}
+
+.comment-container.has-text {
+  	border: 1px solid #405448; 
+}
+
+/* freeboard 수정 관련 css */
+.form-con{
+	margin: 5px 10px 10px 10px;
+	margin-left:80px;
+}
+
+.btn-danger{
+	margin-left:10px;	
+}
+
+/* 게시판 공통 css */
+.imageWrap1 {
+  width: 100%;
+  height: 140px;
+  background: url("/img/badminton-bg.jpg") repeat;
+  background-size: contain;
+}
+.line {
+   width: 100%;
+   height: 1px;
+   background-color: #eaeaea;
+   margin-top: 25px;
+   margin-bottom: 10px;
+}
+.title1 {
+  display: flex;
+  margin: 35px 25px 25px 25px;
+}
+.title1 h2{
+  font-size: 20px;
+  font-weight: 400;
+  text-align: left;
+  margin-left: 10px;
+}
+.form-control1 {
+	width: 300px;
+    border: none;
+    border-bottom: 2px solid #ccc; 
+    padding: 5px; 
+    font-size: 12px;
+    outline: none; 
+}
+.form-control1:focus {
+    border-color: #607d67;
+}
+.form-control2 {
+	width: 400px;
+    border: none;
+    border-bottom: 2px solid #ccc; 
+    padding: 5px; 
+    font-size: 12px;
+    outline: none; 
+}
+.form-control2:focus {
+    border-color: #607d67;
 }

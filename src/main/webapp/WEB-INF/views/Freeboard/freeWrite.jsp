@@ -26,13 +26,6 @@
 	width: 1000px;
 	margin: 20px auto;
 }
-
-.imageWrap1 {
-  width: 100%;
-  height: 140px;
-  background: url("/img/badminton-bg.jpg") repeat;
-  background-size: contain;
-}
 .title1 {
   display: flex;
   margin: 35px 25px 25px 25px;
@@ -61,13 +54,14 @@
 <body>
 	<!-- 헤더 -->
 	<%@ include file="../include/header.jsp"%>
+	
 	<!-- main -->
-	<!-- <main id="boardmain"> -->
 	<main id= "main">
         <div id="slider">
           <div class="imageWrap1"></div>
         </div>
 	
+		<!-- section -->
 		<section id="contents">
 			<!-- aside -->
 			<div class="aside">
@@ -80,11 +74,12 @@
 			</div>
 			
 			<c:if test="${not empty sessionScope.userId}">
+			<!-- noticeboard -->
 				<div class="noticeboard" >
 		            <div class="title" style="margin:0px;">
 						<div class="vline"></div>
 						<div class="container2">
-							<h3>자유 게시판</h3>
+							<h3>자유 게시판 &#10095</h3>
 						</div>
 					</div>
 					<div class="title1" style="margin-left: 60px;">
@@ -108,7 +103,7 @@
 			                </tr>
 			                <tr>
 			                    <th scope="row" bgcolor="#F9F9F9">작성자</th>
-			                    <td colspan="4">
+			                    <td colspan="4" style="text-align: left; padding-left:10px; font-weight: bold;">
 							        ${sessionScope.userId}
 							    </td>
 			                </tr>
@@ -128,11 +123,11 @@
 			        </table>
 			        
 			        <div class=button-container>
-							<input type="hidden" value="${sessionScope.userId}"
-								name="userId">
-							<button type="button" class="btn btn-primary CancleBtn">취&nbsp; 소</button>
-							<button type="button" class="btn btn-primary whyBtn">글작성</button>
-						</div>
+						<input type="hidden" value="${sessionScope.userId}"
+							name="userId">
+						<button type="button" class="btn btn-primary CancleBtn" onclick="location.href='/Freeboard/freeList'">취&nbsp; 소</button>
+						<button type="button" class="btn btn-primary whyBtn" style="margin-right:10px;">글작성</button>
+					</div>
 				</form>
 
 
@@ -169,7 +164,9 @@
 						</div>
 					</form> --%>
 				</div>
+				<!-- //noticeboard -->
 			</c:if>
+			
 			<c:if test="${empty sessionScope.userId}">
 				<script>
 						function redirectToLoginPage() {
@@ -177,8 +174,11 @@
 						}
 				</script>
 			</c:if>
+			
 		</section>
+		<!-- //section -->
 	</main>
+	<!-- //main -->
 
 	<!-- 푸터 -->
 	<%@include file="../include/footer.jsp"%>

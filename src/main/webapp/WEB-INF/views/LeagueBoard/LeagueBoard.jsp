@@ -7,32 +7,45 @@
 <title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<!-- aisde-js 파일 -->
+<script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
 <style>
 .current-page {
-	background-color: #405448 !important;
-	color: #fff !important;
-	padding: 5px 10px !important;
-	border-radius: 5px !important;
-}
+   background-color: #607d67 !important;
+   color: #fff !important;
+   padding: 5px 10px !important;
+   border: 1px solid #607d67 !important; 
+   border-radius: 5px !important;
+} 
 
 .search-wrap {
 	display: flex !important;
 	justify-content: center !important;
 	align-items: center !important;
 }
+.board-table .th-writer {
+    width: 170px !important;
+    text-align: center !important;
+}
 </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-	<main id="boardmain">
+	<!-- main -->
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+
+		<!-- section -->
 		<section id="contents">
 
 			<%@ include file="category.jsp"%>
 
 			<div class="noticeboard">
-				<div class="title" style="">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>리그게시판</h3>
@@ -40,7 +53,7 @@
 				</div>
 				<div id="board-list">
 					<div class="container">
-						<form action="/LeagueBoard/search" method="get">
+						<%-- <form action="/LeagueBoard/search" method="get">
 							<div class="search-wrap clearfix">
 								<select name="dropdown" style="width: 100px; margin-left: 10px;"
 									class="form-control" id="search-select">
@@ -62,7 +75,7 @@
 								<button class="btn btn-primary search-btn" type="submit"
 									style="margin-left: 10px">검색</button>
 							</div>
-						</form>
+						</form> --%>
 						<form id="sortForm" action="/LeagueBoard" method="get">
 							<select name="sort" id="sort" class="sort-select"
 								onchange="submitForm()">
@@ -84,9 +97,9 @@
 						<table class="board-table" style="width: 90%; margin: 20px auto 0"">
 							<thead>
 								<tr>
-									<th scope="col" class="th-num">글번호</th>
+									<th scope="col" class="th-num">번호</th>
 									<th scope="col" class="th-title">제목</th>
-									<th scope="col" class="th-title">작성자</th>
+									<th scope="col" class="th-writer">작성자</th>
 									<th scope="col" class="th-date">날짜</th>
 									<!-- <th scope="col">조회수</th> -->
 								</tr>
@@ -94,12 +107,12 @@
 							<tbody>
 								<c:forEach items="${leagueboardList}" var="leagueboard">
 									<tr>
-										<th scope="row" bgcolor="">${leagueboard.leagueboardId}</th>
-										<td bgcolor=""><a
+										<td scope="row" class="th-num" bgcolor="" style="font-size:11px;">${leagueboard.leagueboardId}</td>
+										<td bgcolor="" style="text-align:left; padding-left:20px;"><a
 											href="/LeagueBoard/${leagueboard.leagueboardId}">${leagueboard.title}</a>
 										</td>
-										<td bgcolor="">${leagueboard.userId}</td>
-										<td bgcolor=""><fmt:formatDate
+										<td bgcolor="" style="color:gray;">${leagueboard.userId}</td>
+										<td bgcolor="" style="color:gray;"><fmt:formatDate
 												value="${leagueboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
 										</td>
 									</tr>
@@ -110,8 +123,8 @@
 							<div class="empty-post"
 								style="text-align: center; margin-top: 10px;">게시물이 없습니다.</div>
 						</c:if>
-					</div>
-					<div class="newsWrite" style="margin-top: 20px;">
+					
+					<div class="newsWrite" style="margin-top: 10px; margin-right:50px;">
 						<c:choose>
 							<c:when test="${sessionScope.userId == null}">
 								<button onclick="redirectToLoginPage()"
@@ -119,7 +132,7 @@
 							</c:when>
 							<c:otherwise>
 								<button onclick="redirectToInsertForm()"
-									class="btn btn-primary WriteBtn">글작성</button>
+									class="btn btn-primary WriteBtn" style="margin-right:10px;">글작성</button>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -127,7 +140,7 @@
 						<div class="row justify-content-center"
 							style="display: flex; justify-content: center;">
 							<div class="col-auto">
-								<table class="page navigation">
+								<%-- <table class="page navigation">
 									<tr class="pagination">
 										<c:if test="${pageInfo.prev}">
 											<th class="page-item"><a class="page-link"
@@ -167,9 +180,84 @@
 											</th>
 										</c:if>
 									</tr>
-								</table>
+								</table> --%>
+								
+								 <div class="page navigation">
+									<ul class="pagination">
+										<c:if test="${pageInfo.prev}">
+											<li class="page-item"><a class="page-link"
+												aria-label="Previous"
+												href="/LeagueBoard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}">Prev</a>
+											</li>
+										</c:if>
+										<%-- <c:if test="${pageInfo.pageRequest.category == null}">
+											<c:forEach var="num" begin="${pageInfo.startPage}"
+												end="${pageInfo.endPage}">
+												<li
+													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+													<a class="page-link"
+													href="/LeagueBoard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&sort=${pageInfo.pageRequest.sort}
+ 													">${num}</a>
+												</li>
+											</c:forEach>
+										</c:if>
+										<c:if test="${pageInfo.pageRequest.category != null}">
+											<c:forEach var="num" begin="${pageInfo.startPage}"
+												end="${pageInfo.endPage}">
+												<li
+													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+													<a class="page-link"
+													href="/LeagueBoard/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+									&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}
+ 													">${num}</a>
+												</li>
+											</c:forEach>
+										</c:if> --%>
+										<c:forEach var="num" begin="${pageInfo.startPage}"
+													end="${pageInfo.endPage}">
+													<li class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+														<a id="pbtn_${num}" class="page-link"
+														href="/LeagueBoard/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">
+														${num}</a>
+													</li>
+										</c:forEach>
+										<c:if test="${pageInfo.next}">
+											<li class="page-item next"><a class="page-link"
+												aria-label="next"
+												href="/LeagueBoard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}">Next</a>
+											</li>
+										</c:if>
+									</ul>
+								</div>
 							</div>
 						</div>
+					</div>
+					
+					<!-- 검색창 -->
+					<form action="/LeagueBoard/search" method="get">
+							<div class="search-wrap clearfix">
+								<select name="dropdown" style="width: 100px; margin-left: 10px;"
+									class="form-control" id="search-select">
+									<option value="user_userId"
+										${pageInfo.pageRequest.category == 'user_userId' ? 'selected' : ''}>
+										작성자</option>
+									<option value="title"
+										${pageInfo.pageRequest.category == 'title' ? 'selected' : ''}>
+										제목</option>
+								</select> <input id="searchKeyword" type="search" name="searchKeyword"
+									placeholder="검색어를 입력해주세요." style="width: 300px;"
+									class="form-control search-input"
+									value="${pageInfo.pageRequest.searchKeyword}"> <input
+									name="pageNum" type="hidden"
+									value="${pageInfo.pageRequest.pageNum}"> <input
+									name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
+								<input name="amount" type="hidden"
+									value="${pageInfo.pageRequest.amount}">
+								<button class="btn btn-primary search-btn" type="submit">검색</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
