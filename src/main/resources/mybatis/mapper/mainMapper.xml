@@ -8,12 +8,12 @@
 		LIMIT 5
 	</select>
 	
-	<select id="get5FreePosts" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
+	<!-- <select id="get5FreePosts" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
 		SELECT *
 		FROM freeboard
 		ORDER BY regdate DESC
 		LIMIT 5
-	</select>
+	</select> -->
 	
 	<update id="updateCommunityBadge" parameterType="com.fp.shuttlecock.user.UserDTO">
 		UPDATE user

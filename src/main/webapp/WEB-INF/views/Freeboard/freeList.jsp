@@ -59,27 +59,10 @@
 
 				<div id="board-list">
 					<div class="container2">
-
-		<%-- 				<form action="<c:url value='/Freeboard/freeList'/>"
-							style="float:left; margin-left: 45px; background: #f9f9f9; width:520px; height: 50px; display: flex; align-items: center;">
-							<div class="search-wrap clearfix">
-								<select class="form-control" id="search-select" name="condition" style="width: 100px; margin-left: 10px;">
-									<option value="title"
-										${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
-									<option value="content"
-										${pc.paging.condition == 'content' ? 'selected' : ''}>내용</option>
-									<option value="writer"
-										${pc.paging.condition == 'userId' ? 'selected' : ''}>작성자</option>
-								</select>
-								<input type="text" name="keyword"
-									class="form-control search-input" value="${pc.paging.keyword}"
-									style="width: 300px;" placeholder="검색어를 입력하세요"> 
-								<button type="submit" class="btn btn-primary search-btn">검색</button>
-							</div>
-						</form> --%>
 						<form id="sortForm" action="/Freeboard/freeList" method="get">
 							<select name="sort" id="sort" class="sort-select"
 								onchange="submitForm()">
+								<option value="0" ${param.sort == '0' ? 'selected' : ''}>글번호순</option>
 								<option value="1" ${param.sort == '1' ? 'selected' : ''}>최신순</option>
 								<option value="2" ${param.sort == '2' ? 'selected' : ''}>조회수순</option>
 								<option value="3" ${param.sort == '3' ? 'selected' : ''}>추천순</option>

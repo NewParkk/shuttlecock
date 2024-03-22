@@ -81,19 +81,20 @@
 						<c:if test="${freeboard.imageName != 'noImage'}">
 							<div class="image-container"
 								style="width: 200px; height: 200px; object-fit: cover;">
-								<img
-									src="https://kr.object.ncloudstorage.com/team1bucket/boardFile/2_${freeboard.imageName}.png"><br>
-								<!-- 이미지 이름 표시 -->
-								<span>${freeboard.imageName}</span>
-								<!-- 파일 삭제 버튼 -->
-								<button type="button" class="btn btn-danger" id="deleteFileBtn">파일
-									삭제</button>
+								<img src="${imgUrl}/boardFile/2_${freeboard.imageName}.png"><br>
+								<button id="del_img">이미지 삭제</button>
 							</div>
 						</c:if>
 					</div>
 					<div class=button-container>
 						<input type="hidden" value="${freeboard.freeboardId}"
 							name="freeboardId">
+						<input type="hidden" value="${freeboard.title}"
+							name="title">
+						<input type="hidden" value="${freeboard.userId}"
+							name="userId">
+						<input type="hidden" value="${freeboard.imageName}"
+							name="imageName">
 						<button type="button" class="btn btn-primary whyBtn">글 수정</button>
 						<button type="button" class="btn btn-primary CancleBtn">취
 							&nbsp; 소</button>
@@ -127,29 +128,12 @@
 			});
 		});
 		
-		$(function() {
-	        // 파일 삭제 버튼 클릭 이벤트 처리
-	        $('#deleteFileBtn').click(function() {
-	            // AJAX를 사용하여 서버로 파일 삭제 요청을 보냅니다.
-	            $.ajax({
-	                type: 'POST',
-	                url: '/deleteFile', // 파일 삭제를 처리할 서버의 엔드포인트 주소를 지정합니다.
-	                data: {
-	                    'fileName': '${freeboard.imageName}' // 삭제할 파일의 이름을 서버에 전달합니다.
-	                },
-	                success: function(data) {
-	                    // 성공적으로 파일이 삭제되면 이미지 이름과 파일 삭제 버튼을 숨깁니다.
-	                    $('.image-container').hide();
-	                    alert('파일이 삭제되었습니다.');
-	                },
-	                error: function(xhr, status, error) {
-	                    // 파일 삭제에 실패하면 에러 메시지를 표시합니다.
-	                    console.error('파일 삭제 중 에러 발생:', error);
-	                    alert('파일 삭제 실패');
-	                }
-	            });
-	        });
-	    });
+		document.getElementById("del_img").addEventListener("click", function() {
+			// 이벤트의 기본동작을 막아서 페이지 이동이 바로 이루어지지 않게 했음. 
+			event.preventDefault();
+		    document.querySelector(".image-container").style.display = "none";
+		    document.querySelector("input[name='imageName']").value = "";
+		});
 	</script>
 </body>
 </html>

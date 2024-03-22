@@ -1,5 +1,6 @@
 package com.fp.shuttlecock.freeboard;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.ui.Model;
@@ -15,6 +16,8 @@ public interface FreeboardService {
 	
 	// 글 목록
 	List<FreeboardDTO> getFreeboard(PageVO vo);
+	
+	List<FreeboardDTO> get5FreePosts() throws ParseException;
 	
 	int getTotal(PageVO vo);
 	

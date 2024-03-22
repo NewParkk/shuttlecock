@@ -22,10 +22,10 @@ public class MainServiceImpl implements MainService{
 		return mainMapper.get5LeaguePosts();
 	}
 
-	@Override
-	public List<FreeboardDTO> get5FreePosts() {
-		return  mainMapper.get5FreePosts();
-	}
+//	@Override
+//	public List<FreeboardDTO> get5FreePosts() {
+//		return  mainMapper.get5FreePosts();
+//	}
 
 
 	@Override

@@ -11,10 +11,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.fp.shuttlecock.freeboard.FreeboardDTO;
+import com.fp.shuttlecock.freeboard.FreeboardServiceImpl;
 import com.fp.shuttlecock.information.CompetitionServiceImpl;
 import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
 import com.fp.shuttlecock.leagueboard.LeagueboardServiceImpl;
 import com.fp.shuttlecock.leagueboard.PageRequestDTO;
+import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
+import com.fp.shuttlecock.user.UserDTO;
+import com.fp.shuttlecock.user.UserService;
+import com.fp.shuttlecock.user.UserServiceImpl;
+import com.fp.shuttlecock.util.PageVO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -23,6 +29,8 @@ public class MainContoller {
 	
 	@Autowired
 	private MainService mainService;
+	
+	private FreeboardServiceImpl freeService;
 	
 	@Autowired
 	private LeagueboardServiceImpl leagueservice;
@@ -34,15 +42,16 @@ public class MainContoller {
 	private String apiKey;
 	
 	@GetMapping("/main")
-    public String showMainPage(Model model, HttpSession session, PageRequestDTO pagerequest) throws ParseException {
+    public String showMainPage(Model model, HttpSession session, PageRequestDTO pagerequest, PageVO vo) throws ParseException {
 		if(session.getAttribute("userId") != null) {
 			pagerequest.setUserId(String.valueOf(session.getAttribute("userId")));
 		}
 		pagerequest.setIsMain(1);
 		List<LeagueboardDTO> leaguePosts = leagueservice.getAllLeaguePostByPage(pagerequest);
 		List<Map<String, Object>> events = competitionService.getCompetitionDB();
-		List<FreeboardDTO> freePosts = mainService.get5FreePosts();
+		List<FreeboardDTO> freePosts = freeService.get5FreePosts();
 		
+		System.out.println(apiKey);
 		model.addAttribute("leaguePosts", leaguePosts);
 		model.addAttribute("freePosts", freePosts);
 		model.addAttribute("apiKey", apiKey);

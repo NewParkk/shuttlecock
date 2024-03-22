@@ -28,32 +28,35 @@
 }
 
 .imageWrap1 {
-  width: 100%;
-  height: 140px;
-  background: url("/img/badminton-bg.jpg") repeat;
-  background-size: contain;
+	width: 100%;
+	height: 140px;
+	background: url("/img/badminton-bg.jpg") repeat;
+	background-size: contain;
 }
+
 .title1 {
-  display: flex;
-  margin: 35px 25px 25px 25px;
+	display: flex;
+	margin: 35px 25px 25px 25px;
 }
-.title1 h2{
-  font-size: 20px;
-  font-weight: 400;
-  text-align: left;
-  margin-left: 10px;
+
+.title1 h2 {
+	font-size: 20px;
+	font-weight: 400;
+	text-align: left;
+	margin-left: 10px;
 }
+
 .form-control1 {
 	width: 300px;
-    border: none;
-    border-bottom: 2px solid #ccc; 
-    padding: 5px; 
-    font-size: 12px;
-    outline: none; 
+	border: none;
+	border-bottom: 2px solid #ccc;
+	padding: 5px;
+	font-size: 12px;
+	outline: none;
 }
 
 .form-control1:focus {
-    border-color: #607d67;
+	border-color: #607d67;
 }
 </style>
 <meta charset="UTF-8">
@@ -63,11 +66,11 @@
 	<%@ include file="../include/header.jsp"%>
 	<!-- main -->
 	<!-- <main id="boardmain"> -->
-	<main id= "main">
-        <div id="slider">
-          <div class="imageWrap1"></div>
-        </div>
-	
+	<main id="main">
+		<div id="slider">
+			<div class="imageWrap1"></div>
+		</div>
+
 		<section id="contents">
 			<!-- aside -->
 			<div class="aside">
@@ -78,96 +81,62 @@
 					</ul>
 				</div>
 			</div>
-			
+
 			<c:if test="${not empty sessionScope.userId}">
-				<div class="noticeboard" >
-		            <div class="title" style="margin:0px;">
+				<div class="noticeboard">
+					<div class="title" style="margin: 0px;">
 						<div class="vline"></div>
 						<div class="container2">
 							<h3>자유 게시판</h3>
 						</div>
 					</div>
 					<div class="title1" style="margin-left: 60px;">
-		              <div class="vline"></div>
-		              <h2>자유게시판 글 작성</h2>
-		            </div>
-					
-				<form action="<c:url value ='/Freeboard/insertFreeboard'/>" method="post" enctype="multipart/form-data" style="margin: 30px 60px 30px 60px;">
- 					<table class="board-table"> 
-			            <colgroup>
-			                <col width="15%">
-				            <col width="*">
-			            </colgroup>
-			            <tbody> 
-			                <tr>
-			                    <th scope="row" bgcolor="#F9F9F9">제목</th>
-			                    <td colspan="4" style="text-align: left; padding-left:10px;">
-				                    <input type="text" class="form-control1" name="title"
-									id="exampleFormControlInput1" placeholder="제목을 입력하세요. ">
-			                    </td>
-			                </tr>
-			                <tr>
-			                    <th scope="row" bgcolor="#F9F9F9">작성자</th>
-			                    <td colspan="4">
-							        ${sessionScope.userId}
-							    </td>
-			                </tr>
-			                <tr>
-			                    <th scope="row" bgcolor="#F9F9F9">첨부파일</th>
-			                    <td colspan="4">
-		                        	<input class="form-control" type="file" id="formFileMultiple" name="file" style="margin-left:30px;">
-			                    </td>
-			                </tr>
-			                <tr>
-			                    <th scope="row" bgcolor="#F9F9F9">내용</th>
-			                    <td colspan="4" style="padding: 10px;">
-			                        <textarea class="form-control " name="content" id="ckeditor" rows="6" placeholder="내용을 입력하세요. "></textarea>
-			                    </td>
-			                </tr>
-			            </tbody>
-			        </table>
-			        
-			        <div class=button-container>
-							<input type="hidden" value="${sessionScope.userId}"
-								name="userId">
-							<button type="button" class="btn btn-primary CancleBtn">취&nbsp; 소</button>
-							<button type="button" class="btn btn-primary whyBtn">글작성</button>
-						</div>
-				</form>
+						<div class="vline"></div>
+						<h2>자유게시판 글 작성</h2>
+					</div>
 
-
-					<%-- <form action="<c:url value ='/Freeboard/insertFreeboard'/>"
-						method="post" enctype="multipart/form-data">
-						<div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<span class="post-info-text"> <strong>제목 : </strong>
-							<input type="text" class="form-control" name="title"
-								id="exampleFormControlInput1">
-						</div>
-						<div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<span class="post-info-text"> <strong>작성자 :</strong>
-							${sessionScope.userId}
-						</div>
-						<div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<textarea class="form-control " name="content" id="ckeditor"
-								rows="6"></textarea>
-						</div>
-						<!-- MultipartFile -->
-
-						<div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<label for="formFileMultiple" class="form-label"></label> <input
-								class="form-control" type="file" id="formFileMultiple"
-								name="file">
-						</div>
+					<form action="<c:url value ='/Freeboard/insertFreeboard'/>"
+						method="post" enctype="multipart/form-data"
+						style="margin: 30px 60px 30px 60px;">
+						<table class="board-table">
+							<colgroup>
+								<col width="15%">
+								<col width="*">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th scope="row" bgcolor="#F9F9F9">제목</th>
+									<td colspan="4" style="text-align: left; padding-left: 10px;">
+										<input type="text" class="form-control1" name="title"
+										id="exampleFormControlInput1" placeholder="제목을 입력하세요. ">
+									</td>
+								</tr>
+								<tr>
+									<th scope="row" bgcolor="#F9F9F9">작성자</th>
+									<td colspan="4">${sessionScope.userId}</td>
+								</tr>
+								<tr>
+									<th scope="row" bgcolor="#F9F9F9">첨부파일</th>
+									<td colspan="4"><input class="form-control" type="file"
+										id="formFileMultiple" name="file" style="margin-left: 30px;">
+									</td>
+								</tr>
+								<tr>
+									<th scope="row" bgcolor="#F9F9F9">내용</th>
+									<td colspan="4" style="padding: 10px;"><textarea
+											class="form-control " name="content" id="ckeditor" rows="6"
+											placeholder="내용을 입력하세요. "></textarea></td>
+								</tr>
+							</tbody>
+						</table>
 
 						<div class=button-container>
-							<input type="hidden" value="${sessionScope.userId}"
-								name="userId">
-							<button type="button" class="btn btn-primary whyBtn">글
-								작성</button>
-							<button type="button" class="btn btn-primary CancleBtn">취
-								&nbsp; 소</button>
+							<input type="hidden" value="${sessionScope.userId}" name="userId">
+							<button type="button" class="btn btn-primary CancleBtn">취&nbsp;
+								소</button>
+							<button type="button" class="btn btn-primary whyBtn">글작성</button>
 						</div>
-					</form> --%>
+					</form>
 				</div>
 			</c:if>
 			<c:if test="${empty sessionScope.userId}">
@@ -185,23 +154,33 @@
 </body>
 
 <script>
-	$(function() {
-		
-		$('.whyBtn').click(function() {
-			$("form").submit();
-		});
-		
-		ClassicEditor.create(document.querySelector('#ckeditor'), {
-			toolbar: ['bold', 'italic', '|',  'link','undo','redo'],
-			//toolbar: ['bold', 'italic', 'link', 'insertTable','mediaEmbed', 'undo','redo'], 
-				// 'imageUpload',
-			language:'ko'
-		}).then(editor => {
-		    window.editor = editor;
-		}).catch( error => {
-		    console.error( error );
-		});
-	});
+$(function() {
+    $('.whyBtn').click(function() {
+        // 제목과 내용을 가져옵니다.
+        var title = $('#exampleFormControlInput1').val();
+        var content = $('#ckeditor').val();
+        
+        // 제목이나 내용이 비어 있는지 확인합니다.
+        if (title.trim() === '') {
+            alert('제목을 입력하세요.');
+            return false; 
+        } if(content.trim() === ''){
+        	alert('내용을 입력하세요.');
+            return false; 
+        } else {
+            $("form").submit(); // 유효한 경우 폼을 제출합니다.
+        }
+    });
+
+    ClassicEditor.create(document.querySelector('#ckeditor'), {
+        toolbar: ['bold', 'italic', '|', 'link','undo','redo'],
+        language: 'ko'
+    }).then(editor => {
+        window.editor = editor;
+    }).catch(error => {
+        console.error(error);
+    });
+});
 	
 
  	/* aside가 (/Freeboard/freeList)url이 같은 페이지로 인식되도록 작성함 */

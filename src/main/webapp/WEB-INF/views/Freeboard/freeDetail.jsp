@@ -53,8 +53,8 @@
 					<p class="post-metadata">
 						<span class="post-info-text"> <strong>작성자:</strong>
 							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">${freeboard.userId}
-						</span> <span class="post-info-text"> <strong>작성 시간:</strong>
-							<fmt:formatDate value="${freeboard.regdate}" pattern="yyyy-MM-dd HH:mm"/><%-- ${freeboard.regdate} --%>
+						</span> <span class="post-info-text"> <strong>작성 시간:</strong> <fmt:formatDate
+								value="${freeboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
 						</span> <span class="post-info-text"> <strong>조회:</strong>
 							${freeboard.hit} / <strong>추천:</strong> ${freeboard.like}
 						</span>
@@ -65,13 +65,19 @@
 				<!-- 게시물 내용 표시 -->
 				<div class="post-content" id="post-content">${freeboard.content}</div>
 				<!-- 첨부파일 표시 -->
-				<c:if test="${freeboard.imageName != 'noImage'}">
-					<div class="image-container"
-						style="width: 200px; height: 200px; object-fit: cover;">
-						<img
-							src="https://kr.object.ncloudstorage.com/team1bucket/boardFile/2_${freeboard.imageName}.png"><br>
-					</div>
-				</c:if>
+				<c:choose>
+					<c:when test="${freeboard.imageName != 'noImage'}">
+						<div class="image-container"
+							style="width: 200px; height: 200px; object-fit: cover;">
+							<img
+								src="https://kr.object.ncloudstorage.com/team1bucket/boardFile/2_${freeboard.imageName}.png"><br>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<!-- 이미지가 없을 때는 아무것도 표시하지 않음 -->
+						<h1></h1>
+					</c:otherwise>
+				</c:choose>
 
 				<!-- 버튼들 -->
 				<div class="post-buttons">
@@ -105,73 +111,85 @@
 							<h3>댓글</h3>
 							<form id="commentForm">
 								<div class="form-group">
-									<span class="post-info-text com-writer"> <strong>${sessionScope.userId}</strong></span> 
+									<span class="post-info-text com-writer"> <strong>${sessionScope.userId}</strong></span>
 								</div>
 								<div class="form-group">
 									<textarea class="form-control content"
-										id="exampleFormControlTextarea1" rows="2" name="content" placeholder="의견을 남겨주세요"></textarea>
+										id="exampleFormControlTextarea1" rows="2" name="content"
+										placeholder="의견을 남겨주세요"></textarea>
 								</div>
 								<div class="form-check">
 									<input type="checkbox" id="secret" name="secret" value="1">비밀댓글
 								</div>
-								<button type="submit" class="comment-submit-button com-btn" id="com_btn">댓글
-									등록</button>
+								<button type="submit" class="comment-submit-button com-btn"
+									id="com_btn">댓글 등록</button>
 							</form>
 						</div>
 					</c:if>
 
 
 					<!-- 댓글 리스트 -->
-                    <div class="comment-box">
-                        <c:if test="${not empty commentList}">
-                            <c:forEach items="${commentList}" var="comments">
-                                <div class="row">
-                                    <div class="col">
-                                        <span class="post-info-text com-writer"> <strong>${sessionScope.userId}</strong></span> 
-                                    </div>
-                                    <div class="col">
-                                        <span class="post-info-text com-date">${comments.regdate}</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div id="com_updateMode_div_${comments.commentsId}">
-                                            <c:choose>
-                                                <c:when test="${empty sessionScope.userId or sessionScope.userId ne comments.userId}">
-                                                    <c:choose>
-                                                        <c:when test="${comments.secret == 1}">
-                                                            <span class="secret-comment">비밀 댓글입니다</span>
-                                                        </c:when>
-                                                        <c:otherwise>${comments.content}</c:otherwise>
-                                                    </c:choose>
-                                                </c:when>
-                                                <c:otherwise>${comments.content}</c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                        <textarea class="form-control com_updateMode_textarea" id="exampleFormControlTextarea1_${comments.commentsId}" rows="2" style="display: none;">${comments.content}</textarea>
-                                        
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input secret" id="secret_${comments.commentsId}" name="secret" value="1" ${comments.secret == 1 ? 'checked' : ''}>
-                                            <label class="form-check-label" for="secret_${comments.commentsId}">비밀댓글</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <c:if test="${sessionScope.userId eq comments.userId}">
-                                            <button type="button" class="btn btn-primary com_update_btn" id="com_update_btn_${comments.commentsId}" data-toggle="modal" data-target="#editPostModal_${comments.commentsId}">댓글 수정</button>
-                                            <input type="checkbox" id="secretcom" name="secretcom" value="1" style="display: none;"> 
-											<label for="secretcom" style="display: none;">비밀댓글</label>
-                                            <button type="button" class="btn btn-primary com_save_btn" id="com_save_btn_${comments.commentsId}" style="display: none;">저장</button>
-                                        </c:if>
-                                        <c:if test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
-                                            <button type="button" class="btn btn-primary com_delete_btn" id="com_delete_btn_${comments.commentsId}" value="${comments.commentsId}">댓글 삭제</button>
-                                        </c:if>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </c:if>
-                    </div>
+					<div class="comment-box">
+						<c:if test="${not empty commentList}">
+							<c:forEach items="${commentList}" var="comments">
+								<div class="row">
+									<div class="col">
+										<span class="post-info-text com-writer"> <strong>${comments.userId}</strong></span>
+									</div>
+									<div class="col">
+										<span class="post-info-text com-date">${comments.regdate}</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div id="com_updateMode_div_${comments.commentsId}">
+											<c:choose>
+												<c:when
+													test="${comments.secret eq 0 or sessionScope.userId eq freeboard.userId or 
+												comments.userId eq sessionScope.userId or sessionScope.isAdmin eq true}">
+													${comments.content}
+												</c:when>
+												<c:when test="${comments.secret eq 1}">
+													<span class="secret-comment">비밀 댓글입니다</span>
+												</c:when>
+											</c:choose>
+										</div>
+										<textarea class="form-control com_updateMode_textarea"
+											id="exampleFormControlTextarea1_${comments.commentsId}"
+											rows="2" style="display: none;">${comments.content}</textarea>
+
+										<div id="secret-div_${comments.commentsId}" class="form-check"
+											style="display: none;">
+											<input type="checkbox" class="form-check-input secret"
+												id="secret_${comments.commentsId}" name="secret" value="1"
+												${comments.secret == 1 ? 'checked' : ''}> <label
+												class="form-check-label" for="secret_${comments.commentsId}">비밀댓글</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<c:if test="${sessionScope.userId eq comments.userId}">
+											<button type="button" class="btn btn-primary com_update_btn"
+												id="com_update_btn_${comments.commentsId}"
+												data-toggle="modal"
+												data-target="#editPostModal_${comments.commentsId}">댓글
+												수정</button>
+											<button type="button" class="btn btn-primary com_save_btn"
+												id="com_save_btn_${comments.commentsId}"
+												style="display: none;">저장</button>
+										</c:if>
+										<c:if
+											test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
+											<button type="button" class="btn btn-primary com_delete_btn"
+												id="com_delete_btn_${comments.commentsId}"
+												value="${comments.commentsId}">댓글 삭제</button>
+										</c:if>
+									</div>
+								</div>
+							</c:forEach>
+						</c:if>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -194,14 +212,15 @@
 $(document).ready(function() {
     // 댓글 수정 버튼 클릭 시 수정 모드로 변경
     $('.com_update_btn').click(function() {
-        const commentId = $(this).attr('id').split('_')[3];
+    	const modalId = $(this).data('target'); // data-target 속성이 각 버튼에 설정되어 있다고 가정
+	    const chars = modalId.split('_');
+        const commentId = chars[1];
         // 해당 댓글의 내용을 textarea에 표시하고 수정 모드로 전환
         $('#com_updateMode_div_' + commentId).hide();
         $('#exampleFormControlTextarea1_' + commentId).show();
+        $('#secret-div_' + commentId).show();
         $(this).hide();
         $('#com_save_btn_' + commentId).show();
-        // 비밀 댓글 체크박스 표시
-        $('#secretcom_' + commentId).show();
     });
 
     // 저장 버튼 클릭 시 댓글을 업데이트
@@ -227,6 +246,7 @@ $(document).ready(function() {
                 // textarea와 저장 버튼을 숨깁니다.
                 $('#exampleFormControlTextarea1_' + commentId).hide();
                 $('#com_save_btn_' + commentId).hide();
+                $('#secret-div_' + commentId).hide();
                 // 댓글 수정 버튼을 다시 표시합니다.
                 $('#com_update_btn_' + commentId).show();
 
@@ -247,10 +267,6 @@ $(document).ready(function() {
 	
 	// regdate 값을 포맷팅하여 input 태그에 적용
 	var regdate = "${Detail.regdate}";
-	/* var formattedDate = new Date(regdate).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'}); // 날짜 포맷팅
-	document.getElementById("exampleFormControlInput2").value = formattedDate; */
-
-
 	
 		// 글수정
 		$('.updateBtn')
