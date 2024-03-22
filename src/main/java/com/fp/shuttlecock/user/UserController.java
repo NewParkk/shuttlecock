@@ -50,7 +50,8 @@ public class UserController {
 			session.setAttribute("isAdmin", user.isAdmin());
 			session.setAttribute("username", user.getUsername());
 			session.setAttribute("kakaoYN", user.isKakaoYN());
-
+			session.setAttribute("badgeId", user.getBadgeId());
+			
 			if (autoLogin) 
 			{
 	            // 자동 로그인이 체크된 경우, 쿠키를 생성하고 저장합니다.

@@ -47,7 +47,7 @@
 								<div class="details" style="margin-left: 100px;">
 									<h2>
 										아이디 : <img
-											src="https://kr.object.ncloudstorage.com/team1bucket/badge/1.png"
+											src="https://kr.object.ncloudstorage.com/team1bucket/badge/${user.badgeId}.png"
 											width="30px" height="25px">${user.userId}
 									</h2>
 									<br>
