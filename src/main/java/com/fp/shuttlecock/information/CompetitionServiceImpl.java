@@ -150,10 +150,24 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
     
     //캘린더에 DB에 저장된 데이터 가져오기
-    public List<Map<String, Object>> getCompetitionDB() {
-   
-     List<CompetitionDTO> gamesList = getEventByDate();
+    public List<Map<String, Object>> getCompetitionDB(String region) {
+    
    	 List<Map<String, Object>> events = new ArrayList<>();
+   	 
+   	 List<CompetitionDTO> gamesList;
+     if (region != null && !region.isEmpty()) {
+    	//만약 "전국"이면
+    	 if (region.equals("전국")) {
+            gamesList = getRegionEvent(region);
+    	 } else {
+    		 //"전국"이 아니면 제외하고 출력
+    		 gamesList = getEventByDate();
+    		 gamesList.removeIf(event -> event.getRegion().equals("전국"));
+    	 }
+    	 //null/공백이면 전부 출력
+     } else {
+    	 gamesList = getEventByDate();
+     }
    	 for (CompetitionDTO game : gamesList) {
    		String region1 = game.getRegion();
    		String url1 = game.getUrl();

@@ -157,7 +157,7 @@
               return arg.dayNumberText.replace("일", "");
           },
           headerToolbar: {
-        	  left: 'countryButton regionButton',
+        	  left: 'allRegionButton countryButton regionButton',
               right: 'prev title next'
           },
           customButtons: {
@@ -171,6 +171,12 @@
         	        text: '전국',
         	        click: function() {
         	        	window.location.href = '/getGame?region=전국'
+        	        }
+        	    },
+        	    allRegionButton: {
+        	        text: '전체',
+        	        click: function() {
+        	        	window.location.href = '/getGame?region='
         	        }
         	    }
         	},

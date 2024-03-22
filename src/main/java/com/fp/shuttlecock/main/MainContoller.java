@@ -43,16 +43,16 @@ public class MainContoller {
 	private String apiKey;
 	
 	@GetMapping("/main")
-    public String showMainPage(Model model, HttpSession session, PageRequestDTO pagerequest, PageVO vo) throws ParseException {
+    public String showMainPage(Model model, HttpSession session, PageRequestDTO pagerequest, PageVO vo,
+    		String region) throws ParseException {
 		if(session.getAttribute("userId") != null) {
 			pagerequest.setUserId(String.valueOf(session.getAttribute("userId")));
 		}
 		pagerequest.setIsMain(1);
 		List<LeagueboardDTO> leaguePosts = leagueservice.getAllLeaguePostByPage(pagerequest);
-		List<Map<String, Object>> events = competitionService.getCompetitionDB();
+		List<Map<String, Object>> events = competitionService.getCompetitionDB(region);
 		List<FreeboardDTO> freePosts = freeService.get5FreePosts();
 		
-		System.out.println(apiKey);
 		model.addAttribute("leaguePosts", leaguePosts);
 		model.addAttribute("freePosts", freePosts);
 		model.addAttribute("apiKey", apiKey);

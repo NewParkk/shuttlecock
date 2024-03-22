@@ -33,23 +33,9 @@ public class CompetitionController {
 	        System.out.println("competitionDB 초기 데이터 이미 존재합니다.");
 	    }
 
-	    List<CompetitionDTO> gamesList;
-	    if (region != null && !region.isEmpty()) {
-	    	//만약 "전국"이면
-	        if (region.equals("전국")) {
-	            gamesList = competitionService.getRegionEvent(region);
-	        } else {
-	        	//"전국"이 아니면 제외하고 출력
-	            gamesList = competitionService.getEventByDate();
-	            gamesList.removeIf(event -> event.getRegion().equals("전국"));
-	        }
-	    //null/공백이면 전부 출력
-	    } else {
-	        gamesList = competitionService.getEventByDate();
-	    }
 	    //System.out.println(gamesList); //확인용
 	    List<Map<String, Object>> events = new ArrayList<>();
-	    events = competitionService.getCompetitionDB();
+	    events = competitionService.getCompetitionDB(region);
 	    model.addAttribute("events", events);
     	 
 	    return "information/competition";

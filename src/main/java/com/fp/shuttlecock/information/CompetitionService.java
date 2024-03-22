@@ -15,5 +15,5 @@ public interface CompetitionService {
 	
 	List<CompetitionDTO> getRegionEvent(String region);
 	
-	List<Map<String, Object>> getCompetitionDB();
+	List<Map<String, Object>> getCompetitionDB(String region);
 }

@@ -254,7 +254,7 @@ if (navigator.geolocation)
 					}
 					
 			        //마커 image url
-			        var imageSrc = "img/map-icon.jpg"; 
+			        var imageSrc = "img/map-icon.png"; 
 			        
 			        // 각 위치에 마커 생성
 			        for (var i = 0; i < positions.length; i ++) 
