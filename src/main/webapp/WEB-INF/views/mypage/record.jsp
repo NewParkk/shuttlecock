@@ -83,19 +83,19 @@
 									</tr>
 								</c:forEach> --%>
 
-								<c:forEach items="${league}" var="legue">
+								<c:forEach items="${league}" var="league">
 									<tr>
-										<th scope="row">${legue.leagueboardId}</th>
+										<th scope="row">${league.leagueboardId}</th>
 										<td>리그게시판</td>
-										<td>${legue.title}</td>
-										<td>${legue.regdate}</td>
+										<td><a href="/LeagueBoard/${league.leagueboardId}">${league.title}</a></td>
+										<td>${league.regdate}</td>
 									</tr>
 								</c:forEach>
 								<c:forEach items="${free}" var="free">
 									<tr>
 										<th scope="row">${free.freeboardId}</th>
 										<td>자유게시판</td>
-										<td>${free.title}</td>
+										<td><a href="/Freeboard/freeDetail/${free.freeboardId}">${free.title}</a></td>
 										<td>${free.regdate}</td>
 									</tr>
 								</c:forEach>
@@ -103,7 +103,7 @@
 									<tr>
 										<th scope="row">${trade.tradeboardId}</th>
 										<td>거래게시판</td>
-										<td>${trade.title}</td>
+										<td><a href="Tradeboard/${trade.tradeboardId}">${trade.title}</a></td>
 										<td>${trade.regdate}</td>
 									</tr>
 								</c:forEach>
@@ -111,7 +111,7 @@
 									<tr>
 										<th scope="row">${recruit.recruitboardId}</th>
 										<td>모집게시판</td>
-										<td>${recruit.title}</td>
+										<td><a href="Recruitboard/${recruit.recruitboardId}">${recruit.title}</a></td>
 										<td>${recruit.regdate}</td>
 									</tr>
 								</c:forEach>
@@ -134,7 +134,7 @@
 								<c:forEach items="${comment}" var="comment">
 									<tr>
 										<th scope="row">
-											<c:set var="num" value="${comment.commentType}" /> 
+											<c:set var="num" value="${comment.commentType}"/> 
 											<c:choose>
 												<c:when test="${num == 1}">
 													<!-- 조건 1이 true일 때 실행되는 부분 -->
@@ -161,7 +161,30 @@
 
 												</c:otherwise>
 											</c:choose></th>
-										<td>${comment.content}</td>
+										<td scope="row">
+											<c:set var="num" value="${comment.commentType}"/> 
+											<c:choose>
+												<c:when test="${num == 1}">
+													<!-- 조건 1이 true일 때 실행되는 부분 -->
+											        공지게시판
+											    </c:when>
+												<c:when test="${num == 2}">
+													<!-- 조건 2가 true일 때 실행되는 부분 -->
+											        <a href="Freeboard/freeDetail/${comment.bno}">${comment.content}</a>
+											    </c:when>
+												<c:when test="${num == 3}">
+													<!-- 조건 2가 true일 때 실행되는 부분 -->
+											        <a href="Tradeboard/${comment.bno}">${comment.content}</a>
+											    </c:when>
+												<c:when test="${num == 4}">
+													<!-- 조건 2가 true일 때 실행되는 부분 -->
+											        <a href="Recruitboard/${comment.bno}">${comment.content}</a>
+											    </c:when>
+												<c:otherwise>
+													<!-- 모든 조건이 false일 때 실행되는 부분 -->
+
+												</c:otherwise>
+											</c:choose></td>
 										<td>${comment.regdate}</td>
 									</tr>
 								</c:forEach>
@@ -184,21 +207,21 @@
 								<c:forEach items="${tradeLikeList}" var="trade">
 									<tr>
 										<th scope="row">거래게시판</th>
-										<td>${trade.title}</td>
+										<td><a href="Tradeboard/${trade.tradeboardId}">${trade.title}</a></td>
 										<td>${trade.regdate}</td>
 									</tr>
 								</c:forEach>
 								<c:forEach items="${freeLikeList}" var="free">
 									<tr>
 										<th scope="row">자유게시판</th>
-										<td>${free.title}</td>
+										<td><a href="/Freeboard/freeDetail/${free.freeboardId}">${free.title}</a></td>
 										<td>${free.regdate}</td>
 									</tr>
 								</c:forEach>
 								<c:forEach items="${recruitLike}" var="recruit">
 									<tr>
 										<th scope="row">모집게시판</th>
-										<td>${recruit.title}</td>
+										<td><a href="Recruitboard/${recruit.recruitboardId}">${recruit.title}</a></td>
 										<td>${recruit.regdate}</td>
 									</tr>
 								</c:forEach>

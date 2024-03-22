@@ -53,15 +53,19 @@
 							enctype="multipart/form-data" id="next_form">
 							<div class="member-info">
 								<div class="profile-picture">
-									<img
-										src="https://kr.object.ncloudstorage.com/team1bucket/profile/${user.userImageName}"><br>
+									<c:if test="${user.userImageName eq null}">
+									<img src="https://kr.object.ncloudstorage.com/team1bucket/profile/noprofile.png"><br>
+									</c:if>
+									<c:if test="${user.userImageName != null}">
+									<img src="https://kr.object.ncloudstorage.com/team1bucket/profile/${user.userImageName}"><br>
+									</c:if>
 									<input type="file" id="fileInput" name="file"
 										class="custom-file-upload"><br>
 								</div>
 								<div class="details">
 									<h2>
-										아이디 : <img
-											src="https://kr.object.ncloudstorage.com/team1bucket/badge/1.png"
+										아이디 : 
+										<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/1.png"
 											width="30px" height="25px">${user.userId}
 									</h2>
 									<br>
