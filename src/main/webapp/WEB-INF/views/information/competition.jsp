@@ -48,6 +48,39 @@
     border-color: #fff;
     color: #fff;
 }
+#calendar .fc-prev-button{
+	background-color: #405448;
+    border-color: #fff;
+    color: #fff;
+}
+#calendar .fc-prev-button:hover{
+	border-color: #405448;
+	color: #405448;
+	background-color: #fff;
+}
+#calendar .fc-next-button{
+	background-color: #405448;
+    border-color: #fff;
+    color: #fff;
+}
+#calendar .fc-next-button:hover{
+	border-color: #405448;
+	color: #405448;
+	background-color: #fff;
+}
+
+#calendar .fc-regionButton-button{
+    background-color: rgba(46, 139, 87, 0.2);
+    border-color: rgba(46, 139, 87, 0.2);
+    color: #405448;
+}
+
+#calendar .fc-countryButton-button {
+    background-color: rgba(255, 204, 0, 0.3);
+    border-color: rgba(255, 204, 0, 0.3);
+    color: #405448;
+}
+	
 #calendar .fc-col-header-cell {
     background-color: rgba(103, 141, 115, 0.1);
     color: #fff;
@@ -233,7 +266,6 @@
                 event.classList.remove('hovered');
             });
         });
-        
 	});
     
     </script>

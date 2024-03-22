@@ -11,6 +11,8 @@
 
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<!-- aisde-js 파일 -->
+<script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
 
 </head>
@@ -19,10 +21,13 @@
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-	<main id="boardmain">
-
-
-		<section id="contents">
+		<main id= "main">
+	        <div id="slider">
+	          <div class="imageWrap1"></div>
+	        </div>
+	
+			<!-- section -->
+			<section id="contents">
 
 
 			<!-- aside -->
@@ -37,10 +42,10 @@
 				</div>
 			</div>
 			<div class="noticeboard">
-				<div class="title">
+				<div class="title" style="margin:0px;">
 					<div class="vline"></div>
 					<div class="container2">
-						<h3>나의 활동내역</h3>
+						<h3>나의 활동내역 &#10095</h3>
 					</div>
 				</div>
 
@@ -48,21 +53,21 @@
 				<div id="board-list">
 					<div class="container2">
 
-						<table class="board-table" style="width: 90%; margin: 0 auto;">
-							<form>
-								 <select
-									class="selectbox" id="selectbox" name="selectbox"
-									onchange="chageLangSelect()" style="margin-left:50px">
-									<option value="boardList">게시물</option>
-									<option value="likeList">좋아요</option>
-									<option value="commentList">댓글</option>
-								</select>
-							</form>
-
+						<form style="float:right; margin: 30px 50px 10px 0;">
+							 <select
+								class="selectbox" id="selectbox" name="selectbox"
+								onchange="chageLangSelect()" style="margin-left:50px">
+								<option value="boardList">게시물</option>
+								<option value="likeList">좋아요</option>
+								<option value="commentList">댓글</option>
+							</select>
+						</form>
+						
+						<table class="board-table" style="width: 92%; margin: 20px auto 0;">
 							<thead id="board">
 								<tr>
 									<th scope="col" class="th-num">번호</th>
-									<th scope="col" class="th-writer">분류</th>
+									<th scope="col" class="th-date">분류</th>
 									<th scope="col" class="th-title">제목</th>
 									<!-- <th scope="col" class="th-title">내용</th> -->
 									<th scope="col" class="th-date">날짜</th>
@@ -85,34 +90,34 @@
 
 								<c:forEach items="${league}" var="league">
 									<tr>
-										<th scope="row">${league.leagueboardId}</th>
-										<td>리그게시판</td>
+										<td scope="row" style="font-size:11px;">${league.leagueboardId}</td>
+										<td bgcolor="#f9f9f9">리그게시판</td>
 										<td><a href="/LeagueBoard/${league.leagueboardId}">${league.title}</a></td>
-										<td>${league.regdate}</td>
+										<td style="color:gray;"><fmt:formatDate value="${league.regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
 									</tr>
 								</c:forEach>
 								<c:forEach items="${free}" var="free">
 									<tr>
-										<th scope="row">${free.freeboardId}</th>
-										<td>자유게시판</td>
+										<td scope="row" style="font-size:11px;">${free.freeboardId}</td>
+										<td bgcolor="#f9f9f9">자유게시판</td>
 										<td><a href="/Freeboard/freeDetail/${free.freeboardId}">${free.title}</a></td>
-										<td>${free.regdate}</td>
+										<td style="color:gray;"><fmt:formatDate value="${free.regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
 									</tr>
 								</c:forEach>
 								<c:forEach items="${trade}" var="trade">
 									<tr>
-										<th scope="row">${trade.tradeboardId}</th>
-										<td>거래게시판</td>
+										<td scope="row" style="font-size:11px;">${trade.tradeboardId}</td>
+										<td bgcolor="#f9f9f9">거래게시판</td>
 										<td><a href="Tradeboard/${trade.tradeboardId}">${trade.title}</a></td>
-										<td>${trade.regdate}</td>
+										<td style="color:gray;"><fmt:formatDate value="${trade.regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
 									</tr>
 								</c:forEach>
 								<c:forEach items="${recruit}" var="recruit">
 									<tr>
-										<th scope="row">${recruit.recruitboardId}</th>
-										<td>모집게시판</td>
+										<td scope="row" style="font-size:11px;">${recruit.recruitboardId}</td>
+										<td bgcolor="#f9f9f9">모집게시판</td>
 										<td><a href="Recruitboard/${recruit.recruitboardId}">${recruit.title}</a></td>
-										<td>${recruit.regdate}</td>
+										<td style="color:gray;"><fmt:formatDate value="${recruit.regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -401,15 +406,15 @@
 	<%@ include file="../include/footer.jsp"%>
 </body>
 <style>
-a {
+/* a {
 	font-size: 1.17rem;
 	!
 	important;
-}
+} */
 
-.noticeboard {
+/* .noticeboard {
 	width: 100%;
-}
+} */
 
 .mainTitle {
 	text-align: center;
@@ -438,10 +443,10 @@ a {
 	margin-top: 30px;
 }
 
-a:link {
+/* a:link {
 	text-decoration: none;
 	color: black;
-}
+} */
 
 a:visited {
 	text-decoration: none;
@@ -488,7 +493,6 @@ a:active {
 	background-repeat: no-repeat;
 	background-position-x: 95%;
 	background-position-y: center;
-	margin-bottom: 20px;
 }
 
 .selectbox:focus {

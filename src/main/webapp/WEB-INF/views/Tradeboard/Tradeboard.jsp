@@ -415,7 +415,7 @@
 										<c:choose>
 											<c:when test="${tradeboard.complete eq 1}">
 												<dd>
-													<span style="font-size: 12pt;"> <b>판매완료</b>
+													<span style="font-size: 12pt; color:red; text-decoration: line-through;"> <b>판매완료</b>
 													</span>
 												</dd>
 											</c:when>

@@ -7,6 +7,8 @@
 <title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/loginstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<!-- aisde-js 파일 -->
+<script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <style type="text/css">
@@ -31,8 +33,14 @@ th {
 	<div id="wrap">
 		<%@ include file="../include/header.jsp"%>
 
-		<main id="main">
-			<section id="contents">
+	<!-- main -->
+	<main id= "main">
+        <div id="slider">
+          <div class="imageWrap1"></div>
+        </div>
+
+		<!-- section -->
+		<section id="contents">
 
 				<!-- aside -->
 				<div class="aside">
@@ -47,7 +55,7 @@ th {
 				</div>
 
 				<div class="noticeboard">
-					<div class="page-title">
+					<div class="title" style="margin:0px;">
 						<div class="vline"></div>
 						<div class="container2">
 							<h3>차단유저관리</h3>
@@ -56,7 +64,7 @@ th {
 					<div id="board-list">
 						<div class="container">
 							<form action="/manageBlockedUser" method="get"
-								style="text-align: center;">
+								style="text-align: right; margin: 20px 50px 10px 0px;">
 								<div class="search-wrap clearfix">
 									<input id="searchKeyword" type="search" name="searchKeyword"
 										placeholder="검색할 아이디를 입력해주세요." style="width: 300px;"
@@ -69,12 +77,12 @@ th {
 										name="userId" type="hidden"
 										value="${pageInfo.pageRequest.userId}">
 									<button class="btn btn-primary search-btn" type="submit"
-										style="margin-left: 10px;">검색</button>
+										>검색</button>
 								</div>
 							</form>
 
 							<!-- board list area -->
-							<table class="board-table" style="width: 90%; margin: 0 auto;">
+							<table class="board-table" style="width: 92%; margin: 0 auto;">
 								<thead>
 									<tr>
 										<th scope="col" class="th-title" style="font-size: 13px;">차단된

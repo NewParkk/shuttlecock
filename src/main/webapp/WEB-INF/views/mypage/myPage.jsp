@@ -14,6 +14,8 @@
 <!-- <link rel="stylesheet" href="/css/mainstyle.css"> -->
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<!-- aisde-js 파일 -->
+<script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
 
 
@@ -38,8 +40,13 @@
 
 		<!-- header -->
 		<%@ include file="../include/header.jsp"%>
-		<main id="boardmain">
-
+		<!-- main -->
+		<main id= "main">
+	        <div id="slider">
+	          <div class="imageWrap1"></div>
+	        </div>
+	
+			<!-- section -->
 			<section id="contents">
 
 				<!-- aside -->
@@ -54,7 +61,7 @@
 					</div>
 				</div>
 				<div class="noticeboard">
-					<div class="title">
+					<div class="title" style="margin:0px;">
 						<div class="vline"></div>
 						<div class="container2">
 							<h3>마이 페이지</h3>
@@ -91,9 +98,10 @@
 						</div>
 					</div>
 				</div>
-			</section>
-		</main>
-		<%@ include file="../include/footer.jsp"%>
+			</div>
+		</section>
+	</main>
+	<%@ include file="../include/footer.jsp"%>
 	</div>
 
 </body>
@@ -105,6 +113,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	var calendar = new FullCalendar.Calendar(calendarEl, {
 		initialView : 'dayGridMonth',
 		locale : 'ko', // 한국어 설정
+		dayCellContent: function(arg) {
+            return arg.dayNumberText.replace("일", "");
+        },
 		headerToolbar : {
         	 start : "prev next today", 
              center : "title",
@@ -194,10 +205,14 @@ window.addEventListener('click', function(event) {
 </script>
 <style>
 #calendarBox {
-	width: 90%;
-	padding-left:10%;
+	width: 85%;
+	margin: 30px auto;
 }
-
+#calendar .fc-col-header-cell {
+    background-color: rgba(103, 141, 115, 0.1);
+    color: #fff;
+    padding: 0 5px;
+}
 #my_modal {
 	display: none;
 	width: 350px;
@@ -252,5 +267,25 @@ window.addEventListener('click', function(event) {
 	cursor: pointer;
 }
 
+input[type="text"],
+input[type="date"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #607d67;
+    color: white;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #34403d;
+}
 </style>
 </html>

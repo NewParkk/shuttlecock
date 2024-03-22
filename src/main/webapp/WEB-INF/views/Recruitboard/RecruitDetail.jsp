@@ -74,7 +74,7 @@
 							<c:if test="${recruitboard.complete eq 1}">
 								<span class="post-info-text" style="font-size:15px; float: right; color:#405448;">
 									<span style="font-size:25px;">&#128581;</span>
-									모집완료
+									<strong style="text-decoration: line-through;">모집완료</strong>
 								</span>
 							</c:if>
 
