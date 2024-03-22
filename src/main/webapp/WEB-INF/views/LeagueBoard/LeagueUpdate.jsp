@@ -254,10 +254,6 @@
 								</c:if>
 							</div>
 						</div>
-						<div class="mb-3" style="width: 70%; margin: 0 auto;">
-							<textarea class="form-control " name="content" id="ckeditor"
-								rows="6">${leagueboard.content}</textarea>
-						</div>
 						<div class=button-container>
 							<button type="submit" class="btn btn-primary whyBtn">글
 								수정</button>
