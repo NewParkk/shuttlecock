@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserDTO {
-
+	private int idx;			//row_number
 	private String userId; 		//사용자ID
 	private String pw;			//비밀번호
 	private String username;	//이름

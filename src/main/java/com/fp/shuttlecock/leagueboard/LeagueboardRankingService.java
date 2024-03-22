@@ -12,6 +12,7 @@ public interface LeagueboardRankingService {
 	
 	int countLeagueUser(PageRequestDTO pageRequest);
 	
-	List<UserDTO> getLeagueRankingByUsername(String username);
+	List<UserDTO> getLeagueRankingByUsername(PageRequestDTO pageRequest);
+	
 	
 }

@@ -19,5 +19,5 @@ public interface LeagueboardRankingMapper {
 
 	public int countSearchLeagueUser(PageRequestDTO pageRequest);
 
-	public List<UserDTO> getLeagueRankingByUsername(String username);
+	public List<UserDTO> getLeagueRankingByUsername(PageRequestDTO pageRequest);
 }

@@ -6,14 +6,12 @@
 		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
 		resultType="com.fp.shuttlecock.user.UserDTO" >
 		<bind name="start" value="(pageNum-1)*amount" />
-	SELECT username, userId, wincount, losecount, badgeId
+		SELECT (ROW_NUMBER() OVER ()) AS idx,username, userId, wincount, losecount, badgeId
 		FROM user
 		<where>
 			(wincount != 0 or losecount != 0)
-			<if test="searchKeyword != null and searchKeyword != ''">
-				AND username LIKE CONCAT ('%', #{searchKeyword}, '%')
-			</if>
 		</where>
+		order by (wincount - losecount) desc
 		LIMIT #{start}, #{amount}
 </select>
 
@@ -41,6 +39,23 @@
 	
 </select>
 
+
+<select id="getLeagueRankingByUsername"
+		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
+		resultType="com.fp.shuttlecock.user.UserDTO" >
+		<bind name="start" value="(pageNum-1)*amount" />
+		SELECT (ROW_NUMBER() OVER ()) AS idx,username, userId, wincount, losecount, badgeId
+		FROM user
+		<where>
+			(wincount != 0 or losecount != 0)
+			<if test="searchKeyword != null and searchKeyword != ''">
+				AND username LIKE CONCAT ('%', #{searchKeyword}, '%')
+			</if>
+		</where>
+		order by (wincount - losecount) desc
+		LIMIT #{start}, #{amount}
+
+</select>
 
 
 

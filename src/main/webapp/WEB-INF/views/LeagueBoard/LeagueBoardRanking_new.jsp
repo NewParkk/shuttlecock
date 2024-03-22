@@ -172,26 +172,29 @@ a:active {
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${leagueRankingList}" var="user">
+								<c:forEach items="${leagueRankingList}" var="user"
+								varStatus = "status" >
 									<div class="card">
-										<p>${user.username}(${user.userId})
-											<%-- <c:choose>
-												<c:when test=" ${user.badgeId == 2}">
-												//조건문1이 참임 조건인 경우 수행되는 문장
-												<img
-														src="https://kr.object.ncloudstorage.com/team1bucket/badge/2.png">
+										<p>	<c:choose>
+												<c:when test= "${user.idx == 1}">
+												<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge3.png">
+												<br>
 												</c:when>
-												<c:when test="${조건문2}">
-												//조건문1이 참임 조건인 경우 수행되는 문장
+												<c:when test= "${user.idx == 2}">
+												<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge2.png">
+												<br>
 												</c:when>
-												<c:when test="${조건문3}">
-												//조건문1이 참임 조건인 경우 수행되는 문장
+												<c:when test="${user.idx == 3}">
+												<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge1.png">
+												<br>
 												</c:when>
-												<c:otherwise>
-												//위 조건에 해당하지 않는 경우 수행되는 문장
-												</c:otherwise>
-											</c:choose> --%>
-											${user.wincount}승 ${user.losecount}패 ${user.wincount - user.losecount}점
+												<c:otherwise>${user.idx}</c:otherwise>
+											</c:choose>
+											<img alt="" src=" ${user.badgeId}">
+											${user.username}(${user.userId}) 
+											${user.wincount}승 
+											${user.losecount}패 
+											${user.wincount - user.losecount}점 	
 											<b> <c:set var="winRatio"
 													value="${(user.wincount * 1.0 / (user.wincount + user.losecount)) * 100}" />
 												<fmt:formatNumber value="${winRatio}" pattern="###.##" />%
