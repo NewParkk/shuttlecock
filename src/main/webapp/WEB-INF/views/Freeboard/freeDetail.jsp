@@ -131,7 +131,7 @@
 							<c:forEach items="${commentList}" var="comments">
 								<div class="row">
 									<div class="col" style="margin-bottom: 15px;">
-										<span class="post-info-text com-writer"> <strong>${sessionScope.userId}</strong></span>
+										<span class="post-info-text com-writer"> <strong>${comments.userId}</strong></span>
 									</div>
 
 									<div class="col">

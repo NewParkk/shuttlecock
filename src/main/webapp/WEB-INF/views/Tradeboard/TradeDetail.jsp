@@ -83,7 +83,7 @@
 				<div class="post-buttons">
 					<button type="button" class="btn btn-primary whyBtn listBtn"
 						id="goList" style="margin: 0px 30px 20px 10px;">목록</button>
-					<c:if test="${sessionScope.userId eq tradeboard.userId}">
+					<c:if test="${sessionScope.userId eq tradeboard.userId and tradeboard.complete ne 1}">
 						<button type="submit" class="btn btn-primary goBtn updateBtn"
 							style="margin: 0px 0px 20px 10px;">수정</button>
 					</c:if>

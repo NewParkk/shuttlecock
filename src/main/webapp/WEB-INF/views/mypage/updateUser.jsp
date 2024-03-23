@@ -105,7 +105,8 @@
 						              <input type="file" id="fileInput" name="file" class="custom-file-upload">
 						          </td>
 						          <td><strong>아이디:</strong></td>
-						          <td>${user.userId}</td>
+						          <td><img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${user.badgeId}.png"
+											width="30px" height="25px">${user.userId}</td>
 						      </tr>
 						      <tr>
 						          <td><strong>이름:</strong></td>

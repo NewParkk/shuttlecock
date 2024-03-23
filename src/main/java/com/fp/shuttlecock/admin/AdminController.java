@@ -36,9 +36,9 @@ public class AdminController {
 		List<UserDTO> userSearchList = service.getUserBySearchWithPage(pageRequest);
 		
 		// 검색했을때 1페이지로 넘어가기
-		if (pageRequest.getPageNum() != 1) {
-			pageRequest.setPageNum(1);
-		}
+//		if (pageRequest.getPageNum() != 1) {
+//			pageRequest.setPageNum(1);
+//		}
 
 		int totalCount = service.getTotalCount(pageRequest);
 		

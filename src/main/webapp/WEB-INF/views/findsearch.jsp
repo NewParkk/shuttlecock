@@ -249,11 +249,11 @@
 	     <h3>새비밀번호 설정</h3>
 	      <div class="con">
 	          <label for="newPw">새비밀번호</label>
-	          <input type="text" id="newPw" name="newPw" placeholder="새비밀번호를 입력해주세요" required>
+	          <input type="password" id="newPw" name="newPw" placeholder="새비밀번호를 입력해주세요" required>
 	      </div>
 	      <div class="con">
 	          <label for="confirmNewPw">새비밀번호 확인</label>
-	          <input type="text" id="confirmNewPw" name="confirmNewPw" placeholder="새비밀번호를 다시 입력해주세요" required>
+	          <input type="password" id="confirmNewPw" name="confirmNewPw" placeholder="새비밀번호를 다시 입력해주세요" required>
 	      </div>
 	      <div class="message-con1" id="message">
 	      	<span class="it" id="it1" style="font-size:10px;"></span>

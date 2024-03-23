@@ -3,6 +3,6 @@
 
 <!-- footer -->
 <footer id="footer">
-  <div class="footer1"><a href="#">Team Github</a></div>
+  <div class="footer1"><a href="https://github.com/NewParkk/shuttlecock">Team Github</a></div>
   <p>© 2024 Made by oneTeam</p>
 </footer>
