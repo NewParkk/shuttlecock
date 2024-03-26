@@ -4,7 +4,7 @@
 
 	<select id="getMypage"
 		parameterType="String"
-		resultType="com.fp.shuttlecock.mypage.UserDTO">
+		resultType="com.fp.shuttlecock.user.UserDTO">
 		SELECT *
 		FROM user
 		WHERE userId = #{userId}
@@ -44,7 +44,7 @@
 	</delete>
 
 	<update id="updateUser"
-		parameterType="com.fp.shuttlecock.mypage.UserDTO">
+		parameterType="com.fp.shuttlecock.user.UserDTO">
 		UPDATE user
 		SET username = #{username},
 		userEmail =	#{userEmail}
@@ -58,35 +58,35 @@
 	</delete>
 
 	<select id="getLeagueboard"
-		resultType="com.fp.shuttlecock.mypage.LeagueboardDTO">
+		resultType="com.fp.shuttlecock.leagueboard.LeagueboardDTO">
 		SELECT *
 		FROM leagueboard
 		WHERE userId = #{userId} AND (deleteYN IS NULL OR deleteYN != 1)
 	</select>
 
 	<select id="getFreeboard"
-		resultType="com.fp.shuttlecock.mypage.FreeboardDTO">
+		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
 		SELECT *
 		FROM freeboard
 		WHERE userId = #{userId} AND (deleteYN IS NULL OR deleteYN != 1)
 	</select>
 
 	<select id="getTradeboard"
-		resultType="com.fp.shuttlecock.mypage.TradeboardDTO">
+		resultType="TradeboardDTO">
 		SELECT *
 		FROM tradeboard
 		WHERE userId = #{userId} AND (deleteYN IS NULL OR deleteYN != 1)
 	</select>
 
 	<select id="getRecruitBoard"
-		resultType="com.fp.shuttlecock.mypage.RecruitboardDTO">
+		resultType="RecruitboardDTO">
 		SELECT *
 		FROM recruitBoard
 		WHERE userId = #{userId} AND (deleteYN IS NULL OR deleteYN != 1)
 	</select>
 
 	<select id="getComment"
-		resultType="com.fp.shuttlecock.mypage.CommentsDTO">
+		resultType="com.fp.shuttlecock.comments.CommentsDTO">
 		SELECT *
 		FROM comments
 		WHERE userId = #{userId} AND (deleteYN IS NULL OR deleteYN != 1)
@@ -109,21 +109,21 @@
 	</select>
 	
 	<select id="getRecruitBoardLike"
-		resultType="com.fp.shuttlecock.mypage.RecruitboardDTO">
+		resultType="RecruitboardDTO">
 			SELECT *
 			FROM recruitBoard
 			WHERE userId = #{userId}
 	</select>
 	
 		<select id="getFreeboardLike"
-		resultType="com.fp.shuttlecock.mypage.FreeboardDTO">
+		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
 			SELECT *
 			FROM freeboard
 			WHERE userId = #{userId}
 	</select>
 	
 	<select id="getTradeboardLike"
-		resultType="com.fp.shuttlecock.mypage.TradeboardDTO">
+		resultType="TradeboardDTO">
 			SELECT *
 			FROM tradeboard
 			WHERE userId = #{userId}
@@ -154,7 +154,7 @@
 	</select>
 	
 	<update id="insertImage"
-		parameterType="com.fp.shuttlecock.mypage.UserDTO">
+		parameterType="com.fp.shuttlecock.user.UserDTO">
 		UPDATE user
 		SET userImageName = #{userImageName},
 		userImagePath = #{userImagePath}

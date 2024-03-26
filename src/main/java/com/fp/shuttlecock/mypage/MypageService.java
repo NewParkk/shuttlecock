@@ -2,7 +2,13 @@ package com.fp.shuttlecock.mypage;
 
 import java.util.List;
 
-import com.fp.shuttlecock.admin.UserDTO;
+import com.fp.shuttlecock.comments.CommentsDTO;
+import com.fp.shuttlecock.freeboard.FreeboardDTO;
+import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
+import com.fp.shuttlecock.likes.LikesDTO;
+import com.fp.shuttlecock.recruitboard.RecruitboardDTO;
+import com.fp.shuttlecock.tradeboard.TradeboardDTO;
+import com.fp.shuttlecock.user.UserDTO;
 
 public interface MypageService {
 

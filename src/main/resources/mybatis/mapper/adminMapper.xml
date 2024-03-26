@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fp.shuttlecock.admin.AdminMapper">
 	<select id="getAllUserList"
-		resultType="com.fp.shuttlecock.admin.UserDTO">
+		resultType="com.fp.shuttlecock.user.UserDTO">
 		SELECT *
 		FROM user
 	</select>
 
 	<select id="getUserByUserId"
-		resultType="com.fp.shuttlecock.admin.UserDTO">
+		resultType="com.fp.shuttlecock.user.UserDTO">
 		SELECT *
 		FROM user
 		WHERE userId = #{userId}
@@ -21,18 +21,18 @@
 	</delete>
 	
 	<update id="updateUserAdmin"
-		parameterType="com.fp.shuttlecock.admin.UserDTO">
+		parameterType="com.fp.shuttlecock.user.UserDTO">
 		UPDATE user
 		SET admin = #{admin}
 		WHERE userId = #{userId}
 	</update>
 
-	<select id="todayVisit"
-		resultType="com.fp.shuttlecock.admin.VisitorDTO">
+<!-- 	<select id="todayVisit"
+		resultType="com.fp.shuttlecock.user.VisitorDTO">
 		SELECT *
 		FROM visitor
 		WHERE date = CURRENT_DATE()
-	</select>
+	</select> -->
 
 	<select id="countSearchedUsers">
 		SELECT count(userId)
@@ -62,9 +62,8 @@
 
 	<select id="getUserBySearchWithPage"
 		parameterType="com.fp.shuttlecock.admin.PageRequestDTO"
-		resultType="com.fp.shuttlecock.admin.UserDTO">
+		resultType="com.fp.shuttlecock.user.UserDTO">
 		<bind name="start" value="(pageNum-1)*amount" />
-
 		SELECT *
 		FROM user
 		<trim prefix="WHERE">
@@ -79,7 +78,7 @@
 	</select>
 	
 	<select id="getMypage"
-	resultType="com.fp.shuttlecock.admin.UserDTO">
+	resultType="com.fp.shuttlecock.user.UserDTO">
 		SELECT *
 		FROM user
 		WHERE userId = #{userId}

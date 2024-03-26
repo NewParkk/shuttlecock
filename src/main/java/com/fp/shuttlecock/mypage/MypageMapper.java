@@ -5,6 +5,13 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.fp.shuttlecock.comments.CommentsDTO;
+import com.fp.shuttlecock.freeboard.FreeboardDTO;
+import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
+import com.fp.shuttlecock.recruitboard.RecruitboardDTO;
+import com.fp.shuttlecock.tradeboard.TradeboardDTO;
+import com.fp.shuttlecock.user.UserDTO;
+
 @Mapper
 public interface MypageMapper {
 

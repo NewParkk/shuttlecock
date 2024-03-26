@@ -81,7 +81,7 @@
 								enctype="multipart/form-data">
 								<input type="text" id="title" name="title" placeholder="일정 제목">
 								<input type="date" id="date" name="date" placeholder="이">
-								<input type="submit" value="추가">
+								<input type="submit" class="btn btn-primary whyBtn" value="추가">
 							</form>
 						</div>
 					</div>
@@ -202,6 +202,22 @@ window.addEventListener('click', function(event) {
 	  }
 	});
 
+//
+$('.whyBtn').click(function() {
+                // 제목과 내용을 가져옵니다.
+                var title = $('#title').val();
+                var date = $('#date').val(); // 에디터의 내용을 가져옵니다.
+                // 제목이나 내용이 비어 있는지 확인합니다.
+                if (title.trim() === '') {
+                    alert('제목을 입력하세요.');
+                    return false;
+                } if(date.trim() === ''){
+                    alert('날짜를 입력하세요.');
+                    return false;
+                } else {
+                    $("form").submit(); // 유효한 경우 폼을 제출합니다.
+                }
+            });
 </script>
 <style>
 #calendarBox {
