@@ -10,9 +10,9 @@
 <title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
+<link rel="stylesheet" href="/css/free.css">
 <!-- aisde-js 파일 -->
 <script src="/js/aside-js.js"></script>
-<link rel="stylesheet" href="/css/free.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -138,17 +138,14 @@
 
 
 <script>
-	$(function() {
-		$('.WriteBtn').click(function() {
-			location.href = '<c:url value="/Announcement/register"/>';
-		})
-		
-		$('.goBtn').click(function() {
-			location.href = '<c:url value="/Announcement/"/>';
-		})
-		
-
+$(function() {
+	$('.WriteBtn').click(function() {
+		location.href = '<c:url value="/Announcement/register"/>';
 	})
-
+	
+	$('.goBtn').click(function() {
+		location.href = '<c:url value="/Announcement/"/>';
+	})
+})
 </script>
 </html>

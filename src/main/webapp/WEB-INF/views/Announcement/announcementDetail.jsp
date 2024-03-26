@@ -113,26 +113,20 @@
 <script>
 $(document).ready(function() {
 // 글수정
-	$('.updateBtn').click(function() 
-	{
+	$('.updateBtn').click(function() {
 		location.href = "<c:url value='/Announcement/update/${post.announcementNo}'/>";
 	})
-				
 	
-	$('.listBtn').click(function() 
-	{
+	$('.listBtn').click(function() {
 		location.href = '<c:url value="/Announcement/"/>';
 	})
-			
 			
     // 삭제 버튼 클릭 이벤트를 처리합니다.
     $(".delbtn").click(function(e) 
     {
     	e.preventDefault();
-    	
     	// 알림을 통해 사용자에게 삭제 여부를 확인할 수 있습니다.
       	var isConfirmed = confirm("게시글을 삭제하시겠습니까?");
-
         if (isConfirmed) 
         {
             // 액시오스를 사용하여 서버로 DELETE 요청을 보냅니다.

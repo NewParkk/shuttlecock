@@ -36,8 +36,7 @@ public class BadgeScheduler {
 			for (BadgeDTO badge : badgeList) 
 			{
 				// 현재점수가 뱃지의 minWriteCount이상이면
-				if (user.getWriteCount() >= badge.getMinWriteCount()) 
-				{
+				if (user.getWriteCount() >= badge.getMinWriteCount()) {
 					badgeId = badge.getBadgeId();
 				}
 			}
@@ -56,12 +55,9 @@ public class BadgeScheduler {
 		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
 		//System.out.println(currentTime + " badgeId 갱신");
 		
-		
 	}
 	
-	
-	
-	@Scheduled(cron  = "0 0 12 1/1 * ?")
+	@Scheduled(cron  = "0 0 12 * * *")
 	public void LeagueBadgeUpdate() throws Exception{
 		
 		//모든 유저 rank 최신화

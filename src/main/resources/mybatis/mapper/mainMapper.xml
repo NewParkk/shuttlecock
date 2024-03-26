@@ -8,13 +8,6 @@
 		LIMIT 5
 	</select>
 	
-	<!-- <select id="get5FreePosts" resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
-		SELECT *
-		FROM freeboard
-		ORDER BY regdate DESC
-		LIMIT 5
-	</select> -->
-	
 	<update id="updateCommunityBadge" parameterType="com.fp.shuttlecock.user.UserDTO">
 		UPDATE user
 		SET badgeId =#{badgeId}
@@ -31,9 +24,9 @@
 		UPDATE user AS U
 		JOIN (
 		    SELECT userId, RANK() OVER (ORDER BY (wincount - losecount) DESC) AS Ranking
-		    FROM user
-		) AS R ON U.userId = R.userId
-		SET U.userLeagueGrade = R.Ranking;
+		    FROM leaguerank
+		) AS L ON U.userId = L.userId
+		SET U.userLeagueGrade = L.Ranking;
 	</update>
 	
 	

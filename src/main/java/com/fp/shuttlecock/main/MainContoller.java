@@ -23,12 +23,11 @@ import com.fp.shuttlecock.user.UserServiceImpl;
 import com.fp.shuttlecock.util.PageVO;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class MainContoller {
-	
-	@Autowired
-	private MainService mainService;
 	
 	@Autowired
 	private FreeboardServiceImpl freeService;
@@ -68,6 +67,12 @@ public class MainContoller {
     }
 	
 
+	@GetMapping("/test")
+	public String test() {
+		String test = null;
+		test.length();
+		return "main";
+	}
 	
 	
 }
