@@ -10,6 +10,7 @@
 	<typeAlias type="com.fp.shuttlecock.likes.LikesDTO" alias="LikesDTO"/>
 	<typeAlias type="com.fp.shuttlecock.blockuser.BlockuserDTO" alias="BlockuserDTO"/>
 	<typeAlias type="com.fp.shuttlecock.recruitboard.RecruitboardDTO" alias="RecruitboardDTO"/>
+	<typeAlias type="com.fp.shuttlecock.tradeboard.TraderegionDTO" alias="TraderegionDTO"/>
 	<typeAlias type="com.fp.shuttlecock.location.Badmintonlocation" alias="Badmintonlocation"/>
 	<typeAlias type="com.fp.shuttlecock.announcement.AnnouncementDTO" alias="AnnouncementDTO"/>	
 </typeAliases>

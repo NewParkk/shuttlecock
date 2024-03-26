@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.fp.shuttlecock.tradeboard.PageRequestDTO;
 
 @Service
-public class BlockuserServiceImpl {
+public class BlockuserServiceImpl implements BlockuserService{
 	@Autowired
 	BlockuserMapper blockuserMapper;
 

@@ -36,5 +36,13 @@ public interface LeagueboardMapper {
 	void decreaseLoserPoint(String userId);
 
 	void decreaseWinnerPoint(String userId);
+
+	void increaseWinnerRanking(String userId);
+
+	void decreaseLoserRanking(String userId);
+
+	void increaseLoserRanking(String loser);
+
+	void decreaseWinnerRanking(String loser);
 	
 }

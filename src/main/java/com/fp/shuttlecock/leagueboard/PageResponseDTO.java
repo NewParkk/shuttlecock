@@ -21,9 +21,6 @@ public class PageResponseDTO {
     // 전체 데이터 개수 db : count
     private int total;
     
-    // 검색 여부
-    private int isSearched;
-    
     private String dropdown;
 
     private PageRequestDTO pageRequest;
@@ -31,10 +28,9 @@ public class PageResponseDTO {
     public PageResponseDTO(){}
 
     @Builder
-    public PageResponseDTO(int total, int pageAmount, int isSearched, PageRequestDTO pageRequest) {
+    public PageResponseDTO(int total, int pageAmount, PageRequestDTO pageRequest) {
         this.total = total;
         this.pageAmount = pageAmount;
-        this.isSearched = isSearched;
         this.pageRequest = pageRequest;
 
         this.endPage = (int)(Math.ceil(pageRequest.getPageNum() * 1.0 / pageAmount)) * pageAmount;
@@ -51,10 +47,9 @@ public class PageResponseDTO {
     }
     
     @Builder
-    public PageResponseDTO(int total, int pageAmount, int isSearched, String dropdown, PageRequestDTO pageRequest) {
+    public PageResponseDTO(int total, int pageAmount, String dropdown, PageRequestDTO pageRequest) {
         this.total = total;
         this.pageAmount = pageAmount;
-        this.isSearched = isSearched;
         this.dropdown = dropdown;
         this.pageRequest = pageRequest;
 

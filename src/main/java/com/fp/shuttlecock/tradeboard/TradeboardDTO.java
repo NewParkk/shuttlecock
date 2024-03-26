@@ -1,6 +1,7 @@
 package com.fp.shuttlecock.tradeboard;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.Data;
 
@@ -13,7 +14,6 @@ public class TradeboardDTO {
 	private Timestamp regdate;
 	private int like;
 	private int commentCount;
-	private int region;
 	private int complete;
 	private int deleteYN;
 	private String userId;
@@ -21,4 +21,6 @@ public class TradeboardDTO {
 	private String imageName;
 	private int badgeId;
 	private String badgeName;
+	private int region;
+	private List<Integer> regions;
 }

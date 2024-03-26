@@ -48,7 +48,7 @@ public class MainContoller {
 			pagerequest.setUserId(String.valueOf(session.getAttribute("userId")));
 		}
 		pagerequest.setIsMain(1);
-		List<LeagueboardDTO> leaguePosts = leagueservice.getAllLeaguePostByPage(pagerequest);
+		List<LeagueboardDTO> leaguePosts = leagueservice.getSearchedLeaguePost(pagerequest);
 		List<Map<String, Object>> events = competitionService.getCompetitionDB(region);
 		List<FreeboardDTO> freePosts = freeService.get5FreePosts();
 		

@@ -3,6 +3,8 @@ package com.fp.shuttlecock.tradeboard;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,23 +68,49 @@ public class TradeboardServiceImpl implements TradeboardService {
 		return false;
 	}
 
-	/*
-	 * @Scheduled(fixedRate = 20000) public int findCompletedBoards() {
-	 * System.out.println("삭제작업 실행중"); return
-	 * tradeboardmapper.deleteCompletedPost(); }
-	 */
-
-	@Scheduled(cron="0 0 0 1/1 * ?")
-	public void getCompletedPost() {
-		System.out.println("완료된 게시글 가져오기 실행중");
-		List<Integer> completedPost = tradeboardmapper.getCompletedPost();
-		for(Integer tradeboardId : completedPost) {
-			tradeboardmapper.updateDeletedTradePost(tradeboardId);
-		}
+	@Scheduled(cron = "0 0 0 1/1 * ?")
+	public int findCompletedBoards() {
+		System.out.println("삭제작업 실행중");
+		return tradeboardmapper.deleteCompletedPost();
 	}
+
+//	@Scheduled(cron = "0 0 0 1/1 * ?")
+//	public void getCompletedPost() {
+//		System.out.println("완료된 게시글 가져오기 실행중");
+//		List<Integer> completedPost = tradeboardmapper.getCompletedPost();
+//		for (Integer tradeboardId : completedPost) {
+//			tradeboardmapper.updateDeletedTradePost(tradeboardId);
+//		}
+//	}
 
 	public String getBadgeNameById(int badgeId) {
 		return tradeboardmapper.getBadgeNameById(badgeId);
+	}
+
+	public void insertRegion(int tradeboardId, List<Integer> regions) {
+		for (int region : regions) {
+			HashMap<String, Integer> map = new HashMap<>();
+			map.put("tradeboardId", tradeboardId);
+			map.put("region", region);
+			tradeboardmapper.insertRegion(map);
+		}
+	}
+
+	public int getTradeboardId() {
+		return tradeboardmapper.getTradeboardId();
+	}
+
+	public void deleteTraderegion(int tradeboardId) {
+		tradeboardmapper.deleteTraderegion(tradeboardId);
+	}
+
+	public List<Integer> getRegionList(int tradeboardId) {
+		List<TraderegionDTO> regionListDTO = tradeboardmapper.getRegionList(tradeboardId);
+		List<Integer> regionList = new ArrayList<>();
+		for (TraderegionDTO region : regionListDTO) {
+			regionList.add(region.getRegion());
+		}
+		return regionList;
 	}
 
 }

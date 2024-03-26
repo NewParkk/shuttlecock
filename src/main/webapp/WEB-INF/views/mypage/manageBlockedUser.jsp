@@ -69,11 +69,7 @@ th {
 									<input id="searchKeyword" type="search" name="searchKeyword"
 										placeholder="검색할 아이디를 입력해주세요." style="width: 300px;"
 										class="form-control search-input"
-										value="${pageInfo.pageRequest.searchKeyword}"> <input
-										name="pageNum" type="hidden"
-										value="${pageInfo.pageRequest.pageNum}"> <input
-										name="amount" type="hidden"
-										value="${pageInfo.pageRequest.amount}"> <input
+										value="${pageInfo.pageRequest.searchKeyword}">  <input
 										name="userId" type="hidden"
 										value="${pageInfo.pageRequest.userId}">
 									<button class="btn btn-primary search-btn" type="submit"

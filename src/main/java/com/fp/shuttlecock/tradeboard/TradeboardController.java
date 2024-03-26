@@ -3,6 +3,7 @@ package com.fp.shuttlecock.tradeboard;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,13 +62,12 @@ public class TradeboardController {
 			model.addAttribute("pageInfo", pageRequest);
 			if (tradeboard != null) {
 				List<CommentsDTO> commentList = commentService.getCommentList(tradeboardId, 3);
-				// FileRequest file = fileService.getBoardFileByTradeboardId(tradeboardId);
 				boardService.increaseHit(tradeboardId);
-
-				// model.addAttribute("file", file);
+				List<Integer> regionList = boardService.getRegionList(tradeboardId);
 				model.addAttribute("tradeboard", tradeboard);
 				model.addAttribute("commentList", commentList);
 				model.addAttribute("badgeName", badgeName);
+				model.addAttribute("regionList", regionList);
 				System.out.println(commentList);
 				view = "Tradeboard/TradeDetail";
 			}
@@ -115,6 +115,13 @@ public class TradeboardController {
 			}
 			boardResult = boardService.insertBoard(tradeboard);
 			if (boardResult) {
+				int tradeboardId = boardService.getTradeboardId();
+				if(tradeboard.getRegions() == null) {
+					List<Integer> list = new ArrayList<>();
+					list.add(0);
+					tradeboard.setRegions(list);
+				}
+				boardService.insertRegion(tradeboardId, tradeboard.getRegions());
 				boardService.increaseWriteCount(tradeboard.getUserId());
 				view = "redirect:/Tradeboard";
 			}
@@ -124,20 +131,17 @@ public class TradeboardController {
 		return view;
 	}
 
-	@GetMapping("/Tradeboard/update/{tradeboardId}")
-	public String updateBoardForm(@PathVariable("tradeboardId") int tradeboardId, Model model) {
-//		int tradeboardInt = Integer.parseInt(tradeboardId);
+	@GetMapping("/Tradeboard/update")
+	public String updateBoardForm(@RequestParam("tradeboardId") int tradeboardId, @RequestParam("regionList")List<Integer> regionList, Model model) {
 		TradeboardDTO tradeboard = boardService.getTradePostByTradeboardId(tradeboardId);
-		// FileRequest file = fileService.getBoardFileByBoardId(tradeboardId);
-
+		System.out.println(regionList);
 		model.addAttribute("tradeboard", tradeboard);
-		// model.addAttribute("file", file);
+		model.addAttribute("regionList", regionList);
 		return "/Tradeboard/TradeUpdate";
 	}
 
 	@PostMapping("/Tradeboard/update")
 	public String updateBoard(TradeboardDTO tradeboard, MultipartFile file, HttpSession session) {
-		System.out.println(file);
 		boolean result = false;
 		if (String.valueOf(session.getAttribute("userId")) != null
 				&& tradeboard.getUserId().equals(String.valueOf(session.getAttribute("userId")))) {
@@ -153,6 +157,8 @@ public class TradeboardController {
 				result = boardService.updateTradePost(tradeboard);
 			}
 			if (result) {
+				boardService.deleteTraderegion(tradeboard.getTradeboardId());
+				boardService.insertRegion(tradeboard.getTradeboardId(), tradeboard.getRegions());
 				return "redirect:/Tradeboard/" + tradeboard.getTradeboardId();
 			} else {
 				return "error";

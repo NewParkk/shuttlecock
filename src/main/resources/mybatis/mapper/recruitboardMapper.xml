@@ -10,8 +10,7 @@
 
 	<update id="increaseHit" parameterType="_int">
 		update recruitboard
-		set hit
-		= hit + 1
+		set hit = hit + 1
 		where recruitboardId = #{recruitboardId}
 	</update>
 
@@ -20,54 +19,36 @@
 		resultType="RecruitboardDTO">
 		<bind name="start" value="(pageNum - 1) * amount" />
 		SELECT recruitboard.*, badge.badgeName FROM recruitboard
-		INNER JOIN user ON recruitboard.userId = user.userId
-		INNER JOIN badge ON user.badgeId = badge.badgeId
+		INNER JOIN
+		user ON recruitboard.userId = user.userId
+		INNER JOIN badge ON
+		user.badgeId = badge.badgeId
 		<where>
 			(deleteYN IS NULL OR deleteYN != 1)
 			<if test="userId != null">
-				AND (recruitboard.userId NOT IN (SELECT blockedUser FROM blockuser
+				AND (recruitboard.userId NOT IN (SELECT blockedUser FROM
+				blockuser
 				WHERE blockuser.userId = #{userId}))
 			</if>
 			<if test="recruitType != 0">
 				AND recruitType = #{recruitType}
 			</if>
-			<choose>
-				<when
-					test="searchKeyword != null and searchKeyword != '' and region == null or region == 0">
-					<choose>
-						<when test="category == 'title'">
-							AND title LIKE CONCAT('%', #{searchKeyword}, '%')
-						</when>
-						<when test="category == 'user_userId'">
-							AND recruitboard.userId LIKE CONCAT('%', #{searchKeyword}, '%')
-						</when>
-						<when test="category == 'content'">
-							AND content LIKE CONCAT('%', #{searchKeyword}, '%')
-						</when>
-					</choose>
-				</when>
-				<when
-					test="searchKeyword != null and searchKeyword != '' and region != null and region != 0">
-					<choose>
-						<when test="category == 'title'">
-							AND title LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-						<when test="category == 'user_userId'">
-							AND recruitboard.userId LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-						<when test="category == 'content'">
-							AND content LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-					</choose>
-				</when>
-				<when
-					test="searchKeyword == null or searchKeyword == '' and region != null and region != 0">
-					AND region = #{region}
-				</when>
-			</choose>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+					<when test="category == 'title'">
+						AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<when test="category == 'user_userId'">
+						AND recruitboard.userId LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<when test="category == 'content'">
+						AND content LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+				</choose>
+			</if>
+			<if test="region != null and region != 0">
+				AND region = #{region}
+			</if>
 		</where>
 		<choose>
 			<when test="sort == 0">
@@ -99,10 +80,8 @@
 			<if test="recruitType != 0">
 				AND recruitType = #{recruitType}
 			</if>
-			<choose>
-				<when
-					test="searchKeyword != null and searchKeyword != '' and region == null or region == 0">
-					<choose>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
 						<when test="category == 'title'">
 							AND title LIKE CONCAT('%', #{searchKeyword}, '%')
 						</when>
@@ -113,54 +92,37 @@
 							AND content LIKE CONCAT('%', #{searchKeyword}, '%')
 						</when>
 					</choose>
-				</when>
-				<when
-					test="searchKeyword != null and searchKeyword != '' and region != null and region != 0">
-					<choose>
-						<when test="category == 'title'">
-							AND title LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-						<when test="category == 'user_userId'">
-							AND userId LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-						<when test="category == 'content'">
-							AND content LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-					</choose>
-				</when>
-				<when
-					test="searchKeyword == null or searchKeyword == '' and region != null and region != 0">
-					AND region = #{region}
-				</when>
-			</choose>
+			</if>
+			<if test="region != null and region != 0">
+				AND region = #{region}
+			</if>
 		</where>
 	</select>
 
 	<insert id="insertBoard" parameterType="RecruitboardDTO">
 		insert into
 		recruitboard(title, userId, content, region, recruitType, imageName)
-		values(#{title}, #{userId}, #{content}, #{region}, #{recruitType}, #{imageName})
+		values(#{title}, #{userId}, #{content}, #{region}, #{recruitType},
+		#{imageName})
 	</insert>
 
 	<update id="updateTradePost" parameterType="RecruitboardDTO">
-		update recruitboard 
-		set title = #{title}, content = #{content}, 
-			region = #{region}, regdate = NOW(), complete = #{complete}, recruitType = #{recruitType}, imageName = #{imageName}
-		where recruitboardId = #{recruitboardId}
+		update recruitboard
+		set title = #{title}, content = #{content},
+		region = #{region}, regdate = NOW(), complete = #{complete}, recruitType =
+		#{recruitType}, imageName = #{imageName}
+		where recruitboardId =
+		#{recruitboardId}
 	</update>
 
 	<delete id="deleteTradePost" parameterType="_int">
-		delete from
-		recruitboard where recruitboardId = #{recruitboardId}
+		delete from recruitboard 
+		where recruitboardId = #{recruitboardId}
 	</delete>
 
 	<update id="increaseWriteCount" parameterType="string">
 		update user
-		set
-		writeCount = writeCount + 1
+		set writeCount = writeCount + 1
 		where userId = #{userId}
 	</update>
 
@@ -168,13 +130,22 @@
 		update
 		recruitboard set deleteYN = 1 where recruitboardId = #{recruitboardId}
 	</update>
-	
+
 	<select id="getCompletedPost" resultType="int">
-		SELECT recruitboardId FROM recruitboard
+		SELECT recruitboardId
+		FROM recruitboard
 		WHERE DATEDIFF(CURDATE(), regdate) >= 3 AND complete = 1
 	</select>
 	
+	<update id="deleteCompletedPost"> 
+		UPDATE recruitboard 
+		SET deleteYN = 1 
+		WHERE DATEDIFF(CURDATE(), regdate) >= 3 AND complete = 1
+	</update>
+
 	<update id="setPostCompleted" parameterType="_int">
-		update recruitboard set complete = 1, regdate = now() where recruitboardId = #{recruitboardId}
+		update recruitboard
+		set complete = 1, regdate = now() where recruitboardId =
+		#{recruitboardId}
 	</update>
 </mapper>

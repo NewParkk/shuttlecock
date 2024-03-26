@@ -17,4 +17,6 @@ public interface CommentsService {
 	void increaseCommentCount(CommentsDTO comment);
 	
 	void decreaseCommentCount(CommentsDTO comment);
+	
+	boolean updateDeletedComment(int commentsId);
 }

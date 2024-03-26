@@ -85,37 +85,6 @@
 				
 				<div id="board-list">
 					<div class="container2">
-						<%-- <form action="/Recruitboard" method="get"
-							style="text-align: center;">
-							<div class="search-wrap clearfix">
-								<select name="category" style="width: 100px; margin-left: 10px;"
-									class="form-control" id="search-select">
-									<option value="user_userId"
-										${pageInfo.pageRequest.category == 'user_userId' ? 'selected' : ''}>
-										작성자</option>
-									<option value="title"
-										${pageInfo.pageRequest.category == 'title' ? 'selected' : ''}>
-										제목</option>
-									<option value="content"
-										${pageInfo.pageRequest.category == 'content' ? 'selected' : ''}>
-										글내용</option>
-								</select> <input id="searchKeyword" type="search" name="searchKeyword"
-									placeholder="검색어를 입력해주세요." style="width: 300px;"
-									class="form-control search-input"
-									value="${pageInfo.pageRequest.searchKeyword}"> <input
-									name="pageNum" type="hidden"
-									value="${pageInfo.pageRequest.pageNum}"> <input
-									name="amount" type="hidden"
-									value="${pageInfo.pageRequest.amount}"> <input
-									name="region" type="hidden"
-									value="${pageInfo.pageRequest.region}"> <input
-									name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
-								<input name="recruitType" type="hidden"
-									value="${pageInfo.pageRequest.recruitType}">
-								<button class="btn btn-primary search-btn" type="submit"
-									style="margin-left: 10px;">검색</button>
-							</div>
-						</form> --%>
 						<form id="sortForm" action="/Recruitboard" method="get">
 							<select name="sort" id="sort" class="sort-select"
 								onchange="submitForm()">
@@ -127,10 +96,7 @@
 									${pageInfo.pageRequest.sort == '2' ? 'selected' : ''}>조회수순</option>
 								<option value="3"
 									${pageInfo.pageRequest.sort == '3' ? 'selected' : ''}>추천순</option>
-							</select> <input name="pageNum" type="hidden"
-								value="${pageInfo.pageRequest.pageNum}"> <input
-								name="amount" type="hidden"
-								value="${pageInfo.pageRequest.amount}"> <input
+							</select> <input
 								name="region" type="hidden"
 								value="${pageInfo.pageRequest.region}"> <input
 								name="recruitType" type="hidden"
@@ -146,7 +112,7 @@
 								<tr>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;" class="region-div"> 
-										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+										<b><a href="/Recruitboard?
 											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 											&category=${pageInfo.pageRequest.category}
 											&sort=${pageInfo.pageRequest.sort}
@@ -159,7 +125,7 @@
 									</th>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;" class="region-div"> 
-										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+										<b><a href="/Recruitboard?
 											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 											&category=${pageInfo.pageRequest.category}
 											&sort=${pageInfo.pageRequest.sort}
@@ -171,7 +137,7 @@
 									</th>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;" class="region-div"> 
-										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+										<b><a href="/Recruitboard?
 											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 											&category=${pageInfo.pageRequest.category}
 											&sort=${pageInfo.pageRequest.sort}
@@ -183,7 +149,7 @@
 									</th>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;" class="region-div"> 
-										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+										<b><a href="/Recruitboard?
 											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 											&category=${pageInfo.pageRequest.category}
 											&sort=${pageInfo.pageRequest.sort}
@@ -195,7 +161,7 @@
 									</th>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;" class="region-div"> 
-										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+										<b><a href="/Recruitboard?
 											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 											&category=${pageInfo.pageRequest.category}
 											&sort=${pageInfo.pageRequest.sort}
@@ -207,7 +173,7 @@
 									</th>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;" class="region-div"> 
-											<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+											<b><a href="/Recruitboard?
 											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 											&category=${pageInfo.pageRequest.category}
 											&sort=${pageInfo.pageRequest.sort}
@@ -219,7 +185,7 @@
 									</th>
 									<th scope="col" style="text-align: center;">
 										<span style="font-size: 12pt;" class="region-div"> 
-										<b><a href="/Recruitboard?pageNum=1&amount=${pageInfo.pageRequest.amount}
+										<b><a href="/Recruitboard?
 											&searchKeyword=${pageInfo.pageRequest.searchKeyword}
 											&category=${pageInfo.pageRequest.category}
 											&sort=${pageInfo.pageRequest.sort}
@@ -240,8 +206,7 @@
 									<th scope="col" class="th-num">번호</th>
 									<th scope="col" class="th-writer">분류</th>
 									<th scope="col" class="th-writer">지역</th>
-									<th scope="col" class="th-title"><a
-										href="/Recruitboard?sort=0">제목</a></th>
+									<th scope="col" class="th-title">제목</th>
 									<th scope="col" class="th-writer">작성자</th>
 									<th scope="col" class="th-date">날짜</th>
 									<th scope="col" class="th-hit">조회수</th>
@@ -351,40 +316,6 @@
 								<div class="row justify-content-center"
 									style="display: flex; justify-content: center;">
 									<div class="col-auto">
-										<%-- <table class="page navigation">
-											<tr class="pagination">
-												<c:if test="${pageInfo.prev}">
-													<th class="page-item"><a class="page-link"
-														aria-label="Previous"
-														href="/Recruitboard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
-													&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
-													&sort=${pageInfo.pageRequest.sort}&recruitType=${pageInfo.pageRequest.recruitType}">Prev</a>
-													</th>
-												</c:if>
-												<c:forEach var="num" begin="${pageInfo.startPage}"
-													end="${pageInfo.endPage}">
-													<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-														<a id="pbtn_${num}" class="page-link"
-														href="/Recruitboard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
-										&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-										&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
-										&sort=${pageInfo.pageRequest.sort}&recruitType=${pageInfo.pageRequest.recruitType}">${num}
-													</a>
-													</th>
-												</c:forEach>
-												<c:if test="${pageInfo.next}">
-													<th class="page-item next"><a class="page-link"
-														aria-label="next"
-														href="/Recruitboard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
-													&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-													&category=${pageInfo.pageRequest.category}&region=${pageInfo.pageRequest.region}
-													&sort=${pageInfo.pageRequest.sort}&recruitType=${pageInfo.pageRequest.recruitType}">Next</a>
-													</th>
-												</c:if>
-											</tr>
-										</table> --%>
-										
 										<!-- 기존 table형식의 페이지네이션을 list 형식으로 바꿈 -->
 										<div class="page navigation">
 											<ul class="pagination">
@@ -443,10 +374,6 @@
 									placeholder="검색어를 입력해주세요." style="width: 300px;"
 									class="form-control search-input"
 									value="${pageInfo.pageRequest.searchKeyword}"> <input
-									name="pageNum" type="hidden"
-									value="${pageInfo.pageRequest.pageNum}"> <input
-									name="amount" type="hidden"
-									value="${pageInfo.pageRequest.amount}"> <input
 									name="region" type="hidden"
 									value="${pageInfo.pageRequest.region}"> <input
 									name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">

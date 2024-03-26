@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.fp.shuttlecock.tradeboard.PageRequestDTO;
 
 @Service
-public class RecruitboardServiceImpl {
+public class RecruitboardServiceImpl implements RecruitboardService{
 	@Autowired
 	RecruitboardMapper recruitboardmapper;
 
@@ -68,13 +68,19 @@ public class RecruitboardServiceImpl {
 		return false;
 	}
 
-	@Scheduled(cron="0 0 0 1/1 * ?")
-	public void getCompletedPost() {
-		System.out.println("완료된 게시글 가져오기 실행중");
-		List<Integer> completedPost = recruitboardmapper.getCompletedPost();
-		for(Integer recruitboardId : completedPost) {
-			recruitboardmapper.updateDeletedTradePost(recruitboardId);
-		}
+//	@Scheduled(cron="0 0 0 1/1 * ?")
+//	public void getCompletedPost() {
+//		System.out.println("완료된 게시글 가져오기 실행중");
+//		List<Integer> completedPost = recruitboardmapper.getCompletedPost();
+//		for(Integer recruitboardId : completedPost) {
+//			recruitboardmapper.updateDeletedTradePost(recruitboardId);
+//		}
+//	}
+	
+	@Scheduled(cron = "0 0 0 1/1 * ?")
+	public int findCompletedBoards() {
+		System.out.println("삭제작업 실행중");
+		return recruitboardmapper.deleteCompletedPost();
 	}
 	
 	public void setPostCompleted(int recruitboardId) {

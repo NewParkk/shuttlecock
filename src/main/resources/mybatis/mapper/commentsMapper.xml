@@ -48,11 +48,13 @@
 	</update>
 	
 	<select id="getCommentByCommentsId" parameterType="_int" resultType="CommentsDTO">
-		select * from comments where commentsId = #{commentsId}
+		select * from comments 
+		where commentsId = #{commentsId}
 	</select>
 	
 	<delete id="deleteComment" parameterType="_int">
-		delete from comments where commentsId = #{commentsId}
+		delete from comments 
+		where commentsId = #{commentsId}
 	</delete>
 	
 	<update id="updateComment" parameterType="CommentsDTO">
@@ -62,11 +64,16 @@
 	</update>
 	
 	<select id="getCommentList" parameterType="map" resultType="CommentsDTO">
-		select * from comments where bno = #{bno} and commentType = #{commentType} and (deleteYN IS NULL OR deleteYN != 1)
+		select comments.*, badge.badgeName 
+		from comments 
+		INNER JOIN user ON user.userId = comments.userId 
+		INNER JOIN badge ON badge.badgeId = user.badgeId 
+		where bno = #{bno} and commentType = #{commentType} and (deleteYN IS NULL OR deleteYN != 1)
 		order by commentsId DESC
 	</select>
 	
 	<update id="updateDeletedComment" parameterType="_int">
-		update comments set deleteYN = 1 where commentsId = #{commentsId}
+		update comments set deleteYN = 1 
+		where commentsId = #{commentsId}
 	</update>
 </mapper>

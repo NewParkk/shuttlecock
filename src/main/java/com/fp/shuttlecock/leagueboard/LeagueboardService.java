@@ -28,4 +28,12 @@ public interface LeagueboardService {
 	void increaseWriteCount(String userId);
 	
 	boolean updateDeletedLeaguePost(int leagueboardId);
+	
+	void increaseWinnerPoint(List<String> winnerList);
+	
+	void increaseLoserPoint(List<String> loserList);
+	
+	void decreaseLoserPoint(String userId);
+	
+	void decreaseWinnerPoint(String userId);
 }
