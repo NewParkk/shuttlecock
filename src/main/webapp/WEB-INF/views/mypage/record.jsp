@@ -35,7 +35,7 @@
 				<div class="menubar">
 					<ul>
 						<li><a class="list" href="/mypage">마이페이지</a></li>
-						<li><a class="list" href="/updateUser">회원수정</a></li>
+						<li><a class="list" href="/updateUser">내 프로필</a></li>
 						<li><a class="list" href="/record">나의활동내역</a></li>
 						<li><a class="list" href="/manageBlockedUser">차단유저관리</a></li>
 					</ul>
@@ -65,7 +65,7 @@
 						
 						<table class="board-table" style="width: 92%; margin: 20px auto 0;">
 							<thead id="board">
-								<tr>
+								<tr style="background-color: rgba(103, 141, 115, 0.1);">
 									<th scope="col" class="th-num">번호</th>
 									<th scope="col" class="th-date">분류</th>
 									<th scope="col" class="th-title">제목</th>

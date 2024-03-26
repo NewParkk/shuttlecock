@@ -19,11 +19,12 @@
 	    LIMIT #{offset}, #{pageSize}
 	</select>
 	
-	<select id="countArticle" resultType="_int">
-	    SELECT COUNT(articleId) FROM sports.article
+	<!-- 기사의 총 수 + 초기 데이터 유무 확인 -->
+	<select id="countArticle" resultType="int">
+	    SELECT COUNT(*) FROM sports.article
 	</select>
 	
-	<select id="isNewsData" resultType="int">
+	<!-- <select id="isNewsData" resultType="int">
         SELECT COUNT(*) FROM sports.article
-    </select>
+    </select> -->
 </mapper>

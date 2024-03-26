@@ -61,7 +61,7 @@
 					<table class="board-table"
 						style="width: 92%; margin: 20px auto 0;">
 						<thead>
-							<tr>
+							<tr style="background-color: rgba(103, 141, 115, 0.1);">
 								<th scope="col" class="th-num">번호</th>
 								<th scope="col" class="th-title">제목</th>
 								<th scope="col" class="th-writer">작성자</th>
@@ -147,5 +147,7 @@ $(function() {
 		location.href = '<c:url value="/Announcement/"/>';
 	})
 })
+
+
 </script>
 </html>

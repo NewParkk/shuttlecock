@@ -22,11 +22,12 @@ th {
 	font-size: 17px;
 }
 .current-page {
-    background-color: #405448 !important;
-    color: #fff !important;
-    padding: 5px 10px !important;
-    border-radius: 5px !important;
-}
+   background-color: #607d67 !important;
+   color: #fff !important;
+   padding: 5px 10px !important;
+   border: 1px solid #607d67 !important; 
+   border-radius: 5px !important;
+} 
 </style>
 </head>
 <body>
@@ -47,7 +48,7 @@ th {
 					<div class="menubar">
 						<ul>
 							<li><a class="list" href="/mypage">마이페이지</a></li>
-							<li><a class="list" href="/updateUser">회원수정</a></li>
+							<li><a class="list" href="/updateUser">내 프로필</a></li>
 							<li><a class="list" href="/record">나의활동내역</a></li>
 							<li><a class="list" href="/manageBlockedUser">차단유저관리</a></li>
 						</ul>
@@ -80,18 +81,20 @@ th {
 							<!-- board list area -->
 							<table class="board-table" style="width: 92%; margin: 0 auto;">
 								<thead>
-									<tr>
-										<th scope="col" class="th-title" style="font-size: 13px;">차단된
+									<tr style="background-color: rgba(103, 141, 115, 0.1);">
+										<th scope="col" style="width:90%; font-size: 13px;">차단된
 											사용자 목록</th>
+										<td></td>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${blockeduserList}" var="blockuser">
 										<tr>
 											<th scope="row" bgcolor="" style="text-align: center;">${blockuser.blockedUser}
-												<button class="btn btn-primary goBtn delbtn"
-													value="${blockuser.blockedUser}">차단해제</button>
 											</th>
+											<td><button class="btn btn-primary goBtn delbtn"
+												value="${blockuser.blockedUser}">차단해제</button>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -106,32 +109,33 @@ th {
 								<div class="row justify-content-center"
 									style="display: flex; justify-content: center;">
 									<div class="col-auto">
-										<table class="page navigation">
-											<tr class="pagination">
+									
+										<div class="page navigation">
+											<ul class="pagination">
 												<c:if test="${pageInfo.prev}">
-													<th class="page-item"><a class="page-link"
+													<li class="page-item"><a class="page-link"
 														aria-label="Previous"
 														href="/manageBlockedUser?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
 														&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
-													</th>
+													</li>
 												</c:if>
 												<c:forEach var="num" begin="${pageInfo.startPage}"
 													end="${pageInfo.endPage}">
-													<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-														<a id="pbtn_${num}" class="page-link" style="padding: 10px;"
+													<li class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+														<a id="pbtn_${num}" class="page-link"
 														href="/manageBlockedUser?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
 														&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
-													</th>
+													</li>
 												</c:forEach>
 												<c:if test="${pageInfo.next}">
-													<th class="page-item next"><a class="page-link"
+													<li class="page-item next"><a class="page-link"
 														aria-label="next"
 														href="/manageBlockedUser?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
 														&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
-													</th>
+													</li>
 												</c:if>
-											</tr>
-										</table>
+											</ul>
+										</div>
 									</div>
 								</div>
 							</form>

@@ -83,10 +83,10 @@
 					</p>
 
 					<div class="line"></div>
-
 					<div class="post-content" id="post-content">${leagueboard.content}</div>
 					<div class="line"></div>
-
+				</div>
+					
 					<div class="post-buttons">
 						<button type="button" class="btn btn-primary whyBtn listBtn"
 							id="goList" style="margin: 0px 30px 20px 10px;">목록</button>

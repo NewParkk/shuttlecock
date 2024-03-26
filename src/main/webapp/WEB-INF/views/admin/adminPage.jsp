@@ -50,6 +50,23 @@ a:active {
 .search-btn, .search-input, .search-select {
 	float: right; /*우측 플로팅 */
 }
+
+/* 삭제 버튼 css */
+.delBtn{
+	background-color: #607d67; 
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    float: right;
+}
+
+.delBtn:hover{
+	background-color:rgb(255, 51, 51);
+	color:#fff;
+}
 </style>
 </head>
 <body>
@@ -125,29 +142,30 @@ a:active {
 
 								<table class="board-table" style="width: 90%; margin: 0 auto;">
 									<thead>
-										<tr>
-											<th scope="col" class="th-like">이름</th>
+										<tr style="background-color: rgba(103, 141, 115, 0.1);">
+											<th scope="col" class="th-writer">이름</th>
 											<th scope="col" class="th-title">이메일(아이디)</th>
 											<th scope="col" class="th-date">권한</th>
 											<th scope="col" class="th-hit">성별</th>
+											<th scope="col"></th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach var="user" items="${userSearchList}">
 											<tr>
-												<th scope="row">${user.username}</th>
-												<td><a href="/admin/${user.userId}">${user.userEmail}
-														(${user.userId})</a></td>
+												<td scope="row" style="text-align:left; padding-left:30px;">${user.username}</td>
+												<th style="text-align:center;"><a href="/admin/${user.userId}">${user.userEmail}
+														(${user.userId})</a></th>
 												<td><c:set var="isFlag" value="${user.admin}" /> <c:choose>
 														<c:when test="${isFlag == true}">
-														관리자
-													</c:when>
+															<span style="font-weight: bold;">&#10024;관리자</span>
+														</c:when>
 													</c:choose> <c:choose>
 														<c:when test="${isFlag == false}">
-														회원
-													</c:when>
+														 	<span style="color: gray;">회원</span>
+														</c:when>
 													</c:choose></td>
-												<td><c:set var="num" value="${user.gender}" /> <c:choose>
+												<td style="color:gray;"><c:set var="num" value="${user.gender}" /> <c:choose>
 														<c:when test="${num == 1}">
 														남
 													</c:when>
@@ -157,7 +175,7 @@ a:active {
 													</c:when>
 													</c:choose></td>
 												<td><input type="hidden" value="${user.userId}">
-													<button type="button" class="btn btn-primary goBtn delBtn" style="margin-bottom:0px;">삭제</button>
+													<button type="button" class="btn btn-primary delBtn" style="margin-bottom:0px;">삭제</button>
 												</td>
 
 											</tr>

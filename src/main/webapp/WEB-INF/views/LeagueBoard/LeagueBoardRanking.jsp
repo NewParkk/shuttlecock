@@ -31,10 +31,17 @@ h1 {
 	padding-bottom: 30px
 }
 
-.paging {
+/* .paging {
 	margin-left: auto;
 	margin-right: auto;
 	display: table;
+} */
+.current-page {
+   background-color: #607d67 !important;
+   color: #fff !important;
+   padding: 5px 10px !important;
+   border: 1px solid #607d67 !important; 
+   border-radius: 5px !important;
 }
 
 .whyBtn {
@@ -61,12 +68,12 @@ a:active {
 /*---검색버튼--- */
 .search-wrap {
 	overflow: hidden; /*부모요소에 히든 */
-	margin-bottom: 20px;
+	/* margin-bottom: 20px; */
 }
 
-.search-btn, .search-input, .search-select {
+/* .search-btn, .search-input, .search-select {
 	float: right; /*우측 플로팅 */
-}
+} */
 
 .search-input {
 	width: 140px;
@@ -138,12 +145,29 @@ a:active {
 				</div>
 				<div id="board-list">
 					<div class="container">
+						<form action="/LeagueBoardRanking/search" method="get"
+							style="text-align: right; margin: 30px 50px 10px 0px;">
+							<div class="search-wrap clearfix">
+								<input id="searchKeyword" type="search" name="searchKeyword"
+									placeholder="이름을 입력해주세요." style="width: 300px;"
+									class="form-control search-input"
+									value="${pageInfo.pageRequest.searchKeyword}"> 
+								<input name="pageNum" type="hidden"
+									value="${pageInfo.pageRequest.pageNum}"> 
+								<input name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
+								<input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
+								<button class="btn btn-primary search-btn" type="submit"
+									style="margin-right: 10px">검색</button>
+							</div>
+						</form>
 						<!-- board list area -->
-						<table class="board-table" style="width: 92%; margin: 30px auto 0;">
+						
+						<!-- div를 table형식으로 변경함 -->
+						<table class="board-table" style="width: 92%; margin: 20px auto 0;">
 							<thead>
-								<tr>
+								<tr style="background-color: rgba(103, 141, 115, 0.1);">
 									<th scope="col" class="th-writer"><a
-										href="/LeagueBoard?sort=0">등수</a></th>
+										href="/LeagueBoard?sort=0">순위</a></th>
 									<th scope="col" class="th-date">유저</th>
 									<th scope="col" class="th-title">승</th>
 									<th scope="col" class="th-title">패</th>
@@ -153,41 +177,40 @@ a:active {
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${leagueRankingList}" var="leaguerank"
-								varStatus = "status" >
-									<div class="card">
-										<p>	<%-- <c:choose>
-												<c:when test= "${user.idx == 1}">
-												<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge3.png">
-												<br>
-												</c:when>
-												<c:when test= "${user.idx == 2}">
-												<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge2.png">
-												<br>
-												</c:when>
-												<c:when test="${user.idx == 3}">
-												<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge1.png">
-												<br>
-												</c:when>
-												<c:otherwise>${user.idx}</c:otherwise>
-											</c:choose> --%>
-											<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${leaguerank.badgeId}.png"
-											width="30px" height="20px">
-											${leaguerank.username}(${leaguerank.userId}) 
-											${leaguerank.wincount}승 
-											${leaguerank.losecount}패 
-											${leaguerank.wincount - leaguerank.losecount}점 	
-											<b> <c:set var="winRatio"
-													value="${(leaguerank.wincount * 1.0 / (leaguerank.wincount + leaguerank.losecount)) * 100}" />
-												<fmt:formatNumber value="${winRatio}" pattern="###.##" />%
-											</b>
-											
-										</p>
-									</div>
-								</c:forEach>
-							</tbody>
+						        <c:forEach items="${leagueRankingList}" var="user" varStatus="status">
+						            <tr>
+						                <td>
+						                    <c:choose>
+						                        <c:when test="${user.idx == 1}">
+						                            <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge3.png" width="70px" height="80px">
+						                        </c:when>
+						                        <c:when test="${user.idx == 2}">
+						                            <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge2.png" width="60px" height="70px">
+						                        </c:when>
+						                        <c:when test="${user.idx == 3}">
+						                            <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge1.png" width="50px" height="60px">
+						                        </c:when>
+						                        <c:otherwise>${user.idx}</c:otherwise>
+						                    </c:choose>
+						                </td>
+						                <td>
+						                    <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${user.badgeId}.png" width="12px" height="12px">
+						                    ${user.username}(${user.userId})
+						                </td>
+						                <td>${user.wincount}승</td>
+						                <td>${user.losecount}패</td>
+						                <td>${user.wincount - user.losecount}점</td>
+						                <td>
+						                    <b>
+						                        <c:set var="winRatio" value="${(user.wincount * 1.0 / (user.wincount + user.losecount)) * 100}" />
+						                        <fmt:formatNumber value="${winRatio}" pattern="###.##" />%
+						                    </b>
+						                </td>
+						            </tr>
+						        </c:forEach>
+						    </tbody>
 						</table> 
-						
+						<!-- //div를 table형식으로 변경함 -->
 						
 						<c:if test="${empty leagueRankingList}">
 							<div class="empty-post"
@@ -195,51 +218,51 @@ a:active {
 							<div class="line" style="width:92%; margin: 0 auto;"></div>
 						</c:if>
 					
-					<div id="pageBtn" style="margin: 10px;">
+					<!-- table형식을 ul/li식으로 변경함 -->
+					<div class="paging">
 						<div class="row justify-content-center"
 							style="display: flex; justify-content: center;">
 							<div class="col-auto">
-								<table class="page navigation">
-									<tr class="pagination">
+								<div class="page navigation">
+									<ul class="pagination">
 										<c:if test="${pageInfo.prev}">
-											<th class="page-item"><a class="page-link"
+											<li class="page-item"><a class="page-link"
 												aria-label="Previous"
 												href="/LeagueBoardRanking?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
-											</th>
+											</li>
 										</c:if>
 										<c:if test="${pageInfo.pageRequest.category == null}">
 											<c:forEach var="num" begin="${pageInfo.startPage}"
 												end="${pageInfo.endPage}">
-												<th
+												<li
 													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-													<a class="page-link" style="padding: 10px;"
+													<a class="page-link" 
 													href="/LeagueBoardRanking?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&sort=${pageInfo.pageRequest.sort}
  													">${num}</a>
-												</th>
+												</li>
 											</c:forEach>
 										</c:if>
 										<c:if test="${pageInfo.pageRequest.category != null}">
 											<c:forEach var="num" begin="${pageInfo.startPage}"
 												end="${pageInfo.endPage}">
-												<th
+												<li
 													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-													<a class="page-link" style="padding: 10px;"
-													href="/LeagueBoardRanking/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-									&sort=${pageInfo.pageRequest.sort}
- 													">${num}</a>
-												</th>
+													<a class="page-link" 
+														href="/LeagueBoardRanking/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
+															&searchKeyword=${pageInfo.pageRequest.searchKeyword}&sort=${pageInfo.pageRequest.sort}">${num}</a>
+												</li>
 											</c:forEach>
 										</c:if>
 										<c:if test="${pageInfo.next}">
-											<th class="page-item next"><a class="page-link"
+											<li class="page-item next"><a class="page-link"
 												aria-label="next"
 												href="/LeagueBoardRanking?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
-											</th>
+											</li>
 										</c:if>
-									</tr>
-								</table>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -257,19 +280,6 @@ a:active {
 					</form>
 					
 					
-					<!-- 검색창 --> <!-- 미완성 -->
-					<form action="/LeagueBoardRanking/search" method="get" style="text-align: center;">
-							<div class="search-wrap clearfix">
-								<input id="searchKeyword" type="search" name="searchKeyword"
-									placeholder="이름을 입력해주세요." style="width: 300px;"
-									class="form-control search-input"
-									value="${pageInfo.pageRequest.searchKeyword}"> 
-									<input name="pageNum" type="hidden" value="${pageInfo.pageRequest.pageNum}"> 
-									<input name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
-									<input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
-								<button class="btn btn-primary search-btn" type="submit">검색</button>
-							</div>
-						</form>
 					</div>
 				</div>
 			</div>

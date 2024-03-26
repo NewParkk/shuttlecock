@@ -90,13 +90,14 @@ public class ArticleServiceImpl implements ArticleService{
 			return articleMapper.getNewsByDate(articleList);
 		}
 
+		//기사의 총 수를 가져옴(페이지네이션)
 		public int countArticle() {
 			return articleMapper.countArticle();
 		}
 		
 		//초기데이터가 있는지 없는지
 		public boolean isNewsData() {
-			int count = articleMapper.isNewsData();
+			int count = countArticle();
 		    return count != 0; //0이 아니면 true, 0이면 false
 		}
 

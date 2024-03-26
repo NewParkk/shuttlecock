@@ -202,7 +202,7 @@
 						<!-- board list area -->
 						<table class="board-table" style="width: 92%; margin: 0px auto 0;">
 							<thead>
-								<tr>
+								<tr style="background-color: rgba(103, 141, 115, 0.1);">
 									<th scope="col" class="th-num">번호</th>
 									<th scope="col" class="th-writer">분류</th>
 									<th scope="col" class="th-writer">지역</th>
