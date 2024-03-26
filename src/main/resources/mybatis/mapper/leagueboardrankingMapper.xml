@@ -3,56 +3,49 @@
 <mapper namespace="com.fp.shuttlecock.leagueboard.LeagueboardRankingMapper">
 
 <select id="getLeagueRanking" 
-		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
-		resultType="com.fp.shuttlecock.user.UserDTO" >
-		<bind name="start" value="(pageNum-1)*amount" />
-		SELECT (ROW_NUMBER() OVER ()) AS idx,username, userId, wincount, losecount, badgeId
-		FROM user
-		<where>
-			(wincount != 0 or losecount != 0)
-		</where>
-		order by (wincount - losecount) desc
-		LIMIT #{start}, #{amount}
-</select>
+        parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
+        resultType="com.fp.shuttlecock.leagueboard.LeagueRankDTO" >
+        <bind name="start" value="(pageNum-1)*amount" />
+    SELECT r.userId, SUM(r.wincount) AS wincount, SUM(r.losecount) AS losecount, u.username, u.badgeId
+    FROM leagueRank r, user u
+    <![CDATA[WHERE r.userId = u.userId AND r.insertdate > #{startDate} AND r.insertdate < #{endDate}]]>
+    GROUP BY r.userId
+    ORDER BY (sum(r.wincount) - sum(r.losecount)) DESC
+    LIMIT #{start}, #{amount}
+<!--     CALL leagueProc('2024-01-01', '2024-03-31', 'u'); -->
 
-<select id="getRankedList" resultType="com.fp.shuttlecock.user.UserDTO">
-	SELECT userId,
-		   username,
-		   gender,
-		   badgeId,
-		   userLeagueGrade
-	FROM user
-	ORDER BY userLeagueGrade;
 </select>
 
 <select id="countLeagueUser"
 		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
 		resultType="int">
-	select count(userId)
-	from user
-		<where>
-			(wincount != 0 or losecount != 0)
-			<if test="searchKeyword != null and searchKeyword != ''">
-				AND username LIKE CONCAT ('%', #{searchKeyword}, '%')
-			</if>
-		</where>
-	
+	SELECT COUNT(DISTINCT r.userId)
+	FROM leagueRank r, user u
+	<where>
+	<![CDATA[r.userId = u.userId AND r.insertdate > '2024-01-01' AND r.insertdate < '2024-03-31']]>
+		<if test="searchKeyword != null and searchKeyword != ''">
+				AND u.username LIKE CONCAT ('%', #{searchKeyword}, '%')
+		</if>
+	</where>
 </select>
 
 
 <select id="getLeagueRankingByUsername"
 		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
-		resultType="com.fp.shuttlecock.user.UserDTO" >
+		resultType="com.fp.shuttlecock.leagueboard.LeagueRankDTO" >
 		<bind name="start" value="(pageNum-1)*amount" />
-		SELECT (ROW_NUMBER() OVER ()) AS idx,username, userId, wincount, losecount, badgeId
-		FROM user
+  	 	SELECT r.userId, SUM(r.wincount) AS wincount, SUM(r.losecount) AS losecount, u.username, u.badgeId
+   	 	FROM leagueRank r, user u
 		<where>
-			(wincount != 0 or losecount != 0)
+			<![CDATA[
+			r.userId = u.userId AND r.insertdate > '2024-01-01' AND r.insertdate < '2024-03-31'
+			]]>
 			<if test="searchKeyword != null and searchKeyword != ''">
-				AND username LIKE CONCAT ('%', #{searchKeyword}, '%')
+				AND u.username LIKE CONCAT ('%', #{searchKeyword}, '%')
 			</if>
 		</where>
-		order by (wincount - losecount) desc
+		GROUP BY userId
+		ORDER BY (sum(r.wincount) - sum(r.losecount)) DESC
 		LIMIT #{start}, #{amount}
 
 </select>
