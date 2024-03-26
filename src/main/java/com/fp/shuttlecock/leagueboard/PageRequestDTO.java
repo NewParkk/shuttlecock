@@ -1,5 +1,6 @@
 package com.fp.shuttlecock.leagueboard;
 
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -23,6 +24,11 @@ public class PageRequestDTO {
 	private int sort = 0;
 	
 	private int isMain = 0;
+	
+	// 리그 순위 검색 범위기간
+    private String startDate;
+    private String endDate;
+	
 
 	public PageRequestDTO() {
 		this(1, 10);

@@ -3,21 +3,16 @@ package com.fp.shuttlecock.leagueboard;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-
-import com.fp.shuttlecock.user.UserDTO;
+import org.springframework.data.repository.query.Param;
 
 @Mapper
 public interface LeagueboardRankingMapper {
 
-	public List<UserDTO> getLeagueRanking(PageRequestDTO pageRequest);
-
-	public List<UserDTO> getRankedList();
+	public List<LeagueRankDTO> getLeagueRanking(PageRequestDTO pageRequest);
 
 	public int countLeagueUser(PageRequestDTO pageRequest);
 
-	public List<UserDTO> getSearchLeagueUser(PageRequestDTO pageRequest);
-
-	public int countSearchLeagueUser(PageRequestDTO pageRequest);
-
-	public List<UserDTO> getLeagueRankingByUsername(PageRequestDTO pageRequest);
+	public List<LeagueRankDTO> getLeagueRankingByUsername(PageRequestDTO pageRequest);
+	
+	List<LeagueRankDTO> getLeagueRankingByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate);
 }

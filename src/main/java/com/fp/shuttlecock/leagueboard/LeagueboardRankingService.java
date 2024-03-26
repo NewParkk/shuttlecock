@@ -6,13 +6,11 @@ import com.fp.shuttlecock.user.UserDTO;
 
 public interface LeagueboardRankingService {
 
-	List<UserDTO> getLeagueRanking(PageRequestDTO pageRequest);
+	List<LeagueRankDTO> getLeagueRanking(PageRequestDTO pageRequest);
 
-	List<UserDTO> getRankedList();
-	
 	int countLeagueUser(PageRequestDTO pageRequest);
 	
-	List<UserDTO> getLeagueRankingByUsername(PageRequestDTO pageRequest);
+	List<LeagueRankDTO> getLeagueRankingByUsername(PageRequestDTO pageRequest);
 	
-	
+	List<LeagueRankDTO> getLeagueRankingByDateRange(String startDate, String endDate);
 }

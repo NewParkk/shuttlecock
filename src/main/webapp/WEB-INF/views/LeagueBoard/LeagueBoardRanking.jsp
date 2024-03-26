@@ -138,19 +138,6 @@ a:active {
 				</div>
 				<div id="board-list">
 					<div class="container">
-						<form action="/LeagueBoardRanking/search" method="get">
-							<div class="search-wrap clearfix">
-								<input id="searchKeyword" type="search" name="searchKeyword"
-									placeholder="이름을 입력해주세요." style="width: 300px;"
-									value="${pageInfo.pageRequest.searchKeyword}"> 
-								<input name="pageNum" type="hidden"
-									value="${pageInfo.pageRequest.pageNum}"> 
-								<input name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
-								<input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
-								<button class="btn btn-primary search-btn" type="submit"
-									style="margin-right: 10px">검색</button>
-							</div>
-						</form>
 						<!-- board list area -->
 						<table class="board-table" style="width: 92%; margin: 30px auto 0;">
 							<thead>
@@ -166,10 +153,10 @@ a:active {
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${leagueRankingList}" var="user"
+								<c:forEach items="${leagueRankingList}" var="leaguerank"
 								varStatus = "status" >
 									<div class="card">
-										<p>	<c:choose>
+										<p>	<%-- <c:choose>
 												<c:when test= "${user.idx == 1}">
 												<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge3.png">
 												<br>
@@ -183,15 +170,15 @@ a:active {
 												<br>
 												</c:when>
 												<c:otherwise>${user.idx}</c:otherwise>
-											</c:choose>
-											<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${user.badgeId}.png"
+											</c:choose> --%>
+											<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${leaguerank.badgeId}.png"
 											width="30px" height="20px">
-											${user.username}(${user.userId}) 
-											${user.wincount}승 
-											${user.losecount}패 
-											${user.wincount - user.losecount}점 	
+											${leaguerank.username}(${leaguerank.userId}) 
+											${leaguerank.wincount}승 
+											${leaguerank.losecount}패 
+											${leaguerank.wincount - leaguerank.losecount}점 	
 											<b> <c:set var="winRatio"
-													value="${(user.wincount * 1.0 / (user.wincount + user.losecount)) * 100}" />
+													value="${(leaguerank.wincount * 1.0 / (leaguerank.wincount + leaguerank.losecount)) * 100}" />
 												<fmt:formatNumber value="${winRatio}" pattern="###.##" />%
 											</b>
 											
@@ -208,7 +195,6 @@ a:active {
 							<div class="line" style="width:92%; margin: 0 auto;"></div>
 						</c:if>
 					
-
 					<div id="pageBtn" style="margin: 10px;">
 						<div class="row justify-content-center"
 							style="display: flex; justify-content: center;">
@@ -258,9 +244,21 @@ a:active {
 						</div>
 					</div>
 				
-
+					<form id="dateForm" action="/LeagueBoardRanking" method="get">
+					    <!-- hidden input 요소에 startDate와 endDate 값을 설정합니다. -->
+					    <input type="hidden" id="startDate" name="startDate" >
+					    <input type="hidden" id="endDate" name="endDate" >
+					    
+					    <!-- 버튼을 클릭하면 해당 기간의 데이터를 가져오도록 JavaScript 함수를 호출합니다. -->
+					    <button onclick="setDateRange('2024-01-01', '2024-03-31')">1분기</button>
+					    <button onclick="setDateRange('2024-04-01', '2024-06-30')">2분기</button>
+					    <button onclick="setDateRange('2024-07-01', '2024-09-30')">3분기</button>
+					    <button onclick="setDateRange('2024-10-01', '2024-12-31')">4분기</button>
+					</form>
+					
+					
 					<!-- 검색창 --> <!-- 미완성 -->
-					<form action="/LeagueBoard/search" method="get" style="text-align: center;">
+					<form action="/LeagueBoardRanking/search" method="get" style="text-align: center;">
 							<div class="search-wrap clearfix">
 								<input id="searchKeyword" type="search" name="searchKeyword"
 									placeholder="이름을 입력해주세요." style="width: 300px;"
@@ -314,6 +312,18 @@ a:active {
 		        });
 		    });
 		});
+		
+		
+		// 리그 순위 기간에 대한 함수
+	    function setDateRange(startDate, endDate) {
+			console.log(startDate, endDate);
+	        // hidden input 요소에 설정된 값을 변경합니다.
+	        document.getElementById('startDate').value = startDate;
+	        document.getElementById('endDate').value = endDate;
+	        // 폼을 서버로 제출합니다.
+	        document.getElementById('dateForm').submit();
+	    }
 	</script>
+		
 </body>
 </html>
