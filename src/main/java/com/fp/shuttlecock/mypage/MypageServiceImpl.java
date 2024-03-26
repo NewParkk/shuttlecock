@@ -5,9 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.http.HttpServletRequest;
+import com.fp.shuttlecock.comments.CommentsDTO;
+import com.fp.shuttlecock.freeboard.FreeboardDTO;
+import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
+import com.fp.shuttlecock.recruitboard.RecruitboardDTO;
+import com.fp.shuttlecock.tradeboard.TradeboardDTO;
+import com.fp.shuttlecock.user.UserDTO;
 
 @Service
 public class MypageServiceImpl {

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.fp.shuttlecock.user.UserDTO;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -36,9 +38,9 @@ public class AdminController {
 		List<UserDTO> userSearchList = service.getUserBySearchWithPage(pageRequest);
 		
 		// 검색했을때 1페이지로 넘어가기
-//		if (pageRequest.getPageNum() != 1) {
-//			pageRequest.setPageNum(1);
-//		}
+		/*
+		 * if (pageRequest.getPageNum() != 1) { pageRequest.setPageNum(1); }
+		 */
 
 		int totalCount = service.getTotalCount(pageRequest);
 		
@@ -110,13 +112,13 @@ public class AdminController {
 		return view;
 	}
 
-	// 오늘 방문자수
-	@GetMapping("/visitor")
-	public String todayVisit(Model model) {
-		List<VisitorDTO> visitorList = service.todayVisit();
-		model.addAttribute("visitorList", visitorList);
-
-		return "admin/visitor";
-	}
+//	// 오늘 방문자수
+//	@GetMapping("/visitor")
+//	public String todayVisit(Model model) {
+//		List<VisitorDTO> visitorList = service.todayVisit();
+//		model.addAttribute("visitorList", visitorList);
+//
+//		return "admin/visitor";
+//	}
 
 }

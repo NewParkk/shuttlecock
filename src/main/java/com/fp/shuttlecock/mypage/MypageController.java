@@ -2,19 +2,26 @@ package com.fp.shuttlecock.mypage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fp.shuttlecock.comments.CommentsDTO;
+import com.fp.shuttlecock.freeboard.FreeboardDTO;
+import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
+import com.fp.shuttlecock.recruitboard.RecruitboardDTO;
+import com.fp.shuttlecock.tradeboard.TradeboardDTO;
+import com.fp.shuttlecock.user.UserDTO;
+
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -25,6 +32,9 @@ public class MypageController {
 
 	@Autowired
 	FileUploadAPI fileupload;
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
 	// 마이페이지 폼
 	@GetMapping("/mypage")
@@ -109,25 +119,35 @@ public class MypageController {
 
 	// 회원탈퇴
 	@GetMapping("/deleteUser")
-	public String deleteUser(HttpSession session, @RequestParam("pw") String pw) {
+	public String deleteUser(HttpSession session, @RequestParam("pw") String pw, Model model, HttpServletRequest request) {
 		String userId = session.getAttribute("userId").toString();
 		UserDTO user = service.getMypage(userId);
 
 		boolean result = false;
 		System.out.println(user);
-		System.out.println(pw);
+		System.out.println("입력한 비밀번호 : "+pw);
 		System.out.println(user.getPw());
-
-		if (user.getPw() != pw && user.getPw() == "") {
-			System.out.println("nnnn");
-			return "error";
-		} else {
-			System.out.println("ddd");
+		
+		if(user.isKakaoYN() == false) {
+			if (passwordEncoder.matches(pw, user.getPw())) {
+				System.out.println("비밀번호 일치");
+				result = service.deleteUser(userId);
+				session.invalidate();
+				
+			} else {
+				System.out.println("비밀번호 불일치");
+				request.setAttribute("msg", "비밀번호가 일치하지 않습니다.");
+				request.setAttribute("url", "/updateUser");
+				return "mypage/alert";
+			}
+			
+		}else {
+			System.out.println("카카오 회원탈퇴");
 			result = service.deleteUser(userId);
 			session.invalidate();
 		}
 
-		return "redirect:/login";
+		return "login";
 	}
 
 	// 나의 활동내역

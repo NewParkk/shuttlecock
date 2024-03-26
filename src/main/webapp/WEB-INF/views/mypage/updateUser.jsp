@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insert title here</title>
+<title>Shuttle Cock</title>
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
 <!-- aisde-js 파일 -->
@@ -18,17 +17,18 @@
 
 </head>
 <body>
+
 	<!-- wrap -->
 	<div id="wrap">
 
 		<!-- header -->
 		<%@ include file="../include/header.jsp"%>
 		<!-- main -->
-		<main id= "main">
-	        <div id="slider">
-	          <div class="imageWrap1"></div>
-	        </div>
-	
+		<main id="main">
+			<div id="slider">
+				<div class="imageWrap1"></div>
+			</div>
+
 			<!-- section -->
 			<section id="contents">
 
@@ -45,20 +45,20 @@
 				</div>
 
 				<div class="noticeboard">
-					<div class="title" style="margin:0px;">
+					<div class="title" style="margin: 0px;">
 						<div class="vline"></div>
 						<div class="container2">
 							<h3>회원 수정 &#10095</h3>
 						</div>
 					</div>
-				
 
-				<div id="board-list">
-					<div class="container2">
-					
-						<form action="/updateUser" method="POST"
-							enctype="multipart/form-data" id="next_form">
-							<%-- <div class="member-info">
+
+					<div id="board-list">
+						<div class="container2">
+
+							<form action="/updateUser" method="POST"
+								enctype="multipart/form-data" id="next_form">
+								<%-- <div class="member-info">
 								<div class="profile-picture">
 									<c:if test="${user.userImageName eq null}">
 									<img src="https://kr.object.ncloudstorage.com/team1bucket/profile/noprofile.png"><br>
@@ -92,40 +92,43 @@
 									style="margin-left:50px;">
 								</div>
 							</div> --%>
-							
-							<table style="width: 70%; margin: 20px auto 0;">
-						      <tr>
-						          <td rowspan="5" class="profile-picture">
-						              <c:if test="${user.userImageName eq null}">
-						                  <img src="https://kr.object.ncloudstorage.com/team1bucket/profile/noprofile.png" alt="프로필 이미지">
-						              </c:if>
-						              <c:if test="${user.userImageName != null}">
-						                  <img src="https://kr.object.ncloudstorage.com/team1bucket/profile/${user.userImageName}" alt="프로필 이미지">
-						              </c:if>
-						              <input type="file" id="fileInput" name="file" class="custom-file-upload">
-						          </td>
-						          <td><strong>아이디:</strong></td>
-						          <td><img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${user.badgeId}.png"
-											width="30px" height="25px">${user.userId}</td>
-						      </tr>
-						      <tr>
-						          <td><strong>이름:</strong></td>
-						          <td><input type="text" name="username" class="custom-input" value="${user.username}"></td>
-						      </tr>
-						      <tr>
-						          <td><strong>이메일:</strong></td>
-						          <td><input type="text" name="userEmail" class="custom-input" value="${user.userEmail}"></td>
-						      </tr>
-						      <tr>
-						          <td colspan="2">
-						              <input class="update" type="submit" id="update" value="수정">
-						              <input type="button" class="delete-btn" id="btnDelete" value="회원탈퇴">
-						          </td>
-						      </tr>
-						  </table>
-							
-							
-						</form>
+
+								<table style="width: 70%; margin: 20px auto 0;">
+									<tr>
+										<td rowspan="5" class="profile-picture"><c:if
+												test="${user.userImageName eq null}">
+												<img
+													src="https://kr.object.ncloudstorage.com/team1bucket/profile/noprofile.png"
+													alt="프로필 이미지">
+											</c:if> <c:if test="${user.userImageName != null}">
+												<img
+													src="https://kr.object.ncloudstorage.com/team1bucket/profile/${user.userImageName}"
+													alt="프로필 이미지">
+											</c:if> <input type="file" id="fileInput" name="file"
+											class="custom-file-upload"></td>
+										<td><strong>아이디:</strong></td>
+										<td>${user.userId}</td>
+									</tr>
+									<tr>
+										<td><strong>이름:</strong></td>
+										<td><input type="text" name="username"
+											class="custom-input" value="${user.username}"></td>
+									</tr>
+									<tr>
+										<td><strong>이메일:</strong></td>
+										<td><input type="text" name="userEmail"
+											class="custom-input" value="${user.userEmail}"></td>
+									</tr>
+									<tr>
+										<td colspan="2"><input class="update" type="submit"
+											id="update" value="수정"> 
+											<input type="button"
+											class="delete-btn" id="btnDelete" value="회원탈퇴"></td>
+									</tr>
+								</table>
+
+
+							</form>
 						</div>
 					</div>
 				</div>
@@ -134,17 +137,19 @@
 		<%@ include file="../include/footer.jsp"%>
 	</div>
 	<!-- modal 추가 -->
-	<div id="my_modal_delete" class="modal">
-		<div class="modal-content">
-			<span class="close1">&times;</span>
-			<form action="/deleteUser" enctype="multipart/form-data">
-				<input type="password" name="pw" placeholder="비밀번호"
-					class="custom-input">
-				<p>정말로 삭제하시겠습니까?</p>
-				<input type="submit" value="삭제" class="delete-btn">
-			</form>
+	<%-- <c:if test="${user.kakaoYN eq false}"> --%>
+		<div id="my_modal_delete" class="modal">
+			<div class="modal-content">
+				<span class="close1">&times;</span>
+				<form action="/deleteUser" enctype="multipart/form-data">
+					<input type="password" name="pw" placeholder="비밀번호"
+						class="custom-input">
+					<p>정말로 삭제하시겠습니까?</p>
+					<input type="submit" value="삭제" class="delete-btn">
+				</form>
+			</div>
 		</div>
-	</div>
+	<%-- </c:if> --%>
 </body>
 
 <script type="text/javascript">
@@ -188,7 +193,6 @@
 </script>
 
 <style>
-
 .member-info {
 	background-color: #f0f0f0; /* 배경색 지정 */
 	display: flex;
@@ -302,64 +306,64 @@
 	outline: none;
 }
 
-
-
 table {
-    width: 100%;
-    border-collapse: collapse;
+	width: 100%;
+	border-collapse: collapse;
 }
 
 td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
 }
-
 
 .profile-picture {
-    text-align: center;
-    width: 350px;
-    margin: 0px auto;
+	text-align: center;
+	width: 350px;
+	margin: 0px auto;
 }
+
 .profile-picture img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
 }
 
 .custom-file-upload {
-	margin-top:10px;
-    margin-bottom: 5px;
-    text-align: center;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	text-align: center;
 }
 
 .custom-input {
-    width: 100%;
-    padding: 5px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
+	width: 100%;
+	padding: 5px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin-bottom: 10px;
 }
 
 .update, .delete-btn {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-right: 10px;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	margin-right: 10px;
 }
-.update{
+
+.update {
 	background-color: #4CAF50;
 }
-.delete-btn{
-	background-color:#f44336;
+
+.delete-btn {
+	background-color: #f44336;
 }
 
 .update:hover, .delete-btn:hover {
-    background-color: #405448;
+	background-color: #405448;
 }
 </style>
 </html>

@@ -18,6 +18,7 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.fp.shuttlecock.user.UserDTO;
 
 import jakarta.servlet.http.HttpSession;
 

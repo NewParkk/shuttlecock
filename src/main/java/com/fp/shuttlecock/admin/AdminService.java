@@ -2,6 +2,8 @@ package com.fp.shuttlecock.admin;
 
 import java.util.List;
 
+import com.fp.shuttlecock.user.UserDTO;
+
 public interface AdminService {
 	
 	List<UserDTO> getAllUserList();
@@ -10,7 +12,7 @@ public interface AdminService {
 	
 	boolean updateUserAdmin(UserDTO user);
 	
-	List<VisitorDTO> todayVisit();
+//	List<VisitorDTO> todayVisit();
 
 	boolean deleteUser(String userId);
 
