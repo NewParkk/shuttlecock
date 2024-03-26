@@ -2,46 +2,58 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fp.shuttlecock.likes.LikesMapper">
 	<insert id="insertLikes" parameterType="LikesDTO">
-		insert into likes(userId, bno, likesType) values(#{userId}, #{bno}, #{likesType})
+		insert into likes(userId,
+		bno, likesType) values(#{userId}, #{bno}, #{likesType})
 	</insert>
-	
+
 	<update id="likesIncrease" parameterType="LikesDTO">
 		<choose>
 			<when test="likesType == 2">
-				update freeboard set `like` = `like` + 1 where freeboardId = #{bno}
+				update freeboard set `like` = `like` + 1 where
+				freeboardId = #{bno}
 			</when>
 			<when test="likesType == 3">
-				update tradeboard set `like` = `like` + 1 where tradeboardId = #{bno}
+				update tradeboard set `like` = `like` + 1 where
+				tradeboardId = #{bno}
 			</when>
 			<when test="likesType == 4">
-				update recruitboard set `like` = `like` + 1 where recruitboardId = #{bno}
+				update recruitboard set `like` = `like` + 1 where
+				recruitboardId = #{bno}
 			</when>
 		</choose>
 	</update>
-	
-	<select id="checkLikesList" parameterType="LikesDTO" resultType="_int">
-		select count(likesId) from likes where userId = #{userId} and bno = #{bno} and likesType = #{likesType} AND (deleteYN IS NULL OR deleteYN != 1)
-	</select>
-	
+
+	<select id="checkLikesList" parameterType="LikesDTO" resultType="_int"> 
+		select count(likesId) from likes where userId = #{userId} and bno = #{bno} 
+		and likesType = #{likesType} AND (deleteYN IS NULL OR deleteYN != 1) </select>
+
+
 	<update id="likesCancel" parameterType="LikesDTO">
-		update likes set deleteYN = 1 where userId = #{userId} AND bno = #{bno} AND likesType = #{likesType}
+		update likes set deleteYN
+		= 1 where userId = #{userId} AND bno = #{bno} AND likesType =
+		#{likesType}
 	</update>
-	
+
 	<delete id="likesCancel1" parameterType="LikesDTO">
-		delete from likes where userId = #{userId} AND bno = #{bno} AND likesType = #{likesType}
+		delete from likes where
+		userId = #{userId} AND bno = #{bno} AND likesType = #{likesType}
 	</delete>
-	
+
 	<update id="likesDecrease" parameterType="LikesDTO">
 		<choose>
 			<when test="likesType == 2">
-				update freeboard set `like` = `like` - 1 where freeboardId = #{bno}
+				update freeboard set `like` = `like` - 1 where
+				freeboardId = #{bno}
 			</when>
 			<when test="likesType == 3">
-				update tradeboard set `like` = `like` - 1 where tradeboardId = #{bno}
+				update tradeboard set `like` = `like` - 1 where
+				tradeboardId = #{bno}
 			</when>
 			<when test="likesType == 4">
-				update recruitboard set `like` = `like` - 1 where recruitboardId = #{bno}
+				update recruitboard set `like` = `like` - 1 where
+				recruitboardId = #{bno}
 			</when>
 		</choose>
 	</update>
+
 </mapper>

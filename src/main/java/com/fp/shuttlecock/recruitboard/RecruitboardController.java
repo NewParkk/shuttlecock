@@ -30,6 +30,8 @@ import com.fp.shuttlecock.comments.CommentsDTO;
 import com.fp.shuttlecock.comments.CommentsService;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
 import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
+import com.fp.shuttlecock.likes.LikesDTO;
+import com.fp.shuttlecock.likes.LikesServiceImpl;
 import com.fp.shuttlecock.tradeboard.PageRequestDTO;
 import com.fp.shuttlecock.tradeboard.PageResponseDTO;
 import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
@@ -56,9 +58,12 @@ public class RecruitboardController {
 
 	@Autowired
 	private NaverObjectStorage naverfile;
+	
+	@Autowired
+	private LikesServiceImpl likeService;
 
 	@GetMapping("/Recruitboard/{recruitboardId}")
-	public String getBoardByBoardId(@PathVariable int recruitboardId, Model model, PageRequestDTO pageRequest) {
+	public String getBoardByBoardId(@PathVariable int recruitboardId, Model model, HttpSession session, PageRequestDTO pageRequest) {
 		String view = "error";
 		RecruitboardDTO recruitboard = null;
 		try {
@@ -67,6 +72,7 @@ public class RecruitboardController {
 			String badgeName = badgeService.getBadgeNameById(badgeId);
 			model.addAttribute("pageInfo", pageRequest);
 			if (recruitboard != null) {
+				boolean isLiked = likeService.checkLikesList(new LikesDTO(String.valueOf(session.getAttribute("userId")), recruitboardId, 4));
 				List<CommentsDTO> commentList = commentService.getCommentList(recruitboardId, 4);
 				// FileRequest file = fileService.getBoardFileByTradeboardId(tradeboardId);
 				boardService.increaseHit(recruitboardId);
@@ -75,7 +81,8 @@ public class RecruitboardController {
 				model.addAttribute("recruitboard", recruitboard);
 				model.addAttribute("commentList", commentList);
 				model.addAttribute("badgeName", badgeName);
-				System.out.println(commentList);
+
+				model.addAttribute("isLiked", isLiked); // 좋아요 상태 표시
 				view = "Recruitboard/RecruitDetail";
 			}
 		} catch (Exception e) {

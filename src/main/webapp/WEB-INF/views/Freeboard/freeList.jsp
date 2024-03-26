@@ -146,7 +146,7 @@
 										${pageInfo.vo.condition == 'title' ? 'selected' : ''}>제목</option>
 									<option value="content"
 										${pageInfo.vo.condition == 'content' ? 'selected' : ''}>내용</option>
-									<option value="writer"
+									<option value="userId"
 										${pageInfo.vo.condition == 'userId' ? 'selected' : ''}>작성자</option>
 								</select>
 								<input type="text" name="keyword"
