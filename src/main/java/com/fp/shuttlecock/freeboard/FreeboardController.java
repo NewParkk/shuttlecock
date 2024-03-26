@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fp.shuttlecock.attachmentfile.NaverObjectStorage;
 import com.fp.shuttlecock.comments.CommentsDTO;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
+import com.fp.shuttlecock.likes.LikesDTO;
+import com.fp.shuttlecock.likes.LikesServiceImpl;
 import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
 import com.fp.shuttlecock.user.UserServiceImpl;
 import com.fp.shuttlecock.util.PageCreate;
@@ -41,9 +43,11 @@ public class FreeboardController {
 	private UserServiceImpl userService;
 	@Autowired
 	private TradeboardServiceImpl badgeService;
+	@Autowired
+	private LikesServiceImpl likeService;
 
 	@GetMapping("/freeDetail/{freeboardId}")
-	public String getBoardByBoardId(@PathVariable int freeboardId, Model model, PageVO vo) {
+	public String getBoardByBoardId(@PathVariable int freeboardId, Model model, HttpSession session, PageVO vo) {
 		String view = "error";
 
 		FreeboardDTO freeboard = null;
@@ -53,6 +57,9 @@ public class FreeboardController {
 			String badgeName = badgeService.getBadgeNameById(badgeId);
 			model.addAttribute("pageInfo", vo);
 			if (freeboard != null) {
+				// 좋아요 상태 표시
+				boolean isLiked = likeService.checkLikesList(new LikesDTO(String.valueOf(session.getAttribute("userId")), freeboardId, 2));
+				
 				List<CommentsDTO> commentList = commentService.getCommentList(freeboardId, 2);
 				// FileRequest file = fileService.getBoardFileByTradeboardId(tradeboardId);
 				service.hit(freeboardId);
@@ -61,7 +68,9 @@ public class FreeboardController {
 				model.addAttribute("freeboard", freeboard);
 				model.addAttribute("commentList", commentList);
 				model.addAttribute("badgeName", badgeName);
-				System.out.println(commentList);
+				
+				model.addAttribute("isLiked", isLiked); // 좋아요 상태 표시
+	            
 				view = "Freeboard/freeDetail";
 			}
 		} catch (Exception e) {

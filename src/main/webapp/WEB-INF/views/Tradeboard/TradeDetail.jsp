@@ -25,17 +25,17 @@
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-	<main id= "main">
-        <div id="slider">
-          <div class="imageWrap1"></div>
-        </div>
-        
-        <!-- section -->
+	<main id="main">
+		<div id="slider">
+			<div class="imageWrap1"></div>
+		</div>
+
+		<!-- section -->
 		<section id="contents">
 			<%@ include file="category.jsp"%>
 
 			<div class="noticeboard">
-				<div class="title" style="margin:0px;">
+				<div class="title" style="margin: 0px;">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>물품거래소 &#10095</h3>
@@ -46,8 +46,8 @@
 						<strong>${tradeboard.title}</strong>
 					</p>
 					<p class="post-metadata">
-						<span class="post-info-text"> 작성자:
-							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">
+						<span class="post-info-text"> 작성자: <img
+							src="/badge/${badgeName}.jpg" style="height: 15px; width: 15px;">
 							<strong>${tradeboard.userId}</strong>
 						</span> 
 						<span class="post-info-text"> 거래장소:
@@ -62,31 +62,35 @@
 						</c:forEach>
 						</span>
 					</p>
-					<p style="font-size:14px; color:gray;">
-						<fmt:formatDate value="${tradeboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
-						<span class="post-info-text" style="margin-left:10px;">조회&nbsp;${tradeboard.hit}</span>
+					<p style="font-size: 14px; color: gray;">
+						<fmt:formatDate value="${tradeboard.regdate}"
+							pattern="yyyy-MM-dd HH:mm" />
+						<span class="post-info-text" style="margin-left: 10px;">조회&nbsp;${tradeboard.hit}</span>
 						<c:if test="${tradeboard.complete eq 0}">
-							<span class="post-info-text" style="font-size:15px; float: right; color:red;"> <strong>거래 중</strong>
+							<span class="post-info-text"
+								style="font-size: 15px; float: right; color: red;"> <strong>거래
+									중</strong>
 							</span>
 						</c:if>
 						<c:if test="${tradeboard.complete eq 1}">
-							<span class="post-info-text" style="font-size:15px; float: right; color:#405448; text-decoration: line-through;"> <strong>거래완료</strong>
+							<span class="post-info-text"
+								style="font-size: 15px; float: right; color: #405448; text-decoration: line-through;">
+								<strong>거래완료</strong>
 							</span>
 						</c:if>
 					</p>
-					
-				<div class="line"></div>
-					
-				<div class="post-content" id="post-content">${tradeboard.content}</div>
-				<c:if test="${tradeboard.imageName != 'noImage'}">
-					<div class="image-container"
-						style="width: 300px; height: 200px;">
-						<img src="${imgUrl}/boardFile/3_${tradeboard.imageName}.png"><br>
-					</div>
-				</c:if>
-				
-				<div class="line"></div>
-				
+
+					<div class="line"></div>
+
+					<div class="post-content" id="post-content">${tradeboard.content}</div>
+					<c:if test="${tradeboard.imageName != 'noImage'}">
+						<div class="image-container" style="width: 300px; height: 200px;">
+							<img src="${imgUrl}/boardFile/3_${tradeboard.imageName}.png"><br>
+						</div>
+					</c:if>
+
+					<div class="line"></div>
+
 				</div>
 
 				<div class="post-buttons">
@@ -100,8 +104,22 @@
 						test="${sessionScope.userId eq tradeboard.userId or sessionScope.isAdmin eq true}">
 						<button type="button" class="btn btn-primary goBtn delbtn">삭제</button>
 					</c:if>
-					<button type="button" class="btn btn-primary goBtn LikeBtn"
-						id="LikeBtn" style="float:left; margin-left:30px;">&#128077; ${tradeboard.like}</button>
+					<c:if test="${sessionScope.userId ne tradeboard.userId}">
+						<c:choose>
+							<c:when test="${isLiked}">
+								<button type="button" class="btn btn-primary goBtn LikeBtn"
+									id="LikeBtn" style="float: left; margin-left: 30px;">&#128078;
+									추천 안 함</button>
+							</c:when>
+							<c:otherwise>
+								<button type="button" class="btn btn-primary goBtn LikeBtn"
+									id="LikeBtn" style="float: left; margin-left: 30px;">&#128077;
+									추천</button>
+							</c:otherwise>
+						</c:choose>
+
+						</button>
+					</c:if>
 					<c:if
 						test="${sessionScope.userId != tradeboard.userId and not empty sessionScope.userId}">
 						<button type="button" id="userblock"
@@ -145,7 +163,6 @@
 										<span class="post-info-text com-writer"><img src="/badge/${comments.badgeName}.jpg" style="height:15px; width:15px;"> 
 										 <strong>${comments.userId}</strong></span>
 									</div>				
-								
 									<div class="col">
 										<div id="com_updateMode_div_${comments.commentsId}">
 											<c:choose>
@@ -162,14 +179,15 @@
 										<textarea class="form-control com_updateMode_textarea"
 											id="exampleFormControlTextarea1_${comments.commentsId}"
 											rows="2" style="display: none;">${comments.content}</textarea>
-											
+
 										<div class="col">
-											<span class="post-info-text com-date" style="font-size:12px; color:gray;">
-												<fmt:formatDate value="${comments.regdate}" pattern="yyyy-MM-dd HH:mm" />
-											</span>
-											<span class="col"  style="float: right;">
-												<c:if test="${sessionScope.userId eq comments.userId}">
-													<button type="button" class="btn btn-primary com_update_btn"
+											<span class="post-info-text com-date"
+												style="font-size: 12px; color: gray;"> <fmt:formatDate
+													value="${comments.regdate}" pattern="yyyy-MM-dd HH:mm" />
+											</span> <span class="col" style="float: right;"> <c:if
+													test="${sessionScope.userId eq comments.userId}">
+													<button type="button"
+														class="btn btn-primary com_update_btn"
 														id="com_update_btn_${comments.commentsId}"
 														data-toggle="modal"
 														data-target="#editPostModal_${comments.commentsId}">댓글
@@ -177,10 +195,10 @@
 													<button type="button" class="btn btn-primary com_save_btn"
 														id="com_save_btn_${comments.commentsId}"
 														style="display: none;">저장</button>
-												</c:if>
-												<c:if
+												</c:if> <c:if
 													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
-													<button type="button" class="btn btn-primary com_delete_btn"
+													<button type="button"
+														class="btn btn-primary com_delete_btn"
 														id="com_delete_btn_${comments.commentsId}"
 														value="${comments.commentsId}">댓글 삭제</button>
 												</c:if>
@@ -192,7 +210,7 @@
 												id="secret_${comments.commentsId}" name="secret" value="1"
 												${comments.secret == 1 ? 'checked' : ''}> <label
 												class="form-check-label" for="secret_${comments.commentsId}">비밀댓글</label>
-										</div> 
+										</div>
 									</div>
 								</div>
 								<%-- <div class="row">
@@ -218,7 +236,7 @@
 							</c:forEach>
 						</c:if>
 					</div>
-					
+
 					<!-- 댓글 작성 폼 -->
 					<c:if test="${not empty sessionScope.userId}">
 						<form id="commentForm">
@@ -229,22 +247,24 @@
 									<textarea class="form-control content comment-textarea"
 										id="exampleFormControlTextarea1" rows="2" name="content"
 										placeholder="의견을 남겨주세요"></textarea>
-								<div class="rowcheck" style="display: flex; justify-content: space-between;">		
-									<div class="form-check" style="display: flex; align-items: center; margin-left: 10px;">
-										<input type="checkbox" id="secret" name="secret" value="1">비밀댓글
+									<div class="rowcheck"
+										style="display: flex; justify-content: space-between;">
+										<div class="form-check"
+											style="display: flex; align-items: center; margin-left: 10px;">
+											<input type="checkbox" id="secret" name="secret" value="1">비밀댓글
+										</div>
+										<button type="button" class="comment-submit-button com-btn"
+											id="com_btn">댓글 등록</button>
 									</div>
-									<button type="button" class="comment-submit-button com-btn"
-										id="com_btn">댓글 등록</button>
 								</div>
 							</div>
-						</div>
-					</form>
-				</c:if>
-				
+						</form>
+					</c:if>
+
+				</div>
 			</div>
-		</div>
-	</section>
-</main>
+		</section>
+	</main>
 	<!-- 푸터 -->
 	<%@include file="../include/footer.jsp"%>
 </body>
@@ -328,27 +348,38 @@ $(document).ready(function() {
 			location.href = "/Tradeboard";
 		})
 		
-		// 추천
-		$('#LikeBtn').click(function(){
-			if(${empty sessionScope.userId}){
-				if(confirm("로그인이 필요한 작업입니다. 로그인 페이지로 이동하시겠습니까?")){
-					location.href = "/login";
-				}
-			} else{
-				$.ajax({
-					type : "POST",
-					url : "/likes",
-					data : {
-						"userId" : "${sessionScope.userId}",
-						"bno" : ${tradeboard.tradeboardId},
-						"likesType" : 3
-					},
-					success : function(data){
-						location.reload();
+	    $('.LikeBtn').click(function() {
+	            // 클릭한 버튼의 텍스트에 따라 추천 상태를 업데이트
+	            var isLiked = $(this).text().includes("추천 안 함");
+
+	            if(${empty sessionScope.userId}){
+					if(confirm("로그인이 필요한 작업입니다. 로그인 페이지로 이동하시겠습니까?")){
+						location.href = "/login";
 					}
-				}) // ajax
-			} // 세션 있을떄
-		}) // 추천 버튼 클릭
+				} else{
+					// AJAX를 통해 추천 상태를 서버에 전송
+		            $.ajax({
+		                type: "POST",
+		                url: "/likes",
+		                data: {
+		                    "userId": "${sessionScope.userId}",
+		                    "bno": ${tradeboard.tradeboardId},
+		                    "likesType": 3
+		                },
+		                success: function(data) {
+		                    // 버튼의 텍스트 변경
+		                    if (isLiked) {
+		                        $(this).html("&#128077; 추천");
+		                        location.reload();
+		                    } else {
+		                        $(this).html("&#128078; 추천 안 함");
+		                        location.reload();
+		                    }
+		                }
+		            });
+				}
+	            
+	        });
 		
 		document.addEventListener("DOMContentLoaded", function () {
 		    // 삭제 버튼 클릭 이벤트를 처리합니다.

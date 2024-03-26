@@ -104,8 +104,23 @@
 						test="${sessionScope.userId eq recruitboard.userId or sessionScope.isAdmin eq true}">
 						<button type="button" class="btn btn-primary goBtn delbtn">삭제</button>
 					</c:if>
-					<button type="button" class="btn btn-primary goBtn LikeBtn"
-						id="LikeBtn" style="float:left; margin-left:30px;">&#128077; ${recruitboard.like}</button>
+					<c:if test="${sessionScope.userId ne recruitboard.userId}">
+						<c:choose>
+							<c:when test="${isLiked}">
+								<button type="button" class="btn btn-primary goBtn LikeBtn"
+									id="LikeBtn" style="float: left; margin-left: 30px;">&#128078;
+									추천 안 함</button>
+							</c:when>
+							<c:otherwise>
+								<button type="button" class="btn btn-primary goBtn LikeBtn"
+									id="LikeBtn" style="float: left; margin-left: 30px;">&#128077;
+									추천</button>
+							</c:otherwise>
+						</c:choose>
+
+						</button>
+					</c:if>
+					
 					<c:if
 						test="${sessionScope.userId != recruitboard.userId and not empty sessionScope.userId}">
 						<button type="button" id="userblock"
@@ -342,27 +357,38 @@ $(document).ready(function() {
 			location.href = "/Recruitboard";
 		})
 		
-		// 추천
-		$('#LikeBtn').click(function(){
-			if(${empty sessionScope.userId}){
+		// 추천		
+		$('.LikeBtn').click(function() {
+            // 클릭한 버튼의 텍스트에 따라 추천 상태를 업데이트
+            var isLiked = $(this).text().includes("추천 안 함");
+
+            
+            if(${empty sessionScope.userId}){
 				if(confirm("로그인이 필요한 작업입니다. 로그인 페이지로 이동하시겠습니까?")){
 					location.href = "/login";
 				}
 			} else{
 				$.ajax({
-					type : "POST",
-					url : "/likes",
-					data : {
-						"userId" : "${sessionScope.userId}",
-						"bno" : ${recruitboard.recruitboardId},
-						"likesType" : 4
-					},
-					success : function(data){
-						location.reload();
-					}
-				}) // ajax
-			} // 세션 있을떄
-		}) // 추천 버튼 클릭
+	                type: "POST",
+	                url: "/likes",
+	                data: {
+	                    "userId": "${sessionScope.userId}",
+	                    "bno": ${recruitboard.recruitboardId},
+	                    "likesType": 4
+	                },
+	                success: function(data) {
+	                    // 버튼의 텍스트 변경
+	                    if (isLiked) {
+	                        $(this).html("&#128077; 추천");
+	                        location.reload();
+	                    } else {
+	                        $(this).html("&#128078; 추천 안 함");
+	                        location.reload();
+	                    }
+	                }
+	            });
+			}
+        });
 		
 		document.addEventListener("DOMContentLoaded", function () {
 		    // 삭제 버튼 클릭 이벤트를 처리합니다.

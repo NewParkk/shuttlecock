@@ -14,5 +14,6 @@ public interface LikesMapper {
 	void likesCancel(LikesDTO like);
 
 	void likesDecrease(LikesDTO like);
+
 	
 }

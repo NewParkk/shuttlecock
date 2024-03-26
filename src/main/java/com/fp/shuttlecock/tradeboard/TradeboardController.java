@@ -31,6 +31,8 @@ import com.fp.shuttlecock.comments.CommentsDTO;
 import com.fp.shuttlecock.comments.CommentsService;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
 import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
+import com.fp.shuttlecock.likes.LikesDTO;
+import com.fp.shuttlecock.likes.LikesServiceImpl;
 import com.fp.shuttlecock.user.UserService;
 import com.fp.shuttlecock.user.UserServiceImpl;
 
@@ -50,9 +52,12 @@ public class TradeboardController {
 
 	@Autowired
 	private NaverObjectStorage naverfile;
+	
+	@Autowired
+	private LikesServiceImpl likeService;
 
 	@GetMapping("/Tradeboard/{tradeboardId}")
-	public String getBoardByBoardId(@PathVariable int tradeboardId, Model model, PageRequestDTO pageRequest) {
+	public String getBoardByBoardId(@PathVariable int tradeboardId, Model model, HttpSession session, PageRequestDTO pageRequest) {
 		String view = "error";
 		TradeboardDTO tradeboard = null;
 		try {
@@ -61,6 +66,7 @@ public class TradeboardController {
 			String badgeName = boardService.getBadgeNameById(badgeId);
 			model.addAttribute("pageInfo", pageRequest);
 			if (tradeboard != null) {
+				boolean isLiked = likeService.checkLikesList(new LikesDTO(String.valueOf(session.getAttribute("userId")), tradeboardId, 3));
 				List<CommentsDTO> commentList = commentService.getCommentList(tradeboardId, 3);
 				boardService.increaseHit(tradeboardId);
 				List<Integer> regionList = boardService.getRegionList(tradeboardId);
@@ -69,6 +75,7 @@ public class TradeboardController {
 				model.addAttribute("badgeName", badgeName);
 				model.addAttribute("regionList", regionList);
 				System.out.println(commentList);
+				model.addAttribute("isLiked", isLiked); // 좋아요 상태 표시
 				view = "Tradeboard/TradeDetail";
 			}
 		} catch (Exception e) {
