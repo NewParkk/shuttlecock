@@ -16,7 +16,7 @@ public interface ArticleMapper {
 
 	public int countArticle();
 
-	public int isNewsData();
+	/* public int isNewsData(); */
 
 	public void getinsertNews(ArticleDTO article);
 

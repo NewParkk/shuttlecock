@@ -6,11 +6,11 @@ import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
 
-	//로그인
+	//로그인 + 회원가입전 아이디 체크
 	public UserDTO getLoginUser(@Param("userId") String userId);
 
 	//회원가입전 아이디 체크
-	public UserDTO getUserByUserId(String userId);
+	/* public UserDTO getUserByUserId(String userId); */
 	
 	//회원가입
 	public int getJoinUser(UserDTO userDTO);

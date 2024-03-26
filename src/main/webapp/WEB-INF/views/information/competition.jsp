@@ -101,6 +101,7 @@
     text-overflow: ellipsis;
     height: 15px; 
     line-height: 12px;
+    cursor: pointer;
 }
 #calendar .fc-daygrid-event-harness{
      overflow: hidden;
@@ -222,8 +223,14 @@
           eventClick: function(info) {
               var eventTitle = info.event.title;
 
+              var eventUrl = info.event.extendedProps.url;
+              if (eventUrl) {
+                  window.open(eventUrl, '_blank');
+              }
+              
               var calInContent = '<h3>' + eventTitle + '</h3>';
               document.querySelector('.cal-in').innerHTML = calInContent;
+              
           },
           dateClick: function(info) {
               var clickedDate = info.date;
@@ -232,7 +239,7 @@
               });
 
               var eventTitles = eventsOnDate.map(function(event) {
-            	    return '<p><a href="' + event.url + '">' + event.title + '</a></p>';
+            	    return '<p><a href="' + event.extendedProps.url + '" target="_blank">' + event.title + '</a></p>';
             	});
 
               var calInContent = '<h3>' + clickedDate.toLocaleDateString('ko-KR') + '</h3>' +
@@ -250,7 +257,10 @@
                       backgroundColor: '${event.backgroundColor}',
                       textColor: '#405448',
                       borderColor: 'transparent',
-                      url: '${event.url}'
+                      /*  extendedProps는 캘린더에서 사용되는 속성 중 하나 */
+                      extendedProps: { 
+                          url: '${event.url}'
+                      }
                   },
               </c:forEach>
           ]

@@ -48,7 +48,8 @@ public class UserServiceImpl implements UserService{
 	//회원가입
 	public UserDTO getUserByUserId(String userId) {
 		UserDTO user = null;
-		user = userMapper.getUserByUserId(userId);
+		//user = userMapper.getUserByUserId(userId); 
+		user = userMapper.getLoginUser(userId);
 		return user;
 	}
 	

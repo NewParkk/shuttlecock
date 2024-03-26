@@ -13,5 +13,5 @@ public interface ArticleService {
 	
 	int countArticle();
 	
-	boolean isNewsData();
+	/* boolean isNewsData(); */
 }

@@ -54,7 +54,7 @@
 					<div class="menubar">
 						<ul>
 							<li><a class="list" href="/mypage">마이페이지</a></li>
-							<li><a class="list" href="/updateUser">회원수정</a></li>
+							<li><a class="list" href="/updateUser">내 프로필</a></li>
 							<li><a class="list" href="/record">나의활동내역</a></li>
 							<li><a class="list" href="/manageBlockedUser">차단유저관리</a></li>
 						</ul>
@@ -286,6 +286,32 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #34403d;
+}
+/* 캘린더 버튼 css 추가 */
+#calendar .fc-button {
+    background-color: #405448;
+    border-color: #fff;
+    color: #fff;
+}
+#calendar .fc-prev-button{
+	background-color: #405448;
+    border-color: #fff;
+    color: #fff;
+}
+#calendar .fc-prev-button:hover{
+	border-color: #405448;
+	color: #405448;
+	background-color: #fff;
+}
+#calendar .fc-next-button{
+	background-color: #405448;
+    border-color: #fff;
+    color: #fff;
+}
+#calendar .fc-next-button:hover{
+	border-color: #405448;
+	color: #405448;
+	background-color: #fff;
 }
 </style>
 </html>

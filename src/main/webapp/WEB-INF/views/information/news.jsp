@@ -57,38 +57,9 @@
               <h2>정보게시판</h2>
             </div>
             
-			<!-- 기사 -->
-			<!-- 이전(prev1)/다음(next1) -->
-			<div class="artpage">
-				
-			    <c:if test="${currentPage > 1}">
-			        <a href="/getNews?page=${currentPage - 1}&totalPage=${totalPage}" class="prev1">&#10094</a>
-			    </c:if>
-			    
-			    <c:if test="${currentPage < totalPage}">
-			        <a href="/getNews?page=${currentPage + 1}&totalPage=${totalPage}" class="next1">&#10095</a>
-			    </c:if>
-			</div>
-			
-			<!-- 기사 list -->
-            <div class="article">
-            	<c:if test="${not empty newsList}">
-			        <c:forEach items="${newsList}" var="news">
-			            <div class="newslist">
-			                <a href="${news.url}"><img src="${news.image}" alt="뉴스 이미지" width="175" height="115"></a>
-			                <div class="con">
-			                	<p style="text-align:right;"><fmt:formatDate value="${news.updateDate}" pattern="yyyy-MM-dd"/></p>
-				                <h4><a href="${news.url}">${news.title}</a></h4>
-				                <p style="height: 40px;">${news.content}</p>
-			                </div>
-			            </div>
-			        </c:forEach>
-			    </c:if>
-            </div>
-            
             <!-- 영상 -->
             <div class="info">
-	          <div class="infotitle" style="display: flex; margin: 30px 25px 15px 25px; margin-left: 50px;">
+	          <div class="infotitle" style="display: flex; margin: 30px 25px 0px 25px; margin-left: 15px;">
 	             <div class="vline" style="height: 25px;"></div>
 	             <h4 style="font-weight: 400; text-align: left; margin-left: 10px;">배트민턴 관련 영상</h4>
 	          </div>
@@ -105,6 +76,41 @@
               </div>
               <span class= "next">&#10095</span>
             </div>
+            
+            
+			<!-- 기사 -->
+			<!-- 이전(prev1)/다음(next1) -->
+			<div class="artpage">
+				<div class="infotitle" style="display: flex; float:left;  margin-left: 10px;">
+		             <div class="vline" style="height: 25px;"></div>
+		             <h4 style="font-weight: 400; text-align: left; margin-left: 10px;">배트민턴 관련 기사</h4>
+		          </div>
+			    <c:if test="${currentPage > 1}">
+			        <a href="/getNews?page=${currentPage - 1}&totalPage=${totalPage}" class="prev1">&#10094</a>
+			    </c:if>
+			    
+			    <c:if test="${currentPage < totalPage}">
+			        <a href="/getNews?page=${currentPage + 1}&totalPage=${totalPage}" class="next1">&#10095</a>
+			    </c:if>
+			</div>
+			
+			<!-- 기사 list -->
+            <div class="article">
+            	<c:if test="${not empty newsList}">
+			        <c:forEach items="${newsList}" var="news">
+			            <div class="newslist">
+			                <a href="${news.url}" target="_blank"><img src="${news.image}" alt="뉴스 이미지" width="175" height="115"></a>
+			                <div class="con">
+			                	<p style="text-align:right; color:gray;"><fmt:formatDate value="${news.updateDate}" pattern="yyyy-MM-dd"/></p>
+				                <h4><a href="${news.url}" target="_blank">${news.title}</a></h4>
+				                <p style="height: 40px;">${news.content}</p>
+			                </div>
+			            </div>
+			        </c:forEach>
+			    </c:if>
+            </div>
+            
+            
                  
           </div>
           <!-- //contents -->

@@ -33,6 +33,16 @@
     color: #fff;
     padding: 0 5px;
 }
+#calendar .fc-prev-button{
+	background-color: #405448;
+    border-color: #fff;
+    color: #fff;
+}
+#calendar .fc-next-button{
+	background-color: #405448;
+    border-color: #fff;
+    color: #fff;
+}
 </style>
 </head>
 <body>
@@ -63,7 +73,7 @@
               <div class="container3">
                 <table class="board-table">
                   <thead>
-                    <tr>
+                    <tr style="background-color: rgba(103, 141, 115, 0.1);">
                       <th scope="col" class="th-num">번호</th>
                       <th scope="col" class="th-title">제목</th>
                       <th scope="col" class="th-date">등록일</th>
@@ -105,7 +115,7 @@
               <div class="container3">
                 <table class="board-table">
                   <thead>
-                    <tr>
+                    <tr style="background-color: rgba(103, 141, 115, 0.1);">
                       <th scope="col" class="th-num">번호</th>
                       <th scope="col" class="th-title">제목</th>
                       <th scope="col" class="th-date">등록일</th>
@@ -347,8 +357,10 @@ function addClickListener(marker, iwContent)
     previousInfowindow = clickHandler;
 }
 
+	/* --------------------------------- */
+	/* merge 후 변경할 부분(more부분을 추가함) */
 	//캘린더
-	document.addEventListener('DOMContentLoaded', function() {
+	/* document.addEventListener('DOMContentLoaded', function() {
 	    var calendarEl = document.getElementById('calendar');
 	    var calendar = new FullCalendar.Calendar(calendarEl, {
 	      initialView: 'dayGridMonth',
@@ -362,8 +374,8 @@ function addClickListener(marker, iwContent)
 	          right: 'next'
 	      },
 	      fixedWeekCount: false,
-	      events: [
-              <c:forEach items="${events}" var="event">
+	      events: eventsToShow *//* [ */
+              /* <c:forEach items="${events}" var="event">
                   {
                 	  title: '${event.region}',
                       start: '${event.start}',
@@ -373,11 +385,59 @@ function addClickListener(marker, iwContent)
                       borderColor: 'transparent',
                       url: '/getGame'
                   },
-              </c:forEach>
-          ]
-    	});
+              </c:forEach> */
+    	/* });
        calendar.render();
-     });
+     }); */
+	
+	/* 
+	var eventsByDate = {}; //날짜별로 데이터를 가져오기 위해 빈객체 생성
+	<c:forEach items="${events}" var="event">
+	    var date = '${event.start}'; 
+	    if (!eventsByDate[date]) {
+	        eventsByDate[date] = []; //해당날짜의 데이터가 없으면 빈값으로 넣음
+	    }
+	    eventsByDate[date].push({
+	        title: '${event.region}',
+	        start: '${event.start}',
+	        end: '${event.end}',
+	        backgroundColor: '${event.backgroundColor}',
+	        textColor: '#333',
+	        borderColor: 'transparent',
+	        url: '/getGame'
+	    });
+	</c:forEach>
+
+	//각 날짜당 최대 2개의 데이터만 보이게 함
+	var eventsToShow = []; //최종적으로 표시될 객체
+	for (var date in eventsByDate) { //각 날짜에 대해 반복
+	    if (eventsByDate.hasOwnProperty(date)) { //eventsByDate가 해당 date를 가지고 있는지 확인(true/false)
+	        var eventsDate = eventsByDate[date];
+	        
+	        //남은 데이터 수를 저장
+	        var remainCount = eventsDate.length - Math.min(eventsDate.length, 2); //eventsDate.length와 2 중 더 작은 값을 선택함
+
+	        //최대 2개의 데이터 추가
+	        for (var i = 0; i < Math.min(eventsDate.length, 2); i++) {
+	            eventsToShow.push(eventsDate[i]);
+	        }
+
+	        //남은 데이터 수에 more 이벤트를 추가
+	        if (remainCount > 0) {
+	            var more = {
+	                title: '+' + remainCount + ' more',
+	                start: eventsDate[0].start, //날짜는 첫 번째 데이터의 날짜로 기준을 잡음
+	                textColor: 'rgba(0, 0, 0, 0.4)',
+	                borderColor: 'transparent',
+	                url: '/getGame',
+	                moreEventsCount: remainCount,
+	                backgroundColor: 'transparent'
+	            };
+	            eventsToShow.push(more);
+	        }
+	    }
+	} */
+	/* --------------------------------- */
 
 </script>
 </body>

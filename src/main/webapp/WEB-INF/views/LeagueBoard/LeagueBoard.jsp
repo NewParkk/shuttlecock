@@ -96,7 +96,7 @@
 						<!-- board list area -->
 						<table class="board-table" style="width: 90%; margin: 20px auto 0"">
 							<thead>
-								<tr>
+								<tr style="background-color: rgba(103, 141, 115, 0.1);">
 									<th scope="col" class="th-num">번호</th>
 									<th scope="col" class="th-title">제목</th>
 									<th scope="col" class="th-writer">작성자</th>
@@ -124,7 +124,7 @@
 							<div class="empty-post"
 								style="text-align: center; margin-top: 10px;">게시물이 없습니다.</div>
 						</c:if>
-					</div>
+					
 					<div class="paging">
 						<div class="row justify-content-center"
 							style="display: flex; justify-content: center;">

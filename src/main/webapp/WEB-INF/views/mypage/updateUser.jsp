@@ -37,7 +37,7 @@
 					<div class="menubar">
 						<ul>
 							<li><a class="list" href="/mypage">마이페이지</a></li>
-							<li><a class="list" href="/updateUser">회원수정</a></li>
+							<li><a class="list" href="/updateUser">내 프로필</a></li>
 							<li><a class="list" href="/record">나의활동내역</a></li>
 							<li><a class="list" href="/manageBlockedUser">차단유저관리</a></li>
 						</ul>
@@ -48,16 +48,20 @@
 					<div class="title" style="margin:0px;">
 						<div class="vline"></div>
 						<div class="container2">
-							<h3>회원 수정 &#10095</h3>
+							<h3>내 프로필 &#10095</h3>
 						</div>
 					</div>
+					<div class="title1" style="margin-left: 60px;">
+		              <div class="vline"></div>
+		              <h2>프로필 수정</h2>
+		            </div>
 				
 
 				<div id="board-list">
 					<div class="container2">
 					
 						<form action="/updateUser" method="POST"
-							enctype="multipart/form-data" id="next_form">
+							enctype="multipart/form-data" id="next_form" style="margin: 30px 60px 30px 60px;">
 							<%-- <div class="member-info">
 								<div class="profile-picture">
 									<c:if test="${user.userImageName eq null}">
@@ -93,9 +97,17 @@
 								</div>
 							</div> --%>
 							
-							<table style="width: 70%; margin: 20px auto 0;">
-						      <tr>
-						          <td rowspan="5" class="profile-picture">
+						  <table class="board-table"> 
+				            <colgroup>
+				                <col width="15%">
+					            <col width="35%">
+					            <col width="15%">
+					            <col width="35%">
+				            </colgroup>
+				            <tbody> 
+				                <tr>
+				                    <th scope="row" bgcolor="#F9F9F9">프로필 사진</th>
+				                    <td colspan="4" class="profile-picture" style="display: flex; flex-direction: column;">			         
 						              <c:if test="${user.userImageName eq null}">
 						                  <img src="https://kr.object.ncloudstorage.com/team1bucket/profile/noprofile.png" alt="프로필 이미지">
 						              </c:if>
@@ -103,28 +115,36 @@
 						                  <img src="https://kr.object.ncloudstorage.com/team1bucket/profile/${user.userImageName}" alt="프로필 이미지">
 						              </c:if>
 						              <input type="file" id="fileInput" name="file" class="custom-file-upload">
-						          </td>
-						          <td><strong>아이디:</strong></td>
-						          <td><img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${user.badgeId}.png"
-											width="30px" height="25px">${user.userId}</td>
-						      </tr>
-						      <tr>
-						          <td><strong>이름:</strong></td>
-						          <td><input type="text" name="username" class="custom-input" value="${user.username}"></td>
-						      </tr>
-						      <tr>
-						          <td><strong>이메일:</strong></td>
-						          <td><input type="text" name="userEmail" class="custom-input" value="${user.userEmail}"></td>
-						      </tr>
-						      <tr>
-						          <td colspan="2">
-						              <input class="update" type="submit" id="update" value="수정">
-						              <input type="button" class="delete-btn" id="btnDelete" value="회원탈퇴">
-						          </td>
-						      </tr>
-						  </table>
-							
-							
+							        </td>
+				                </tr>
+				                <tr>
+				                    <th scope="row" bgcolor="#F9F9F9">아이디</th>
+				                    <td colspan="4" style="text-align: left; padding-left:10px; font-weight: bold;">
+								        <div style="display: flex; align-items: center;">
+								        <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${user.badgeId}.png"
+											width="30px" height="25px" style="margin-right:5px;">${user.userId}
+										</div>
+								    </td>
+								</tr>
+								<tr>
+								    <th scope="row" bgcolor="#F9F9F9">이름</th>
+				                    <td colspan="4" style="text-align: left; padding-left:10px;">
+								        <input type="text" name="username" class="form-control1" value="${user.username}">
+								    </td>
+				                </tr>
+								<tr>
+								    <th scope="row" bgcolor="#F9F9F9">이메일</th>
+				                    <td colspan="4" style="text-align: left; padding-left:10px;">
+								        <input type="email" name="userEmail" id="userEmail" class="form-control1" value="${user.userEmail}">
+								        <span id="emailMsg"></span>
+								    </td>
+								</tr>
+				            </tbody>
+				            </table>
+							<div class=button-container style="text-align :center">
+								<input class="update" type="submit" id="update" value="수정">
+							    <input type="button" class="delete-btn" id="btnDelete" value="회원탈퇴">
+							</div>
 						</form>
 						</div>
 					</div>
@@ -185,6 +205,44 @@
 			closeModal_delete();
 		}
 	});
+	
+	//프로필 수정 전 이메일 중복체크 및 유효성 검사
+	const userEmailInput = document.getElementById('userEmail');
+	const emailMsg = document.getElementById('emailMsg');
+	const updateBtn = document.getElementById('update');
+
+	userEmailInput.addEventListener('input', function () {
+	    const email = userEmailInput.value;
+	    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+	 	// userEmail 입력란이 빈칸일 경우(공백제거)
+	    if (email.trim() === '') {
+	        emailMsg.textContent = ''; // 이메일 메시지 초기화
+	        updateBtn.disabled = true; //수정 버튼 비활성화
+	        return;
+	    }
+
+	 	// userEmail 유효하지 않은 이메일 주소일 경우
+	    if (!emailPattern.test(email)) {
+	        emailMsg.textContent = '유효하지 않은 이메일 주소입니다.';
+	        emailMsg.style.color = 'red';
+	        updateBtn.disabled = true; //수정 버튼 비활성화
+	        return;
+	    }
+
+	 	//이메일 중복체크
+	    $.ajax({
+	        url: '/checkEmail',
+	        method: 'GET',
+	        data: { userEmail: email },
+	        success: function (data) {
+	        	emailMsg.textContent = data.emessage;
+	            emailMsg.style.color = data.emessage.includes("사용가능한") ? "green" : "red";
+	            updateBtn.disabled = !data.emessage.includes("사용가능한"); //수정 버튼 비활성화
+	        }
+	    });
+	});
+	
 </script>
 
 <style>
@@ -309,10 +367,10 @@ table {
     border-collapse: collapse;
 }
 
-td {
+/* td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
-}
+} */
 
 
 .profile-picture {
@@ -343,7 +401,6 @@ td {
 
 .update, .delete-btn {
     padding: 10px 20px;
-    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
@@ -352,14 +409,23 @@ td {
     margin-right: 10px;
 }
 .update{
-	background-color: #4CAF50;
+	/* background-color: #4CAF50; */
+	background-color:#607d67; 
 }
 .delete-btn{
-	background-color:#f44336;
+	background-color:#f44336; 
+	/* background-color:#D45A63; */
 }
 
-.update:hover, .delete-btn:hover {
+.update:hover{
     background-color: #405448;
+}
+.delete-btn:hover{
+	/* background-color:rgb(255, 51, 51); */
+}
+.update:disabled {
+    background-color: #d2d2d2; 
+    color: white; 
 }
 </style>
 </html>
