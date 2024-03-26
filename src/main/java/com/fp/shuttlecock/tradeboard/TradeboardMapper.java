@@ -1,6 +1,7 @@
 package com.fp.shuttlecock.tradeboard;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -31,5 +32,13 @@ public interface TradeboardMapper {
 	List<Integer> getCompletedPost();
 
 	String getBadgeNameById(int badgeId);
+
+	void insertRegion(HashMap<String, Integer> map);
+
+	int getTradeboardId();
+
+	void deleteTraderegion(int tradeboardId);
+
+	List<TraderegionDTO> getRegionList(int tradeboardId);
 	
 }

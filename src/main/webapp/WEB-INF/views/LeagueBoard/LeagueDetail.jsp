@@ -86,23 +86,6 @@
 
 					<div class="post-content" id="post-content">${leagueboard.content}</div>
 					<div class="line"></div>
-					<%-- <div class="post-info">
-						<p class="post-metadata">
-							<span class="post-info-text"> <strong>승자:</strong> <c:if
-									test="${not empty leagueboard.winners}">
-								${leagueboard.winners} 
-						</c:if> <c:if test="${not empty leagueboard.winner}">
-							${leagueboard.winner}
-						</c:if>
-							</span> <br> <br> <span class="post-info-text"> <strong>패자:</strong>
-								<c:if test="${not empty leagueboard.losers}">
-							${leagueboard.losers}
-						</c:if> <c:if test="${not empty leagueboard.loser}">
-							${leagueboard.loser}
-						</c:if>
-							</span>
-						</p>
-					</div> --%>
 
 					<div class="post-buttons">
 						<button type="button" class="btn btn-primary whyBtn listBtn"
@@ -176,7 +159,7 @@
 	    		},
 	    		success : function(data){
 	    			alert(data);
-	    			location.reload();
+	    			window.location.href = "/LeagueBoard";
 	    		} // success
 	    	}) // ajax
 	    }) //버튼 클릭

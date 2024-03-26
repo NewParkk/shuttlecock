@@ -131,7 +131,9 @@
 							<c:forEach items="${commentList}" var="comments">
 								<div class="row">
 									<div class="col" style="margin-bottom: 15px;">
-										<span class="post-info-text com-writer"> <strong>${comments.userId}</strong></span>
+										<span class="post-info-text com-writer"> 
+										<img src="/badge/${comments.badgeName}.jpg" style="height:15px; width:15px;"> 
+										<strong>${comments.userId}</strong></span>
 									</div>
 
 									<div class="col">
@@ -195,6 +197,8 @@
 								<div class="form-group">
 									<div class="post-info-text com-writer"
 										style="margin-left: 7px;">
+										<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${sessionScope.badgeId}.png"
+											width="15px" height="15px">
 										<strong>${sessionScope.userId}</strong>
 									</div>
 									<textarea class="form-control content comment-textarea"
@@ -377,7 +381,6 @@ $(document).ready(function() {
 							"secret" : secret
 						},
 					success: function(data) {
-						alert("댓글 등록 성공");
 						location.reload();
 					},	error : function(status, error) {
 						console.log('에러발생!!');

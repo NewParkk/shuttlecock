@@ -51,38 +51,6 @@
 		where userId = #{loser}
 	</update>
 
-	<select id="getAllLeaguePostByPage"
-		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
-		resultType="LeagueboardDTO">
-		<bind name="start" value="(pageNum-1)*amount" />
-		SELECT leagueboard.*, badge.badgeName
-		FROM leagueboard
-		INNER JOIN user ON leagueboard.userId = user.userId
-		INNER JOIN badge ON user.badgeId = badge.badgeId
-		WHERE (deleteYN IS NULL OR deleteYN != 1)
-		<if test="userId != null">
-			AND (leagueboard.userId NOT IN (SELECT blockedUser FROM blockuser
-			WHERE blockuser.userId = #{userId}))
-		</if>
-		<if test="searchKeyword != null and searchKeyword != ''">
-			AND title LIKE CONCAT ('%', #{searchKeyword}, '%')
-		</if>
-		<if test="sort == 0">
-			ORDER BY leagueboardId DESC
-		</if>
-		<if test="sort == 1">
-			ORDER BY leagueboard.regdate DESC
-		</if>
-		<choose>
-			<when test="isMain == 1">
-				LIMIT 5
-			</when>
-			<otherwise>
-				LIMIT #{start}, #{amount}
-			</otherwise>
-		</choose>
-	</select>
-
 	<select id="getSearchedLeaguePost"
 		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
 		resultType="LeagueboardDTO">
@@ -114,19 +82,25 @@
 		<if test="sort == 1">
 			ORDER BY regdate DESC
 		</if>
-		LIMIT #{start}, #{amount}
+		<choose>
+			<when test="isMain == 1">
+				LIMIT 5
+			</when>
+			<otherwise>
+				LIMIT #{start}, #{amount}
+			</otherwise>
+		</choose>
 	</select>
 
 	<select id="countSearchedLeaguePosts"
 		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
 		resultType="int">
-		select COUNT(leagueboardId) from leagueboard
+		select COUNT(DISTINCT leagueboardId) from leagueboard
 		<where>
 			(deleteYN IS NULL OR deleteYN != 1)
 			<if test="userId != null">
 				AND (userId NOT IN (SELECT blockedUser FROM blockuser
-				WHERE userId =
-				#{userId}))
+				WHERE userId = #{userId}))
 			</if>
 			<if test="category == 'title'">
 				<if test="searchKeyword != null and searchKeyword != ''">
@@ -162,4 +136,20 @@
 	<update id="decreaseWinnerPoint" parameterType="string">
 		update user set wincount = wincount - 1 where userId = #{userId}
 	</update>
+	
+	<insert id="increaseWinnerRanking" parameterType="string">
+			insert into leagueRank(userId, wincount, insertdate) values(#{userId}, 1, current_date());
+	</insert>
+	
+	<insert id="decreaseWinnerRanking" parameterType="string">
+			insert into leagueRank(userId, wincount, losecount, insertdate) values(#{userId}, -1, 1, current_date());
+	</insert>
+	
+	<insert id="increaseLoserRanking" parameterType="string">
+			insert into leagueRank(userId, losecount, insertdate) values(#{userId}, 1, current_date());
+	</insert>
+	
+	<insert id="decreaseLoserRanking" parameterType="string">
+			insert into leagueRank(userId, wincount, losecount, insertdate) values(#{userId}, 1, -1, current_date());
+	</insert>
 </mapper>

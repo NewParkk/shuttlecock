@@ -23,4 +23,5 @@ public class CommentsDTO {
 	private int commentType;
 	private String userId;
 	private int deleteYN;
+	private String badgeName;
 }

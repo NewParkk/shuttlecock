@@ -35,5 +35,7 @@ public interface RecruitboardMapper {
 	List<Integer> getCompletedPost();
 
 	void setPostCompleted(int recruitboardId);
+
+	int deleteCompletedPost();
 	
 }

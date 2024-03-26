@@ -50,8 +50,17 @@
 							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">
 							<strong>${tradeboard.userId}</strong>
 						</span> 
-						<!-- <span class="post-info-text"> <strong>작성 시간:</strong>
-						</span>  -->
+						<span class="post-info-text"> 거래장소:
+						<c:forEach items="${regionList}" var="region">
+							<c:if test="${region eq 0}"><strong>전체 </strong></c:if>
+							<c:if test="${region eq 1}"><strong>서울 </strong></c:if>
+							<c:if test="${region eq 2}"><strong>경기 </strong></c:if>
+							<c:if test="${region eq 3}"><strong>충청 </strong></c:if>
+							<c:if test="${region eq 4}"><strong>경상 </strong></c:if>
+							<c:if test="${region eq 5}"><strong>전라 </strong></c:if>
+							<c:if test="${region eq 6}"><strong>강원 </strong></c:if>
+						</c:forEach>
+						</span>
 					</p>
 					<p style="font-size:14px; color:gray;">
 						<fmt:formatDate value="${tradeboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
@@ -133,7 +142,8 @@
 							<c:forEach items="${commentList}" var="comments">
 								<div class="row">
 									<div class="col" style="margin-bottom:15px;">
-										<span class="post-info-text com-writer"> <strong>${comments.userId}</strong></span>
+										<span class="post-info-text com-writer"><img src="/badge/${comments.badgeName}.jpg" style="height:15px; width:15px;"> 
+										 <strong>${comments.userId}</strong></span>
 									</div>				
 								
 									<div class="col">
@@ -214,7 +224,8 @@
 						<form id="commentForm">
 							<div class="comment-container">
 								<div class="form-group">
-									<span class="post-info-text com-writer" style="margin-left:7px;"> <strong>${sessionScope.userId}</strong></span>
+									<span class="post-info-text com-writer" style="margin-left:7px;"> <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${sessionScope.badgeId}.png"
+											width="15px" height="15px"> <strong> ${sessionScope.userId}</strong></span>
 									<textarea class="form-control content comment-textarea"
 										id="exampleFormControlTextarea1" rows="2" name="content"
 										placeholder="의견을 남겨주세요"></textarea>
@@ -295,8 +306,21 @@ $(document).ready(function() {
 });
 
 		//글수정
+		
+		
 		$('.updateBtn').click(function() {
-			location.href = "<c:url value='/Tradeboard/update/${tradeboard.tradeboardId}'/>";
+			var regionList = [];
+			${regionList}.forEach(function(region){
+				regionList.push(region);
+			})
+			console.log(regionList);
+			var queryString = regionList.map(function(region) {
+		        return 'regionList=' + encodeURIComponent(region);
+		    }).join('&');
+		    console.log(queryString);
+		    window.location.href = "/Tradeboard/update?" + queryString 
+		    		+ "&tradeboardId=${tradeboard.tradeboardId}";
+			//location.href = "<c:url value='/Tradeboard/update/${tradeboard.tradeboardId}'/>";
 		})
 		
 		//목록
@@ -378,7 +402,6 @@ $(document).ready(function() {
 							"secret" : secret
 						},
 					success: function(data) {
-						alert("댓글 등록 성공");
 						location.reload();
 					},	error : function(status, error) {
 						console.log('에러발생!!');
@@ -436,7 +459,7 @@ $(document).ready(function() {
 	    		},
 	    		success : function(data){
 	    			alert(data);
-	    			location.reload();
+	    			window.location.href = "/Tradeboard";
 	    		} // success
 	    	}) // ajax
 	    }) //버튼 클릭

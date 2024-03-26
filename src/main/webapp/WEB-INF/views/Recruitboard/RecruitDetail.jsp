@@ -158,7 +158,8 @@
 							<c:forEach items="${commentList}" var="comments">
 								<div class="row">
 									<div class="col" style="margin-bottom:15px;">
-										<span class="post-info-text com-writer"> <strong>${comments.userId}</strong></span>
+										<span class="post-info-text com-writer"> <img src="/badge/${comments.badgeName}.jpg" style="height:15px; width:15px;"> 
+										<strong>${comments.userId}</strong></span>
 										<c:if
 											test="${recruitboard.userId eq sessionScope.userId and recruitboard.complete ne 1 
 											and (recruitboard.recruitType eq 1 or recruitboard.recruitType eq 2) and sessionScope.userId ne comments.userId}">
@@ -252,7 +253,8 @@
 						<form id="commentForm">
 							<div class="comment-container">
 								<div class="form-group">
-									<div class="post-info-text com-writer"> <strong>${sessionScope.userId}</strong></div>
+									<div class="post-info-text com-writer"> <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${sessionScope.badgeId}.png"
+											width="15px" height="15px"><strong> ${sessionScope.userId}</strong></div>
 									<textarea class="form-control content comment-textarea"
 										id="exampleFormControlTextarea1" rows="2" name="content"
 										placeholder="댓글을 남겨보세요"></textarea>
@@ -414,7 +416,6 @@ $(document).ready(function() {
 							"secret" : secret
 						},
 					success: function(data) {
-						alert("댓글 등록 성공");
 						location.reload();
 					},	error : function(status, error) {
 						console.log('에러발생!!');
@@ -472,7 +473,7 @@ $(document).ready(function() {
 	    		},
 	    		success : function(data){
 	    			alert(data);
-	    			location.reload();
+	    			window.location.href = "/Recruitboard";
 	    		} // success
 	    	}) // ajax
 	    }) //버튼 클릭
@@ -492,8 +493,14 @@ $(document).ready(function() {
 		checkboxes.forEach(function(checkbox) {
 		    checkbox.addEventListener('change', function() {
 		        if (checkbox.checked) {
-		            checkedCount++;
-		            checkedValues.push(checkbox.value);
+		            var index = checkedValues.indexOf(checkbox.value);
+		            if(index === -1){
+			            checkedCount++;
+			            checkedValues.push(checkbox.value);
+		            } else {
+		            	checkbox.checked = false;
+		            }
+		            console.log("체크박스 데이터" + checkedValues);
 		        } else {
 		            checkedCount--;
 		            var index = checkedValues.indexOf(checkbox.value);
@@ -531,6 +538,5 @@ $(document).ready(function() {
 	        }
 	    });
 		
-	
 </script>
 </html>

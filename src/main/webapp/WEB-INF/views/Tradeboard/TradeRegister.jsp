@@ -119,13 +119,13 @@ input[type="radio"]:checked + label {
 				                <tr>
 				                    <th scope="row" bgcolor="#F9F9F9">지역</th>
 				                    <td colspan="4">
-								        <label><input type="radio" name="region" value="0">전체</label>
-								        <label><input type="radio" name="region" value="1">서울</label>
-								        <label><input type="radio" name="region" value="2">경기</label>
-								        <label><input type="radio" name="region" value="3">충청</label>
-								        <label><input type="radio" name="region" value="4">경상</label>
-								        <label><input type="radio" name="region" value="5">전라</label>
-								        <label><input type="radio" name="region" value="6">강원</label>
+								        <label><input type="checkbox" id="region0" name="regions" value="0">전체</label>
+								        <label><input type="checkbox" id="region1" name="regions" value="1">서울</label>
+								        <label><input type="checkbox" id="region2" name="regions" value="2">경기</label>
+								        <label><input type="checkbox" id="region3" name="regions" value="3">충청</label>
+								        <label><input type="checkbox" id="region4" name="regions" value="4">경상</label>
+								        <label><input type="checkbox" id="region5" name="regions" value="5">전라</label>
+								        <label><input type="checkbox" id="region6" name="regions" value="6">강원</label>
 								    </td>
 				                </tr>
 				                <tr>
@@ -189,6 +189,25 @@ ClassicEditor.create(document.querySelector('#ckeditor'), {
     window.editor = editor;
 }).catch( error => {
     console.error( error );
+});
+
+var allRegionCheckbox = document.getElementById("region0");
+var regionCheckboxes = document.querySelectorAll("input[name='regions']:not([value='0'])");
+
+allRegionCheckbox.addEventListener("change", function() {
+    if (allRegionCheckbox.checked) {
+        regionCheckboxes.forEach(function(checkbox) {
+            checkbox.checked = false;
+        });
+    }
+});
+
+regionCheckboxes.forEach(function(checkbox) {
+    checkbox.addEventListener("change", function() {
+        if (allRegionCheckbox.checked) {
+            allRegionCheckbox.checked = false;
+        }
+    });
 });
 </script>
 </html>

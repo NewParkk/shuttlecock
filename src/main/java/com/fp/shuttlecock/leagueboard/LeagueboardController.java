@@ -39,27 +39,9 @@ public class LeagueboardController {
 	private List<String> globalLoserList = new ArrayList<>();
 
 	@GetMapping("/LeagueBoard")
-	public String getAllLeaguePost(Model model, PageRequestDTO pageRequest, HttpSession session) {
-		System.out.println(pageRequest);
-		if(session.getAttribute("userId") != null) {
-			pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
-		}
-		List<LeagueboardDTO> leagueboardList = leagueservice.getAllLeaguePostByPage(pageRequest);
-		int totalPosts = leagueservice.countLeaguePosts();
-		PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalPosts)
-				.pageAmount(pageRequest.getAmount()).pageRequest(pageRequest).build();
-
-		model.addAttribute("leagueboardList", leagueboardList);
-		model.addAttribute("pageInfo", pageResponse);
-		return "/LeagueBoard/LeagueBoard";
-	}
-
-	@GetMapping("/LeagueBoard/search")
-	public String getLeaguePostByTitleOrUserId(@RequestParam String searchKeyword, String dropdown, Model model,
+	public String getLeaguePostByTitleOrUserId(Model model,
 			PageRequestDTO pageRequest, HttpSession session) {
 		List<LeagueboardDTO> leagueboardList = new ArrayList<LeagueboardDTO>();
-		pageRequest.setSearchKeyword(searchKeyword);
-		pageRequest.setCategory(dropdown);
 		if(session.getAttribute("userId") != null) {
 			pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
 		}
@@ -101,8 +83,8 @@ public class LeagueboardController {
 		leagueboardDTO.setUserId(String.valueOf(session.getAttribute("userId")));
 		if(leagueboardDTO.getWinner() != null && leagueboardDTO.getLoser() != null) {
 			leagueservice.insertLeaguePost(leagueboardDTO);
-			leagueservice.increaseWinnerPoint(leagueboardDTO.getWinner());
-			leagueservice.increaseLoserPoint(leagueboardDTO.getLoser());
+			leagueservice.increaseWinnerRanking(leagueboardDTO.getWinner());
+			leagueservice.increaseLoserRanking(leagueboardDTO.getLoser());
 		} else if (leagueboardDTO.getWinnerList() != null && leagueboardDTO.getLoserList() != null) {
 			String winners = leagueboardDTO.getWinnerList().toString().replace("[", "").replace("]", "");
 			String losers = leagueboardDTO.getLoserList().toString().replace("[", "").replace("]", "");
@@ -110,8 +92,12 @@ public class LeagueboardController {
 			leagueboardDTO.setWinners(winners);
 			leagueboardDTO.setLosers(losers);
 			leagueservice.insertLeaguePost(leagueboardDTO);
-			leagueservice.increaseWinnerPoint(leagueboardDTO.getWinnerList());
-			leagueservice.increaseLoserPoint(leagueboardDTO.getLoserList());
+			for(String winner : leagueboardDTO.getWinnerList()) {
+				leagueservice.increaseWinnerRanking(winner);
+			}
+			for(String loser : leagueboardDTO.getLoserList()) {
+				leagueservice.increaseLoserRanking(loser);
+			}
 		}
 		leagueservice.increaseWriteCount(leagueboardDTO.getUserId());
 		System.out.println(leagueboardDTO.getRecruitboardId());
@@ -158,27 +144,17 @@ public class LeagueboardController {
 				leagueboardDTO.getUserId().equals(String.valueOf(session.getAttribute("userId")))) {
 			if(leagueboardDTO.getWinner() != null && leagueboardDTO.getLoser() != null) {
 				if(!globalWinner.equals(leagueboardDTO.getWinner())) {
-					leagueservice.increaseWinnerPoint(leagueboardDTO.getWinner());
-					leagueservice.decreaseLoserPoint(leagueboardDTO.getWinner());
+					leagueservice.decreaseLoserRanking(leagueboardDTO.getWinner());
 					globalWinner.setLength(0);
 				}
 				if(!globalLoser.equals(leagueboardDTO.getLoser())) {
-					leagueservice.increaseLoserPoint(leagueboardDTO.getLoser());
-					leagueservice.decreaseWinnerPoint(leagueboardDTO.getLoser());
+					leagueservice.decreaseWinnerRanking(leagueboardDTO.getLoser());
 					globalLoser.setLength(0);
 				} 
 			}
 			else if(leagueboardDTO.getWinnerList() != null && leagueboardDTO.getLoserList() != null){
-				//Set<String> winnerSet = new HashSet<>(Arrays.asList(leagueboardDTO.getWinnerList()));
-				//Set<String> loserSet = new HashSet<>(Arrays.asList(leagueboardDTO.getLoserList()));
-				Set<String> winnerSet = new HashSet<>();
-				for(String winner : leagueboardDTO.getWinnerList()) {
-					winnerSet.add(winner);
-				}
-				Set<String> loserSet = new HashSet<>();
-				for(String loser : leagueboardDTO.getLoserList()) {
-					loserSet.add(loser);
-				}
+				Set<String> winnerSet = new HashSet<>(leagueboardDTO.getWinnerList());
+				Set<String> loserSet = new HashSet<>(leagueboardDTO.getLoserList());
 				Set<String> winnerDiff = new HashSet<>(winnerSet);
 				Set<String> loserDiff = new HashSet<>(loserSet);
 				winnerDiff.removeAll(globalWinnerList);
@@ -186,12 +162,10 @@ public class LeagueboardController {
 				globalWinnerList.clear();
 				globalLoserList.clear();
 				for(String winner : winnerDiff) {
-					leagueservice.increaseWinnerPoint(winner);
-					leagueservice.decreaseLoserPoint(winner);
+					leagueservice.decreaseLoserRanking(winner);
 				}
 				for(String loser : loserDiff) {
-					leagueservice.increaseLoserPoint(loser);
-					leagueservice.decreaseWinnerPoint(loser);
+					leagueservice.decreaseWinnerRanking(loser);
 				}
 				leagueboardDTO.setWinners(leagueboardDTO.getWinnerList().toString().replace("[", "").replace("]", ""));
 				leagueboardDTO.setLosers(leagueboardDTO.getLoserList().toString().replace("[", "").replace("]", ""));

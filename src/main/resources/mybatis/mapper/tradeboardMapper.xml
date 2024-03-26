@@ -10,8 +10,7 @@
 
 	<update id="increaseHit" parameterType="_int">
 		update tradeboard
-		set hit
-		= hit + 1
+		set hit = hit + 1
 		where tradeboardId = #{tradeboardId}
 	</update>
 
@@ -19,56 +18,45 @@
 		parameterType="com.fp.shuttlecock.tradeboard.PageRequestDTO"
 		resultType="TradeboardDTO">
 		<bind name="start" value="(pageNum - 1) * amount" />
-		SELECT tradeboard.*, badge.badgeName FROM tradeboard
-		INNER JOIN user ON tradeboard.userId = user.userId
-		INNER JOIN badge ON user.badgeId = badge.badgeId
+		SELECT tradeboard.*, badge.badgeName
+		FROM tradeboard
+		INNER JOIN user ON
+		tradeboard.userId = user.userId
+		INNER JOIN badge ON user.badgeId =
+		badge.badgeId
+		INNER JOIN traderegion ON tradeboard.tradeboardId =
+		traderegion.tradeboardId
 		<where>
-			(deleteYN IS NULL OR deleteYN != 1) 
+			(deleteYN IS NULL OR deleteYN != 1)
 			<if test="userId != null">
-				AND (tradeboard.userId NOT IN (SELECT blockedUser FROM blockuser
+				AND (tradeboard.userId NOT IN (SELECT blockedUser FROM
+				blockuser
 				WHERE blockuser.userId = #{userId}))
 			</if>
 			<if test="itemClass != 0">
 				AND itemClass = #{itemClass}
 			</if>
-			<choose>
-				<when
-					test="searchKeyword != null and searchKeyword != '' and region == null or region == 0">
-					<choose>
-						<when test="category == 'title'">
-							AND title LIKE CONCAT('%', #{searchKeyword}, '%')
-						</when>
-						<when test="category == 'user_userId'">
-							AND tradeboard.userId LIKE CONCAT('%', #{searchKeyword}, '%')
-						</when>
-						<when test="category == 'content'">
-							AND content LIKE CONCAT('%', #{searchKeyword}, '%')
-						</when>
-					</choose>
-				</when>
-				<when
-					test="searchKeyword != null and searchKeyword != '' and region != null and region != 0">
-					<choose>
-						<when test="category == 'title'">
-							AND title LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-						<when test="category == 'user_userId'">
-							AND tradeboard.userId LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-						<when test="category == 'content'">
-							AND content LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-					</choose>
-				</when>
-				<when
-					test="searchKeyword == null or searchKeyword == '' and region != null and region != 0">
-					AND region = #{region}
-				</when>
-			</choose>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+					<when test="category == 'title'">
+						AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<when test="category == 'user_userId'">
+						AND tradeboard.userId LIKE CONCAT('%',
+						#{searchKeyword}, '%')
+					</when>
+					<when test="category == 'content'">
+						AND content LIKE CONCAT('%', #{searchKeyword},
+						'%')
+					</when>
+				</choose>
+			</if>
+			<if test="region != null and region != 0">
+				AND (traderegion.region = #{region})
+			</if>
 		</where>
+		GROUP BY
+		tradeboard.tradeboardId
 		<choose>
 			<when test="sort == 0">
 				ORDER BY tradeboardId DESC
@@ -89,7 +77,9 @@
 	<select id="getTotalCount"
 		parameterType="com.fp.shuttlecock.tradeboard.PageRequestDTO"
 		resultType="int">
-		select COUNT(tradeboardId) from tradeboard
+		select COUNT(DISTINCT tradeboard.tradeboardId) from tradeboard
+		INNER JOIN traderegion ON traderegion.tradeboardId =
+		tradeboard.tradeboardId
 		<where>
 			(deleteYN IS NULL OR deleteYN != 1)
 			<if test="userId != null">
@@ -99,57 +89,43 @@
 			<if test="itemClass != 0">
 				AND itemClass = #{itemClass}
 			</if>
-			<choose>
-				<when
-					test="searchKeyword != null and searchKeyword != '' and region == null or region == 0">
-					<choose>
-						<when test="category == 'title'">
-							AND title LIKE CONCAT('%', #{searchKeyword}, '%')
-						</when>
-						<when test="category == 'user_userId'">
-							AND userId LIKE CONCAT('%', #{searchKeyword}, '%')
-						</when>
-						<when test="category == 'content'">
-							AND content LIKE CONCAT('%', #{searchKeyword}, '%')
-						</when>
-					</choose>
-				</when>
-				<when
-					test="searchKeyword != null and searchKeyword != '' and region != null and region != 0">
-					<choose>
-						<when test="category == 'title'">
-							AND title LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-						<when test="category == 'user_userId'">
-							AND userId LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-						<when test="category == 'content'">
-							AND content LIKE CONCAT('%', #{searchKeyword}, '%') AND region =
-							#{region}
-						</when>
-					</choose>
-				</when>
-				<when
-					test="searchKeyword == null or searchKeyword == '' and region != null and region != 0">
-					AND region = #{region}
-				</when>
-			</choose>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+					<when test="category == 'title'">
+						AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<when test="category == 'user_userId'">
+						AND tradeboard.userId LIKE CONCAT('%',
+						#{searchKeyword}, '%')
+					</when>
+					<when test="category == 'content'">
+						AND content LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+				</choose>
+			</if>
+			<if test="region != null and region != 0">
+				AND (traderegion.region = #{region})
+			</if>
 		</where>
 	</select>
 
 	<insert id="insertBoard" parameterType="TradeboardDTO">
 		insert into
-		tradeboard(title, userId, content, region, itemClass, imageName)
-		values(#{title}, #{userId}, #{content}, #{region}, #{itemClass}, #{imageName})
+		tradeboard(title, userId, content, itemClass, imageName)
+		values(#{title}, #{userId}, #{content}, #{itemClass},
+		#{imageName})
 	</insert>
 
 	<update id="updateTradePost" parameterType="TradeboardDTO">
-		update tradeboard 
-		set title = #{title}, content = #{content}, 
-			region = #{region}, regdate = NOW(), complete = #{complete}, itemClass = #{itemClass}, imageName = #{imageName}
-		where tradeboardId = #{tradeboardId}
+		update tradeboard
+		set
+		title = #{title}, content = #{content},
+		regdate = NOW(), complete =
+		#{complete}, itemClass =
+		#{itemClass}, imageName = #{imageName}
+		where
+		tradeboardId =
+		#{tradeboardId}
 	</update>
 
 	<delete id="deleteTradePost" parameterType="_int">
@@ -168,18 +144,42 @@
 		update
 		tradeboard set deleteYN = 1 where tradeboardId = #{tradeboardId}
 	</update>
-	
-	<!-- <update id="deleteCompletedPost">
-		UPDATE tradeboard SET deleteYN = 1
-		WHERE DATEDIFF(CURDATE(), regdate) >= 3
-	</update> -->
-	
-	<select id="getCompletedPost" resultType="int">
-		SELECT tradeboardId FROM tradeboard
+
+	<update id="deleteCompletedPost"> 
+		UPDATE tradeboard 
+		SET deleteYN = 1 
 		WHERE DATEDIFF(CURDATE(), regdate) >= 3 AND complete = 1
-	</select>
-	
-	<select id="getBadgeNameById" parameterType="_int" resultType="string">
+	</update>
+
+	<!-- <select id="getCompletedPost" resultType="int">
+		SELECT tradeboardId
+		FROM tradeboard
+		WHERE DATEDIFF(CURDATE(), regdate) >= 3 AND complete = 1
+	</select> -->
+
+	<select id="getBadgeNameById" parameterType="_int"
+		resultType="string">
 		select badgeName from badge where badgeId = #{badgeId}
+	</select>
+
+	<insert id="insertRegion" parameterType="map">
+		insert into
+		traderegion(tradeboardId, region) values(#{tradeboardId}, #{region})
+	</insert>
+
+	<select id="getTradeboardId" resultType="_int">
+		select tradeboardId from
+		tradeboard order by tradeboardId DESC LIMIT 1
+	</select>
+
+	<delete id="deleteTraderegion" parameterType="_int">
+		delete from
+		traderegion where tradeboardId = #{tradeboardId}
+	</delete>
+
+	<select id="getRegionList" parameterType="_int"
+		resultType="TraderegionDTO">
+		select * from traderegion where tradeboardId =
+		#{tradeboardId}
 	</select>
 </mapper>

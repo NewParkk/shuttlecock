@@ -97,4 +97,20 @@ public class LeagueboardServiceImpl implements LeagueboardService{
 		leaguemapper.decreaseWinnerPoint(userId);
 	}
 
+	public void increaseWinnerRanking(String winner) {
+		leaguemapper.increaseWinnerRanking(winner);
+	}
+
+	public void decreaseLoserRanking(String winner) {
+		leaguemapper.decreaseLoserRanking(winner);
+	}
+
+	public void increaseLoserRanking(String loser) {
+		leaguemapper.increaseLoserRanking(loser);
+	}
+
+	public void decreaseWinnerRanking(String loser) {
+		leaguemapper.decreaseWinnerRanking(loser);
+	}
+
 }

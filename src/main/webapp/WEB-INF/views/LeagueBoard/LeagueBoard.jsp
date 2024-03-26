@@ -53,29 +53,6 @@
 				</div>
 				<div id="board-list">
 					<div class="container">
-						<%-- <form action="/LeagueBoard/search" method="get">
-							<div class="search-wrap clearfix">
-								<select name="dropdown" style="width: 100px; margin-left: 10px;"
-									class="form-control" id="search-select">
-									<option value="user_userId"
-										${pageInfo.pageRequest.category == 'user_userId' ? 'selected' : ''}>
-										작성자</option>
-									<option value="title"
-										${pageInfo.pageRequest.category == 'title' ? 'selected' : ''}>
-										제목</option>
-								</select> <input id="searchKeyword" type="search" name="searchKeyword"
-									placeholder="검색어를 입력해주세요." style="width: 300px;"
-									class="form-control search-input"
-									value="${pageInfo.pageRequest.searchKeyword}"> <input
-									name="pageNum" type="hidden"
-									value="${pageInfo.pageRequest.pageNum}"> <input
-									name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
-								<input name="amount" type="hidden"
-									value="${pageInfo.pageRequest.amount}">
-								<button class="btn btn-primary search-btn" type="submit"
-									style="margin-left: 10px">검색</button>
-							</div>
-						</form> --%>
 						<form id="sortForm" action="/LeagueBoard" method="get">
 							<select name="sort" id="sort" class="sort-select"
 								onchange="submitForm()">
@@ -83,10 +60,12 @@
 									${pageInfo.pageRequest.sort == '0' ? 'selected' : ''}>글번호순</option>
 								<option value="1"
 									${pageInfo.pageRequest.sort == '1' ? 'selected' : ''}>최신순</option>
-							</select> <input name="pageNum" type="hidden"
-								value="${pageInfo.pageRequest.pageNum}"> <input
+							</select> 
+							<%-- <input name="pageNum" type="hidden"
+								value="1"> <input
 								name="amount" type="hidden"
-								value="${pageInfo.pageRequest.amount}"> <input
+								value="${pageInfo.pageRequest.amount}">  --%>
+								<input
 								name="searchKeyword" type="hidden"
 								value="${pageInfo.pageRequest.searchKeyword}"> <input
 								name="category" type="hidden"
@@ -129,85 +108,23 @@
 						<div class="row justify-content-center"
 							style="display: flex; justify-content: center;">
 							<div class="col-auto">
-								<%-- <table class="page navigation">
-									<tr class="pagination">
-										<c:if test="${pageInfo.prev}">
-											<th class="page-item"><a class="page-link"
-												aria-label="Previous"
-												href="/LeagueBoard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
-													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}">Prev</a>
-											</th>
-										</c:if>
-										<c:if test="${pageInfo.pageRequest.category == null}">
-											<c:forEach var="num" begin="${pageInfo.startPage}"
-												end="${pageInfo.endPage}">
-												<th
-													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-													<a class="page-link" style="padding: 10px;"
-													href="/LeagueBoard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&sort=${pageInfo.pageRequest.sort}
- 													">${num}</a>
-												</th>
-											</c:forEach>
-										</c:if>
-										<c:if test="${pageInfo.pageRequest.category != null}">
-											<c:forEach var="num" begin="${pageInfo.startPage}"
-												end="${pageInfo.endPage}">
-												<th
-													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-													<a class="page-link" style="padding: 10px;"
-													href="/LeagueBoard/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-									&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}
- 													">${num}</a>
-												</th>
-											</c:forEach>
-										</c:if>
-										<c:if test="${pageInfo.next}">
-											<th class="page-item next"><a class="page-link"
-												aria-label="next"
-												href="/LeagueBoard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
-													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}">Next</a>
-											</th>
-										</c:if>
-									</tr>
-								</table> --%>
-								
 								 <div class="page navigation">
 									<ul class="pagination">
 										<c:if test="${pageInfo.prev}">
 											<li class="page-item"><a class="page-link"
 												aria-label="Previous"
 												href="/LeagueBoard?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
-													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}">Prev</a>
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&category=${pageInfo.pageRequest.category}
+													&sort=${pageInfo.pageRequest.sort}">Prev</a>
 											</li>
 										</c:if>
-										<%-- <c:if test="${pageInfo.pageRequest.category == null}">
-											<c:forEach var="num" begin="${pageInfo.startPage}"
-												end="${pageInfo.endPage}">
-												<li
-													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-													<a class="page-link"
-													href="/LeagueBoard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&sort=${pageInfo.pageRequest.sort}
- 													">${num}</a>
-												</li>
-											</c:forEach>
-										</c:if>
-										<c:if test="${pageInfo.pageRequest.category != null}">
-											<c:forEach var="num" begin="${pageInfo.startPage}"
-												end="${pageInfo.endPage}">
-												<li
-													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-													<a class="page-link"
-													href="/LeagueBoard/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}
-									&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}
- 													">${num}</a>
-												</li>
-											</c:forEach>
-										</c:if> --%>
 										<c:forEach var="num" begin="${pageInfo.startPage}"
 													end="${pageInfo.endPage}">
 													<li class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
 														<a id="pbtn_${num}" class="page-link"
-														href="/LeagueBoard/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">
+														href="/LeagueBoard?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
+														&searchKeyword=${pageInfo.pageRequest.searchKeyword}&sort=${pageInfo.pageRequest.sort}
+														&category=${pageInfo.pageRequest.category}">
 														${num}</a>
 													</li>
 										</c:forEach>
@@ -215,7 +132,8 @@
 											<li class="page-item next"><a class="page-link"
 												aria-label="next"
 												href="/LeagueBoard?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
-													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&dropdown=${pageInfo.pageRequest.category}&sort=${pageInfo.pageRequest.sort}">Next</a>
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&category=${pageInfo.pageRequest.category}
+													&sort=${pageInfo.pageRequest.sort}">Next</a>
 											</li>
 										</c:if>
 									</ul>
@@ -225,9 +143,9 @@
 					</div>
 					
 					<!-- 검색창 -->
-					<form action="/LeagueBoard/search" method="get">
+					<form action="/LeagueBoard" method="get">
 							<div class="search-wrap clearfix">
-								<select name="dropdown" style="width: 100px; margin-left: 10px;"
+								<select name="category" style="width: 100px; margin-left: 10px;"
 									class="form-control" id="search-select">
 									<option value="user_userId"
 										${pageInfo.pageRequest.category == 'user_userId' ? 'selected' : ''}>
@@ -238,12 +156,8 @@
 								</select> <input id="searchKeyword" type="search" name="searchKeyword"
 									placeholder="검색어를 입력해주세요." style="width: 300px;"
 									class="form-control search-input"
-									value="${pageInfo.pageRequest.searchKeyword}"> <input
-									name="pageNum" type="hidden"
-									value="${pageInfo.pageRequest.pageNum}"> <input
-									name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
-								<input name="amount" type="hidden"
-									value="${pageInfo.pageRequest.amount}">
+									value="${pageInfo.pageRequest.searchKeyword}"> 
+									 <input name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
 								<button class="btn btn-primary search-btn" type="submit">검색</button>
 							</div>
 						</form>
