@@ -413,6 +413,9 @@ $(document).ready(function() {
     });
 	
 });
+		$('.UserBtn').click(function() {
+		    $('#block_actions').toggle();
+		});
 
 		//글수정
 		$('.updateBtn').click(function() {
