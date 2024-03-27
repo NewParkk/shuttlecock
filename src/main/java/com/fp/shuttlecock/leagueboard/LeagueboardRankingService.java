@@ -12,5 +12,4 @@ public interface LeagueboardRankingService {
 	
 	List<LeagueRankDTO> getLeagueRankingByUsername(PageRequestDTO pageRequest);
 	
-	List<LeagueRankDTO> getLeagueRankingByDateRange(String startDate, String endDate);
 }

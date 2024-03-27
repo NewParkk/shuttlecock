@@ -25,7 +25,7 @@ public class PageRequestDTO {
 	
 	private int isMain = 0;
 	
-	// 리그 순위 검색 범위기간
+	// 리그 순위 기간 범위
     private String startDate;
     private String endDate;
 	
