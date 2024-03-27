@@ -68,7 +68,20 @@
 					<p class="post-metadata">
 						<span class="post-info-text"> 작성자:
 							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">
-							<strong>${recruitboard.userId}</strong>
+							<c:choose>
+								<c:when
+									test="${sessionScope.userId eq recruitboard.userId or sessionScope.isAdmin eq true }">
+									<strong>${recruitboard.userId}</strong>
+								</c:when>
+								<c:otherwise>
+									<strong class="UserBtn">${recruitboard.userId}
+										<div id="block_actions" style="display: none;">
+											<button class="userblock" id="userblock_${recruitboard.userId}"
+														value="${recruitboard.userId}">게시자 차단</button>
+										</div>
+									</strong>
+								</c:otherwise>
+							</c:choose>
 						</span>
 					</p>
 						<!-- <span class="post-info-text"> <strong>작성 시간:</strong>
@@ -173,7 +186,15 @@
 								<div class="row">
 									<div class="col" style="margin-bottom:15px;">
 										<span class="post-info-text com-writer"> <img src="/badge/${comments.badgeName}.jpg" style="height:15px; width:15px;"> 
-										<strong>${comments.userId}</strong></span>
+										<c:choose>
+												<c:when
+													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true }">
+													<strong style="color: blue;">${comments.userId}</strong>
+												</c:when>
+												<c:otherwise>
+													<strong>${comments.userId} </strong>
+												</c:otherwise>
+											</c:choose>
 										<c:if
 											test="${recruitboard.userId eq sessionScope.userId and recruitboard.complete ne 1 
 											and (recruitboard.recruitType eq 1 or recruitboard.recruitType eq 2) and sessionScope.userId ne comments.userId}">
@@ -223,6 +244,12 @@
 													<button type="button" class="btn btn-primary com_delete_btn"
 														id="com_delete_btn_${comments.commentsId}"
 														value="${comments.commentsId}">댓글 삭제</button>
+												</c:if> <c:if
+												test="${sessionScope.userId ne comments.userId}">
+												<button type="button"
+														class="btn btn-primary userblock"
+														id="userblock_${comments.userId}"
+														value="${comments.userId}">유저 차단</button>
 												</c:if>
 											</span>
 									
@@ -489,20 +516,30 @@ $(document).ready(function() {
 		    });
 		});
 		
-		$('#userblock').click(function(){
-	    	$.ajax({
-	    		type :"POST",
-	    		url : "/blockuser",
-	    		data : {
-	    			"userId" : "${sessionScope.userId}",
-	    			"blockedUser" : "${recruitboard.userId}"
-	    		},
-	    		success : function(data){
-	    			alert(data);
-	    			window.location.href = "/Recruitboard";
-	    		} // success
-	    	}) // ajax
-	    }) //버튼 클릭
+		$('.userblock').click(function() {
+		    // 차단할 사용자의 아이디를 가져옵니다.
+		    const blockedUserId = $(this).val();
+
+		    // AJAX를 통해 서버로 차단 요청을 전송합니다.
+		    $.ajax({
+		        type: 'POST',
+		        url: '/blockuser', // 차단 요청을 처리할 서버의 URL
+		        data: {
+		            'userId': '${sessionScope.userId}', // 현재 사용자의 아이디
+		            'blockedUser': blockedUserId // 차단할 사용자의 아이디
+		        },
+		        success: function(data) {
+		            // 차단 요청이 성공하면 알림을 표시하고 페이지를 새로 고침합니다.
+		            alert(data);
+		            window.location.href = '/Recruitboard';
+		            //location.reload();
+		        },
+		        error: function(xhr, status, error) {
+		            // 차단 요청이 실패하면 에러를 콘솔에 표시합니다.
+		            console.error('차단 요청 중 에러 발생:', error);
+		        }
+		    });
+		});
 	    
 		var leagueRegister = document.getElementById('leagueRegister');
 		

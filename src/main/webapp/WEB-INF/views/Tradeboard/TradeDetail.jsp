@@ -16,6 +16,46 @@
 .contents {
 	width: 80%;
 }
+
+.UserBtn {
+	color: green;
+	position: relative;
+}
+
+.UserBtn:hover {
+	font-weight: bold;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.UserBtn:hover #block_actions {
+	display: block;
+}
+
+#block_actions {
+	position: relative;
+	right: 0;
+	background: #fff;
+	border: 2px solid #ddd;
+	border-radius: 5px;
+	padding: 8px;
+	text-align: center;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	width: 150px;
+	z-index: 999;
+	display: none;
+}
+
+#block_actions button {
+	padding: 7px 9px;
+	background-color: #405448;
+	color: white;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	margin: 0 6px;
+	border-radius: 10px;
+}
 </style>
 <body>
 	<spring:eval
@@ -60,7 +100,20 @@
 					<p class="post-metadata">
 						<span class="post-info-text"> 작성자: <img
 							src="/badge/${badgeName}.jpg" style="height: 15px; width: 15px;">
-							<strong>${tradeboard.userId}</strong>
+							<c:choose>
+								<c:when
+									test="${sessionScope.userId eq tradeboard.userId or sessionScope.isAdmin eq true }">
+									<strong>${tradeboard.userId}</strong>
+								</c:when>
+								<c:otherwise>
+									<strong class="UserBtn">${tradeboard.userId}
+										<div id="block_actions" style="display: none;">
+											<button class="userblock" id="userblock_${tradeboard.userId}"
+														value="${tradeboard.userId}">게시자 차단</button>
+										</div>
+									</strong>
+								</c:otherwise>
+							</c:choose>
 						</span> 
 						<span class="post-info-text"> 거래장소:
 						<c:forEach items="${regionList}" var="region">
@@ -162,7 +215,15 @@
 								<div class="row">
 									<div class="col" style="margin-bottom:15px;">
 										<span class="post-info-text com-writer"><img src="/badge/${comments.badgeName}.jpg" style="height:15px; width:15px;"> 
-										 <strong>${comments.userId}</strong></span>
+										 <c:choose>
+												<c:when
+													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true }">
+													<strong style="color: blue;">${comments.userId}</strong>
+												</c:when>
+												<c:otherwise>
+													<strong>${comments.userId} </strong>
+												</c:otherwise>
+											</c:choose>
 									</div>				
 									<div class="col">
 										<div id="com_updateMode_div_${comments.commentsId}">
@@ -203,6 +264,12 @@
 														class="btn btn-primary com_delete_btn"
 														id="com_delete_btn_${comments.commentsId}"
 														value="${comments.commentsId}">댓글 삭제</button>
+												</c:if><c:if
+												test="${sessionScope.userId ne comments.userId}">
+												<button type="button"
+														class="btn btn-primary userblock"
+														id="userblock_${comments.userId}"
+														value="${comments.userId}">유저 차단</button>
 												</c:if>
 											</span>
 										</div>
@@ -482,20 +549,30 @@ $(document).ready(function() {
 		    });
 		});
 		
-		$('#userblock').click(function(){
-	    	$.ajax({
-	    		type :"POST",
-	    		url : "/blockuser",
-	    		data : {
-	    			"userId" : "${sessionScope.userId}",
-	    			"blockedUser" : "${tradeboard.userId}"
-	    		},
-	    		success : function(data){
-	    			alert(data);
-	    			window.location.href = "/Tradeboard";
-	    		} // success
-	    	}) // ajax
-	    }) //버튼 클릭
+		$('.userblock').click(function() {
+		    // 차단할 사용자의 아이디를 가져옵니다.
+		    const blockedUserId = $(this).val();
+
+		    // AJAX를 통해 서버로 차단 요청을 전송합니다.
+		    $.ajax({
+		        type: 'POST',
+		        url: '/blockuser', // 차단 요청을 처리할 서버의 URL
+		        data: {
+		            'userId': '${sessionScope.userId}', // 현재 사용자의 아이디
+		            'blockedUser': blockedUserId // 차단할 사용자의 아이디
+		        },
+		        success: function(data) {
+		            // 차단 요청이 성공하면 알림을 표시하고 페이지를 새로 고침합니다.
+		            alert(data);
+		            window.location.href = '/Tradeboard';
+		            //location.reload();
+		        },
+		        error: function(xhr, status, error) {
+		            // 차단 요청이 실패하면 에러를 콘솔에 표시합니다.
+		            console.error('차단 요청 중 에러 발생:', error);
+		        }
+		    });
+		});
 	    
 	    
 	    /* input입력 시 테두리 색 변경 */
