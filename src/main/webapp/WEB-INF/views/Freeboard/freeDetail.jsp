@@ -255,7 +255,7 @@
 														id="com_delete_btn_${comments.commentsId}"
 														value="${comments.commentsId}">댓글 삭제</button>
 												</c:if> <c:if
-												test="${sessionScope.userId ne comments.userId}">
+												test="${sessionScope.userId ne comments.userId and not empty sessionScope.userId}">
 												<button type="button"
 														class="btn btn-primary userblock"
 														id="userblock_${comments.userId}"
