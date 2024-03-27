@@ -29,7 +29,7 @@ public class LeagueboardRankingController {
 	    }
 	    
 	    
-	    if (startDate == "" & endDate == "") {
+	    if (startDate == null & endDate == null) {
 	    	 // 현재 날짜
 		    LocalDate now = LocalDate.now();
 		    int month = now.getMonthValue();
