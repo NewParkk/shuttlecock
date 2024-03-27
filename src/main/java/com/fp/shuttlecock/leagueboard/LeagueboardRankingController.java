@@ -28,11 +28,36 @@ public class LeagueboardRankingController {
 	        pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
 	    }
 	    
-
 	    
+	    if (startDate == "" & endDate == "") {
+	    	 // 현재 날짜
+		    LocalDate now = LocalDate.now();
+		    int month = now.getMonthValue();
+		    
+		    LocalDate start = null;
+		    LocalDate end = null;
+		    
+		    // 분기 설정
+		    if (month >= 1 && month <= 3) {
+		    	start = LocalDate.of(now.getYear(), 1, 1);
+		    	end = LocalDate.of(now.getYear(), 3, 31);
+		    } else if (month >= 4 && month <= 6) {
+		    	start = LocalDate.of(now.getYear(), 4, 1);
+		    	end = LocalDate.of(now.getYear(), 6, 30);
+		    } else if (month >= 7 && month <= 9) {
+		    	start = LocalDate.of(now.getYear(), 7, 1);
+		    	end = LocalDate.of(now.getYear(), 9, 30);
+		    } else if (month >= 10 && month <= 12) {
+		    	start = LocalDate.of(now.getYear(), 10, 1);
+		    	end = LocalDate.of(now.getYear(), 12, 31);
+		    }
+		    
+		    // 문자열로 바꿈
+		    startDate = start.toString();
+		    endDate = end.toString();
+	    }
+	   
 	    
-//	    startDate = "2024-01-01";
-//	    endDate = "2024-03-31";
 	    
 	    System.out.println(startDate);
 	    System.out.println(endDate);
@@ -49,6 +74,9 @@ public class LeagueboardRankingController {
 
 	    model.addAttribute("leagueRankingList", leagueRankingList);
 	    model.addAttribute("pageInfo", pageResponse);
+	    model.addAttribute("startDate", startDate);
+	    model.addAttribute("endDate", endDate);
+	    
 	    return "/LeagueBoard/LeagueBoardRanking";
 	}
 
@@ -57,25 +85,75 @@ public class LeagueboardRankingController {
 
 	// 리그 순위 검색기능
 	@GetMapping("/LeagueBoardRanking/search")
-	public String getLeagueRankingByUsername(Model model, PageRequestDTO pageRequest, HttpSession session,
-	                               @RequestParam(required = false) String username) {
+	public String getLeagueRankingByUsername(Model model, PageRequestDTO pageRequest,
+            									@RequestParam(required = false) String startDate,
+            									@RequestParam(required = false) String endDate,
+            									@RequestParam(required = false) String searchKeyword,
+            									HttpSession session) {
+	    System.out.println("search : " + startDate);
+	    System.out.println("search : " + endDate);
 	    System.out.println(pageRequest);
 	    if(session.getAttribute("userId") != null) {
 	        pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
 	    }
 	    
+	    
+	    pageRequest.setPageNum(1);
+	    pageRequest.setStartDate(startDate);
+	    pageRequest.setEndDate(endDate);
+	    pageRequest.setSearchKeyword(searchKeyword);
+	    
 	    List<LeagueRankDTO> leagueRankingList;
 	    
 	    leagueRankingList = LRS.getLeagueRankingByUsername(pageRequest);
-	   
-	    
+	    	    
 	    int totalUser = LRS.countLeagueUser(pageRequest);
 	    PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalUser)
 	            .pageAmount(pageRequest.getAmount()).pageRequest(pageRequest).build();
 
 
+	    
 	    model.addAttribute("leagueRankingList", leagueRankingList);
 	    model.addAttribute("pageInfo", pageResponse);
+	    model.addAttribute("startDate", startDate);
+	    model.addAttribute("endDate", endDate);
+	    model.addAttribute("searchKeyword", searchKeyword);
+	    return "/LeagueBoard/LeagueBoardRanking";
+	}
+	
+	
+	
+	
+	// 리그 순위
+	// 페이지에서 버튼을 누르면 해당 분기 순위로 이동
+	@GetMapping("/LeagueBoardRanking/quarter")
+	public String getLeagueQuarterRanking (Model model, PageRequestDTO pageRequest,
+	                                @RequestParam(required = false) String startDate,
+	                                @RequestParam(required = false) String endDate,
+	                                HttpSession session) {
+	    if(session.getAttribute("userId") != null) {
+	        pageRequest.setUserId(String.valueOf(session.getAttribute("userId")));
+	    }
+	    
+	    System.out.println(" quarter : " +  startDate);
+	    System.out.println(" quarter : " + endDate);
+	    
+	    pageRequest.setStartDate(startDate);
+	    pageRequest.setEndDate(endDate);
+	    
+	    
+	    List<LeagueRankDTO> leagueRankingList = LRS.getLeagueRanking(pageRequest);
+
+	    int totalUser = LRS.countLeagueUser(pageRequest);
+	    PageResponseDTO pageResponse = new PageResponseDTO().builder().total(totalUser)
+	            .pageAmount(pageRequest.getAmount()).pageRequest(pageRequest).build();
+	    
+
+	    
+	    model.addAttribute("leagueRankingList", leagueRankingList);
+	    model.addAttribute("pageInfo", pageResponse);
+	    model.addAttribute("startDate", startDate);
+	    model.addAttribute("endDate", endDate);
 	    return "/LeagueBoard/LeagueBoardRanking";
 	}
 	

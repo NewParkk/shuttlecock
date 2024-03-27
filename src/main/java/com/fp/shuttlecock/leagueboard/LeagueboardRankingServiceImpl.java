@@ -25,7 +25,7 @@ public class LeagueboardRankingServiceImpl implements LeagueboardRankingService 
 	
 	// 해당 username에 대한 인원 검색
 	public List<LeagueRankDTO> getLeagueRankingByUsername(PageRequestDTO pageRequest) {
-	    return LRM.getLeagueRankingByUsername(pageRequest);
+        return LRM.getLeagueRankingByUsername(pageRequest);
 	}
 	
 	// 리그 기간 범위(분기)
