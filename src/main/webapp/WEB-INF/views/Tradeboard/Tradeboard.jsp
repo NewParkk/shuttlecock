@@ -12,47 +12,10 @@
 <script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
 <style>
-/* .grid-container {
-	display: inline-block;
-	justify-content: space-between;
-}
-
-.container1 {
-	padding: 20px;
-	display: inline-block;
-	width: 190px;
-	justify-content: space-between;
-	flex-direction: column;
-}
-
-.container1 img {
-	width: 150px;
-	height: 150px;
-	overflow: hidden;
-}
-
-.container1 a {
-	width: 150px;
-	height: 150px;
-	overflow: hidden;
-}
-
-.container1 dl {
-	width: 150px;
-	height: 120px;
-	margin-top: 10px;
-}
-
-.info {
-	width: 200px;
-	height: 150px;
-} */
 .grid-container {
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: space-between;  */
-   /*  justify-content: flex-start; */
 }
 
 .container1 {
@@ -81,8 +44,6 @@
     height: 50%;
     padding: 10px;
     box-sizing: border-box;
-    /* background-color: rgba(0, 0, 0, 0.5);  */
-    /* color: white; */
     text-align: left;
     border-radius: 0 0 5px 5px;
 }
@@ -113,7 +74,6 @@
 
 .table th a.active,
 .table th a:hover {
-    /* text-decoration: underline; */
     font-weight: bold;
     color: #000; 
 }

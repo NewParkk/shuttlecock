@@ -23,7 +23,6 @@
 </style>
 </head>
 <body>
-	<c:if test="${user.admin}">
 		<!-- wrap -->
 		<div id="wrap">
 			<!-- header -->
@@ -193,69 +192,8 @@
 			
 		</div>
 		<!-- //wrap -->
-	</c:if>
 </body>
 <script>
-	//step01 : 페이징 버튼 클릭시 지정 url 요청 갈수 있도록 이벤트 등록
-	/* Array.from(document.getElementsByClassName('page-link'))
-		.forEach((pagingButton) => {
-			pagingButton.addEventListener('click', function(e) {
-				e.preventDefault();
-				// step02 : 등록 후, action : '/main' 으로 요청 시, keyword 값 유무에 따라 queryString 변경
-				// step03 : 요청
-				let mainForm = document.getElementById('mainForm');
-				
-				// 현재 페이지 값으로 변경하여 /main 요청하도록 지정
-				mainForm.pageNum.value = e.target.innerHTML;
-				
-				if(mainForm.searchKeyword.value === '' || mainForm.searchKeyword.value === null) {
-					mainForm.searchKeyword.remove();
-				}
-				
-				mainForm.action = '/admin';
-				mainForm.method = 'GET';
-				mainForm.submit();
-			})
-	})
-
-	function checkKeyword() {
-		let mainFormkey = document.getElementById('mainForm');
-		if(mainForm.searchKeyword.value === null || mainForm.searchKeyword.value === '') {
-			mainForm.searchKeyword.remove();
-		}
-	}
-
-	document.addEventListener("DOMContentLoaded", function () {
-	    // 삭제 버튼 클릭 이벤트를 처리합니다.
-	    document.querySelectorAll(".delBtn").forEach(function (button) {
-	        button.addEventListener("click", function (e) {
-	            e.preventDefault();
-	            
-	            // 현재 버튼의 부모 tr 요소를 찾아서 해당 사용자의 userId를 가져옵니다.
-	            var userId = this.closest("tr").querySelector("input[type='hidden']").value;
-	            
-	            // 알림을 통해 사용자에게 삭제 여부를 확인할 수 있습니다.
-	            var isConfirmed = confirm("사용자를 삭제하시겠습니까?");
-	            console.log("출력 : "+userId);
-	            if (isConfirmed) {
-	                // 액시오스를 사용하여 서버로 DELETE 요청을 보냅니다.
-	                console.log(userId);
-	                axios.delete('/admin/delete/' + userId)
-	                .then(function (response) {
-	                    console.log(response.data);
-	                    alert("사용자가 삭제되었습니다.");
-	                 // 페이지 새로고침
-	                    window.location.reload();
-	                })
-	                .catch(function (error) {
-	                    console.error('Error during user deletion:', error);
-	                    alert("삭제할 권한이 없습니다");
-	                });
-	            }
-	        });
-	    });
-	}); */
-	
 	document.addEventListener("DOMContentLoaded", function () {
 	    // 페이지네이션 버튼에 이벤트 리스너 등록
 	    Array.from(document.getElementsByClassName('page-link'))

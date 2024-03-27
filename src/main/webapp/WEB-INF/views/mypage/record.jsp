@@ -23,13 +23,13 @@
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-		<main id= "main">
-	        <div id="slider">
-	          <div class="imageWrap1"></div>
-	        </div>
-	
-			<!-- section -->
-			<section id="contents">
+	<main id="main">
+		<div id="slider">
+			<div class="imageWrap1"></div>
+		</div>
+
+		<!-- section -->
+		<section id="contents">
 
 
 			<!-- aside -->
@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="noticeboard">
-				<div class="title" style="margin:0px;">
+				<div class="title" style="margin: 0px;">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>나의 활동내역 &#10095</h3>
@@ -55,77 +55,109 @@
 				<div id="board-list">
 					<div class="container2">
 
-						<form style="float:right; margin: 30px 50px 10px 0;">
-							 <select
-								class="selectbox" id="selectbox" name="selectbox"
-								onchange="chageLangSelect()" style="margin-left:50px">
+						<form style="float: right; margin: 30px 50px 10px 0;">
+							<select class="selectbox" id="selectbox" name="selectbox"
+								onchange="chageLangSelect()" style="margin-left: 50px">
 								<option value="boardList">게시물</option>
 								<option value="likeList">좋아요</option>
 								<option value="commentList">댓글</option>
 							</select>
 						</form>
-						
-						<table class="board-table" style="width: 92%; margin: 20px auto 0;">
+
+						<table class="board-table"
+							style="width: 92%; margin: 20px auto 0;">
 							<thead id="board">
 								<tr style="background-color: rgba(103, 141, 115, 0.1);">
 									<th scope="col" class="th-num">번호</th>
 									<th scope="col" class="th-date">분류</th>
 									<th scope="col" class="th-title">제목</th>
-									<!-- <th scope="col" class="th-title">내용</th> -->
 									<th scope="col" class="th-date">날짜</th>
-									<!-- <th scope="col" class="th-writer">이름</th>
-											<th scope="col" class="th-date">사진</th>
-											<th scope="col" class="th-hit">성별</th>
-											<th scope="col" class="th-like">작성게시글</th> -->
 								</tr>
 							</thead>
 
 							<tbody id="board1">
-								<!-- <div id="board" style="display:"> -->
-								<%-- 						<c:forEach items="${board}" var="board">
-									<tr>
-										<th scope="row">${board.leagueboardId}</th>
-										<td>${board.title}</td>
-										<td>${board.regdate}</td>
-									</tr>
-								</c:forEach> --%>
 
 								<c:forEach items="${league}" var="league">
 									<tr>
-										<td scope="row" style="font-size:11px;">${league.leagueboardId}</td>
+										<td scope="row" style="font-size: 11px;">${league.leagueboardId}</td>
 										<td bgcolor="#f9f9f9">리그게시판</td>
 										<td><a href="/LeagueBoard/${league.leagueboardId}">${league.title}</a></td>
-										<td style="color:gray;"><fmt:formatDate value="${league.regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+										<td style="color: gray;"><fmt:formatDate
+												value="${league.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
 									</tr>
 								</c:forEach>
 								<c:forEach items="${free}" var="free">
-									<tr>
-										<td scope="row" style="font-size:11px;">${free.freeboardId}</td>
-										<td bgcolor="#f9f9f9">자유게시판</td>
-										<td><a href="/Freeboard/freeDetail/${free.freeboardId}">${free.title}</a></td>
-										<td style="color:gray;"><fmt:formatDate value="${free.regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-									</tr>
+									<c:choose>
+										<c:when test="${free.commentCount != 0}">
+											<tr>
+												<td scope="row" style="font-size: 11px;">${free.freeboardId}</td>
+												<td bgcolor="#f9f9f9">자유게시판</td>
+												<td><a href="/Freeboard/freeDetail/${free.freeboardId}">${free.title}[${free.commentCount}]</a></td>
+												<td style="color: gray;"><fmt:formatDate
+														value="${free.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
+											</tr>
+										</c:when>
+										<c:when test="${free.commentCount == 0}">
+											<tr>
+												<td scope="row" style="font-size: 11px;">${free.freeboardId}</td>
+												<td bgcolor="#f9f9f9">자유게시판</td>
+												<td><a href="/Freeboard/freeDetail/${free.freeboardId}">${free.title}</a></td>
+												<td style="color: gray;"><fmt:formatDate
+														value="${free.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
+											</tr>
+										</c:when>
+									</c:choose>
 								</c:forEach>
 								<c:forEach items="${trade}" var="trade">
-									<tr>
-										<td scope="row" style="font-size:11px;">${trade.tradeboardId}</td>
-										<td bgcolor="#f9f9f9">거래게시판</td>
-										<td><a href="Tradeboard/${trade.tradeboardId}">${trade.title}</a></td>
-										<td style="color:gray;"><fmt:formatDate value="${trade.regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-									</tr>
+									<c:choose>
+										<c:when test="${trade.commentCount != 0}">
+											<tr>
+												<td scope="row" style="font-size: 11px;">${trade.tradeboardId}</td>
+												<td bgcolor="#f9f9f9">거래게시판</td>
+												<td><a href="Tradeboard/${trade.tradeboardId}">${trade.title}[${trade.commentCount}]</a></td>
+												<td style="color: gray;"><fmt:formatDate
+														value="${trade.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
+											</tr>
+										</c:when>
+										<c:when test="${trade.commentCount == 0}">
+											<tr>
+												<td scope="row" style="font-size: 11px;">${trade.tradeboardId}</td>
+												<td bgcolor="#f9f9f9">거래게시판</td>
+												<td><a href="Tradeboard/${trade.tradeboardId}">${trade.title}</a></td>
+												<td style="color: gray;"><fmt:formatDate
+														value="${trade.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
+											</tr>
+										</c:when>
+									</c:choose>
 								</c:forEach>
 								<c:forEach items="${recruit}" var="recruit">
-									<tr>
-										<td scope="row" style="font-size:11px;">${recruit.recruitboardId}</td>
-										<td bgcolor="#f9f9f9">모집게시판</td>
-										<td><a href="Recruitboard/${recruit.recruitboardId}">${recruit.title}</a></td>
-										<td style="color:gray;"><fmt:formatDate value="${recruit.regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-									</tr>
+									<c:choose>
+										<c:when test="${recruit.commentCount != 0}">
+											<tr>
+												<td scope="row" style="font-size: 11px;">${recruit.recruitboardId}</td>
+												<td bgcolor="#f9f9f9">모집게시판</td>
+												<td><a href="Recruitboard/${recruit.recruitboardId}">${recruit.title}[${recruit.commentCount}]</a></td>
+												<td style="color: gray;"><fmt:formatDate
+														value="${recruit.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
+
+											</tr>
+										</c:when>
+										<c:when test="${recruit.commentCount == 0}">
+											<tr>
+												<td scope="row" style="font-size: 11px;">${recruit.recruitboardId}</td>
+												<td bgcolor="#f9f9f9">모집게시판</td>
+												<td><a href="Recruitboard/${recruit.recruitboardId}">${recruit.title}</a></td>
+												<td style="color: gray;"><fmt:formatDate
+														value="${recruit.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
+
+											</tr>
+										</c:when>
+									</c:choose>
 								</c:forEach>
 							</tbody>
 
 							<thead id="comment1" style="display: none">
-								<tr>
+								<tr style="background-color: rgba(103, 141, 115, 0.1);">
 									<th scope="col" class="th-writer">분류</th>
 									<th scope="col" class="th-title">내용</th>
 									<!-- <th scope="col" class="th-title">내용</th> -->
@@ -140,9 +172,8 @@
 								<!-- 			<div id="comment" style="display: none"> -->
 								<c:forEach items="${comment}" var="comment">
 									<tr>
-										<th scope="row">
-											<c:set var="num" value="${comment.commentType}"/> 
-											<c:choose>
+										<th scope="row"><c:set var="num"
+												value="${comment.commentType}" /> <c:choose>
 												<c:when test="${num == 1}">
 													<!-- 조건 1이 true일 때 실행되는 부분 -->
 											        공지게시판
@@ -168,25 +199,24 @@
 
 												</c:otherwise>
 											</c:choose></th>
-										<td scope="row">
-											<c:set var="num" value="${comment.commentType}"/> 
-											<c:choose>
+										<td scope="row"><c:set var="num"
+												value="${comment.commentType}" /> <c:choose>
 												<c:when test="${num == 1}">
 													<!-- 조건 1이 true일 때 실행되는 부분 -->
 											        공지게시판
 											    </c:when>
 												<c:when test="${num == 2}">
 													<!-- 조건 2가 true일 때 실행되는 부분 -->
-											        <a href="Freeboard/freeDetail/${comment.bno}">${comment.content}</a>
-											    </c:when>
+													<a href="Freeboard/freeDetail/${comment.bno}">${comment.content}</a>
+												</c:when>
 												<c:when test="${num == 3}">
 													<!-- 조건 2가 true일 때 실행되는 부분 -->
-											        <a href="Tradeboard/${comment.bno}">${comment.content}</a>
-											    </c:when>
+													<a href="Tradeboard/${comment.bno}">${comment.content}</a>
+												</c:when>
 												<c:when test="${num == 4}">
 													<!-- 조건 2가 true일 때 실행되는 부분 -->
-											        <a href="Recruitboard/${comment.bno}">${comment.content}</a>
-											    </c:when>
+													<a href="Recruitboard/${comment.bno}">${comment.content}</a>
+												</c:when>
 												<c:otherwise>
 													<!-- 모든 조건이 false일 때 실행되는 부분 -->
 
@@ -198,7 +228,7 @@
 								<!-- 	</div> -->
 							</tbody>
 							<thead id="like1" style="display: none">
-								<tr>
+								<tr style="background-color: rgba(103, 141, 115, 0.1);">
 									<th scope="col" class="th-date">분류</th>
 									<th scope="col" class="th-title">제목</th>
 									<!-- <th scope="col" class="th-title">내용</th> -->
@@ -248,112 +278,6 @@
 	</main>
 	<%@ include file="../include/footer.jsp"%>
 </div>
-	<!-- https://getbootstrap.com/docs/5.3/layout/columns/#alignment -->
-	<!-- https://getbootstrap.com/docs/5.3/components/pagination/#disabled-and-active-states -->
-	<%-- 	<div class="row justify-content-center">
-		<div class="col-auto">
-			<nav class="page navigation">
-				<ul class="pagination">
-					<c:if test="${pageInfo.prev}">
-						<li class="page-item"><a class="page-link"
-							aria-label="Previous"
-							href="/page?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
-						</li>
-					</c:if>
-					<c:forEach var="num" begin="${pageInfo.startPage}"
-						end="${pageInfo.endPage}">
-						<li class="page-item ${pageInfo.pageRequest.pageNum == num? "active" : ""}">
-							<a class="page-link"
-							href="/page?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}</a>
-						</li>
-					</c:forEach>
-					<c:if test="${pageInfo.next}">
-						<li class="page-item next"><a class="page-link"
-							aria-label="next"
-							href="/page?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
-						</li>
-					</c:if>
-				</ul>
-			</nav>
-		</div>--%>
-
-
-
-	<%-- <tbody id="board">
-									<!-- <div id="board" style="display:"> -->
-	<c:forEach items="${league}" var="legue">
-		<tr>
-			<th scope="row">${legue.title}</th>
-			<td>${legue.content}</td>
-		</tr>
-	</c:forEach>
-	<c:forEach items="${free}" var="free">
-		<tr>
-			<th scope="row">${free.title}</th>
-			<td>${free.content}</td>
-		</tr>
-	</c:forEach>
-	<c:forEach items="${trade}" var="trade">
-		<tr>
-			<th scope="row">${trade.title}</th>
-			<td>${trade.content}</td>
-		</tr>
-	</c:forEach>
-	<c:forEach items="${recruit}" var="recruit">
-		<tr>
-			<th scope="row">${recruit.title}</th>
-			<td>${recruit.content}</td>
-		</tr>
-	</c:forEach>
-	<!-- </div> -->
-	</tbody>
-	
-	<tbody id="comment">
-		<!-- 			<div id="comment" style="display: none"> -->
-		<c:forEach items="${comment}" var="comment">
-			<tr>
-				<th scope="row">${comment.content}</th>
-				<td>${comment.content}</td>
-			</tr>
-		</c:forEach>
-		<!-- 	</div> -->
-	</tbody>
-
-	<tbody id="like">
-		<!-- <div id="like" style="display: none"> -->
-		<c:forEach items="${like}" var="like">
-			<tr>
-				<th scope="row">${like.title}</th>
-				<td>${like.content}</td>
-			</tr>
-		</c:forEach>
-		<!-- </div> -->
-	</tbody>
-	</form>
-	</tbody>
-	</table>
-	</div>
-	</div>
-	</div>
-	</section>
-	</main>
-	</div>
-	--%>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	<!-- 	//1. onchange 속성 select change 발생event -> function
 	//2. function -> select -> selected -> test2 -> likeid -> div display / display:none -->
@@ -408,5 +332,4 @@
 		}
 	</script>
 </body>
-
 </html>
