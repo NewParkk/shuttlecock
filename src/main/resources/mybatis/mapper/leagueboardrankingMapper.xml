@@ -6,14 +6,14 @@
         parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
         resultType="com.fp.shuttlecock.leagueboard.LeagueRankDTO" >
         <bind name="start" value="(pageNum-1)*amount" />
-    SELECT r.userId, SUM(r.wincount) AS wincount, SUM(r.losecount) AS losecount, u.username, u.badgeId
-    FROM leagueRank r, user u
-    <![CDATA[WHERE r.userId = u.userId AND r.insertdate > #{startDate} AND r.insertdate < #{endDate}]]>
-    GROUP BY r.userId
-    ORDER BY (sum(r.wincount) - sum(r.losecount)) DESC
+    SELECT * 
+    FROM (
+	    SELECT (ROW_NUMBER() OVER (ORDER BY (sum(r.wincount) - sum(r.losecount)) DESC) ) AS idx, r.userId, sum(r.wincount) AS wincount, sum(r.losecount) AS losecount, u.username, u.badgeId
+		FROM leagueRank r, user u
+		<![CDATA[WHERE r.userId = u.userId AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
+		GROUP BY r.userId) t
     LIMIT #{start}, #{amount}
-<!--     CALL leagueProc('2024-01-01', '2024-03-31', 'u'); -->
-
+    
 </select>
 
 <select id="countLeagueUser"
@@ -22,10 +22,11 @@
 	SELECT COUNT(DISTINCT r.userId)
 	FROM leagueRank r, user u
 	<where>
-	<![CDATA[r.userId = u.userId AND r.insertdate > '2024-01-01' AND r.insertdate < '2024-03-31']]>
+	<![CDATA[r.userId = u.userId AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
 		<if test="searchKeyword != null and searchKeyword != ''">
-				AND u.username LIKE CONCAT ('%', #{searchKeyword}, '%')
+			AND u.username LIKE CONCAT ('%', #{searchKeyword}, '%')
 		</if>
+		
 	</where>
 </select>
 
@@ -34,20 +35,17 @@
 		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
 		resultType="com.fp.shuttlecock.leagueboard.LeagueRankDTO" >
 		<bind name="start" value="(pageNum-1)*amount" />
-  	 	SELECT r.userId, SUM(r.wincount) AS wincount, SUM(r.losecount) AS losecount, u.username, u.badgeId
-   	 	FROM leagueRank r, user u
-		<where>
-			<![CDATA[
-			r.userId = u.userId AND r.insertdate > '2024-01-01' AND r.insertdate < '2024-03-31'
-			]]>
-			<if test="searchKeyword != null and searchKeyword != ''">
-				AND u.username LIKE CONCAT ('%', #{searchKeyword}, '%')
-			</if>
-		</where>
-		GROUP BY userId
-		ORDER BY (sum(r.wincount) - sum(r.losecount)) DESC
-		LIMIT #{start}, #{amount}
-
+    	SELECT * 
+    	FROM (
+	    	SELECT (ROW_NUMBER() OVER (ORDER BY (sum(r.wincount) - sum(r.losecount)) DESC) ) AS idx, r.userId, sum(r.wincount) AS wincount, sum(r.losecount) AS losecount, u.username, u.badgeId
+			FROM leagueRank r, user u
+			<![CDATA[WHERE r.userId = u.userId AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
+			GROUP BY r.userId) t
+		<if test="searchKeyword != null and searchKeyword != ''">
+			WHERE username LIKE CONCAT ('%', #{searchKeyword}, '%')
+		</if>
+	    LIMIT #{start}, #{amount}
+		
 </select>
 
 

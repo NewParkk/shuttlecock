@@ -12,6 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class LeagueRankDTO {
+	private int idx;
 	private int rankId;
 	private String userId;
 	private int wincount;

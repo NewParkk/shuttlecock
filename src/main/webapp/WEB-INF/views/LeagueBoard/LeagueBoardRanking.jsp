@@ -83,36 +83,7 @@ a:active {
 	width: 80px;
 }
 
-.card-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
 
-.card {
-	background-color: #ffffff;
-	border-radius: 8px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	padding: 20px;
-	margin: 10px;
-	/* width: 300px; */
-	max-width: 80%;
-	display: flex;
-	flex-direction: column; align-items : center;
-	justify-content: center;
-	align-items: center;
-}
-
-.card h2 {
-	margin-top: 0;
-	margin-bottom: 10px;
-}
-
-.card p {
-	margin-top: 0;
-	text-align: center;
-}
 </style>
 </head>
 <body>
@@ -156,6 +127,8 @@ a:active {
 									value="${pageInfo.pageRequest.pageNum}"> 
 								<input name="sort" type="hidden" value="${pageInfo.pageRequest.sort}">
 								<input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
+								<input type="hidden" id="startDate1" name="startDate" value = "${startDate}" >
+					    		<input type="hidden" id="endDate1" name="endDate" value = "${endDate}">
 								<button class="btn btn-primary search-btn" type="submit"
 									style="margin-right: 10px">검색</button>
 							</div>
@@ -165,6 +138,35 @@ a:active {
 						<!-- div를 table형식으로 변경함 -->
 						<table class="board-table" style="width: 92%; margin: 20px auto 0;">
 							<thead>
+							
+								<tr>
+									<th scope="col" style="text-align: center;">
+												<span style="font-size: 12pt;">
+												<a class="item-div" onclick="setDateRange('2024-01-01', '2024-03-31')">
+												2024 1분기
+												</a></span>
+											</th>
+											<th scope="col" style="text-align: center;">
+												<span style="font-size: 12pt;">
+												<a class="item-div" onclick="setDateRange('2024-04-01', '2024-06-30')">
+												2024 2분기
+												</a></span>
+											</th>
+											<th scope="col" style="text-align: center;">
+												<span style="font-size: 12pt;" onclick="setDateRange('2024-07-01', '2024-09-30')">
+												<a class="item-div" >
+												2024 3분기
+												</a></span>
+											</th>
+											<th scope="col" style="text-align: center;">
+												<span style="font-size: 12pt;" onclick="setDateRange('2024-10-01', '2024-12-31')">
+												<a class="item-div" >
+												2024 4분기
+												</a></span>
+											</th>
+								
+									</tr>
+									
 								<tr style="background-color: rgba(103, 141, 115, 0.1);">
 									<th scope="col" class="th-writer"><a
 										href="/LeagueBoard?sort=0">순위</a></th>
@@ -177,39 +179,36 @@ a:active {
 								</tr>
 							</thead>
 							<tbody>
-						        <c:forEach items="${leagueRankingList}" var="user" varStatus="status">
+						        <c:forEach items="${leagueRankingList}" var="leagueRankDTO" varStatus="status">
 						            <tr>
 						                <td>
 						                    <c:choose>
-						                        <c:when test="${user.idx == 1}">
+						                        <c:when test="${leagueRankDTO.idx == 1}">
 						                            <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge3.png" width="70px" height="80px">
 						                        </c:when>
-						                        <c:when test="${user.idx == 2}">
+						                        <c:when test="${leagueRankDTO.idx == 2}">
 						                            <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge2.png" width="60px" height="70px">
 						                        </c:when>
-						                        <c:when test="${user.idx == 3}">
+						                        <c:when test="${leagueRankDTO.idx == 3}">
 						                            <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/leaguebadge1.png" width="50px" height="60px">
 						                        </c:when>
-						                        <c:otherwise>${user.idx}</c:otherwise>
+						                        <c:otherwise>${leagueRankDTO.idx}</c:otherwise>
 						                    </c:choose>
 						                </td>
-						                <td>
-						                    <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${user.badgeId}.png" width="12px" height="12px">
-						                    ${user.username}(${user.userId})
-						                </td>
-						                <td>${user.wincount}승</td>
-						                <td>${user.losecount}패</td>
-						                <td>${user.wincount - user.losecount}점</td>
+						                <td>${leagueRankDTO.username}(${leagueRankDTO.userId})</td>
+						                <td>${leagueRankDTO.wincount}승</td>
+						                <td>${leagueRankDTO.losecount}패</td>
+						                <td>${leagueRankDTO.wincount - leagueRankDTO.losecount}점</td>
 						                <td>
 						                    <b>
-						                        <c:set var="winRatio" value="${(user.wincount * 1.0 / (user.wincount + user.losecount)) * 100}" />
+						                        <c:set var="winRatio" value="${(leagueRankDTO.wincount * 1.0 / (leagueRankDTO.wincount + leagueRankDTO.losecount)) * 100}" />
 						                        <fmt:formatNumber value="${winRatio}" pattern="###.##" />%
 						                    </b>
 						                </td>
 						            </tr>
 						        </c:forEach>
 						    </tbody>
-						</table> 
+						</table>
 						<!-- //div를 table형식으로 변경함 -->
 						
 						<c:if test="${empty leagueRankingList}">
@@ -228,36 +227,37 @@ a:active {
 										<c:if test="${pageInfo.prev}">
 											<li class="page-item"><a class="page-link"
 												aria-label="Previous"
-												href="/LeagueBoardRanking?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
+												href="/LeagueBoardRanking?startDate=${pageInfo.pageRequest.startDate}&endDate=${pageInfo.pageRequest.endDate}&pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
 											</li>
 										</c:if>
-										<c:if test="${pageInfo.pageRequest.category == null}">
+										<c:if test="${pageInfo.pageRequest.searchKeyword == null}">
 											<c:forEach var="num" begin="${pageInfo.startPage}"
 												end="${pageInfo.endPage}">
 												<li
 													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
 													<a class="page-link" 
-													href="/LeagueBoardRanking?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&sort=${pageInfo.pageRequest.sort}
+													href="/LeagueBoardRanking?startDate=${pageInfo.pageRequest.startDate}&endDate=${pageInfo.pageRequest.endDate}
+													&pageNum=${num}&amount=${pageInfo.pageRequest.amount}&sort=${pageInfo.pageRequest.sort}
  													">${num}</a>
 												</li>
 											</c:forEach>
 										</c:if>
-										<c:if test="${pageInfo.pageRequest.category != null}">
+										<c:if test="${pageInfo.pageRequest.searchKeyword != null}">
 											<c:forEach var="num" begin="${pageInfo.startPage}"
 												end="${pageInfo.endPage}">
 												<li
 													class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
 													<a class="page-link" 
-														href="/LeagueBoardRanking/search?pageNum=${num}&amount=${pageInfo.pageRequest.amount}
-															&searchKeyword=${pageInfo.pageRequest.searchKeyword}&sort=${pageInfo.pageRequest.sort}">${num}</a>
+														href="/LeagueBoardRanking?startDate=${pageInfo.pageRequest.startDate}&endDate=${pageInfo.pageRequest.endDate}
+														&searchKeyword=${pageInfo.pageRequest.searchKeyword}&pageNum=${num}&amount=${pageInfo.pageRequest.amount}&sort=${pageInfo.pageRequest.sort}">${num}</a>
 												</li>
 											</c:forEach>
 										</c:if>
 										<c:if test="${pageInfo.next}">
 											<li class="page-item next"><a class="page-link"
 												aria-label="next"
-												href="/LeagueBoardRanking?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
+												href="/LeagueBoardRanking?startDate=${pageInfo.pageRequest.startDate}&endDate=${pageInfo.pageRequest.endDate}&pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
 													&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
 											</li>
 										</c:if>
@@ -267,12 +267,10 @@ a:active {
 						</div>
 					</div>
 				
-					<form id="dateForm" action="/LeagueBoardRanking" method="get">
-					    <!-- hidden input 요소에 startDate와 endDate 값을 설정합니다. -->
+					<form id="dateForm" action="/LeagueBoardRanking/search" method="get">
 					    <input type="hidden" id="startDate" name="startDate" >
 					    <input type="hidden" id="endDate" name="endDate" >
 					    
-					    <!-- 버튼을 클릭하면 해당 기간의 데이터를 가져오도록 JavaScript 함수를 호출합니다. -->
 					    <button onclick="setDateRange('2024-01-01', '2024-03-31')">1분기</button>
 					    <button onclick="setDateRange('2024-04-01', '2024-06-30')">2분기</button>
 					    <button onclick="setDateRange('2024-07-01', '2024-09-30')">3분기</button>
@@ -291,16 +289,6 @@ a:active {
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script>
-		function checkKeyword() {
-			let mainForm = document.getElementById('mainForm');
-			// 검색 시 항상 pageNum을 1로 설정
-			mainForm.pageNum.value = 1;
-			if (mainForm.searchKeyword.value === null
-					|| mainForm.searchKeyword.value === '') {
-				mainForm.searchKeyword.remove();
-			}
-		}
-		
 		document.addEventListener('DOMContentLoaded', function() {
 		    var menuItems = document.querySelectorAll('.menubar .list');
 		    var currentPageUrl = window.location.pathname; // 현재 페이지의 경로 부분만 추출
@@ -327,9 +315,14 @@ a:active {
 		// 리그 순위 기간에 대한 함수
 	    function setDateRange(startDate, endDate) {
 			console.log(startDate, endDate);
-	        // hidden input 요소에 설정된 값을 변경합니다.
+	        
 	        document.getElementById('startDate').value = startDate;
+	        document.getElementById('startDate1').value = startDate;
 	        document.getElementById('endDate').value = endDate;
+	        document.getElementById('endDate1').value = endDate;
+	        
+	        console.log(document.getElementById('startDate1').value);
+	        console.log(document.getElementById('endDate1').value);
 	        // 폼을 서버로 제출합니다.
 	        document.getElementById('dateForm').submit();
 	    }
