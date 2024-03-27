@@ -63,21 +63,18 @@ public class RecruitboardController {
 	private LikesServiceImpl likeService;
 
 	@GetMapping("/Recruitboard/{recruitboardId}")
-	public String getBoardByBoardId(@PathVariable int recruitboardId, Model model, HttpSession session, PageRequestDTO pageRequest) {
+	public String getBoardByBoardId(@PathVariable int recruitboardId, Model model, HttpSession session) {
 		String view = "error";
 		RecruitboardDTO recruitboard = null;
 		try {
 			recruitboard = boardService.getTradePostByTradeboardId(recruitboardId);
 			int badgeId = userService.getUserByUserId(recruitboard.getUserId()).getBadgeId(); 
 			String badgeName = badgeService.getBadgeNameById(badgeId);
-			model.addAttribute("pageInfo", pageRequest);
 			if (recruitboard != null) {
 				boolean isLiked = likeService.checkLikesList(new LikesDTO(String.valueOf(session.getAttribute("userId")), recruitboardId, 4));
 				List<CommentsDTO> commentList = commentService.getCommentList(recruitboardId, 4);
-				// FileRequest file = fileService.getBoardFileByTradeboardId(tradeboardId);
 				boardService.increaseHit(recruitboardId);
 
-				// model.addAttribute("file", file);
 				model.addAttribute("recruitboard", recruitboard);
 				model.addAttribute("commentList", commentList);
 				model.addAttribute("badgeName", badgeName);

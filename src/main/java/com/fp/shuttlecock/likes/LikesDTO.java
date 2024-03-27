@@ -13,7 +13,6 @@ public class LikesDTO {
 	private int likesType;
 	private boolean deleteYN;
 	
-	@Builder
 	public LikesDTO(String userId, int bno, int likesType) {
 		this.userId=userId;
 		this.bno=bno;

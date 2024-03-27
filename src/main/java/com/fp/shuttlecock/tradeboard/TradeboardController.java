@@ -1,39 +1,25 @@
 package com.fp.shuttlecock.tradeboard;
 
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fp.shuttlecock.attachmentfile.FileRequest;
-import com.fp.shuttlecock.attachmentfile.FileService;
 import com.fp.shuttlecock.attachmentfile.NaverObjectStorage;
 import com.fp.shuttlecock.comments.CommentsDTO;
-import com.fp.shuttlecock.comments.CommentsService;
 import com.fp.shuttlecock.comments.CommentsServiceImpl;
-import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
 import com.fp.shuttlecock.likes.LikesDTO;
 import com.fp.shuttlecock.likes.LikesServiceImpl;
-import com.fp.shuttlecock.user.UserService;
 import com.fp.shuttlecock.user.UserServiceImpl;
 
 import jakarta.servlet.http.HttpSession;
@@ -57,14 +43,13 @@ public class TradeboardController {
 	private LikesServiceImpl likeService;
 
 	@GetMapping("/Tradeboard/{tradeboardId}")
-	public String getBoardByBoardId(@PathVariable int tradeboardId, Model model, HttpSession session, PageRequestDTO pageRequest) {
+	public String getBoardByBoardId(@PathVariable int tradeboardId, Model model, HttpSession session) {
 		String view = "error";
 		TradeboardDTO tradeboard = null;
 		try {
 			tradeboard = boardService.getTradePostByTradeboardId(tradeboardId);
 			int badgeId = userService.getUserByUserId(tradeboard.getUserId()).getBadgeId(); 
 			String badgeName = boardService.getBadgeNameById(badgeId);
-			//model.addAttribute("pageInfo", pageRequest);
 			if (tradeboard != null) {
 				boolean isLiked = likeService.checkLikesList(new LikesDTO(String.valueOf(session.getAttribute("userId")), tradeboardId, 3));
 				List<CommentsDTO> commentList = commentService.getCommentList(tradeboardId, 3);

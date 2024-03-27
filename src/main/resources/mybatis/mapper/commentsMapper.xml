@@ -69,6 +69,10 @@
 		INNER JOIN user ON user.userId = comments.userId 
 		INNER JOIN badge ON badge.badgeId = user.badgeId 
 		where bno = #{bno} and commentType = #{commentType} and (deleteYN IS NULL OR deleteYN != 1)
+		<if test="userId != null">
+				AND (comments.userId NOT IN (SELECT blockedUser FROM blockuser
+				WHERE blockuser.userId = #{userId}))
+			</if>
 		order by commentsId DESC
 	</select>
 	
