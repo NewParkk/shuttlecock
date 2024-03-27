@@ -219,7 +219,8 @@
 														style="display: none;">저장</button>
 												</c:if>
 												<c:if
-													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
+													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true
+													or sessionScope.userId eq recruitboard.userId}">
 													<button type="button" class="btn btn-primary com_delete_btn"
 														id="com_delete_btn_${comments.commentsId}"
 														value="${comments.commentsId}">댓글 삭제</button>

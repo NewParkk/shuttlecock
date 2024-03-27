@@ -73,7 +73,7 @@ public class RecruitboardController {
 			model.addAttribute("pageInfo", pageRequest);
 			if (recruitboard != null) {
 				boolean isLiked = likeService.checkLikesList(new LikesDTO(String.valueOf(session.getAttribute("userId")), recruitboardId, 4));
-				List<CommentsDTO> commentList = commentService.getCommentList(recruitboardId, 4);
+				List<CommentsDTO> commentList = commentService.getCommentList(String.valueOf(session.getAttribute("userId")), recruitboardId, 4);
 				// FileRequest file = fileService.getBoardFileByTradeboardId(tradeboardId);
 				boardService.increaseHit(recruitboardId);
 

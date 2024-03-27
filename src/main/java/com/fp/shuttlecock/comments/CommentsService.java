@@ -2,6 +2,8 @@ package com.fp.shuttlecock.comments;
 
 import java.util.List;
 
+import io.lettuce.core.dynamic.annotation.Param;
+
 public interface CommentsService {
 	
 	boolean insertComment(CommentsDTO comment);
@@ -12,7 +14,7 @@ public interface CommentsService {
 	
 	boolean updateComment(CommentsDTO comment);
 	
-	List<CommentsDTO> getCommentList(int boardId, int commentType);
+	List<CommentsDTO> getCommentList(String userId, int bno, int commentType);
 	
 	void increaseCommentCount(CommentsDTO comment);
 	

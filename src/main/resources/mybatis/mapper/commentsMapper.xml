@@ -63,12 +63,18 @@
 		where commentsId = #{commentsId} 
 	</update>
 	
-	<select id="getCommentList" parameterType="map" resultType="CommentsDTO">
+	<select id="getCommentList" resultType="CommentsDTO">
 		select comments.*, badge.badgeName 
 		from comments 
 		INNER JOIN user ON user.userId = comments.userId 
 		INNER JOIN badge ON badge.badgeId = user.badgeId 
-		where bno = #{bno} and commentType = #{commentType} and (deleteYN IS NULL OR deleteYN != 1)
+		<where>
+		bno = #{bno} and commentType = #{commentType} and (deleteYN IS NULL OR deleteYN != 1)
+		<if test="userId != null">
+				AND (comments.userId NOT IN (SELECT blockedUser FROM blockuser
+				WHERE blockuser.userId = #{userId}))
+		</if>
+		</where>
 		order by commentsId DESC
 	</select>
 	
