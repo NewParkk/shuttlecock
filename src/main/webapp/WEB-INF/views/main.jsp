@@ -62,7 +62,7 @@
         <section id="contents1">
           <div class="notice">
             <div class="container2">
-	            <div class="page-title">
+	            <div class="page-title" style="margin-bottom:45px;">
 	              	<div class="vline"></div>
 	                <h3>커뮤니티 게시판</h3>
 	              	<a href="/Freeboard/freeList" class="more1">+</a>
@@ -103,7 +103,7 @@
           </div>
           
           <div class="league">
-            <div class="page-title">
+            <div class="page-title" style="margin-bottom:45px;">
               <div class="vline"></div>
               <div class="container2">
                 <h3>리그 게시판</h3>

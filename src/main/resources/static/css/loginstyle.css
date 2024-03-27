@@ -17,7 +17,7 @@ li {
 
 /* 전체 wrap */
 #wrap {
-    width: 100%;
+    min-width: 1510px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -25,6 +25,8 @@ li {
 
 /* main */
 #main {
+    width: 1510px;
+    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     padding: 10px;
@@ -415,6 +417,8 @@ input[type="checkbox"]:checked + label {
     color: #fff;
     padding: 20px;
     text-align: center;
+    width: 1510px;
+  	margin: 0 auto;
 }
 
 #footer p {

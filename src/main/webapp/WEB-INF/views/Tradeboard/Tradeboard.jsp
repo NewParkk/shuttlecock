@@ -154,6 +154,7 @@
 						<h3>물품거래소</h3>
 					</div>
 				</div>
+				
 				<div id="board-list">
 					<div class="container2">
 						<form id="sortForm" action="/Tradeboard" method="get">
@@ -177,49 +178,6 @@
 								name="category" type="hidden"
 								value="${pageInfo.pageRequest.category}">
 						</form>
-						
-						<table class="table" style="width: 90%; margin: 0 auto;">
-							<thead>
-								<tr>
-									<th scope="col" style="text-align: center;">
-										<span style="font-size: 12pt;">
-										<a class="item-div ${pageInfo.pageRequest.itemClass eq 0 ? 'active' : ''}" href="/Tradeboard?itemClass=0">
-										전체
-										</a></span>
-									</th>
-									<th scope="col" style="text-align: center;">
-										<span style="font-size: 12pt;">
-										<a class="item-div ${pageInfo.pageRequest.itemClass eq 1 ? 'active' : ''}" href="/Tradeboard?itemClass=1">
-										의류
-										</a></span>
-									</th>
-									<th scope="col" style="text-align: center;">
-										<span style="font-size: 12pt;">
-										<a class="item-div ${pageInfo.pageRequest.itemClass eq 2 ? 'active' : ''}" href="/Tradeboard?itemClass=2">
-										라켓
-										</a></span>
-									</th>
-									<th scope="col" style="text-align: center;">
-										<span style="font-size: 12pt;">
-										<a class="item-div ${pageInfo.pageRequest.itemClass eq 3 ? 'active' : ''}" href="/Tradeboard?itemClass=3">
-										보호대
-										</a></span>
-									</th>
-									<th scope="col" style="text-align: center;">
-										<span style="font-size: 12pt;">
-										<a class="item-div ${pageInfo.pageRequest.itemClass eq 4 ? 'active' : ''}" href="/Tradeboard?itemClass=4">
-										신발
-										</a></span>
-									</th>
-									<th scope="col" style="text-align: center;">
-										<span style="font-size: 12pt;">
-										<a class="item-div ${pageInfo.pageRequest.itemClass eq 5 ? 'active' : ''}" href="/Tradeboard?itemClass=5">
-										기타
-										</a></span>
-									</th>
-								</tr>
-							</thead>
-						</table>
 
 						<table class="table" style="width: 90%; margin: 0 auto;">
 							<thead>
@@ -243,8 +201,8 @@
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
 										&region=1"
-										class="${pageInfo.pageRequest.region eq 1 ? 'active' : ''}"
-											<c:if test="${pageInfo.pageRequest.region eq 1}"><!-- style=""--></c:if>>서울</a>
+										class="${pageInfo.pageRequest.region eq 1 ? 'active' : ''}"> 
+										<c:if test="${pageInfo.pageRequest.region eq 1}">&#9889;</c:if>서울</a>
 									</span></th>
 									<th scope="col" style="text-align: center;"><span
 										style="font-size: 12pt;" class="region-div"> 
@@ -254,8 +212,8 @@
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
 										&region=2"
-										class="${pageInfo.pageRequest.region eq 2 ? 'active' : ''}"
-											<c:if test="${pageInfo.pageRequest.region eq 2}"><!-- style=""--></c:if>>경기</a>
+										class="${pageInfo.pageRequest.region eq 2 ? 'active' : ''}">
+										<c:if test="${pageInfo.pageRequest.region eq 2}">&#9889;</c:if>경기</a>
 									</span></th>
 									<th scope="col" style="text-align: center;"><span
 										style="font-size: 12pt;" class="region-div"> 
@@ -265,8 +223,8 @@
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
 										&region=3"
-										class="${pageInfo.pageRequest.region eq 3 ? 'active' : ''}"
-											<c:if test="${pageInfo.pageRequest.region eq 3}"><!-- style=""--></c:if>>충청</a>
+										class="${pageInfo.pageRequest.region eq 3 ? 'active' : ''}">
+										<c:if test="${pageInfo.pageRequest.region eq 3}">&#9889;</c:if>충청</a>
 									</span></th>
 									<th scope="col" style="text-align: center;"><span
 										style="font-size: 12pt;" class="region-div"> 
@@ -276,8 +234,8 @@
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
 										&region=4"
-										class="${pageInfo.pageRequest.region eq 4 ? 'active' : ''}"
-											<c:if test="${pageInfo.pageRequest.region eq 4}"><!-- style=""--></c:if>>경상</a>
+										class="${pageInfo.pageRequest.region eq 4 ? 'active' : ''}">
+										<c:if test="${pageInfo.pageRequest.region eq 4}">&#9889;</c:if>경상</a>
 									</span></th>
 									<th scope="col" style="text-align: center;"><span
 										style="font-size: 12pt;" class="region-div"> 
@@ -287,8 +245,8 @@
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
 										&region=5"
-										class="${pageInfo.pageRequest.region eq 5 ? 'active' : ''}"
-											<c:if test="${pageInfo.pageRequest.region eq 5}"><!-- style=""--></c:if>>전라</a>
+										class="${pageInfo.pageRequest.region eq 5 ? 'active' : ''}">
+											<c:if test="${pageInfo.pageRequest.region eq 5}">&#9889;</c:if>전라</a>
 									</span></th>
 									<th scope="col" style="text-align: center;"><span
 										style="font-size: 12pt;" class="region-div"> 
@@ -298,8 +256,8 @@
 										&sort=${pageInfo.pageRequest.sort}
 										&itemClass=${pageInfo.pageRequest.itemClass}
 										&region=6"
-										class="${pageInfo.pageRequest.region eq 6 ? 'active' : ''}"
-											<c:if test="${pageInfo.pageRequest.region eq 6}"><!-- style=""--></c:if>>강원</a>
+										class="${pageInfo.pageRequest.region eq 6 ? 'active' : ''}">
+											<c:if test="${pageInfo.pageRequest.region eq 6}">&#9889;</c:if>강원</a>
 									</span></th>
 								</tr>
 							</thead>
@@ -428,7 +386,7 @@
 					</div>
 					
 					<!-- 검색창 -->
-					<form action="/Tradeboard" method="get">
+					<form action="/Tradeboard" method="get" style="text-align: center;">
 							<div class="search-wrap clearfix" style="margin-left: 30px;">
 								<select name="category" style="width: 100px; margin-left: 10px"
 									class="form-control" id="search-select">

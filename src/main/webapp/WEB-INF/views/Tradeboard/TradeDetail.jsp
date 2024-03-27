@@ -505,6 +505,15 @@ $(document).ready(function() {
 	            container.classList.remove('has-text'); 
 	        }
 	    });
+		
+		 /* aside가 (/Tradeboard)url이 같은 페이지로 인식되도록 작성함 */
+	    var currentPageUrl = "/Tradeboard"; 
+	    var menuItems = document.querySelectorAll('.menubar .list');
+	    menuItems.forEach(function(item) {
+	        if (item.getAttribute('href') === currentPageUrl) {
+	            item.classList.add('active');
+	        }
+	    });
 	
 </script>
 </html>

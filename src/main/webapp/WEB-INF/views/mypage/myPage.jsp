@@ -17,7 +17,7 @@
 <!-- aisde-js 파일 -->
 <script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
-
+<link rel="stylesheet" href="/css/mypage.css">
 
 <!-- fullcalendar css -->
 <link rel="stylesheet"
@@ -219,115 +219,5 @@ $('.whyBtn').click(function() {
                 }
             });
 </script>
-<style>
-#calendarBox {
-	width: 85%;
-	margin: 30px auto;
-}
-#calendar .fc-col-header-cell {
-    background-color: rgba(103, 141, 115, 0.1);
-    color: #fff;
-    padding: 0 5px;
-}
-#my_modal {
-	display: none;
-	width: 350px;
-	padding: 20px 60px;
-	background-color: #fefefe;
-	border: 1px solid #888;
-	border-radius: 3px;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 1000;
-}
 
-#my_modal_delete {
-	display: none;
-	width: 350px;
-	padding: 20px 60px;
-	background-color: #fefefe;
-	border: 1px solid #888;
-	border-radius: 3px;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 1000;
-}
-
-.close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
-
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.close1 {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
-
-.close1:hover, .close1:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-input[type="text"],
-input[type="date"],
-input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-input[type="submit"] {
-    background-color: #607d67;
-    color: white;
-    cursor: pointer;
-}
-
-input[type="submit"]:hover {
-    background-color: #34403d;
-}
-/* 캘린더 버튼 css 추가 */
-#calendar .fc-button {
-    background-color: #405448;
-    border-color: #fff;
-    color: #fff;
-}
-#calendar .fc-prev-button{
-	background-color: #405448;
-    border-color: #fff;
-    color: #fff;
-}
-#calendar .fc-prev-button:hover{
-	border-color: #405448;
-	color: #405448;
-	background-color: #fff;
-}
-#calendar .fc-next-button{
-	background-color: #405448;
-    border-color: #fff;
-    color: #fff;
-}
-#calendar .fc-next-button:hover{
-	border-color: #405448;
-	color: #405448;
-	background-color: #fff;
-}
-</style>
 </html>

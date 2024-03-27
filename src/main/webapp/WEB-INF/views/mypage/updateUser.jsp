@@ -12,8 +12,7 @@
 <!-- aisde-js 파일 -->
 <script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
-
-
+<link rel="stylesheet" href="/css/mypage1.css">
 
 </head>
 <body>
@@ -115,8 +114,12 @@
 				</div>
 			</section>
 		</main>
+		
+		<!-- footer -->
 		<%@ include file="../include/footer.jsp"%>
 	</div>
+	<!-- //wrap -->
+	
 	<!-- modal 추가 -->
 	<%-- <c:if test="${user.kakaoYN eq false}"> --%>
 		<div id="my_modal_delete" class="modal">
@@ -126,7 +129,7 @@
 					<input type="password" name="pw" placeholder="비밀번호"
 						class="custom-input">
 					<p>정말로 삭제하시겠습니까?</p>
-					<input type="submit" value="삭제" class="delete-btn">
+					<input type="submit" value="삭제" class="delete-btn" style="margin: 20px 0px 0px 80px;">
 				</form>
 			</div>
 		</div>
@@ -212,178 +215,9 @@
 </script>
 
 <style>
-.member-info {
-	background-color: #f0f0f0; /* 배경색 지정 */
-	display: flex;
-	align-items: center;
-	margin: 50px;
-	padding: 20px; /* 내부 여백 지정 */
-	border-radius: 10px; /* 테두리 모서리 둥글게 만듦 */
-}
-
-.profile-picture img {
-	width: 150px; /* 프로필 사진의 크기 조절 */
-	height: 150px; /* 프로필 사진의 크기 조절 */
-	border-radius: 50%; /* 프로필 사진을 원형으로 만듭니다. */
-}
-
-.details {
-	margin-left: 20px; /* 회원 정보와 프로필 사진 사이의 간격 조절 */
-}
-
-.details h2 {
-	font-size: 20px; /* 사용자 이름의 글꼴 크기 조절 */
-	margin-bottom: 5px; /* 사용자 이름과 이메일 주소 사이의 간격 조절 */
-}
-
-.details p {
-	font-size: 16px; /* 이메일 주소의 글꼴 크기 조절 */
-	color: #666; /* 이메일 주소의 색상 변경 */
-}
-
-#my_modal_delete {
-	display: none;
-	width: 350px;
-	padding: 20px 60px;
-	background-color: #fefefe;
-	border: 1px solid #888;
-	border-radius: 3px;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 1000;
-}
-
-.close1 {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
-
-.close1:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.update {
-	background-color: #4CAF50; /* 버튼 배경색 */
-	color: white; /* 버튼 글자색 */
-	padding: 12px 20px; /* 내부 여백 */
-	border: none; /* 테두리 없음 */
-	border-radius: 4px; /* 버튼 모서리 둥글게 */
-	cursor: pointer; /* 마우스 커서를 포인터로 변경 */
-}
-
-.delete-btn {
-	background-color: #f44336; /* 삭제 버튼 배경색 */
-	color: white; /* 삭제 버튼 글자색 */
-	padding: 10px 20px; /* 내부 여백 */
-	border: none; /* 테두리 없음 */
-	border-radius: 4px; /* 버튼 모서리 둥글게 */
-	cursor: pointer; /* 마우스 커서를 포인터로 변경 */
-}
-
-/* 버튼에 마우스를 올렸을 때의 스타일 */
-.delete-btn:hover {
-	background-color: #d32f2f;
-}
-
-.custom-input {
-	width: 200px; /* 입력 상자의 너비 */
-	padding: 10px; /* 내부 여백 */
-	border: 1px solid #ccc; /* 테두리 스타일 및 색상 */
-	border-radius: 4px; /* 입력 상자 모서리 둥글게 */
-	font-size: 16px; /* 글꼴 크기 */
-	outline: none; /* 포커스 시 테두리 제거 */
-}
-
-/* 입력 상자에 포커스를 받았을 때의 스타일 */
-.custom-input:focus {
-	border-color: #405448; /* 포커스 시 테두리 색상 변경 */
-}
-
-.custom-file-upload {
-	display: inline-block;
-	padding: 10px 20px;
-	cursor: pointer;
-	color: black;
-	border: none;
-	border-radius: 4px;
-	font-size: 16px;
-}
-
-/* 파일 업로드 버튼에 마우스를 올렸을 때의 스타일 */
-.custom-file-upload:hover {
-	background-color: #0056b3;
-}
-
-/* 파일 업로드 버튼에 포커스를 받았을 때의 스타일 */
-.custom-file-upload:focus {
-	outline: none;
-}
-
 table {
 	width: 100%;
 	border-collapse: collapse;
-}
-
-.profile-picture {
-	text-align: center;
-	width: 350px;
-	margin: 0px auto;
-}
-
-.profile-picture img {
-	width: 150px;
-	height: 150px;
-	border-radius: 50%;
-}
-
-.custom-file-upload {
-	margin-top: 10px;
-	margin-bottom: 5px;
-	text-align: center;
-}
-
-.custom-input {
-	width: 100%;
-	padding: 5px;
-	font-size: 16px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	margin-bottom: 10px;
-}
-
-.update, .delete-btn {
-    padding: 10px 20px;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-right: 10px;
-}
-.update{
-	/* background-color: #4CAF50; */
-	background-color:#607d67; 
-}
-.delete-btn{
-	background-color:#f44336; 
-	/* background-color:#D45A63; */
-}
-
-.update:hover{
-    background-color: #405448;
-}
-.delete-btn:hover{
-	/* background-color:rgb(255, 51, 51); */
-}
-.update:disabled {
-    background-color: #d2d2d2; 
-    color: white; 
 }
 </style>
 </html>
