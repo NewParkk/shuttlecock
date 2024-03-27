@@ -72,7 +72,7 @@ public class RecruitboardController {
 			String badgeName = badgeService.getBadgeNameById(badgeId);
 			if (recruitboard != null) {
 				boolean isLiked = likeService.checkLikesList(new LikesDTO(String.valueOf(session.getAttribute("userId")), recruitboardId, 4));
-				List<CommentsDTO> commentList = commentService.getCommentList(recruitboardId, 4);
+				List<CommentsDTO> commentList = commentService.getCommentList(String.valueOf(session.getAttribute("userId")), recruitboardId, 4);
 				boardService.increaseHit(recruitboardId);
 
 				model.addAttribute("recruitboard", recruitboard);

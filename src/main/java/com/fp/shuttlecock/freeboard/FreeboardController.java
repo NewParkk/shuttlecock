@@ -60,7 +60,7 @@ public class FreeboardController {
 				// 좋아요 상태 표시
 				boolean isLiked = likeService.checkLikesList(new LikesDTO(String.valueOf(session.getAttribute("userId")), freeboardId, 2));
 				
-				List<CommentsDTO> commentList = commentService.getCommentList(freeboardId, 2);
+				List<CommentsDTO> commentList = commentService.getCommentList(String.valueOf(session.getAttribute("userId")), freeboardId, 2);
 				// FileRequest file = fileService.getBoardFileByTradeboardId(tradeboardId);
 				service.hit(freeboardId);
 

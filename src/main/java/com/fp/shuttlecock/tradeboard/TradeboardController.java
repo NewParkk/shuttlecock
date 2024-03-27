@@ -52,7 +52,7 @@ public class TradeboardController {
 			String badgeName = boardService.getBadgeNameById(badgeId);
 			if (tradeboard != null) {
 				boolean isLiked = likeService.checkLikesList(new LikesDTO(String.valueOf(session.getAttribute("userId")), tradeboardId, 3));
-				List<CommentsDTO> commentList = commentService.getCommentList(tradeboardId, 3);
+				List<CommentsDTO> commentList = commentService.getCommentList(String.valueOf(session.getAttribute("userId")), tradeboardId, 3);
 				boardService.increaseHit(tradeboardId);
 				List<Integer> regionList = boardService.getRegionList(tradeboardId);
 				model.addAttribute("tradeboard", tradeboard);

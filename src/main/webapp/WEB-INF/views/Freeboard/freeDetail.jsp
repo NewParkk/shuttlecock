@@ -19,6 +19,46 @@
 .contents {
 	width: 80%;
 }
+
+.UserBtn {
+	color: green;
+	position: relative;
+}
+
+.UserBtn:hover {
+	font-weight: bold;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.UserBtn:hover #block_actions {
+	display: block;
+}
+
+#block_actions {
+	position: relative;
+	right: 0;
+	background: #fff;
+	border: 2px solid #ddd;
+	border-radius: 5px;
+	padding: 8px;
+	text-align: center;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	width: 150px;
+	z-index: 999;
+	display: none;
+}
+
+#block_actions button {
+	padding: 7px 9px;
+	background-color: #405448;
+	color: white;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	margin: 0 6px;
+	border-radius: 10px;
+}
 </style>
 </head>
 
@@ -61,7 +101,20 @@
 					<p class="post-metadata" style="margin-bottom: 3px;">
 						<span class="post-info-text"> 작성자: <img
 							src="/badge/${badgeName}.jpg" style="height: 15px; width: 15px;">
-							<strong>${freeboard.userId}</strong>
+							<c:choose>
+								<c:when
+									test="${sessionScope.userId eq freeboard.userId or sessionScope.isAdmin eq true }">
+									<strong>${freeboard.userId}</strong>
+								</c:when>
+								<c:otherwise>
+									<strong class="UserBtn">${freeboard.userId}
+										<div id="block_actions" style="display: none;">
+											<button class="userblock" id="userblock_${freeboard.userId}"
+														value="${freeboard.userId}">게시자 차단</button>
+										</div>
+									</strong>
+								</c:otherwise>
+							</c:choose>
 						</span>
 					</p>
 					<!-- <span class="post-info-text"> <strong>작성 시간:</strong> -->
@@ -126,10 +179,10 @@
 					</c:if>
 
 
-					<c:if
+					<%-- <c:if
 						test="${sessionScope.userId ne freeboard.userId and not empty sessionScope.userId}">
 						<button type="button" class="btn btn-primary goBtn" id="userblock">게시자차단</button>
-					</c:if>
+					</c:if> --%>
 				</div>
 
 
@@ -145,9 +198,22 @@
 							<c:forEach items="${commentList}" var="comments">
 								<div class="row">
 									<div class="col" style="margin-bottom: 15px;">
-										<span class="post-info-text com-writer"> 
-										<img src="/badge/${comments.badgeName}.jpg" style="height:15px; width:15px;"> 
-										<strong>${comments.userId}</strong></span>
+										<span class="post-info-text com-writer"> <img
+											src="/badge/${comments.badgeName}.jpg"
+											style="height: 15px; width: 15px;"> <c:choose>
+												<c:when
+													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true }">
+													<strong style="color: blue;">${comments.userId}</strong>
+												</c:when>
+												<c:otherwise>
+													<strong>${comments.userId} </strong>
+												</c:otherwise>
+											</c:choose>
+										</span>
+									</div>
+									<div id="block_actions_${loop.index}" style="display: none;">
+										<button class="blockBtn"
+											data-comments-id="${comments.commentsId}">차단하기</button>
 									</div>
 
 									<div class="col">
@@ -182,11 +248,18 @@
 														id="com_save_btn_${comments.commentsId}"
 														style="display: none;">저장</button>
 												</c:if> <c:if
-													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
+													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true
+													or sessionScope.userId eq freeboard.userId}">
 													<button type="button"
 														class="btn btn-primary com_delete_btn"
 														id="com_delete_btn_${comments.commentsId}"
 														value="${comments.commentsId}">댓글 삭제</button>
+												</c:if> <c:if
+												test="${sessionScope.userId ne comments.userId}">
+												<button type="button"
+														class="btn btn-primary userblock"
+														id="userblock_${comments.userId}"
+														value="${comments.userId}">유저 차단</button>
 												</c:if>
 											</span>
 										</div>
@@ -211,9 +284,9 @@
 								<div class="form-group">
 									<div class="post-info-text com-writer"
 										style="margin-left: 7px;">
-										<img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${sessionScope.badgeId}.png"
-											width="15px" height="15px">
-										<strong>${sessionScope.userId}</strong>
+										<img
+											src="https://kr.object.ncloudstorage.com/team1bucket/badge/${sessionScope.badgeId}.png"
+											width="15px" height="15px"> <strong>${sessionScope.userId}</strong>
 									</div>
 									<textarea class="form-control content comment-textarea"
 										id="exampleFormControlTextarea1" rows="2" name="content"
@@ -310,6 +383,10 @@ $(document).ready(function() {
 	// regdate 값을 포맷팅하여 input 태그에 적용
 	var regdate = "${Detail.regdate}";
 	
+	    $('.UserBtn').click(function() {
+	        $('#block_actions').toggle();
+	    });
+
 		// 글수정
 		$('.updateBtn').click(function() {
 			location.href = "<c:url value='/Freeboard/update/${freeboard.freeboardId}'/>";
@@ -453,21 +530,32 @@ $(document).ready(function() {
 		    });
 		});
 		
-		$('#userblock').click(function(){
-	    	$.ajax({
-	    		type :"POST",
-	    		url : "/blockuser",
-	    		data : {
-	    			"userId" : "${sessionScope.userId}",
-	    			"blockedUser" : "${freeboard.userId}"
-	    		},
-	    		success : function(data){
-	    			alert(data);
-	    			location.href = "/Freeboard/freeList";
-	    			//location.reload();
-	    		} // success
-	    	}) // ajax
-	    }) //버튼 클릭
+		// 유저 차단 버튼 클릭 시 처리
+		$('.userblock').click(function() {
+		    // 차단할 사용자의 아이디를 가져옵니다.
+		    const blockedUserId = $(this).val();
+
+		    // AJAX를 통해 서버로 차단 요청을 전송합니다.
+		    $.ajax({
+		        type: 'POST',
+		        url: '/blockuser', // 차단 요청을 처리할 서버의 URL
+		        data: {
+		            'userId': '${sessionScope.userId}', // 현재 사용자의 아이디
+		            'blockedUser': blockedUserId // 차단할 사용자의 아이디
+		        },
+		        success: function(data) {
+		            // 차단 요청이 성공하면 알림을 표시하고 페이지를 새로 고침합니다.
+		            alert(data);
+		            window.location.href = '/Freeboard/freeList';
+		            //location.reload();
+		        },
+		        error: function(xhr, status, error) {
+		            // 차단 요청이 실패하면 에러를 콘솔에 표시합니다.
+		            console.error('차단 요청 중 에러 발생:', error);
+		        }
+		    });
+		});
+
 	    
 	    /* aside가 (/Freeboard/freeList)url이 같은 페이지로 인식되도록 작성함 */
 	    var currentPageUrl = "/Freeboard/freeList"; 

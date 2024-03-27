@@ -5,10 +5,12 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import io.lettuce.core.dynamic.annotation.Param;
+
 @Mapper
 public interface CommentsMapper {
 
-	List<CommentsDTO> getCommentList(Map<String, Integer> map);
+	List<CommentsDTO> getCommentList(@Param("userId") String userId,@Param("bno") int bno, @Param("commentType") int commentType);
 	
 	int insertComment(CommentsDTO comment);
 

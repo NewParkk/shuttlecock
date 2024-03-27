@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.lettuce.core.dynamic.annotation.Param;
+
 @Service
 public class CommentsServiceImpl implements CommentsService {
 	@Autowired
@@ -40,12 +42,9 @@ public class CommentsServiceImpl implements CommentsService {
 		return false;
 	}
 
-	public List<CommentsDTO> getCommentList(int boardId, int commentType) {
-		Map<String, Integer> map = new HashMap<>();
-		map.put("bno", boardId);
-		map.put("commentType", commentType);
+	public List<CommentsDTO> getCommentList(String userId, int bno, int commentType) {
 
-		return commentsmapper.getCommentList(map);
+		return commentsmapper.getCommentList(userId, bno, commentType);
 	}
 	
 	public void increaseCommentCount(CommentsDTO comment) {

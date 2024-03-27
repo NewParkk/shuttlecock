@@ -77,9 +77,18 @@
 								<c:forEach var="vo" items="${freeList}">
 									<tr>
 										<td scope="row" style="font-size:11px;">${vo.freeboardId}</td>
-										<td style="text-align:left; padding-left:20px;"><a
-											href="<c:url value='/Freeboard/freeDetail/${vo.freeboardId}'/>">${vo.title}
-												(${vo.commentCount})</a></td>
+										<c:choose>
+											<c:when test="${vo.commentCount != 0}">
+												<td bgcolor="" style="text-align:left; padding-left:20px;"><a
+													href="/Freeboard/freeDetail/${vo.freeboardId}">${vo.title}
+														[${vo.commentCount}]</a></td>
+											</c:when>
+											<c:when test="${vo.commentCount == 0}">
+												<td bgcolor="" style="text-align:left; padding-left:20px;"><a
+													href="/Freeboard/freeDetail/${vo.freeboardId}">${vo.title}</a>
+												</td>
+											</c:when>
+										</c:choose>
 										<td style="color:gray;"><img src="/badge/${vo.badgeName}.jpg" style="height:15px; width:15px;">${vo.userId}</td>
 										<td style="color:gray;"><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm"/></td> <%-- ${vo.regdate} --%>
 										<td style="color:gray;">${vo.hit}</td>
@@ -88,6 +97,11 @@
 								</c:forEach>
 							</tbody>
 						</table>
+						
+						<c:if test="${empty freeList}">
+							<div class="empty-post"
+								style="text-align: center; margin:100px;">게시물이 없습니다.</div>
+						</c:if>
 
 						<!-- 글작성 -->
 
