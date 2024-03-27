@@ -16,17 +16,6 @@ public class MainServiceImpl implements MainService{
 	
 	@Autowired
 	MainMapper mainMapper;
-	
-	@Override
-	public List<LeagueboardDTO> get5LeaguePosts() {
-		return mainMapper.get5LeaguePosts();
-	}
-
-//	@Override
-//	public List<FreeboardDTO> get5FreePosts() {
-//		return  mainMapper.get5FreePosts();
-//	}
-
 
 	@Override
 	public int updateCommunityBadge(UserDTO user) {

@@ -206,7 +206,6 @@
 <!-- script -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}"></script>
 <script src="/js/main-map-js.js"></script>
-<script src="/js/main-calendar-js.js"></script>
 <script>
 
 function mapView(){

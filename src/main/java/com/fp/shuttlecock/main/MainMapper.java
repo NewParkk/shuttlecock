@@ -11,10 +11,6 @@ import com.fp.shuttlecock.user.UserDTO;
 @Mapper
 public interface MainMapper {
 
-	List<LeagueboardDTO> get5LeaguePosts();
-
-	//List<FreeboardDTO> get5FreePosts();
-
 	int updateCommunityBadge(UserDTO user);
 
 	List<BadgeDTO> getBadgeList(int badgeType);

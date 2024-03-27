@@ -57,22 +57,7 @@ public class MainContoller {
 		model.addAttribute("apiKey", apiKey);
 	    model.addAttribute("events", events);
 		
-//		session.getAttribute("events");
-//		System.out.println(session.getAttribute("events"));
-		
-		// getGame에 저장된 events 가져오기
-//		model.addAttribute("events", session.getAttribute("events"));
-		
         return "main";
     }
-	
-
-	@GetMapping("/test")
-	public String test() {
-		String test = null;
-		test.length();
-		return "main";
-	}
-	
 	
 }
