@@ -13,9 +13,9 @@
 <link rel="stylesheet" href="/css/free.css">
 
 <style>
-section{
-    justify-content: center;
-    align-items: center;
+section {
+	justify-content: center;
+	align-items: center;
 }
 </style>
 </head>
@@ -24,32 +24,33 @@ section{
 	<%@ include file="../include/header.jsp"%>
 
 	<!-- main -->
-		<main id= "main">
-	        <div id="slider">
-	          <div class="imageWrap1"></div>
-	        </div>
-	
-			<!-- section -->
-			<section id="contents">
+	<main id="main">
+		<div id="slider">
+			<div class="imageWrap1"></div>
+		</div>
 
-			<div class="noticeboard" style="margin-bottom:20px;">
-				<div class="title" style="margin:0px;">
+		<!-- section -->
+		<section id="contents">
+
+			<div class="noticeboard" style="margin-bottom: 20px;">
+				<div class="title" style="margin: 0px;">
 					<div class="vline"></div>
 					<div class="container2">
 						<h3>회원 정보</h3>
 					</div>
 				</div>
 				<div class="title1" style="margin-left: 60px;">
-		              <div class="vline"></div>
-		              <h2>회원 상세정보</h2>
-		            </div>
+					<div class="vline"></div>
+					<h2>회원 상세정보</h2>
+				</div>
 
 				<div id="board-list">
 					<div class="container2">
 
 						<form action="/admin/${user.userId}" method="post"
-							enctype="multipart/form-data" style="margin: 30px 60px 30px 60px;">
-							
+							enctype="multipart/form-data"
+							style="margin: 30px 60px 30px 60px;">
+
 							<!-- 기존 div형식을 주석처리함(확인 후 지움) -->
 							<%-- <div class="member-info">
 								<div class="profile-picture">
@@ -122,81 +123,82 @@ section{
 								</div>
 							</div> --%>
 							<!-- //기존 div형식을 주석처리함(확인 후 지움) -->
-							
+
 							<!-- div를 table형식으로 변경함 -->
-							<div style="float:right;">
+							<div style="float: right;">
 								<c:set var="isFlag" value="${user.admin}" />
-								<span class="checkbox-text">
-					                <c:choose>
-					                    <c:when test="${isFlag == true}">
-					                        <span style="font-weight: bold; font-size:14px;">&#10024; 관리자 입니다</span>
-					                    </c:when>
-					                    <c:when test="${isFlag == false}">
-					                        <span style="font-size:14px;">&#9995;회원 입니다</span>
-					                    </c:when>
-					                </c:choose>
-					            </span>
-				            </div>
+								<span class="checkbox-text"> <c:choose>
+										<c:when test="${isFlag == true}">
+											<span style="font-weight: bold; font-size: 14px;">&#10024;
+												관리자 입니다</span>
+										</c:when>
+										<c:when test="${isFlag == false}">
+											<span style="font-size: 14px;">&#9995;회원 입니다</span>
+										</c:when>
+									</c:choose>
+								</span>
+							</div>
 							<table class="board-table">
-							    <colgroup>
-							        <col width="20%">
-							        <col width="10%">
-							        <col width="30%">
-							        <col width="10%">
-							        <col width="30%">
-							    </colgroup>
-							    <tbody>
-							        <tr>
-							            <td rowspan="4" colspan="1">
-							                <div class="profile-picture">
-							                    <c:if test="${user.userImageName eq null}">
-							                        <img src="https://kr.object.ncloudstorage.com/team1bucket/profile/noprofile.png">
-							                    </c:if>
-							                    <c:if test="${user.userImageName != null}">
-							                        <img src="https://kr.object.ncloudstorage.com/team1bucket/profile/${user.userImageName}">
-							                    </c:if>
-							                </div>
-							            </td>
-							            <th scope="row" bgcolor="#F9F9F9">아이디</th>
-							            <th scope="row" style="text-align: left; padding-left:10px;">
-							                <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${user.badgeId}.png" width="18px" height="15px" style="margin-right:3px;">${user.userId}
-							            </th>
-							            <th scope="row" bgcolor="#F9F9F9">이름</th>
-							            <td scope="row" style="text-align: left; padding-left:10px;">${user.username}</td>
-							        </tr>
-							        <tr>
-							            <th scope="row" bgcolor="#F9F9F9">이메일</th>
-							            <td scope="row" style="text-align: left; padding-left:10px;">${user.userEmail}</td>
-							            <th scope="row" bgcolor="#F9F9F9">성별</th>
-							            <td scope="row" style="text-align: left; padding-left:10px;">
-							                <c:set var="num" value="${user.gender}" />
-							                <c:choose>
-							                    <c:when test="${num == 1}">
+								<colgroup>
+									<col width="20%">
+									<col width="10%">
+									<col width="30%">
+									<col width="10%">
+									<col width="30%">
+								</colgroup>
+								<tbody>
+									<tr>
+										<td rowspan="4" colspan="1">
+											<div class="profile-picture">
+												<c:if test="${user.userImageName eq null}">
+													<img
+														src="https://kr.object.ncloudstorage.com/team1bucket/profile/noprofile.png">
+												</c:if>
+												<c:if test="${user.userImageName != null}">
+													<img
+														src="https://kr.object.ncloudstorage.com/team1bucket/profile/${user.userImageName}">
+												</c:if>
+											</div>
+										</td>
+										<th scope="row" bgcolor="#F9F9F9">아이디</th>
+										<th scope="row" style="text-align: left; padding-left: 10px;">
+											<img
+											src="https://kr.object.ncloudstorage.com/team1bucket/badge/${user.badgeId}.png"
+											width="18px" height="15px" style="margin-right: 3px;">${user.userId}
+										</th>
+										<th scope="row" bgcolor="#F9F9F9">이름</th>
+										<td scope="row" style="text-align: left; padding-left: 10px;">${user.username}</td>
+									</tr>
+									<tr>
+										<th scope="row" bgcolor="#F9F9F9">이메일</th>
+										<td scope="row" style="text-align: left; padding-left: 10px;">${user.userEmail}</td>
+										<th scope="row" bgcolor="#F9F9F9">성별</th>
+										<td scope="row" style="text-align: left; padding-left: 10px;">
+											<c:set var="num" value="${user.gender}" /> <c:choose>
+												<c:when test="${num == 1}">
 							                        남자
 							                    </c:when>
-							                    <c:when test="${num == 2}">
+												<c:when test="${num == 2}">
 							                        여자
 							                    </c:when>
-							                </c:choose>
-							            </td>
-							        </tr>
-							        <tr>
-							            <th scope="row" bgcolor="#F9F9F9">게시글 수</th>
-							            <td colspan="5" style="text-align: left; padding-left:10px;">${user.writeCount}</td>
-							        </tr>
-							        <tr>
-							            <th scope="row" bgcolor="#F9F9F9">승리</th>
-							            <td scope="row" style="text-align: left; padding-left:10px;">${user.wincount}</td>
-							            <th scope="row" bgcolor="#F9F9F9">패배</th>
-							            <td scope="row" style="text-align: left; padding-left:10px;">${user.losecount}</td>
-							        </tr>
-							        <tr>
-							            <td colspan="5">
-							            <label class="checkbox-label">
-								            <input type="checkbox" name="checkbox" class="checkbox" value="true"
-								                   <c:if test="${isFlag == true}">checked</c:if>>
-								            <span class="checkbox-custom"></span>관리자 권한
-								            <%-- <span class="checkbox-text">
+											</c:choose>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row" bgcolor="#F9F9F9">게시글 수</th>
+										<td colspan="5" style="text-align: left; padding-left: 10px;">${user.writeCount}</td>
+									</tr>
+									<tr>
+										<th scope="row" bgcolor="#F9F9F9">승리</th>
+										<td scope="row" style="text-align: left; padding-left: 10px;">${user.wincount}</td>
+										<th scope="row" bgcolor="#F9F9F9">패배</th>
+										<td scope="row" style="text-align: left; padding-left: 10px;">${user.losecount}</td>
+									</tr>
+									<tr>
+										<td colspan="5"><label class="checkbox-label"> <input
+												type="checkbox" name="checkbox" class="checkbox"
+												value="true" <c:if test="${isFlag == true}">checked</c:if>>
+												<span class="checkbox-custom"></span>관리자 권한 <%-- <span class="checkbox-text">
 								                <c:choose>
 								                    <c:when test="${isFlag == true}">
 								                        <span style="font-weight: bold;">&#11088; 관리자 입니다</span>
@@ -206,23 +208,22 @@ section{
 								                    </c:when>
 								                </c:choose>
 								            </span> --%>
-								        </label>
-							            </td>
-							        </tr>
-							    </tbody>
+										</label></td>
+									</tr>
+								</tbody>
 							</table>
-						
+
 							<button type="submit" class="btn btn-primary goBtn updateBtn">수정</button>
 							<button type="button" class="btn btn-primary goBtn updateBtn1"
 								onclick="redirectToPage()">목록</button>
-							
+
 						</form>
 					</div>
 				</div>
 			</div>
 		</section>
 	</main>
-	
+
 	<!-- footer -->
 	<%@ include file="../include/footer.jsp"%>
 </body>
@@ -291,20 +292,22 @@ section{
 /* 목록, 수정 버튼 css  */
 .updateBtn, .updateBtn1 {
 	margin: 10px 0px 0px 10px;
-	padding: 10px 20px; 
-	border: none; 
-	border-radius: 4px; 
-	cursor: pointer; 
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
 }
-.updateBtn{
+
+.updateBtn {
 	background-color: #fff;
-    color: rgb(0, 100, 0);
-    border: 1px solid rgb(0, 100, 0);
+	color: rgb(0, 100, 0);
+	border: 1px solid rgb(0, 100, 0);
 }
-.updateBtn:hover{
+
+.updateBtn:hover {
 	background-color: rgb(34, 139, 34);
-    color: #fff;
-    border: 1px solid rgb(34, 139, 34);
+	color: #fff;
+	border: 1px solid rgb(34, 139, 34);
 }
 
 .custom-input {
@@ -342,42 +345,42 @@ section{
 }
 
 .checkbox-label {
-    display: flex;
-    align-items: center;
-    justify-content: center; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .checkbox {
-    display: none;
+	display: none;
 }
 
 .checkbox-custom {
-    width: 20px;
-    height: 20px;
-    background-color: gray;
-    border-radius: 3px;
-    margin-right: 10px;
+	width: 20px;
+	height: 20px;
+	background-color: gray;
+	border-radius: 3px;
+	margin-right: 10px;
 }
 
 .checkbox-custom::after {
-    content: "";
-    display: none;
+	content: "";
+	display: none;
 }
 
-.checkbox:checked + .checkbox-custom::after {
-    display: block;
-    content: "";
-    width: 12px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-    margin: 0 0 1px 3px;
+.checkbox:checked+.checkbox-custom::after {
+	display: block;
+	content: "";
+	width: 12px;
+	height: 10px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	transform: rotate(45deg);
+	margin: 0 0 1px 3px;
 }
 
 .checkbox-text {
-    margin-left: 5px; 
-    font-size: 13px;
+	margin-left: 5px;
+	font-size: 13px;
 }
 </style>
 <script>

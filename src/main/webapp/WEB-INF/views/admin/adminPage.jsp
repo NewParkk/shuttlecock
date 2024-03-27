@@ -70,7 +70,6 @@ a:active {
 </style>
 </head>
 <body>
-	<c:if test="${user.admin}">
 		<!-- wrap -->
 		<div id="wrap">
 			<!-- header -->
@@ -231,7 +230,6 @@ a:active {
 			</main>
 			<%@ include file="../include/footer.jsp"%>
 		</div>
-	</c:if>
 </body>
 <script>
 	//step01 : 페이징 버튼 클릭시 지정 url 요청 갈수 있도록 이벤트 등록

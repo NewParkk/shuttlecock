@@ -17,6 +17,12 @@
 
 </head>
 <body>
+	<% if (request.getAttribute("errorMsg") != null) { %>
+        <script>
+            alert("<%= request.getAttribute("errorMsg") %>");
+            window.location = '/updateUser';
+        </script>
+    <% } %>
 
 	<!-- wrap -->
 	<div id="wrap">
@@ -122,7 +128,7 @@
 		<div id="my_modal_delete" class="modal">
 			<div class="modal-content">
 				<span class="close1">&times;</span>
-				<form action="/deleteUser" enctype="multipart/form-data">
+				<form action="/deleteUser" enctype="multipart/form-data" method="POST">
 					<input type="password" name="pw" placeholder="비밀번호"
 						class="custom-input">
 					<p>정말로 삭제하시겠습니까?</p>

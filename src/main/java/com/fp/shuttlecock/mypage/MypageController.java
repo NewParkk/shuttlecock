@@ -98,7 +98,7 @@ public class MypageController {
 		if (file.getOriginalFilename() != null && file.getOriginalFilename() != "") {
 			System.out.println("파일!!" + file);
 			String name = file.getOriginalFilename();
-			String path = "C:\\multi\\image";
+			String path = "C:\\shuttlecock";
 			UserDTO userFile = UserDTO.builder().userId(userId).userImageName(name).userImagePath(path).build();
 
 			try {
@@ -118,11 +118,11 @@ public class MypageController {
 	}
 
 	// 회원탈퇴
-	@GetMapping("/deleteUser")
+	@PostMapping("/deleteUser")
 	public String deleteUser(HttpSession session, @RequestParam("pw") String pw, Model model, HttpServletRequest request) {
 		String userId = session.getAttribute("userId").toString();
 		UserDTO user = service.getMypage(userId);
-
+		
 		boolean result = false;
 		System.out.println(user);
 		System.out.println("입력한 비밀번호 : "+pw);
@@ -136,9 +136,8 @@ public class MypageController {
 				
 			} else {
 				System.out.println("비밀번호 불일치");
-				request.setAttribute("msg", "비밀번호가 일치하지 않습니다.");
-				request.setAttribute("url", "/updateUser");
-				return "mypage/alert";
+				model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+				return "mypage/updateUser";
 			}
 			
 		}else {

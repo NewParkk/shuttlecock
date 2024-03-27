@@ -27,46 +27,55 @@ public class AdminController {
 	// 모든회원 리스트
 	@GetMapping("/admin")
 	public String getAllUserList(HttpSession session ,PageRequestDTO pageRequest, Model model) {
+		
 		String userId = session.getAttribute("userId").toString();
 		UserDTO user = service.getMypage(userId);
-		model.addAttribute("user" ,user);
 		
-		System.out.println(pageRequest);
-		
-		List<UserDTO> userList = service.getAllUserList();
-		
-		List<UserDTO> userSearchList = service.getUserBySearchWithPage(pageRequest);
-		
-		// 검색했을때 1페이지로 넘어가기
-		/*
-		 * if (pageRequest.getPageNum() != 1) { pageRequest.setPageNum(1); }
-		 */
-
-		int totalCount = service.getTotalCount(pageRequest);
-		
-		PageResponseDTO pageResponse = new PageResponseDTO().builder()
-									.total(totalCount)
-									.pageAmount(pageRequest.getAmount())
-									.pageRequest(pageRequest)
-									.build();
-		
-		model.addAttribute("userList", userList);
-		model.addAttribute("userSearchList", userSearchList);
-		model.addAttribute("pageInfo", pageResponse);
-
+		if (user.isAdmin() == true) {
+			model.addAttribute("user" ,user);
+			System.out.println(pageRequest);
+			List<UserDTO> userList = service.getAllUserList();
+			List<UserDTO> userSearchList = service.getUserBySearchWithPage(pageRequest);
+			
+			// 검색했을때 1페이지로 넘어가기
+			int totalCount = service.getTotalCount(pageRequest);
+			
+			PageResponseDTO pageResponse = new PageResponseDTO().builder()
+					.total(totalCount)
+					.pageAmount(pageRequest.getAmount())
+					.pageRequest(pageRequest)
+					.build();
+			
+			model.addAttribute("userList", userList);
+			model.addAttribute("userSearchList", userSearchList);
+			model.addAttribute("pageInfo", pageResponse);
+		}else {
+			return "error/error";
+		}
 
 		return "admin/adminPage";
 	}
 
 	// 회원 상세보기
 	@GetMapping("/admin/{userId}")
-	public String getUserByUserId( @PathVariable String userId, Model model) {
-
-		// 검색한 회원 정보
-		UserDTO user = service.getUserByUserId(userId);
-		model.addAttribute("user", user);
-		System.out.println(user);
+	public String getUserByUserId( @PathVariable String userId, Model model, HttpSession session) {
 		
+		// 로그인한 유저 
+		String loginUserId = session.getAttribute("userId").toString();
+		UserDTO loginUser = service.getMypage(loginUserId);
+		
+		if (loginUser.isAdmin() == true) {
+			model.addAttribute("loginUser" ,loginUser);
+			
+			// 상세보기 유저
+			UserDTO user = service.getUserByUserId(userId);
+			model.addAttribute("user", user);
+			System.out.println(user);
+		} else {
+			return "error/error_500";
+		}
+		
+		// 검색한 회원 정보
 		return "admin/adminPageDetail";
 	}
 	
