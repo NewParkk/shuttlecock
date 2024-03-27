@@ -14,9 +14,11 @@
 <!-- aisde-js 파일 -->
 <script src="/js/aside-js.js"></script>
 <link rel="stylesheet" href="/css/free.css">
+<link rel="stylesheet" href="/css/mypage1.css">
 
 </head>
 <body>
+<div id="wrap">
 	<!-- header -->
 	<%@ include file="../include/header.jsp"%>
 
@@ -244,6 +246,8 @@
 			</div>
 		</section>
 	</main>
+	<%@ include file="../include/footer.jsp"%>
+</div>
 	<!-- https://getbootstrap.com/docs/5.3/layout/columns/#alignment -->
 	<!-- https://getbootstrap.com/docs/5.3/components/pagination/#disabled-and-active-states -->
 	<%-- 	<div class="row justify-content-center">
@@ -403,101 +407,6 @@
 
 		}
 	</script>
-	<%@ include file="../include/footer.jsp"%>
 </body>
-<style>
-/* a {
-	font-size: 1.17rem;
-	!
-	important;
-} */
 
-/* .noticeboard {
-	width: 100%;
-} */
-
-.mainTitle {
-	text-align: center;
-}
-
-.whyBtn {
-	margin-left: 46%;
-}
-
-.whyBtn1 {
-	margin-left: 69%;
-}
-
-.del-btn {
-	margin-left: 95%
-}
-
-.paging {
-	margin-left: auto;
-	margin-right: auto;
-	display: table;
-}
-
-.whyBtn {
-	margin-left: 80%;
-	margin-top: 30px;
-}
-
-/* a:link {
-	text-decoration: none;
-	color: black;
-} */
-
-a:visited {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-a:active {
-	text-decoration: none;
-}
-
-/*---검색버튼--- */
-.search-wrap {
-	overflow: hidden; /*부모요소에 히든 */
-	margin-bottom: 20px;
-}
-
-.search-btn, .search-input, .search-select {
-	float: right; /*우측 플로팅 */
-}
-
-.search-input {
-	width: 140px;
-}
-
-#search-select {
-	width: 80px;
-}
-
-.selectbox {
-	width: 100px; /* 원하는 너비로 설정하세요 */
-	padding: 10px;
-	font-size: 16px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	appearance: none; /* 기본 스타일링 제거 */
-	-webkit-appearance: none; /* Safari 및 Chrome 호환성 */
-	-moz-appearance: none; /* Firefox 호환성 */
-	background-image:
-		url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="%23777" d="M7 10l3 3 3-3H7z"/></svg>');
-	/* 화살표 아이콘 */
-	background-repeat: no-repeat;
-	background-position-x: 95%;
-	background-position-y: center;
-}
-
-.selectbox:focus {
-	outline: none; /* 포커스 시 테두리 제거 */
-	border-color: #007bff; /* 포커스 시 테두리 색상 변경 */
-}
-</style>
 </html>

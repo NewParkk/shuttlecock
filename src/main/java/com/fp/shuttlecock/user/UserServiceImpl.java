@@ -37,6 +37,11 @@ public class UserServiceImpl implements UserService{
 		//DB에 저장된 화원정보 조회
 		UserDTO dbUser = userMapper.getLoginUser(userId);
 		
+		//DB에 저장된 아이디가 없을 경우
+		if (dbUser == null) {
+	        return null;
+	    }
+		
 		//입력받은 비밀번호를 암호화하여 DB에 저장된 비밀번호(암호화)와 비교
 		if (passwordEncoder.matches(pw, dbUser.getPw())) {
 			user = dbUser;

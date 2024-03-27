@@ -12,60 +12,13 @@
 <link rel="stylesheet" href="/css/loginstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
 <link rel="stylesheet" href="/css/free.css">
+<link rel="stylesheet" href="/css/admin.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <style>
 .noticeboard {
 	width: 90%;
-}
-
-.mainTitle {
-	text-align: center;
-}
-
-a:link {
-	text-decoration: none;
-	color: black;
-}
-
-a:visited {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-a:active {
-	text-decoration: none;
-}
-
-/*---검색버튼--- */
-.search-wrap {
-	overflow: hidden; /*부모요소에 히든 */
-	margin: 20px 65px 20px 0;
-}
-
-.search-btn, .search-input, .search-select {
-	float: right; /*우측 플로팅 */
-}
-
-/* 삭제 버튼 css */
-.delBtn{
-	background-color: #607d67; 
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    float: right;
-}
-
-.delBtn:hover{
-	background-color:rgb(255, 51, 51);
-	color:#fff;
 }
 </style>
 </head>
@@ -118,7 +71,8 @@ a:active {
 										style="margin-left: 100px;" />
 								</div>
 							</form> --%>
-
+								
+								<!-- 검색창 -->
 								<form action="<c:url value='/admin'/>" onsubmit="checkKeyword()"
 									style="text-align: center;">
 									<div class="search-wrap clearfix"
@@ -223,14 +177,22 @@ a:active {
 										</div>
 									</form>
 								</div>
-
+								<!--// 페이징 -->
 							</div>
 						</div>
+						<!-- //board-list -->
 					</div>
+					<!-- //noticeboard -->
 				</section>
+				<!-- //section -->
 			</main>
+			<!-- //main -->
+			
+			<!-- footer -->
 			<%@ include file="../include/footer.jsp"%>
+			
 		</div>
+		<!-- //wrap -->
 	</c:if>
 </body>
 <script>

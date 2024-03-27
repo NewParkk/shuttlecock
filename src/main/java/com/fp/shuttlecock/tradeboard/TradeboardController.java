@@ -64,7 +64,7 @@ public class TradeboardController {
 			tradeboard = boardService.getTradePostByTradeboardId(tradeboardId);
 			int badgeId = userService.getUserByUserId(tradeboard.getUserId()).getBadgeId(); 
 			String badgeName = boardService.getBadgeNameById(badgeId);
-			model.addAttribute("pageInfo", pageRequest);
+			//model.addAttribute("pageInfo", pageRequest);
 			if (tradeboard != null) {
 				boolean isLiked = likeService.checkLikesList(new LikesDTO(String.valueOf(session.getAttribute("userId")), tradeboardId, 3));
 				List<CommentsDTO> commentList = commentService.getCommentList(tradeboardId, 3);

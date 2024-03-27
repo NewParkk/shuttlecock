@@ -73,7 +73,7 @@
 						</form>
 
 						<!-- board list area -->
-						<table class="board-table" style="width: 90%; margin: 20px auto 0"">
+						<table class="board-table" style="width: 92%; margin: 20px auto 0"">
 							<thead>
 								<tr style="background-color: rgba(103, 141, 115, 0.1);">
 									<th scope="col" class="th-num">번호</th>
