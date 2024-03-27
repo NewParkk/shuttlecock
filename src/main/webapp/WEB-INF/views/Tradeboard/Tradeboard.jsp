@@ -178,7 +178,7 @@
 								value="${pageInfo.pageRequest.category}">
 						</form>
 						
-						<table class="table" style="width: 90%; margin: 0 auto;">
+						<%-- <table class="table" style="width: 90%; margin: 0 auto;">
 							<thead>
 								<tr>
 									<th scope="col" style="text-align: center;">
@@ -219,7 +219,7 @@
 									</th>
 								</tr>
 							</thead>
-						</table>
+						</table> --%>
 
 						<table class="table" style="width: 90%; margin: 0 auto;">
 							<thead>

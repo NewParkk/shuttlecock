@@ -80,7 +80,7 @@ public class NaverObjectStorage {
 
 		// upload local file
 		String objectName = folderName + boardType + "_" + fileName + ".png"; // upload폴더/생성할파일이름.확장자
-		String savePath = "C:\\shuttlecock_img";
+		String savePath = "C:\\shuttlecock";
 		// 폴더 생성 -> 파일저장
 		File directory = new File(savePath);
 		if (!directory.exists()) {

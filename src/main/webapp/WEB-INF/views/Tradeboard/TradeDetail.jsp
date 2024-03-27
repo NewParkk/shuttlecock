@@ -44,6 +44,18 @@
 				<div class="post-info">
 					<p class="post-title">
 						<strong>${tradeboard.title}</strong>
+						<c:if test="${tradeboard.complete eq 0}">
+							<span class="post-info-text"
+								style="font-size: 15px; float: right; color: red;"> <strong>거래
+									중</strong>
+							</span>
+						</c:if>
+						<c:if test="${tradeboard.complete eq 1}">
+							<span class="post-info-text"
+								style="font-size: 15px; float: right; color: #405448; text-decoration: line-through;">
+								<strong>거래완료</strong>
+							</span>
+						</c:if>
 					</p>
 					<p class="post-metadata">
 						<span class="post-info-text"> 작성자: <img
@@ -66,18 +78,7 @@
 						<fmt:formatDate value="${tradeboard.regdate}"
 							pattern="yyyy-MM-dd HH:mm" />
 						<span class="post-info-text" style="margin-left: 10px;">조회&nbsp;${tradeboard.hit}</span>
-						<c:if test="${tradeboard.complete eq 0}">
-							<span class="post-info-text"
-								style="font-size: 15px; float: right; color: red;"> <strong>거래
-									중</strong>
-							</span>
-						</c:if>
-						<c:if test="${tradeboard.complete eq 1}">
-							<span class="post-info-text"
-								style="font-size: 15px; float: right; color: #405448; text-decoration: line-through;">
-								<strong>거래완료</strong>
-							</span>
-						</c:if>
+						<strong style="font-size: 20px; float: right;">&#128077;${tradeboard.like}</strong>
 					</p>
 
 					<div class="line"></div>

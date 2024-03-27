@@ -57,14 +57,14 @@ public class TradeboardController {
 	private LikesServiceImpl likeService;
 
 	@GetMapping("/Tradeboard/{tradeboardId}")
-	public String getBoardByBoardId(@PathVariable int tradeboardId, Model model, HttpSession session, PageRequestDTO pageRequest) {
+	public String getBoardByBoardId(@PathVariable int tradeboardId, Model model, HttpSession session) {
 		String view = "error";
 		TradeboardDTO tradeboard = null;
 		try {
 			tradeboard = boardService.getTradePostByTradeboardId(tradeboardId);
 			int badgeId = userService.getUserByUserId(tradeboard.getUserId()).getBadgeId(); 
 			String badgeName = boardService.getBadgeNameById(badgeId);
-			model.addAttribute("pageInfo", pageRequest);
+//			model.addAttribute("pageInfo", pageRequest);
 			if (tradeboard != null) {
 				boolean isLiked = likeService.checkLikesList(new LikesDTO(String.valueOf(session.getAttribute("userId")), tradeboardId, 3));
 				List<CommentsDTO> commentList = commentService.getCommentList(tradeboardId, 3);

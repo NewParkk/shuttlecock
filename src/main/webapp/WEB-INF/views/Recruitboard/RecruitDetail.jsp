@@ -52,6 +52,18 @@
 				<div class="post-info">
 					<p class="post-title">
 						<strong>${recruitboard.title}</strong>
+						<c:if test="${recruitboard.complete eq 0}">
+								<span class="post-info-text" style="font-size:15px; float: right; color:red;">
+									<span style="font-size:25px;">&#128587;</span>
+									<strong>모집 중</strong>
+								</span>
+							</c:if>
+							<c:if test="${recruitboard.complete eq 1}">
+								<span class="post-info-text" style="font-size:15px; float: right; color:#405448;">
+									<span style="font-size:25px;">&#128581;</span>
+									<strong style="text-decoration: line-through;">모집완료</strong>
+								</span>
+							</c:if>
 					</p>
 					<p class="post-metadata">
 						<span class="post-info-text"> 작성자:
@@ -64,20 +76,7 @@
 					<p style="font-size:14px; color:gray;">
 						<fmt:formatDate value="${recruitboard.regdate}" pattern="yyyy-MM-dd HH:mm" />
 						<span class="post-info-text" style="margin-left:10px;"> 조회&nbsp;${recruitboard.hit}
-						
-							<c:if test="${recruitboard.complete eq 0}">
-								<span class="post-info-text" style="font-size:15px; float: right; color:red;">
-									<span style="font-size:25px;">&#128587;</span>
-									<strong>모집 중</strong>
-								</span>
-							</c:if>
-							<c:if test="${recruitboard.complete eq 1}">
-								<span class="post-info-text" style="font-size:15px; float: right; color:#405448;">
-									<span style="font-size:25px;">&#128581;</span>
-									<strong style="text-decoration: line-through;">모집완료</strong>
-								</span>
-							</c:if>
-
+							<strong style="font-size: 20px; float: right;">&#128077;${recruitboard.like}</strong>
 						</span>
 					</p>
 					
