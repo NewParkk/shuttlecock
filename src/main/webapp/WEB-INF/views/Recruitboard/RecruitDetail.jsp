@@ -110,7 +110,7 @@
 							<img src="/badge/${badgeName}.jpg" style="height:15px; width:15px;">
 							<c:choose>
 								<c:when
-									test="${sessionScope.userId eq recruitboard.userId or sessionScope.isAdmin eq true }">
+									test="${sessionScope.userId eq recruitboard.userId or sessionScope.isAdmin eq true  or empty sessionScope.userId}">
 									<strong>${recruitboard.userId}</strong>
 								</c:when>
 								<c:otherwise>

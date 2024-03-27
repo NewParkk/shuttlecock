@@ -103,7 +103,7 @@
 							src="/badge/${badgeName}.jpg" style="height: 15px; width: 15px;">
 							<c:choose>
 								<c:when
-									test="${sessionScope.userId eq freeboard.userId or sessionScope.isAdmin eq true }">
+									test="${sessionScope.userId eq freeboard.userId or sessionScope.isAdmin eq true or empty sessionScope.userId}">
 									<strong>${freeboard.userId}</strong>
 								</c:when>
 								<c:otherwise>
@@ -255,7 +255,7 @@
 														id="com_delete_btn_${comments.commentsId}"
 														value="${comments.commentsId}">댓글 삭제</button>
 												</c:if> <c:if
-												test="${sessionScope.userId ne comments.userId and not empty sessionScope.userId}">
+												test="${sessionScope.userId ne comments.userId}">
 												<button type="button"
 														class="btn btn-primary userblock"
 														id="userblock_${comments.userId}"
