@@ -4,27 +4,27 @@
 
 	<!-- selenium으로 데이터 insert -->
 	<insert id="insertGame" parameterType="com.fp.shuttlecock.information.CompetitionDTO">
-        INSERT INTO sports.competition (competitionId, region, title, startDate, endDate, image, url, applicationStartDate, applicationEndDate)
+        INSERT INTO competition (competitionId, region, title, startDate, endDate, image, url, applicationStartDate, applicationEndDate)
         VALUES (0, #{region}, #{title}, #{startDate}, #{endDate}, #{image}, #{url}, #{applicationStartDate}, #{applicationEndDate})
     </insert>
     
     <!-- 모든 정규대회 출력(시작날짜를 기준으로) -->
 	<select id="getEventByDate" resultType="com.fp.shuttlecock.information.CompetitionDTO">
-	    SELECT * FROM sports.competition ORDER BY startDate ASC
+	    SELECT * FROM competition ORDER BY startDate ASC
 	</select>
 
 	 <!-- 기사제목으로 정규대회 데이터 중복체크 -->
 	<select id="isCompCheck" resultType="boolean" parameterType="string">
-        SELECT COUNT(*) > 0 FROM sports.competition WHERE title = #{title}
+        SELECT COUNT(*) > 0 FROM competition WHERE title = #{title}
     </select>
 
 	<!-- 초기데이터가 있는지 없는지  확인 -->
 	<select id="isFirstData" resultType="int">
-        SELECT COUNT(*) FROM sports.competition
+        SELECT COUNT(*) FROM competition
     </select>
 
 	<!-- 전국/지역을 카테고리별로 나눠서 출력 -->
 	<select id="getRegionEvent" resultType="com.fp.shuttlecock.information.CompetitionDTO" parameterType="string">
-	    SELECT * FROM sports.competition WHERE region = #{region} ORDER BY startDate ASC
+	    SELECT * FROM competition WHERE region = #{region} ORDER BY startDate ASC
 	</select>
 </mapper>

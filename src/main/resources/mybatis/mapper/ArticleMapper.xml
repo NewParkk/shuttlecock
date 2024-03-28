@@ -4,27 +4,27 @@
 	
 	<!-- 중복 뉴스체크 -->
     <select id="isNewsCheck" resultType="boolean" parameterType="string">
-        SELECT COUNT(*) > 0 FROM sports.article WHERE title = #{title}
+        SELECT COUNT(*) > 0 FROM article WHERE title = #{title}
     </select>
 	
 	<!-- 크롤링 기사 insert -->
 	<insert id="getinsertNews" parameterType="com.fp.shuttlecock.information.ArticleDTO">
-        INSERT INTO sports.article (articleId, title, content, writer, image, url, updateDate)
+        INSERT INTO article (articleId, title, content, writer, image, url, updateDate)
         VALUES (0, #{title}, #{content}, #{writer}, #{image}, #{url}, #{updateDate})
     </insert>
     
     <!-- 최신 기사순 select -->	
 	<select id="getNewsByDate" parameterType="map" resultType="com.fp.shuttlecock.information.ArticleDTO">
-	    SELECT * FROM sports.article ORDER BY updateDate DESC, articleId DESC
+	    SELECT * FROM article ORDER BY updateDate DESC, articleId DESC
 	    LIMIT #{offset}, #{pageSize}
 	</select>
 	
 	<!-- 기사의 총 수 + 초기 데이터 유무 확인 -->
 	<select id="countArticle" resultType="int">
-	    SELECT COUNT(*) FROM sports.article
+	    SELECT COUNT(*) FROM article
 	</select>
 	
 	<!-- <select id="isNewsData" resultType="int">
-        SELECT COUNT(*) FROM sports.article
+        SELECT COUNT(*) FROM article
     </select> -->
 </mapper>

@@ -5,14 +5,14 @@
 	<!-- 로그인 --> <!-- 존재하는 아이디 확인 -->
 	<select id="getLoginUser" parameterType="string"
 		resultType="com.fp.shuttlecock.user.UserDTO">
-		select * from sports.user
+		select * from user
 		where userId =#{userId}
 	</select>
 	
 	<!-- 존재하는 아이디 확인 -->
 	<!-- <select id="getUserByUserId" parameterType="string"
  			resultType="com.fp.shuttlecock.user.UserDTO">
- 		select * from sports.user
+ 		select * from user
  		where userId =#{userId}
  	</select> -->
 	
@@ -20,7 +20,7 @@
 	<insert id="getJoinUser"
  			parameterType="com.fp.shuttlecock.user.UserDTO">
  		INSERT INTO 
- 			sports.user(userId, pw, username, gender, admin, userEmail, kakaoYN) 
+ 			user(userId, pw, username, gender, admin, userEmail, kakaoYN) 
  		VALUES
  			(#{userId}, #{pw}, #{username}, #{gender}, 
  			<choose>
@@ -36,25 +36,25 @@
  	
  	<!-- 아이디 중복체크 -->
  	<select id="CheckIdUser" parameterType="string" resultType="java.lang.Integer">
- 		select count(*) from sports.user
+ 		select count(*) from user
  		where userId =#{userId}
  	</select>
  	
  	<!-- 아이디 찾기 -->
  	<select id="findUserId" resultType="com.fp.shuttlecock.user.UserDTO">
-		select userId from sports.user
+		select userId from user
 		where username=#{username} and userEmail=#{userEmail}
 	</select>
 	
 	<!-- 이메일 중복체크 -->
 	<select id="isCheckEmail" parameterType="string" resultType="java.lang.Integer">
- 		select count(*) from sports.user
+ 		select count(*) from user
  		where userEmail=#{userEmail}
  	</select>
  	
  	<!-- 비밀번호 찾기 - 해당 회원의 정보가 있는지 확인 -->
  	<select id="isExistUser" resultType="boolean" parameterType="string">
-        select count(*) > 0 from sports.user
+        select count(*) > 0 from user
         where userId =#{userId} and userEmail=#{userEmail}
     </select>
     
@@ -64,7 +64,7 @@
     
     <!-- 새 비밀번호 변경 -->
     <update id="changePassword" parameterType="com.fp.shuttlecock.user.UserDTO">
- 		UPDATE sports.user SET pw=#{pw} WHERE userId=#{userId}
+ 		UPDATE user SET pw=#{pw} WHERE userId=#{userId}
  	</update>
  	
 </mapper>
