@@ -24,11 +24,11 @@
 		UPDATE user
 		INNER JOIN 
 		(
-			SELECT 
+		  SELECT 
 		        userId,
 		        RANK() OVER (ORDER BY SUM(wincount - losecount) DESC) AS ranking
-		    FROM leaguerank
-		    GROUP BY userId
+		  FROM leaguerank
+		  GROUP BY userId
 		) AS userRanking ON user.userId = userRanking.userId
 		SET user.userLeagueGrade = userRanking.ranking;
 	</update>
