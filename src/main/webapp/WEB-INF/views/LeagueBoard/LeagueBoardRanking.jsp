@@ -69,6 +69,7 @@
 									<span class="triangle-container down-arrow">&#9662;</span>
 								</button>
 								<ul class="season-list" data-opened="false">
+									<li class="season-item" data-selected="false" onclick="setDateRange(null, null)">전체 기간</li>
 								    <li class="season-item" data-selected="false" onclick="setDateRange('2024-01-01', '2024-03-31')">2024 1분기</li>
 								    <li class="season-item" data-selected="false" onclick="setDateRange('2024-04-01', '2024-06-30')">2024 2분기</li>
 								    <li class="season-item" data-selected="false" onclick="setDateRange('2024-07-01', '2024-09-30')">2024 3분기</li>
@@ -215,16 +216,11 @@
 
 		// 리그 순위 기간에 대한 함수
 	    function setDateRange(startDate, endDate) {
-			console.log(startDate, endDate);
 	        
 	        document.getElementById('startDate').value = startDate;
-	        document.getElementById('startDate1').value = startDate;
 	        document.getElementById('endDate').value = endDate;
-	        document.getElementById('endDate1').value = endDate;
 	        
-	        console.log(document.getElementById('startDate1').value);
-	        console.log(document.getElementById('endDate1').value);
-	        // 폼을 서버로 제출합니다.
+	        // 폼을 서버로 제출
 	        document.getElementById('dateForm').submit();
 	    }
 		
