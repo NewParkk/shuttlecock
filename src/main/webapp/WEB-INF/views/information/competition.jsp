@@ -35,7 +35,6 @@
           <div class="aside">
             <div class="menubar">
               <ul>
-                <li><a class="list" href="/main">HOME</a></li>
                 <li><a class="list" href="/Announcement/">공지사항</a></li>
                 <li><a class="list" href="/getNews">배드민턴 정보</a></li>
                 <li><a class="list" href="/getGame">정규대회 일정</a></li>
