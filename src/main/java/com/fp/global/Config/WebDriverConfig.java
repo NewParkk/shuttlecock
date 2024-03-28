@@ -18,11 +18,21 @@ public class WebDriverConfig {
         
         // WebDriver 설정
 		/* System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH); */
-		
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); // Headless 모드 설정
-
+        
+        
+        
+        //linux환경에서 실행을 위함
+        System.setProperty("webdriver.chrome.driver", "/usr/mydir/shuttlecock/chromedriver-linux64");
+        
+        // linux 환경에서 필요한 option
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        
+        //linux 크롬 드라이버 경로 /usr/mydir/shuttlecock
         WebDriver driver = new ChromeDriver(options);
+        
         return driver;
     }
 }
