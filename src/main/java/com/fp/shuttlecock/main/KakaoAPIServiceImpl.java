@@ -49,6 +49,9 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 	@Value("${KAKAO.KEY.REST}")
 	private String apiKey;
 	
+	@Value("${KAKAO.LOGIN.DOMAIN}")
+	private String loginDomain;
+	
 	@Override
 	public String kakaoLogin(String code, HttpSession session, ModelAndView mv) throws JsonMappingException, JsonProcessingException 
 	{
@@ -65,7 +68,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 		MultiValueMap<String, String>params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
 		params.add("client_id", apiKey);
-		params.add("redirect_uri", "http://localhost:8099/kakaoLogin");
+		params.add("redirect_uri", loginDomain + "kakaoLogin");
 		params.add("code", code);
 		
 		//HttpHeader와 HttpBody를 하나의 오브젝트에 담기
@@ -225,8 +228,8 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
         	templateObject.put("object_type", "text");
         	templateObject.put("text",user.getUsername() + "님!\n" + calendarDTO.getDate() + "일\n" + calendarDTO.getTitle() + " 일정이 예정되어있습니다!");
         	Map<String, String> link = new HashMap<>();
-        	link.put("web_url", "http://localhost:8099/mypage");
-        	link.put("mobile_web_url", "http://localhost:8099/mypage");
+        	link.put("web_url", loginDomain + "mypage");
+        	link.put("mobile_web_url", loginDomain + "mypage");
         	templateObject.put("link", link);
         	templateObject.put("button_title", "바로 확인");
         	
