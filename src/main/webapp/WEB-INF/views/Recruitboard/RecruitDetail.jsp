@@ -134,11 +134,11 @@
 						</button>
 					</c:if>
 					
-					<c:if
+					<%-- <c:if
 						test="${sessionScope.userId != recruitboard.userId and not empty sessionScope.userId}">
 						<button type="button" id="userblock"
 							style="margin: 0px 0px 20px 10px;">게시자차단</button>
-					</c:if>
+					</c:if> --%>
 					<c:if
 						test="${sessionScope.userId eq recruitboard.userId and recruitboard.complete ne 1 and (recruitboard.recruitType eq 1
 						or recruitboard.recruitType eq 2)}">

@@ -133,11 +133,11 @@
 
 						</button>
 					</c:if>
-					<c:if
+					<%-- <c:if
 						test="${sessionScope.userId != tradeboard.userId and not empty sessionScope.userId}">
 						<button type="button" id="userblock"
 							style="margin: 0px 0px 20px 10px;">게시자차단</button>
-					</c:if>
+					</c:if> --%>
 				</div>
 				<!-- 댓글 -->
 
