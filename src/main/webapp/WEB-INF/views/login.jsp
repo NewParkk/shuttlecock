@@ -98,7 +98,7 @@
 			window.location.href = 'https://kauth.kakao.com/oauth/authorize' +
 	    							'?response_type=code' +
 	    							'&client_id=a94cb68f7a3356e950b067a4ffdc6d95' +
-	    							'&redirect_uri=http://localhost:8099/kakaoLogin';
+	    							'&redirect_uri=${loginDomain}kakaoLogin';
     	});
     });
     </script>
