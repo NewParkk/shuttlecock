@@ -110,23 +110,26 @@
 	
 	<select id="getRecruitBoardLike"
 		resultType="RecruitboardDTO">
-			SELECT *
-			FROM recruitBoard
-			WHERE userId = #{userId}
+		SELECT recruitboard.*
+		FROM recruitboard
+		inner JOIN likes ON recruitboard.recruitboardId = likes.bno
+		WHERE likes.userId = #{userId};
 	</select>
 	
 		<select id="getFreeboardLike"
 		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
-			SELECT *
-			FROM freeboard
-			WHERE userId = #{userId}
+		SELECT freeboard.*
+		FROM freeboard
+		inner JOIN likes ON freeboard.freeboardId = likes.bno
+		WHERE likes.userId = #{userId};
 	</select>
 	
 	<select id="getTradeboardLike"
 		resultType="TradeboardDTO">
-			SELECT *
-			FROM tradeboard
-			WHERE userId = #{userId}
+		SELECT tradeboard.*
+		FROM tradeboard
+		inner JOIN likes ON tradeboard.tradeboardId = likes.bno
+		WHERE likes.userId = #{userId};
 	</select>
 	
 <!-- 	<select id="getBoard"
