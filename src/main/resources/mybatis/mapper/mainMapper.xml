@@ -21,12 +21,16 @@
 	</select>
 	
 	<update id="updateUserLeagueGrade">
-		UPDATE user AS U
-		JOIN (
-		    SELECT userId, RANK() OVER (ORDER BY (wincount - losecount) DESC) AS Ranking
+		UPDATE user
+		INNER JOIN 
+		(
+			SELECT 
+		        userId,
+		        RANK() OVER (ORDER BY SUM(wincount - losecount) DESC) AS ranking
 		    FROM leaguerank
-		) AS L ON U.userId = L.userId
-		SET U.userLeagueGrade = L.Ranking;
+		    GROUP BY userId
+		) AS userRanking ON user.userId = userRanking.userId
+		SET user.userLeagueGrade = userRanking.ranking;
 	</update>
 	
 	
