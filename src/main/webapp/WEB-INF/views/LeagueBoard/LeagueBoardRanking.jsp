@@ -8,83 +8,8 @@
 <link rel="stylesheet" href="/css/mainstyle.css">
 <link rel="stylesheet" href="/css/aside.css">
 <link rel="stylesheet" href="/css/free.css">
+<link rel="stylesheet" href="/css/league-rank.css">
 
-<style>
-.mainTitle {
-	text-align: center;
-}
-
-.whyBtn {
-	margin-left: 46%;
-}
-
-.whyBtn1 {
-	margin-left: 69%;
-}
-
-.del-btn {
-	margin-left: 95%
-}
-
-h1 {
-	padding-top: 30px;
-	padding-bottom: 30px
-}
-
-/* .paging {
-	margin-left: auto;
-	margin-right: auto;
-	display: table;
-} */
-.current-page {
-   background-color: #607d67 !important;
-   color: #fff !important;
-   padding: 5px 10px !important;
-   border: 1px solid #607d67 !important; 
-   border-radius: 5px !important;
-}
-
-.whyBtn {
-	margin-left: 80%;
-	margin-top: 30px;
-}
-
-a:link {
-	text-decoration: none;
-	color: black;
-}
-
-a:visited {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-a:active {
-	text-decoration: none;
-}
-/*---검색버튼--- */
-.search-wrap {
-	overflow: hidden; /*부모요소에 히든 */
-	/* margin-bottom: 20px; */
-}
-
-/* .search-btn, .search-input, .search-select {
-	float: right; /*우측 플로팅 */
-} */
-
-.search-input {
-	width: 140px;
-}
-
-#search-select {
-	width: 80px;
-}
-
-
-</style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
@@ -135,38 +60,22 @@ a:active {
 						</form>
 						<!-- board list area -->
 						
+						<!-- 시즌버튼으로 클릭시 하위메뉴가 보이게 함 -->
+						<div class="season-container" style="width: 92%; margin: 0 auto;">
+							<button class="season-btn" type="button" data-kind="season"><strong>Season</strong>
+								<span class="triangle-container down-arrow">&#9662;</span>
+							</button>
+							<ul class="season-list" data-opened="false">
+							    <li class="season-item" data-selected="false" onclick="setDateRange('2024-01-01', '2024-03-31')">2024 1분기</li>
+							    <li class="season-item" data-selected="false" onclick="setDateRange('2024-04-01', '2024-06-30')">2024 2분기</li>
+							    <li class="season-item" data-selected="false" onclick="setDateRange('2024-07-01', '2024-09-30')">2024 3분기</li>
+							    <li class="season-item" data-selected="false" onclick="setDateRange('2024-10-01', '2024-12-31')">2024 4분기</li>
+							</ul>
+						</div>
+
 						<!-- div를 table형식으로 변경함 -->
-						<table class="board-table" style="width: 92%; margin: 20px auto 0;">
-							<thead>
-							
-								<tr>
-									<th scope="col" style="text-align: center;">
-												<span style="font-size: 12pt;">
-												<a class="item-div" onclick="setDateRange('2024-01-01', '2024-03-31')">
-												2024 1분기
-												</a></span>
-											</th>
-											<th scope="col" style="text-align: center;">
-												<span style="font-size: 12pt;">
-												<a class="item-div" onclick="setDateRange('2024-04-01', '2024-06-30')">
-												2024 2분기
-												</a></span>
-											</th>
-											<th scope="col" style="text-align: center;">
-												<span style="font-size: 12pt;" onclick="setDateRange('2024-07-01', '2024-09-30')">
-												<a class="item-div" >
-												2024 3분기
-												</a></span>
-											</th>
-											<th scope="col" style="text-align: center;">
-												<span style="font-size: 12pt;" onclick="setDateRange('2024-10-01', '2024-12-31')">
-												<a class="item-div" >
-												2024 4분기
-												</a></span>
-											</th>
-								
-									</tr>
-									
+						<table class="board-table" style="width: 92%; margin: 10px auto 0;">
+							<thead>			
 								<tr style="background-color: rgba(103, 141, 115, 0.1);">
 									<th scope="col" class="th-writer"><a
 										href="/LeagueBoard?sort=0">순위</a></th>
@@ -271,10 +180,10 @@ a:active {
 					    <input type="hidden" id="startDate" name="startDate" >
 					    <input type="hidden" id="endDate" name="endDate" >
 					    
-					    <button onclick="setDateRange('2024-01-01', '2024-03-31')">1분기</button>
+					   <!--  <button onclick="setDateRange('2024-01-01', '2024-03-31')">1분기</button>
 					    <button onclick="setDateRange('2024-04-01', '2024-06-30')">2분기</button>
 					    <button onclick="setDateRange('2024-07-01', '2024-09-30')">3분기</button>
-					    <button onclick="setDateRange('2024-10-01', '2024-12-31')">4분기</button>
+					    <button onclick="setDateRange('2024-10-01', '2024-12-31')">4분기</button> -->
 					</form>
 					
 					
@@ -326,6 +235,27 @@ a:active {
 	        // 폼을 서버로 제출합니다.
 	        document.getElementById('dateForm').submit();
 	    }
+		
+		//버튼 클릭시 시즌별로 찾아볼 수 있게 구현함
+	    document.addEventListener('DOMContentLoaded', function () {
+	        const seasonBtn = document.querySelector('.season-btn');
+	        const seasonList = document.querySelector('.season-list');
+
+	        seasonBtn.addEventListener('click', function () {
+	            const isOpened = seasonList.getAttribute('data-opened') === 'true';
+	            seasonList.setAttribute('data-opened', isOpened ? 'false' : 'true');
+	            seasonList.style.display = isOpened ? 'none' : 'block';
+	        });
+	    });
+		
+	    /* aside가 (/LeagueBoardRanking)url이 같은 페이지로 인식되도록 작성함 */
+	    var currentPageUrl = "/LeagueBoardRanking"; 
+	    var menuItems = document.querySelectorAll('.menubar .list');
+	    menuItems.forEach(function(item) {
+	        if (item.getAttribute('href') === currentPageUrl) {
+	            item.classList.add('active');
+	        }
+	    });
 	</script>
 		
 </body>

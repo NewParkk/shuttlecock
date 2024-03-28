@@ -19,46 +19,6 @@
 .contents {
 	width: 80%;
 }
-
-.UserBtn {
-	color: green;
-	position: relative;
-}
-
-.UserBtn:hover {
-	font-weight: bold;
-	text-decoration: underline;
-	cursor: pointer;
-}
-
-.UserBtn:hover #block_actions {
-	display: block;
-}
-
-#block_actions {
-	position: relative;
-	right: 0;
-	background: #fff;
-	border: 2px solid #ddd;
-	border-radius: 5px;
-	padding: 8px;
-	text-align: center;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-	width: 150px;
-	z-index: 999;
-	display: none;
-}
-
-#block_actions button {
-	padding: 7px 9px;
-	background-color: #405448;
-	color: white;
-	border: none;
-	cursor: pointer;
-	transition: background-color 0.3s;
-	margin: 0 6px;
-	border-radius: 10px;
-}
 </style>
 </head>
 
@@ -107,12 +67,11 @@
 									<strong>${freeboard.userId}</strong>
 								</c:when>
 								<c:otherwise>
-									<strong class="UserBtn">${freeboard.userId}
-										<div id="block_actions" style="display: none;">
-											<button class="userblock" id="userblock_${freeboard.userId}"
-														value="${freeboard.userId}">게시자 차단</button>
-										</div>
-									</strong>
+									<strong class="UserBtn">${freeboard.userId}</strong>
+									<!-- 토글 창 -->
+									<span id="block_actions" style="display: none;">
+										<button class="userblock" id="userblock_${freeboard.userId}" value="${freeboard.userId}">게시자 차단</button>
+									</span>
 								</c:otherwise>
 							</c:choose>
 						</span>

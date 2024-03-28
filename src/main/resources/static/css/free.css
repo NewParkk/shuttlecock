@@ -347,6 +347,32 @@ main {
     background-color: #4e6555; 
 } 
 
+.goBtn1 {
+    background-color: rgb(34, 139, 34); /* 진한 초록색 */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 20px;
+    float: right;
+    box-shadow: 0 0 0 1px rgb(34, 139, 34) inset,
+                0 0 0 2px rgba(255,255,255,0.15) inset,
+                0 3px 0 0 rgba(111, 157, 133, .7),
+                0 3px 0 1px rgba(0,0,0,.4),
+                0 3px 3px 1px rgba(0,0,0,0.5);
+}
+
+.goBtn1:hover {
+    background-color: #2E5242;
+    box-shadow: 0 0 0 1px rgb(34, 139, 34) inset,
+                0 0 0 2px rgba(255,255,255,0.15) inset,
+                0 3px 0 0 rgba(111, 157, 133, .7),
+                0 3px 0 1px rgba(0,0,0,.4),
+                0 3px 3px 1px rgba(0,0,0,0.5);
+}
+
 /* 글작성 버튼과 취소 버튼 */
 
 .button-container {
@@ -573,4 +599,53 @@ main {
 }
 .form-control2:focus {
     border-color: #607d67;
+}
+
+/* 게시자 차단 css */
+.UserBtn {
+	position: relative;
+}
+
+.UserBtn:hover {
+	color: #FF6347;
+	font-weight: bold;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.UserBtn:hover #block_actions {
+	display: block;
+}
+
+#block_actions {
+	position: relative;
+	right: 0;
+	top: -3px;
+	text-align: center;
+	width: 110px;
+}
+
+#block_actions button {
+    padding: 7px 9px;
+    background-color: #FF6347; /* 빨간색 */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 6px;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px #FF6347 inset,
+                0 0 0 2px rgba(255,255,255,0.15) inset,
+                0 3px 0 0 rgba(255, 99, 71, .7),
+                0 3px 0 1px rgba(0,0,0,.4),
+                0 3px 3px 1px rgba(0,0,0,0.5);
+}
+
+#block_actions button:hover {
+    background-color: #DC143C; /* 더 진한 빨간색 */
+    box-shadow: 0 0 0 1px #FF6347 inset,
+                0 0 0 2px rgba(255,255,255,0.15) inset,
+                0 2px 0 0 rgba(255, 99, 71, .7),
+                0 2px 0 1px rgba(0,0,0,.4),
+                0 2px 2px 1px rgba(0,0,0,0.5);
 }

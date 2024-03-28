@@ -92,7 +92,7 @@ th {
 										<tr>
 											<th scope="row" bgcolor="" style="text-align: center;">${blockuser.blockedUser}
 											</th>
-											<td><button class="btn btn-primary goBtn delbtn"
+											<td><button class="btn btn-primary goBtn1 delbtn"
 												value="${blockuser.blockedUser}">차단해제</button>
 											</td>
 										</tr>
