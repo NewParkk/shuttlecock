@@ -13,12 +13,12 @@ public class LeagueboardRankingServiceImpl implements LeagueboardRankingService 
 	@Autowired
 	LeagueboardRankingMapper LRM;
 	
-	// 리그 총 인원의 userId값 가져옴
+	// 리그 유저의 데이터
 	public List<LeagueRankDTO> getLeagueRanking(PageRequestDTO pageRequest) {
 		return LRM.getLeagueRanking(pageRequest);
 	}
 	
-	// 리그 총 인원 수
+	// 리그 인원 수
 	public int countLeagueUser(PageRequestDTO pageRequest) {
 		return LRM.countLeagueUser(pageRequest);
 	}
@@ -27,13 +27,5 @@ public class LeagueboardRankingServiceImpl implements LeagueboardRankingService 
 	public List<LeagueRankDTO> getLeagueRankingByUsername(PageRequestDTO pageRequest) {
         return LRM.getLeagueRankingByUsername(pageRequest);
 	}
-	
-	// 리그 기간 범위(분기)
-    public List<LeagueRankDTO> getLeagueRankingByDateRange(String startDate, String endDate) {
-        PageRequestDTO pageRequest = new PageRequestDTO();
-        pageRequest.setStartDate(startDate);
-        pageRequest.setEndDate(endDate);
-        return LRM.getLeagueRanking(pageRequest);
-    }
 	
 }

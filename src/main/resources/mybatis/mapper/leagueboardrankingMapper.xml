@@ -10,7 +10,10 @@
     FROM (
 	    SELECT (ROW_NUMBER() OVER (ORDER BY (sum(r.wincount) - sum(r.losecount)) DESC) ) AS idx, r.userId, sum(r.wincount) AS wincount, sum(r.losecount) AS losecount, u.username, u.badgeId
 		FROM leagueRank r, user u
-		<![CDATA[WHERE r.userId = u.userId AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
+		WHERE r.userId = u.userId 
+		<if test = "startDate != null and startDate != '' and endDate != null and endDate != ''">
+		<![CDATA[AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
+		</if>
 		GROUP BY r.userId) t
     LIMIT #{start}, #{amount}
     
@@ -21,13 +24,15 @@
 		resultType="int">
 	SELECT COUNT(DISTINCT r.userId)
 	FROM leagueRank r, user u
-	<where>
-	<![CDATA[r.userId = u.userId AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
+	WHERE r.userId = u.userId 
+	<if test = "startDate != null and startDate != '' and endDate != null and endDate != ''">
+	<![CDATA[AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
+	</if>
 		<if test="searchKeyword != null and searchKeyword != ''">
 			AND u.username LIKE CONCAT ('%', #{searchKeyword}, '%')
 		</if>
 		
-	</where>
+	
 </select>
 
 
@@ -39,7 +44,10 @@
     	FROM (
 	    	SELECT (ROW_NUMBER() OVER (ORDER BY (sum(r.wincount) - sum(r.losecount)) DESC) ) AS idx, r.userId, sum(r.wincount) AS wincount, sum(r.losecount) AS losecount, u.username, u.badgeId
 			FROM leagueRank r, user u
-			<![CDATA[WHERE r.userId = u.userId AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
+			WHERE r.userId = u.userId
+			<if test = "startDate != null and startDate != '' and endDate != null and endDate != ''">
+			<![CDATA[AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
+			</if>
 			GROUP BY r.userId) t
 		<if test="searchKeyword != null and searchKeyword != ''">
 			WHERE username LIKE CONCAT ('%', #{searchKeyword}, '%')

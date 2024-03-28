@@ -14,5 +14,4 @@ public interface LeagueboardRankingMapper {
 
 	public List<LeagueRankDTO> getLeagueRankingByUsername(PageRequestDTO pageRequest);
 	
-	List<LeagueRankDTO> getLeagueRankingByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate);
 }
