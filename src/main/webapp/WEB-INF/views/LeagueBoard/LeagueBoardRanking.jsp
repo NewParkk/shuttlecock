@@ -262,11 +262,16 @@
 
 	        updateSeason(); //클릭한 시즌 업데이트
 	       
+	        window.onload = function() {
+	            // 페이지가 로드될 때 'selectedSeason' 데이터를 제거
+	            localStorage.removeItem('selectedSeason');
+	        };
+	        
 	        window.addEventListener('beforeunload', function () {
-	            //현재 URL이 '/LeagueBoardRanking'이 아닌 페이지를 떠날 때만 'selectedSeason' 데이터를 제거
-	            if (window.location.pathname !== '/LeagueBoardRanking') {
-	                localStorage.removeItem('selectedSeason');
-	            }
+	            //현재 URL이 '/LeagueBoardRanking'이 포함되지 않은 페이지를 떠날 때만 'selectedSeason' 데이터를 제거
+	            if (!window.location.pathname.includes('/LeagueBoardRanking')) {
+			        localStorage.removeItem('selectedSeason');
+			    }
 	        });
 	    });
 		
