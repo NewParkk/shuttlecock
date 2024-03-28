@@ -57,7 +57,7 @@ public class BadgeScheduler {
 		
 	}
 	
-	@Scheduled(cron  = "0 0 12 * * *")
+	@Scheduled(cron  = "0 0 0 * * *")
 	public void LeagueBadgeUpdate() throws Exception{
 		
 		//모든 유저 rank 최신화
