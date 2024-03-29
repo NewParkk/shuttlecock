@@ -11,17 +11,10 @@ public class WebDriverConfig {
 	
 	@Bean
     public WebDriver webDriver() {
-		/*
-		 * String WEB_DRIVER_ID = "webdriver.chrome.driver"; String WEB_DRIVER_PATH =
-		 * "C:\\multi\\00.dev\\chromedriver-win64\\chromedriver.exe";
-		 */
-        
+		
         // WebDriver 설정
-		/* System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH); */
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); // Headless 모드 설정
-        
-        
         
         //linux환경에서 실행을 위함
         System.setProperty("webdriver.chrome.driver", "/usr/mydir/chromedriver");
