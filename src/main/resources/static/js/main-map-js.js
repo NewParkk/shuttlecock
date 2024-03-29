@@ -1,5 +1,6 @@
 // 페이지 로딩 시와 모달 열릴 때 실행되는 지도 초기화 함수
 // 지도 초기화 함수
+console.log("map-js 진입")
 var mapContainer = document.getElementById('map'); 
 var mapOption = { 
     center: new kakao.maps.LatLng(33.450701, 126.570667), 
@@ -10,16 +11,18 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 
 if (navigator.geolocation) {
     getCurrentLocationAndAddMarker(map);
+    console.log("navigator.geolocation 호출 성공")
 }else{
-	console.log("navigator.geolocation 못불러옴")
+	console.log("navigator.geolocation 못불러옴");
 }
 
 // 현재 위치 가져와서 마커 추가하는 함수
 function getCurrentLocationAndAddMarker(map) {
     navigator.geolocation.getCurrentPosition(function(position) {
+		console.log("geolocation으로 현재위치 찍기");
         var lat = position.coords.latitude;
         var lon = position.coords.longitude;
-        
+        console.log(lat,lon);
         var locPosition = new kakao.maps.LatLng(lat, lon);
         var message = '<div style="padding:5px;">현재 위치</div>'; 
 		console.log("locPosition");
