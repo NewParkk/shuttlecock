@@ -113,7 +113,7 @@
 		SELECT recruitboard.*
 		FROM recruitboard
 		inner JOIN likes ON recruitboard.recruitboardId = likes.bno
-		WHERE likes.userId = #{userId};
+		WHERE likes.userId = #{userId} AND (likes.deleteYN IS NULL OR likes.deleteYN != 1)
 	</select>
 	
 		<select id="getFreeboardLike"
@@ -121,7 +121,7 @@
 		SELECT freeboard.*
 		FROM freeboard
 		inner JOIN likes ON freeboard.freeboardId = likes.bno
-		WHERE likes.userId = #{userId};
+		WHERE likes.userId = #{userId} AND (likes.deleteYN IS NULL OR likes.deleteYN != 1)
 	</select>
 	
 	<select id="getTradeboardLike"
@@ -129,7 +129,7 @@
 		SELECT tradeboard.*
 		FROM tradeboard
 		inner JOIN likes ON tradeboard.tradeboardId = likes.bno
-		WHERE likes.userId = #{userId};
+		WHERE likes.userId = #{userId} AND (likes.deleteYN IS NULL OR likes.deleteYN != 1)
 	</select>
 	
 <!-- 	<select id="getBoard"
