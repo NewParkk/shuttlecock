@@ -24,7 +24,7 @@ public class WebDriverConfig {
         
         
         //linux환경에서 실행을 위함
-        System.setProperty("webdriver.chrome.driver", "/usr/mydir/chromedriver");
+//        System.setProperty("webdriver.chrome.driver", "/usr/mydir/chromedriver");
         
         // linux 환경에서 필요한 option
         options.addArguments("--no-sandbox");
