@@ -18,6 +18,7 @@ if (navigator.geolocation) {
 
 // 현재 위치 가져와서 마커 추가하는 함수
 function getCurrentLocationAndAddMarker(map) {
+	console.log("getCurrentLocationAndAddMarker 진입");
     navigator.geolocation.getCurrentPosition(function(position) {
 		console.log("geolocation으로 현재위치 찍기");
         var lat = position.coords.latitude;
