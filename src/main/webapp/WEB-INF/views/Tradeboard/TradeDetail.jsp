@@ -67,23 +67,36 @@
 								</c:when>
 								<c:otherwise>
 									<strong class="UserBtn">${tradeboard.userId}</strong>
-										<span id="block_actions" style="display: none;">
-											<button class="userblock" id="userblock_${tradeboard.userId}"
-														value="${tradeboard.userId}">게시자 차단</button>
-										</span>
+									<span id="block_actions" style="display: none;">
+										<button class="userblock" id="userblock_${tradeboard.userId}"
+											value="${tradeboard.userId}">게시자 차단</button>
+									</span>
 								</c:otherwise>
 							</c:choose>
-						</span> 
-						<span class="post-info-text"> 거래장소:
-						<c:forEach items="${regionList}" var="region">
-							<c:if test="${region eq 0}"><strong>전체 </strong></c:if>
-							<c:if test="${region eq 1}"><strong>서울 </strong></c:if>
-							<c:if test="${region eq 2}"><strong>경기 </strong></c:if>
-							<c:if test="${region eq 3}"><strong>충청 </strong></c:if>
-							<c:if test="${region eq 4}"><strong>경상 </strong></c:if>
-							<c:if test="${region eq 5}"><strong>전라 </strong></c:if>
-							<c:if test="${region eq 6}"><strong>강원 </strong></c:if>
-						</c:forEach>
+						</span> <span class="post-info-text"> 거래장소: <c:forEach
+								items="${regionList}" var="region">
+								<c:if test="${region eq 0}">
+									<strong>전체 </strong>
+								</c:if>
+								<c:if test="${region eq 1}">
+									<strong>서울 </strong>
+								</c:if>
+								<c:if test="${region eq 2}">
+									<strong>경기 </strong>
+								</c:if>
+								<c:if test="${region eq 3}">
+									<strong>충청 </strong>
+								</c:if>
+								<c:if test="${region eq 4}">
+									<strong>경상 </strong>
+								</c:if>
+								<c:if test="${region eq 5}">
+									<strong>전라 </strong>
+								</c:if>
+								<c:if test="${region eq 6}">
+									<strong>강원 </strong>
+								</c:if>
+							</c:forEach>
 						</span>
 					</p>
 					<p style="font-size: 14px; color: gray;">
@@ -109,7 +122,8 @@
 				<div class="post-buttons">
 					<button type="button" class="btn btn-primary whyBtn listBtn"
 						id="goList" style="margin: 0px 30px 20px 10px;">목록</button>
-					<c:if test="${sessionScope.userId eq tradeboard.userId and tradeboard.complete ne 1}">
+					<c:if
+						test="${sessionScope.userId eq tradeboard.userId and tradeboard.complete ne 1}">
 						<button type="submit" class="btn btn-primary goBtn updateBtn"
 							style="margin: 0px 0px 20px 10px;">수정</button>
 					</c:if>
@@ -172,18 +186,22 @@
 							</div>
 							<c:forEach items="${commentList}" var="comments">
 								<div class="row">
-									<div class="col" style="margin-bottom:15px;">
-										<span class="post-info-text com-writer"><img src="/badge/${comments.badgeName}.jpg" style="height:15px; width:15px;"> 
-										 <c:choose>
+									<div class="col" style="margin-bottom: 15px;">
+										<span class="post-info-text com-writer"><img
+											src="/badge/${comments.badgeName}.jpg"
+											style="height: 15px; width: 15px;"> <c:choose>
+												<c:when test="${tradeboard.userId eq comments.userId}">
+													<strong style="color: green;">작성자</strong>
+												</c:when>
 												<c:when
-													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true }">
+													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
 													<strong style="color: blue;">${comments.userId}</strong>
 												</c:when>
 												<c:otherwise>
 													<strong>${comments.userId} </strong>
 												</c:otherwise>
 											</c:choose>
-									</div>				
+									</div>
 									<div class="col">
 										<div id="com_updateMode_div_${comments.commentsId}">
 											<c:choose>
@@ -223,10 +241,10 @@
 														class="btn btn-primary com_delete_btn"
 														id="com_delete_btn_${comments.commentsId}"
 														value="${comments.commentsId}">댓글 삭제</button>
-												</c:if><c:if
-												test="${sessionScope.userId ne comments.userId and not empty sessionScope.userId}">
-												<button type="button"
-														class="btn btn-primary userblock"
+												</c:if>
+												<c:if
+													test="${sessionScope.userId ne comments.userId and not empty sessionScope.userId}">
+													<button type="button" class="btn btn-primary userblock"
 														id="userblock_${comments.userId}"
 														value="${comments.userId}">유저 차단</button>
 												</c:if>
@@ -270,8 +288,11 @@
 						<form id="commentForm">
 							<div class="comment-container">
 								<div class="form-group">
-									<span class="post-info-text com-writer" style="margin-left:7px;"> <img src="https://kr.object.ncloudstorage.com/team1bucket/badge/${sessionScope.badgeId}.png"
-											width="15px" height="15px"> <strong> ${sessionScope.userId}</strong></span>
+									<span class="post-info-text com-writer"
+										style="margin-left: 7px;"> <img
+										src="https://kr.object.ncloudstorage.com/team1bucket/badge/${sessionScope.badgeId}.png"
+										width="15px" height="15px"> <strong>
+											${sessionScope.userId}</strong></span>
 									<textarea class="form-control content comment-textarea"
 										id="exampleFormControlTextarea1" rows="2" name="content"
 										placeholder="의견을 남겨주세요"></textarea>
