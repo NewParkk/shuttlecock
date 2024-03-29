@@ -10,6 +10,8 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 
 if (navigator.geolocation) {
     getCurrentLocationAndAddMarker(map);
+}else{
+	console.log("navigator.geolocation 못불러옴")
 }
 
 // 현재 위치 가져와서 마커 추가하는 함수
@@ -20,7 +22,8 @@ function getCurrentLocationAndAddMarker(map) {
         
         var locPosition = new kakao.maps.LatLng(lat, lon);
         var message = '<div style="padding:5px;">현재 위치</div>'; 
-
+		console.log("locPosition");
+		console.log(locPosition);
         var data = {"lat": lat, "lon": lon};
         $.ajax({
             type : "POST",
