@@ -235,46 +235,36 @@
 	            seasonList.style.display = isOpened ? 'none' : 'block';
 	        });
 	        
-	        //[onclick으로 페이지가 새로고침되어 data-selected가 유지되지 않았던 문제점 => localStorage로 해결할 수 있음!]
-	        //모든 season-item 선택 
-	        const seasonItems = document.querySelectorAll('.season-item');
-	        
-	        // 클릭한 시즌을 저장하고 페이지가 로드될 때 이를 읽어와서 선택한 시즌으로 설정
-	        seasonItems.forEach(function(seasonItem) {
-	            seasonItem.addEventListener('click', function() {
-	                const selectedSeason = this.textContent.trim();//클릭한 시즌의 text를 가져옴
-	                localStorage.setItem('selectedSeason', selectedSeason);//클릭한 시즌을 로컬 저장소에 'selectedSeason' 키로 저장
-	                updateSeason();//함수가 호출되면 클릭한 시즌으로 업데이트
-	            });
-	        });
+	        //URL에서 시작일과 종료일 파라미터 가져오기
+	        const urlParams = new URLSearchParams(window.location.search);
+	        const startDateParam = urlParams.get('startDate');
+	        const endDateParam = urlParams.get('endDate');
 
-	        // 로컬 저장소에 저장된 시즌을 읽어와서 선택한 시즌으로 설정
-	        function updateSeason() {
-	            const selectedSeason = localStorage.getItem('selectedSeason');//로컬 저장소에 저장된 'selectedSeason'키에 저장된 값을 가져옴
-	            if (selectedSeason) {
-	                const seasonStrong = seasonBtn.querySelector('strong');
-	                seasonStrong.textContent = selectedSeason;//클릭한 시즌의 text을 seasonStrong의 text로 설정
-	                seasonItems.forEach(function(item) {
-	                    item.setAttribute('data-selected', item.textContent.trim() === selectedSeason ? 'true' : 'false');
-	                });
-	            }
+	        //URL에 따라 버튼 텍스트 설정
+	        if (!startDateParam || !endDateParam) {
+	            //전체 기간
+	            seasonBtn.querySelector('strong').textContent = '전체 기간';
+	        } else if (startDateParam === '2024-01-01' && endDateParam === '2024-03-31') {
+	            //1분기
+	            seasonBtn.querySelector('strong').textContent = '2024 1분기';
+	        } else if (startDateParam === '2024-04-01' && endDateParam === '2024-06-30') {
+	            //2분기
+	            seasonBtn.querySelector('strong').textContent = '2024 2분기';
+	        } else if (startDateParam === '2024-07-01' && endDateParam === '2024-09-30') {
+	            //3분기
+	            seasonBtn.querySelector('strong').textContent = '2024 3분기';
+	        } else if (startDateParam === '2024-10-01' && endDateParam === '2024-12-31') {
+	            //4분기
+	            seasonBtn.querySelector('strong').textContent = '2024 4분기';
 	        }
-
-	        updateSeason(); //클릭한 시즌 업데이트
-	       
-	        window.onload = function() {
-	            // 페이지가 로드될 때 'selectedSeason' 데이터를 제거
-	            localStorage.removeItem('selectedSeason');
-	        };
 	        
-	        window.addEventListener('beforeunload', function () {
-	            //현재 URL이 '/LeagueBoardRanking'이 포함되지 않은 페이지를 떠날 때만 'selectedSeason' 데이터를 제거
-	            if (!window.location.pathname.includes('/LeagueBoardRanking')) {
-			        localStorage.removeItem('selectedSeason');
-			    }
-	        });
+	        //페이지네이션 js
+	        const pageNum = ${pageInfo.pageRequest.pageNum};
+			console.log(pageNum);
+			$('#pbtn_' + pageNum).toggleClass('current-page');
+
 	    });
-		
+	    
 	    /* aside가 (/LeagueBoardRanking)url이 같은 페이지로 인식되도록 작성함 */
 	    var currentPageUrl = "/LeagueBoardRanking"; 
 	    var menuItems = document.querySelectorAll('.menubar .list');
@@ -284,12 +274,6 @@
 	        }
 	    });
 	    
-	    //페이지네이션 js
-	    window.onload = function(){
-			const pageNum = ${pageInfo.pageRequest.pageNum};
-			console.log(pageNum);
-			$('#pbtn_' + pageNum).toggleClass('current-page');
-		};
 	</script>
 
 </body>
