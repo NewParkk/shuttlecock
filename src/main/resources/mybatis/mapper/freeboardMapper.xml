@@ -37,13 +37,13 @@
 	<select id="getFreeboard"
 		resultType="com.fp.shuttlecock.freeboard.FreeboardDTO">
 		<bind name="start" value="(pageNum - 1) * countPerPage" />
-		select freeBoard.*, badge.badgeName from freeBoard
-		INNER JOIN user ON freeBoard.userId = user.userId
+		select freeboard.*, badge.badgeName from freeboard
+		INNER JOIN user ON freeboard.userId = user.userId
 		INNER JOIN badge ON user.badgeId = badge.badgeId
 		<where>
 			(deleteYN IS NULL OR deleteYN != 1)
 			<if test="userId != null">
-				AND (freeBoard.userId NOT IN (SELECT blockedUser FROM blockuser
+				AND (freeboard.userId NOT IN (SELECT blockedUser FROM blockuser
 				WHERE blockuser.userId = #{userId}))
 			</if>
 			<choose>
@@ -54,7 +54,7 @@
 							AND title LIKE CONCAT('%', #{keyword}, '%')
 						</when>
 						<when test="condition == 'userId'">
-							AND freeBoard.userId LIKE CONCAT('%', #{keyword}, '%')
+							AND freeboard.userId LIKE CONCAT('%', #{keyword}, '%')
 						</when>
 						<when test="condition == 'content'">
 							AND content LIKE CONCAT('%', #{keyword}, '%')
@@ -85,7 +85,7 @@
 	<!-- 토탈 -->
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)
-		FROM freeBoard
+		FROM freeboard
 		<where>
 			(deleteYN IS NULL OR deleteYN != 1)
 			<if test="userId != null">
@@ -113,7 +113,7 @@
 
 	<!-- 조회수 -->
 	<update id="hit">
-		update freeBoard
+		update freeboard
 		set hit = hit + 1
 		where freeboardId =
 		#{freeboardId}

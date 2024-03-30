@@ -81,7 +81,7 @@
 	<select id="getRecruitBoard"
 		resultType="RecruitboardDTO">
 		SELECT *
-		FROM recruitBoard
+		FROM recruitboard
 		WHERE userId = #{userId} AND (deleteYN IS NULL OR deleteYN != 1)
 	</select>
 
