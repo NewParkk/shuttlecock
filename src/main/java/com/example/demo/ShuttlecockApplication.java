@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-//@ComponentScan(basePackages = "com.fp.shuttlecock")
 @ComponentScan(basePackages = "com.fp")
 @MapperScan(basePackages = "com.fp.shuttlecock")
 @EnableScheduling
@@ -17,4 +16,5 @@ public class ShuttlecockApplication {
 		SpringApplication.run(ShuttlecockApplication.class, args);
 		System.out.println("서버 생성");
 	}		
+	
 }

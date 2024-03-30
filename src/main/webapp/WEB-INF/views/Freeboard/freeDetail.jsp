@@ -161,9 +161,13 @@
 											src="/badge/${comments.badgeName}.jpg"
 											style="height: 15px; width: 15px;"> <c:choose>
 												<c:when
+													test="${freeboard.userId eq comments.userId}">
+													<strong style="color: green;">작성자</strong>
+												</c:when>
+												<c:when
 													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true }">
 													<strong style="color: blue;">${comments.userId}</strong>
-												</c:when>
+												</c:when>												
 												<c:otherwise>
 													<strong>${comments.userId} </strong>
 												</c:otherwise>
@@ -207,14 +211,13 @@
 														id="com_save_btn_${comments.commentsId}"
 														style="display: none;">저장</button>
 												</c:if> <c:if
-													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true
-													or sessionScope.userId eq freeboard.userId}">
+													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
 													<button type="button"
 														class="btn btn-primary com_delete_btn"
 														id="com_delete_btn_${comments.commentsId}"
 														value="${comments.commentsId}">댓글 삭제</button>
 												</c:if> <c:if
-												test="${sessionScope.userId ne comments.userId}">
+												test="${sessionScope.userId ne comments.userId and not empty sessionScope.userId}">
 												<button type="button"
 														class="btn btn-primary userblock"
 														id="userblock_${comments.userId}"

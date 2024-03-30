@@ -189,9 +189,13 @@
 										<span class="post-info-text com-writer"> <img src="/badge/${comments.badgeName}.jpg" style="height:15px; width:15px;"> 
 										<c:choose>
 												<c:when
+													test="${recruitboard.userId eq comments.userId}">
+													<strong style="color: green;">작성자</strong>
+												</c:when>
+												<c:when
 													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true }">
 													<strong style="color: blue;">${comments.userId}</strong>
-												</c:when>
+												</c:when>												
 												<c:otherwise>
 													<strong>${comments.userId} </strong>
 												</c:otherwise>
@@ -240,8 +244,7 @@
 														style="display: none;">저장</button>
 												</c:if>
 												<c:if
-													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true
-													or sessionScope.userId eq recruitboard.userId}">
+													test="${sessionScope.userId eq comments.userId or sessionScope.isAdmin eq true}">
 													<button type="button" class="btn btn-primary com_delete_btn"
 														id="com_delete_btn_${comments.commentsId}"
 														value="${comments.commentsId}">댓글 삭제</button>

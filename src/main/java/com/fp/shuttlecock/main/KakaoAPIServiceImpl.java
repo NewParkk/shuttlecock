@@ -124,7 +124,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 							  .userId(kakaoId)
 							  .username(username)
 							  .userEmail(email)
-							  .pw(kakaoId)
+							  .pw(kakaoId + "SJDKS")
 							  .gender(gender)
 							  .kakaoYN(true)
 							  .build();
@@ -138,7 +138,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 		// 있으면 해당 정보로 로그인 진행
 		} else 
 		{
-			UserDTO loginUser = userService.getLoginUser(kakaoId, kakaoId);
+			UserDTO loginUser = userService.getLoginUser(kakaoId, kakaoUser.getPw());
 			session.setAttribute("userId", loginUser.getUserId());
 			session.setAttribute("isAdmin", loginUser.isAdmin());
 			session.setAttribute("username", loginUser.getUsername());
