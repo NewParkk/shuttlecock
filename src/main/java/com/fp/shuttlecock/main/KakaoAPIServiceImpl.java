@@ -82,7 +82,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 		OAuthToken oauthToken = null;
 		oauthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
 		
-		System.out.println("Token값 확인 : " + oauthToken.getAccess_token());
+//		System.out.println("Token값 확인 : " + oauthToken.getAccess_token());
 		//사용자 Profile 불러오기
 		//RestTemplate
 		RestTemplate rt2 = new RestTemplate();
@@ -106,7 +106,6 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 		
 		ObjectMapper objectMapper2 = new ObjectMapper();
 		KakaoProfile kakaoProfile = objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
-		
 		String kakaoId = kakaoProfile.getId().toString();
 		String username = kakaoProfile.getProperties().getNickname();
 		String email = kakaoProfile.getKakao_account().getEmail();
@@ -118,13 +117,11 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 							  .userId(kakaoId)
 							  .username(username)
 							  .userEmail(email)
-							  .pw(kakaoId + "SJDKS")
+							  .pw(kakaoId)
 							  .gender(gender)
 							  .kakaoYN(true)
 							  .build();
-		System.out.println("id : " + kakaoId);
 		UserDTO originUser = userService.getUserByUserId(kakaoId);
-		
 		// 가입한 아이디가 없으면 회원가입 진행
 		if (originUser == null) 
 		{
@@ -133,6 +130,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 		} else 
 		{
 			UserDTO loginUser = userService.getLoginUser(kakaoId, kakaoUser.getPw());
+//			System.out.println("loginUser : " + loginUser);
 			session.setAttribute("userId", loginUser.getUserId());
 			session.setAttribute("isAdmin", loginUser.isAdmin());
 			session.setAttribute("username", loginUser.getUsername());
@@ -140,6 +138,8 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 			session.setAttribute("badgeId", loginUser.getBadgeId());
           
 		}
+		
+		sendKakaoMessage(oauthToken.getAccess_token(), session);
 		
 		return "redirect:/main";
 	}
@@ -177,7 +177,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
             }
         }
         
-        System.out.println("talkDateList : " + talkDate);
+//        System.out.println("talkDateList : " + talkDate);
         
         // 3일이내 일정들 알람톡으로 보내기
         for (CalendarDTO calendarDTO : talkDate) 
@@ -223,7 +223,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 				String.class
         	);
         	
-        	System.out.println("response" + response.getBody().toString());
+//        	System.out.println("response" + response.getBody().toString());
         	
         	
 		}
