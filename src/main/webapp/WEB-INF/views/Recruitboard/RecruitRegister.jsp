@@ -187,6 +187,21 @@ ClassicEditor.create(document.querySelector('#ckeditor'), {
 	language:'ko'
 }).then(editor => {
     window.editor = editor;
+    $('.whyBtn').click(function() {
+        // 제목과 내용을 가져옵니다.
+        var title = $('#exampleFormControlInput1').val();
+        var content = editor.getData(); // 에디터의 내용을 가져옵니다.
+        // 제목이나 내용이 비어 있는지 확인합니다.
+        if (title.trim() === '') {
+            alert('제목을 입력하세요.');
+            return false;
+        } if(content.trim() === ''){
+            alert('내용을 입력하세요.');
+            return false;
+        } else {
+            $("form").submit(); // 유효한 경우 폼을 제출합니다.
+        }
+    });
 }).catch( error => {
     console.error( error );
 });

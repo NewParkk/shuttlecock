@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,25 +15,20 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fp.shuttlecock.mypage.CalendarDTO;
-import com.fp.shuttlecock.mypage.MypageService;
 import com.fp.shuttlecock.mypage.MypageServiceImpl;
 import com.fp.shuttlecock.user.UserDTO;
-import com.fp.shuttlecock.user.UserService;
 import com.fp.shuttlecock.user.UserServiceImpl;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 
 @Primary
 @Service
@@ -146,29 +140,6 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 			session.setAttribute("badgeId", loginUser.getBadgeId());
           
 		}
-//		UserDTO existingUser = userService.getUserByUserId(kakaoId);
-//
-//		if (existingUser == null) {
-//		    // 기존 사용자가 없는 경우: Kakao 계정 정보로 새로운 사용자 생성
-//		    UserDTO newUser = UserDTO.builder()
-//		            .userId(kakaoId)
-//		            .username(username)
-//		            .userEmail(email)
-//		            .pw(null) // 카카오 로그인 시에는 비밀번호를 사용하지 않음
-//		            .gender(gender)
-//		            .kakaoYN(true)
-//		            // 다른 필드도 설정할 수 있음
-//		            .build();
-//
-//		    userService.getJoinUser(newUser);
-//		} else {
-//		    // 기존 사용자가 있는 경우: Kakao 계정 정보로 로그인
-//			existingUser.setUsername(username);
-//	        existingUser.setUserEmail(email);
-//	        existingUser.setGender(gender);
-//	        existingUser.setKakaoYN(true); 
-//		}	
-		sendKakaoMessage(oauthToken.getAccess_token(),session);
 		
 		return "redirect:/main";
 	}
