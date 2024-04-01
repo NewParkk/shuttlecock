@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +14,6 @@
 <link rel="stylesheet" href="/css/admin.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 <style>
 .noticeboard {
 	width: 90%;
@@ -36,8 +34,6 @@
 		
 				<!-- section -->
 				<section id="contents">
-
-
 					<div class="noticeboard">
 						<div class="title" style="margin:0px;">
 							<div class="vline"></div>
@@ -45,10 +41,8 @@
 								<h3>회원 리스트</h3>
 							</div>
 						</div>
-
 						<div id="board-list">
 							<div class="container2">
-
 								<%-- <form id="mainForm" action="/admin" onsubmit="checkKeyword()"
 								style="text-align: center;">
 								<div class="search-wrap clearfix">
@@ -90,9 +84,6 @@
 										<button type="submit" class="btn btn-primary search-btn">검색</button>
 									</div>
 								</form>
-
-
-
 								<table class="board-table" style="width: 90%; margin: 0 auto;">
 									<thead>
 										<tr style="background-color: rgba(103, 141, 115, 0.1);">
@@ -130,22 +121,19 @@
 												<td><input type="hidden" value="${user.userId}">
 													<button type="button" class="btn btn-primary delBtn" style="margin-bottom:0px;">삭제</button>
 												</td>
-
 											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
-
 								<!-- 페이징 -->
 								<div class="paging">
 									<form action="<c:url value='/admin' />" name="pageForm">
 										<div class="text-center clearfix">
 											<ul class="pagination" id="pagination">
 												<c:if test="${pageInfo.prev}">
-													<li class="page-item"><a class="page-link" href="#"
+													<li class="page-item"><a class="page" href="/admin?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}"
 														data-pageNum="${pageInfo.startPage-1}">Prev</a></li>
 												</c:if>
-
 												<c:forEach var="num" begin="${pageInfo.startPage}"
 													end="${pageInfo.endPage}">
 													<li class="page-item"><c:choose>
@@ -157,13 +145,11 @@
 															</c:otherwise>
 														</c:choose></li>
 												</c:forEach>
-
 												<c:if test="${pageInfo.next}">
-													<li class="page-item"><a class="page-link" href="#"
+													<li class="page-item"><a class="page" href="/admin?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}"
 														data-pageNum="${pageInfo.endPage+1}">Next</a></li>
 												</c:if>
 											</ul>
-
 											<!-- 페이지 관련 버튼을 클릭 시 같이 숨겨서 보낼 값 -->
 											<input type="hidden" name="pageNum"
 												value="${pageInfo.pageRequest.pageNum}"> <input
@@ -202,26 +188,26 @@
 	                e.preventDefault();
 	                // 페이지 번호를 가져옴
 	                let pageNum = parseInt(e.target.innerHTML);
-	                
+	               
 	                // 폼을 찾아서 pageNum 값을 변경
 	                let pageForm = document.forms.pageForm;
 	                pageForm.pageNum.value = pageNum;
-	                
+	               
 	                // 폼 제출
 	                pageForm.submit();
 	            });
 	        });
-	    
-	    
-	        
+	   
+	   
+	       
 	    // 삭제 버튼 클릭 이벤트를 처리합니다.
 	    document.querySelectorAll(".delBtn").forEach(function (button) {
 	        button.addEventListener("click", function (e) {
 	            e.preventDefault();
-	            
+	           
 	            // 현재 버튼의 부모 tr 요소를 찾아서 해당 사용자의 userId를 가져옵니다.
 	            var userId = this.closest("tr").querySelector("input[type='hidden']").value;
-	            
+	           
 	            // 알림을 통해 사용자에게 삭제 여부를 확인할 수 있습니다.
 	            var isConfirmed = confirm("사용자를 삭제하시겠습니까?");
 	            console.log("출력 : "+userId);
@@ -250,6 +236,5 @@
 			mainForm.searchKeyword.remove();
 		}
 	}
-
 </script>
 </html>

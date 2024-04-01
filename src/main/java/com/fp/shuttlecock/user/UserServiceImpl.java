@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService{
 	public UserDTO getLoginUser(String userId, String pw) {
 		
 		UserDTO user = null;
-		
+		System.out.println("pw : " + pw);
 		//DB에 저장된 화원정보 조회
 		UserDTO dbUser = userMapper.getLoginUser(userId);
 		
@@ -41,9 +41,11 @@ public class UserServiceImpl implements UserService{
 		if (dbUser == null) {
 	        return null;
 	    }
-		
+		System.out.println(pw.equals(dbUser.getPw()));
+		System.out.println("dbUser.getPw() : " + dbUser.getPw());
 		//입력받은 비밀번호를 암호화하여 DB에 저장된 비밀번호(암호화)와 비교
 		if (passwordEncoder.matches(pw, dbUser.getPw())) {
+			
 			user = dbUser;
 		}
 		

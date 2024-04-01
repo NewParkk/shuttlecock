@@ -9,7 +9,7 @@
     SELECT * 
     FROM (
 	    SELECT (ROW_NUMBER() OVER (ORDER BY (sum(r.wincount) - sum(r.losecount)) DESC) ) AS idx, r.userId, sum(r.wincount) AS wincount, sum(r.losecount) AS losecount, u.username, u.badgeId
-		FROM leagueRank r, user u
+		FROM leaguerank r, user u
 		WHERE r.userId = u.userId 
 		<if test = "startDate != null and startDate != '' and endDate != null and endDate != ''">
 		<![CDATA[AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
@@ -23,7 +23,7 @@
 		parameterType="com.fp.shuttlecock.leagueboard.PageRequestDTO"
 		resultType="int">
 	SELECT COUNT(DISTINCT r.userId)
-	FROM leagueRank r, user u
+	FROM leaguerank r, user u
 	WHERE r.userId = u.userId 
 	<if test = "startDate != null and startDate != '' and endDate != null and endDate != ''">
 	<![CDATA[AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
@@ -43,7 +43,7 @@
     	SELECT * 
     	FROM (
 	    	SELECT (ROW_NUMBER() OVER (ORDER BY (sum(r.wincount) - sum(r.losecount)) DESC) ) AS idx, r.userId, sum(r.wincount) AS wincount, sum(r.losecount) AS losecount, u.username, u.badgeId
-			FROM leagueRank r, user u
+			FROM leaguerank r, user u
 			WHERE r.userId = u.userId
 			<if test = "startDate != null and startDate != '' and endDate != null and endDate != ''">
 			<![CDATA[AND r.insertdate >= #{startDate} AND r.insertdate <= #{endDate}]]>
