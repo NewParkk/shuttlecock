@@ -106,8 +106,8 @@
             <div class="page-title" style="margin-bottom:45px;">
               <div class="vline"></div>
               <div class="container2">
-                <h3>리그 게시판</h3>
-                <a href="/LeagueBoard" class="more2">+</a>
+                <h3>모집 게시판</h3>
+                <a href="/Recruitboard" class="more2">+</a>
               </div>
             </div>
 
@@ -128,7 +128,7 @@
 		                    <tr>
 		                      <td style="font-size:11px;">${fn:length(leaguePosts) - s.count + 1}</td>
 		                      <th>
-		                        <a href="/LeagueBoard/${post.leagueboardId}"
+		                        <a href="/Recruitboard/${post.recruitboardId}"
 		                          >${post.title}</a
 		                        >
 		                        <p>테스트</p>

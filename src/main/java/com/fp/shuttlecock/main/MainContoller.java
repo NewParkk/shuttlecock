@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.fp.shuttlecock.freeboard.FreeboardDTO;
 import com.fp.shuttlecock.freeboard.FreeboardServiceImpl;
 import com.fp.shuttlecock.information.CompetitionServiceImpl;
-import com.fp.shuttlecock.leagueboard.LeagueboardDTO;
-import com.fp.shuttlecock.leagueboard.LeagueboardServiceImpl;
-import com.fp.shuttlecock.leagueboard.PageRequestDTO;
+import com.fp.shuttlecock.recruitboard.RecruitboardDTO;
+import com.fp.shuttlecock.recruitboard.RecruitboardServiceImpl;
+import com.fp.shuttlecock.tradeboard.PageRequestDTO;
 import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
 import com.fp.shuttlecock.user.UserDTO;
 import com.fp.shuttlecock.user.UserService;
@@ -33,7 +33,7 @@ public class MainContoller {
 	private FreeboardServiceImpl freeService;
 	
 	@Autowired
-	private LeagueboardServiceImpl leagueservice;
+	private RecruitboardServiceImpl boardService;
 	
 	@Autowired
 	private CompetitionServiceImpl competitionService;
@@ -48,7 +48,7 @@ public class MainContoller {
 			pagerequest.setUserId(String.valueOf(session.getAttribute("userId")));
 		}
 		pagerequest.setIsMain(1);
-		List<LeagueboardDTO> leaguePosts = leagueservice.getSearchedLeaguePost(pagerequest);
+		List<RecruitboardDTO> leaguePosts = boardService.getPagenatedSearch(pagerequest);
 		List<Map<String, Object>> events = competitionService.getCompetitionDB(region);
 		List<FreeboardDTO> freePosts = freeService.get5FreePosts();
 		
