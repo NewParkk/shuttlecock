@@ -1,4 +1,4 @@
-package com.fp.shuttlecock.main;
+package com.fp.shuttlecock.main.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

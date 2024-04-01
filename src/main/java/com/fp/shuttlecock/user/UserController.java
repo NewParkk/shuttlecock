@@ -1,5 +1,7 @@
 package com.fp.shuttlecock.user;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +37,10 @@ public class UserController {
 	//로그인
 	@GetMapping("/login")
 	public String loginForm(Model model) {
+		SecureRandom random = new SecureRandom();
+	    String state = new BigInteger(130, random).toString();
 		model.addAttribute("loginDomain",loginDomain);
+		model.addAttribute("state",state);
 		return "login"; //WEB-INF/views/login.jsp
 	}
 	

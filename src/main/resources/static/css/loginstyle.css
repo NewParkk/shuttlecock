@@ -232,7 +232,7 @@ input[type="checkbox"]:checked + label {
     width: 100%;
     height: 1px;
     background-color: #ccc;
-    margin-top: 30px;
+    margin-top: 15px;
     margin-bottom: 10px;
 }
 
@@ -244,7 +244,33 @@ input[type="checkbox"]:checked + label {
     color: #603d00;
     border: 1px solid #ffe600;
     border-radius: 4px;
-    margin-top: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 네이버 로그인 버튼 */
+.naver-login {
+    width: 100%;
+    height: 40px;
+    background-color: #2AE358;
+    color: #603d00;
+    border: 1px solid #2AE358;
+    border-radius: 4px;
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.google-login {
+    width: 100%;
+    height: 40px;
+    background-color: #faf0e6;
+    color: #603d00;
+    border: 1px solid #faf0e6;
+    border-radius: 4px;
+    margin-top: 5px;
     cursor: pointer;
     font-size: 18px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

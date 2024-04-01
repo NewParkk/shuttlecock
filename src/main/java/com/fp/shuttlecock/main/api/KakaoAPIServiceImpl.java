@@ -1,4 +1,4 @@
-package com.fp.shuttlecock.main;
+package com.fp.shuttlecock.main.api;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,7 +82,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 		ObjectMapper objectMapper = new ObjectMapper();
 		OAuthToken oauthToken = null;
 		oauthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
-		
+		System.out.println("oauthToken : " + response.getBody().toString());
 //		System.out.println("Token값 확인 : " + oauthToken.getAccess_token());
 		//사용자 Profile 불러오기
 		//RestTemplate
@@ -111,13 +112,13 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 		String email = kakaoProfile.getKakao_account().getEmail();
 		String strgender = kakaoProfile.getKakao_account().getGender();
 		int gender = strgender.equals("male") ? 1 : 2;
-		//UUID uuid = UUID.randomUUID();
-		//String garbagePassword= uuid.toString().replace("-", "").substring(0, 12);
+		UUID uuid = UUID.randomUUID();
+		String garbagePassword= uuid.toString().replace("-", "").substring(0, 12);
 		UserDTO kakaoUser = UserDTO.builder()
 							  .userId(kakaoId)
 							  .username(username)
 							  .userEmail(email)
-							  .pw(kakaoId)
+							  .pw(garbagePassword)
 							  .gender(gender)
 							  .kakaoYN(true)
 							  .build();
@@ -126,10 +127,17 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 		if (originUser == null) 
 		{
 			userService.getJoinUser(kakaoUser);
+			UserDTO loginUser = userService.getUserByUserId(kakaoId);
+			session.setAttribute("userId", loginUser.getUserId());
+			session.setAttribute("isAdmin", loginUser.isAdmin());
+			session.setAttribute("username", loginUser.getUsername());
+			session.setAttribute("kakaoYN", loginUser.isKakaoYN());
+			session.setAttribute("badgeId", loginUser.getBadgeId());
+			
 		// 있으면 해당 정보로 로그인 진행
 		} else 
 		{
-			UserDTO loginUser = userService.getLoginUser(kakaoId, kakaoUser.getPw());
+			UserDTO loginUser = userService.getUserByUserId(kakaoId);
 //			System.out.println("loginUser : " + loginUser);
 			session.setAttribute("userId", loginUser.getUserId());
 			session.setAttribute("isAdmin", loginUser.isAdmin());

@@ -16,14 +16,9 @@ import com.fp.shuttlecock.information.CompetitionServiceImpl;
 import com.fp.shuttlecock.recruitboard.RecruitboardDTO;
 import com.fp.shuttlecock.recruitboard.RecruitboardServiceImpl;
 import com.fp.shuttlecock.tradeboard.PageRequestDTO;
-import com.fp.shuttlecock.tradeboard.TradeboardServiceImpl;
-import com.fp.shuttlecock.user.UserDTO;
-import com.fp.shuttlecock.user.UserService;
-import com.fp.shuttlecock.user.UserServiceImpl;
 import com.fp.shuttlecock.util.PageVO;
 
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -40,6 +35,12 @@ public class MainContoller {
 	 
 	@Value("${KAKAO.KEY.JS}")
 	private String apiKey;
+	
+	@GetMapping("/")
+	public String enter() {
+		return "redirect:/main";
+	}
+	
 	
 	@GetMapping("/main")
     public String showMainPage(Model model, HttpSession session, PageRequestDTO pagerequest, PageVO vo,

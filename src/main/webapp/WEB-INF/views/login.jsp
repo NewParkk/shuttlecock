@@ -64,6 +64,12 @@
                         <!-- 구분선 -->
                         <div class="line"></div>
                         <button class="kakao-login">카카오톡 로그인</button>
+                        
+                        <div class="line"></div>
+                        <button class="naver-login">네이버 로그인</button>
+                        
+                        <!-- <div class="line"></div>
+                        <button class="google-login">구글 로그인</button> -->
                     </div>
                 </div>
             </section>
@@ -78,6 +84,7 @@
         </footer>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
     <script type="text/javascript">
     function openPopup(url) {
         var width = 500; 
@@ -100,6 +107,24 @@
 	    							'&client_id=a94cb68f7a3356e950b067a4ffdc6d95' +
 	    							'&redirect_uri=${loginDomain}kakaoLogin';
     	});
+    	
+    	$('.naver-login').click(function() 
+    	{
+			window.location.href = 'https://nid.naver.com/oauth2.0/authorize' +
+	    							'?response_type=code' +
+	    							'&client_id=FSQwLFUbTvnz71wxhlwK' +
+	    							'&redirect_uri=${loginDomain}naverLogin' +
+	    							'&state=${state}';
+    	});
+    	
+    	/* $('.google-login').click(function() 
+    	{
+			window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth' +
+	    							'?client_id=339427214753-k5ggtr17joog964eu46ea1f2kl0au9t9.apps.googleusercontent.com' +
+	    							'&redirect_uri=${loginDomain}googleLogin' +
+	    							'&response_type=code' +
+	    							'&scope=email profile';
+    	}); */
     });
     </script>
 </body>

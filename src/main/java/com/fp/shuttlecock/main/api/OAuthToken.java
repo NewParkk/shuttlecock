@@ -1,4 +1,4 @@
-package com.fp.shuttlecock.main;
+package com.fp.shuttlecock.main.api;
 
 import lombok.Data;
 
@@ -11,4 +11,6 @@ public class OAuthToken {
 	private int expires_in;
 	private String scope;
 	private int refresh_token_expires_in;
+	private String error;
+	private String error_description;
 }

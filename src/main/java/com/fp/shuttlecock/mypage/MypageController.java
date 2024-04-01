@@ -146,7 +146,7 @@ public class MypageController {
 			session.invalidate();
 		}
 
-		return "login";
+		return "redirect:/login";
 	}
 
 	// 나의 활동내역

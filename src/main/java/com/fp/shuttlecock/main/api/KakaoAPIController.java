@@ -1,4 +1,4 @@
-package com.fp.shuttlecock.main;
+package com.fp.shuttlecock.main.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,10 +19,30 @@ public class KakaoAPIController {
     @Autowired
     private KakaoAPIService kakaoAPIService;
     
+    @Autowired
+    private NaverAPIService naverAPIService;
+
+    @Autowired
+    private GoogleAPIService googleAPIService;
+    
     @GetMapping("/kakaoLogin")
     public String kakaoLogin(@RequestParam("code") String code, HttpSession session, ModelAndView mv) throws JsonMappingException, JsonProcessingException {
     	System.out.println("kakaoLogin 확인용");
         return kakaoAPIService.kakaoLogin(code, session, mv);
     }
+    
+    @GetMapping("/naverLogin")
+    public String naverLogin(@RequestParam("code") String code, HttpSession session, ModelAndView mv) throws JsonMappingException, JsonProcessingException {
+    	System.out.println("naverLogin 확인용");
+        return naverAPIService.naverLogin(code, session, mv);
+    }
+    
+    @GetMapping("/googleLogin")
+    public String googleLogin(@RequestParam("code") String code, HttpSession session, ModelAndView mv) throws JsonMappingException, JsonProcessingException {
+    	System.out.println("googleLogin 확인용");
+    	return googleAPIService.googleLogin(code, session, mv);
+    }
+    
+    
 		
 }
