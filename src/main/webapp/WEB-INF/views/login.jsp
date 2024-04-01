@@ -68,8 +68,8 @@
                         <div class="line"></div>
                         <button class="naver-login">네이버 로그인</button>
                         
-                        <!-- <div class="line"></div>
-                        <button class="google-login">구글 로그인</button> -->
+                        <div class="line"></div>
+                        <button class="google-login">구글 로그인</button>
                     </div>
                 </div>
             </section>
@@ -117,14 +117,14 @@
 	    							'&state=${state}';
     	});
     	
-    	/* $('.google-login').click(function() 
+    	$('.google-login').click(function() 
     	{
 			window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth' +
 	    							'?client_id=339427214753-k5ggtr17joog964eu46ea1f2kl0au9t9.apps.googleusercontent.com' +
 	    							'&redirect_uri=${loginDomain}googleLogin' +
 	    							'&response_type=code' +
 	    							'&scope=email profile';
-    	}); */
+    	});
     });
     </script>
 </body>
