@@ -102,9 +102,10 @@ public class GoogleAPIServiceImpl implements GoogleAPIService{
 		
 		ObjectMapper objectMapper2 = new ObjectMapper();
 		GoogleProfile googleProfile = objectMapper2.readValue(response2.getBody(), GoogleProfile.class);
+		System.out.println(googleProfile.toString());
 		
-		String googleId = googleProfile.getFamily_name();
-		String username = googleProfile.getFamily_name();
+		String googleId = googleProfile.getName();
+		String username = googleProfile.getName();
 		String email = googleProfile.getEmail();
 		UUID uuid = UUID.randomUUID();
 		String garbagePassword= uuid.toString().replace("-", "").substring(0, 12);
