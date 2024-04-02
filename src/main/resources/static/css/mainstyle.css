@@ -401,6 +401,7 @@ table {
     position: relative;
     right: -220px;
     bottom: 10px;
+    cursor: pointer;
 }
 
 #modalMap {

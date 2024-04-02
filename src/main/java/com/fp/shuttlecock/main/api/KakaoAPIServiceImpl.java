@@ -107,7 +107,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 		
 		ObjectMapper objectMapper2 = new ObjectMapper();
 		KakaoProfile kakaoProfile = objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
-		String kakaoId = kakaoProfile.getId().toString();
+		String kakaoId = kakaoProfile.getProperties().getNickname();
 		String username = kakaoProfile.getProperties().getNickname();
 		String email = kakaoProfile.getKakao_account().getEmail();
 		String strgender = kakaoProfile.getKakao_account().getGender();
@@ -124,28 +124,17 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
 							  .build();
 		UserDTO originUser = userService.getUserByUserId(kakaoId);
 		// 가입한 아이디가 없으면 회원가입 진행
-		if (originUser == null) 
-		{
+		if (originUser == null) {	
 			userService.getJoinUser(kakaoUser);
-			UserDTO loginUser = userService.getUserByUserId(kakaoId);
-			session.setAttribute("userId", loginUser.getUserId());
-			session.setAttribute("isAdmin", loginUser.isAdmin());
-			session.setAttribute("username", loginUser.getUsername());
-			session.setAttribute("kakaoYN", loginUser.isKakaoYN());
-			session.setAttribute("badgeId", loginUser.getBadgeId());
-			
+		} 
+		
 		// 있으면 해당 정보로 로그인 진행
-		} else 
-		{
-			UserDTO loginUser = userService.getUserByUserId(kakaoId);
-//			System.out.println("loginUser : " + loginUser);
-			session.setAttribute("userId", loginUser.getUserId());
-			session.setAttribute("isAdmin", loginUser.isAdmin());
-			session.setAttribute("username", loginUser.getUsername());
-			session.setAttribute("kakaoYN", loginUser.isKakaoYN());
-			session.setAttribute("badgeId", loginUser.getBadgeId());
-          
-		}
+		UserDTO loginUser = userService.getUserByUserId(kakaoId);
+		session.setAttribute("userId", loginUser.getUserId());
+		session.setAttribute("isAdmin", loginUser.isAdmin());
+		session.setAttribute("username", loginUser.getUsername());
+		session.setAttribute("kakaoYN", loginUser.isKakaoYN());
+		session.setAttribute("badgeId", loginUser.getBadgeId());
 		
 		sendKakaoMessage(oauthToken.getAccess_token(), session);
 		

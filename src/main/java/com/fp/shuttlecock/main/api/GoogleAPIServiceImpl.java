@@ -41,7 +41,7 @@ public class GoogleAPIServiceImpl implements GoogleAPIService{
 	
 	@Override
 	public String googleLogin(String code, HttpSession session, ModelAndView mv) throws JsonMappingException, JsonProcessingException {
-		System.out.println("code : " + code);
+//		System.out.println("code : " + code);
 		//받아온 code로 사용자 정보 불러오기
 		//RestTemplate
 		RestTemplate rt = new RestTemplate();
@@ -74,8 +74,8 @@ public class GoogleAPIServiceImpl implements GoogleAPIService{
 		ObjectMapper objectMapper = new ObjectMapper();
 		OAuthToken oauthToken = null;
 		oauthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
-		System.out.println("oauthToken : " + response.getBody().toString());
-		System.out.println("Token값 확인 : " + oauthToken.getAccess_token());
+//		System.out.println("oauthToken : " + response.getBody().toString());
+//		System.out.println("Token값 확인 : " + oauthToken.getAccess_token());
 		
 		//사용자 Profile 불러오기
 		//RestTemplate
@@ -98,11 +98,11 @@ public class GoogleAPIServiceImpl implements GoogleAPIService{
 			String.class
 		);
 		
-		System.out.println("googleProfileRequest : " + response2.getBody().toString());
+//		System.out.println("googleProfileRequest : " + response2.getBody().toString());
 		
 		ObjectMapper objectMapper2 = new ObjectMapper();
 		GoogleProfile googleProfile = objectMapper2.readValue(response2.getBody(), GoogleProfile.class);
-		System.out.println(googleProfile.toString());
+//		System.out.println(googleProfile.toString());
 		
 		String googleId = googleProfile.getName();
 		String username = googleProfile.getName();
@@ -120,30 +120,17 @@ public class GoogleAPIServiceImpl implements GoogleAPIService{
 							  .build();
 		UserDTO originUser = userService.getUserByUserId(googleId);
 		// 가입한 아이디가 없으면 회원가입 진행
-		if (originUser == null) 
-		{	
-			System.out.println("회원가입을 진행합니다.");
+		if (originUser == null) {	
 			userService.getJoinUser(googleUser);
-			UserDTO loginUser = userService.getUserByUserId(googleId);
-			session.setAttribute("userId", loginUser.getUserId());
-			session.setAttribute("isAdmin", loginUser.isAdmin());
-			session.setAttribute("username", loginUser.getUsername());
-			session.setAttribute("kakaoYN", loginUser.isKakaoYN());
-			session.setAttribute("badgeId", loginUser.getBadgeId());
+		} 
 			
 		// 있으면 해당 정보로 로그인 진행
-		} else 
-		{	
-			System.out.println("기존 아이디로 로그인을 시작합니다.");
-			UserDTO loginUser = userService.getUserByUserId(googleId);
-			System.out.println("loginUser : " + loginUser);
-			session.setAttribute("userId", loginUser.getUserId());
-			session.setAttribute("isAdmin", loginUser.isAdmin());
-			session.setAttribute("username", loginUser.getUsername());
-			session.setAttribute("kakaoYN", loginUser.isKakaoYN());
-			session.setAttribute("badgeId", loginUser.getBadgeId());
-          
-		}
+		UserDTO loginUser = userService.getUserByUserId(googleId);
+		session.setAttribute("userId", loginUser.getUserId());
+		session.setAttribute("isAdmin", loginUser.isAdmin());
+		session.setAttribute("username", loginUser.getUsername());
+		session.setAttribute("kakaoYN", loginUser.isKakaoYN());
+		session.setAttribute("badgeId", loginUser.getBadgeId());
 		
 		return "redirect:/main";
 		

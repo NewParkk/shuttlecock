@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 
 
 @Controller
-public class KakaoAPIController {
+public class APIController {
 
     @Autowired
     private KakaoAPIService kakaoAPIService;

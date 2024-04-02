@@ -125,31 +125,20 @@ public class NaverAPISeriveceImpl implements NaverAPIService {
 							  .kakaoYN(true)
 							  .build();
 		UserDTO originUser = userService.getUserByUserId(naverId);
+		
 		// 가입한 아이디가 없으면 회원가입 진행
-		if (originUser == null) 
-		{	
-			System.out.println("회원가입을 진행합니다.");
+		if (originUser == null) {	
 			userService.getJoinUser(naverUser);
-			UserDTO loginUser = userService.getUserByUserId(naverId);
-			session.setAttribute("userId", loginUser.getUserId());
-			session.setAttribute("isAdmin", loginUser.isAdmin());
-			session.setAttribute("username", loginUser.getUsername());
-			session.setAttribute("kakaoYN", loginUser.isKakaoYN());
-			session.setAttribute("badgeId", loginUser.getBadgeId());
-			
+		} 
+		
 		// 있으면 해당 정보로 로그인 진행
-		} else 
-		{	
-			System.out.println("기존 아이디로 로그인을 시작합니다.");
-			UserDTO loginUser = userService.getUserByUserId(naverId);
-			System.out.println("loginUser : " + loginUser);
-			session.setAttribute("userId", loginUser.getUserId());
-			session.setAttribute("isAdmin", loginUser.isAdmin());
-			session.setAttribute("username", loginUser.getUsername());
-			session.setAttribute("kakaoYN", loginUser.isKakaoYN());
-			session.setAttribute("badgeId", loginUser.getBadgeId());
+		UserDTO loginUser = userService.getUserByUserId(naverId);
+		session.setAttribute("userId", loginUser.getUserId());
+		session.setAttribute("isAdmin", loginUser.isAdmin());
+		session.setAttribute("username", loginUser.getUsername());
+		session.setAttribute("kakaoYN", loginUser.isKakaoYN());
+		session.setAttribute("badgeId", loginUser.getBadgeId());
           
-		}
 		
 		
 		return "redirect:/main";
