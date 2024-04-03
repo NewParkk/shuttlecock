@@ -63,13 +63,20 @@
                         
                         <!-- 구분선 -->
                         <div class="line"></div>
-                        <button class="kakao-login">카카오톡 로그인</button>
+                        <button class="kakao-login">
+						<img src="/img/kakao.png">
+						</button>
                         
                         <div class="line"></div>
-                        <button class="naver-login">네이버 로그인</button>
+                        <button class="naver-login">
+                        <img src="/img/naver.png">
+                        </button>
                         
                         <div class="line"></div>
-                        <button class="google-login">구글 로그인</button>
+                        <button class="google-login">
+                        <img src="/img/google.png">
+                        <span>구글 로그인</span>
+                        </button>
                     </div>
                 </div>
             </section>
