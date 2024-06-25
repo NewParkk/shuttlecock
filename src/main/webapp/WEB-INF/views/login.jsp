@@ -64,17 +64,17 @@
                         <!-- 구분선 -->
                         <div class="line"></div>
                         <button class="kakao-login">
-						<img src="/img/kakao.png">
+						<img src="img/kakao.png">
 						</button>
                         
                         <div class="line"></div>
                         <button class="naver-login">
-                        <img src="/img/naver.png">
+                        <img src="img/naver.png">
                         </button>
                         
                         <div class="line"></div>
                         <button class="google-login">
-                        <img src="/img/google.png">
+                        <img src="img/google.png">
                         <span>구글 로그인</span>
                         </button>
                     </div>

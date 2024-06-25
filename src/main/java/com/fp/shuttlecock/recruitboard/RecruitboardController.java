@@ -51,7 +51,7 @@ public class RecruitboardController {
 	private TradeboardServiceImpl badgeService;
 	
 	@Autowired
-	UserServiceImpl userService;
+	private UserServiceImpl userService;
 
 	@Autowired
 	private CommentsServiceImpl commentService;

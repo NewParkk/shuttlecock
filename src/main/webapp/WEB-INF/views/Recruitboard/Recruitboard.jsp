@@ -96,15 +96,11 @@
 									${pageInfo.pageRequest.sort == '2' ? 'selected' : ''}>조회수순</option>
 								<option value="3"
 									${pageInfo.pageRequest.sort == '3' ? 'selected' : ''}>추천순</option>
-							</select> <input
-								name="region" type="hidden"
-								value="${pageInfo.pageRequest.region}"> <input
-								name="recruitType" type="hidden"
-								value="${pageInfo.pageRequest.recruitType}"> <input
-								name="searchKeyword" type="hidden"
-								value="${pageInfo.pageRequest.searchKeyword}"> <input
-								name="category" type="hidden"
-								value="${pageInfo.pageRequest.category}">
+							</select> 
+							<input name="region" type="hidden" value="${pageInfo.pageRequest.region}"> 
+							<input name="recruitType" type="hidden" value="${pageInfo.pageRequest.recruitType}"> 
+							<input name="searchKeyword" type="hidden" value="${pageInfo.pageRequest.searchKeyword}"> 
+							<input name="category" type="hidden" value="${pageInfo.pageRequest.category}">
 						</form>
 
 						<table class="table" style="width: 90%; margin: 0 auto;">

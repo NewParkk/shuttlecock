@@ -74,7 +74,7 @@ public class AnnouncementController
 	
 	
 	@GetMapping("/postDetail/{postId}")
-	public String getpostDetailbyboardId(@PathVariable Integer postId, Model model) 
+	public String getpostDetailbyboardId(@PathVariable int postId, Model model) 
 	{
 		AnnouncementDTO post = announcementService.getpostDetailbypostId(postId);
 		announcementService.hit(postId);
